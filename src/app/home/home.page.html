@@ -1,20 +1,29 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<div class="container">
+  <section>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <article>
+      <h3>Async - Await</h3>
+      <p>Cuando una función decalarada como <b>async</b> es llamada, retorna un objeto de tipo <b>Promise</b>.
+        Si la función asíncrona retorna un valor, la Promise será resuelta (resolve) con el valor retornado. Sin embargo, si arroja una excepción,
+      la Promise será rechazada retornando la excepción.</p>
+      <p>Una función asíncrona, de este tipo, puede contener la expresión <b>await</b>, que pausa la ejecución de ésta y espera que se resulva
+      la Promise, para luego retomar la ejecución del código.</p>
+      <ion-button [routerLink]="['/usuarios', 'allAsync']">Obtener todos los usuarios con Async - Await</ion-button>
+      <p>En el ejemplo se declaró una variable de tipo BehaviorSubject&lt;Usuario[]&gt; que nos permite manejar la demora del llenado del array <b>usuarios[]</b></p>
+      <p>En el siguiente ejemplo, se llamará a las dos funciones asíncronas getMaleUsers() y getFemaleUsers() dentro de la propiedad Promise.All() que espera a que se
+        resuelvan todas las Promises que se declaran en su cuerpo.</p>
+      <ion-button [routerLink]="['/usuarios', 'PromiseAll']">Obtener todos los usuarios con Promise.All()</ion-button>
+    </article>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
-</ion-content>
+    <article>
+      <h3>Observable</h3>
+      <p>Los Observables brindan soporte para pasar mensajes entre partes de su aplicación. Son una técnica para el manejo de eventos,
+        la programación asincrónica y el manejo de múltiples valores.</p>
+      <p>El patrón de observador es un patrón de diseño de software en el que un objeto, llamado <b>subject</b>, mantiene una lista de sus dependientes,
+        llamados <b>observer</b>, y les notifica automáticamente los cambios de estado.</p>
+        <ion-button [routerLink]="['/usuarios', 'allObservables']">Obtener todos los usuarios con Observable</ion-button>
+    </article>
+
+  </section>
+</div>
+

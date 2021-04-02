@@ -1,0 +1,14 @@
+<div class="container">
+  <table style="width:100%">
+    <tr>
+      <th>Nickname</th>
+      <th>Nombre</th>
+      <th>Sexo</th>
+    </tr>
+    <tr *ngFor="let u of bsUsuarios.getValue() ">
+      <td>{{ u.nickname }}</td>
+      <td>{{ u.nombre }} {{ u.apellido }}</td>
+      <td>{{ u.sexo }}</td>
+    </tr>
+  </table>
+</div>
