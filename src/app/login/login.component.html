@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+      <ion-list class="form-input">
+        <ion-item>
+          <ion-input type="email" placeholder="Email" #txtNickname></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input type="password" placeholder="Password" #txtPassphrase></ion-input>
+        </ion-item>
+        <ion-row>
+          <ion-button size="large" (click)="login(txtNickname.value, txtPassphrase.value)">
+            Login
+          </ion-button>
+        </ion-row>
+        <ion-row>
+          <ion-button href="/register">Register</ion-button>
+        </ion-row>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
