@@ -29,4 +29,12 @@ export class AuthService {
     }
   }
 
+  async restorePassword(email: string) {
+    try {
+      return await this.auth.sendPasswordResetEmail(email);
+    } catch (e) {
+      console.log('Error in trying to restore password', e);
+    }
+  }
+
 }
