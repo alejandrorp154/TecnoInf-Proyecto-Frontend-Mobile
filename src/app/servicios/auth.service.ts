@@ -33,7 +33,7 @@ export class AuthService {
     try {
       return await this.auth.sendPasswordResetEmail(email);
     } catch (e) {
-      console.log('Error in trying to restore password', e);
+      console.log('Error trying to restore password', e);
     }
   }
 
