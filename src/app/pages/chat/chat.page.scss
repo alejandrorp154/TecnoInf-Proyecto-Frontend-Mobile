@@ -1,0 +1,96 @@
+.message-input {
+  width: 100%;
+  border: 1px solid var(--ion-color-medium);
+  border-radius: 6px;
+  background: #fff;
+  resize: none;
+  margin-top: 0px;
+  --padding-start: 8px;
+}
+
+.message {
+  padding: 10px !important;
+  border-radius: 10px !important;
+  margin-bottom: 4px !important;
+  white-space: pre-wrap;
+}
+
+.my-message {
+  background: var(--ion-color-tertiary);
+  color: #fff;
+}
+
+.other-message {
+  background: var(--ion-color-secondary);
+  color: #fff;
+}
+
+.time {
+  color: #dfdfdf;
+  float: right;
+  font-size: small;
+}
+
+ion-item {
+  width: 100%;
+  padding: 10px;
+
+  .circle {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    overflow: hidden;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+  .nombre-amigo {
+    display: inline-flex;
+    height: 50px;
+    vertical-align: top;
+    position: relative;
+    width: calc(100% - 50px);
+    padding-left: 10px;
+
+    p {
+      position: absolute;
+      top: 0;
+    }
+  }
+}
+.ion-text-end span {
+  text-align: right !important;
+  width: 100%;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+#chat-input {
+  width: 100%;
+
+  input {
+    -webkit-box-shadow: var(--box-shadow);
+    box-shadow: var(--box-shadow);
+  }
+}
+
+#fileInput {
+  width: 100%;
+  height: 100%;
+}
+.button-native{
+  padding: 0 !important;
+}
+
+.label-input, .label-input ion-icon {
+  width: 100%;
+  height: 100%;
+}
