@@ -1,20 +1,22 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      Paginado
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+   <ion-list *ngFor="let usuario of usuarios | slice: 0:slice">
+  <ion-item>
+    <ion-label>{{usuario.nombre}}<br>{{usuario.email}}</ion-label>
+  </ion-item>
+</ion-list> 
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+<ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+  <ion-infinite-scroll-content
+    loadingSpinner="bubbles"
+    loadingText="Cargando más usuarios...">
+  </ion-infinite-scroll-content>
+</ion-infinite-scroll>
 </ion-content>
