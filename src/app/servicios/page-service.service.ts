@@ -7,11 +7,11 @@ import { Usuario } from '../clases/usuario';
 })
 export class PageServiceService {
 
-  private baseUrl = 'http://localhost:8080';
+  private baseUrl = 'http://localhost:8080/pryectoBack-web/rest';
 
   constructor(public httpClient: HttpClient) { }
 
-  public async getAllUsersAsync(offset:number, size:number): Promise<any[]> {
+  public async getAllUsersAsync(offset:number, size:number): Promise<Usuario[]> {
     try {
       const url = `${this.baseUrl}/usuario/${offset}/${size}`;
       let response = await this.httpClient.get(url).toPromise();

@@ -7,7 +7,7 @@
 </ion-header>
 
 <ion-content>
-   <ion-list *ngFor="let usuario of usuarios | slice: 0:slice">
+   <ion-list *ngFor="let usuario of usuarios | async">
   <ion-item>
     <ion-label>{{usuario.nombre}}<br>{{usuario.email}}</ion-label>
   </ion-item>
