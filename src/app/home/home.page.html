@@ -1,20 +1,72 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      Link Preview
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-item>
+    <ion-textarea placeholder="Enter more information here..." #txtUrl></ion-textarea>
+  </ion-item>
+  <ion-item-divider>
+    <!-- <ion-button>
+      <ion-icon name="image-outline"></ion-icon>
+      </ion-button>
+    <ion-button >
+      <ion-icon name="videocam-outline"></ion-icon>
+    </ion-button> -->
+    <ion-button slot="end" (click)= "comentar(txtUrl.value)">Publicar</ion-button>
+  </ion-item-divider>
+  <!-- <ion-item>
+    <ion-thumbnail slot="start">
+      <img src={{preview.image}}>
+    </ion-thumbnail>
+    <h4>{{preview.title}}</h4><br>
+    <p>{{preview.description}}</p>
+  </ion-item> -->
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <ion-row class="wrapper">
+    <ion-col size="2">
+      <ion-avatar>
+        <ion-img [src]="perfil"></ion-img>
+      </ion-avatar>
+    </ion-col>
+    <ion-col size="10">
+      <ion-row class="tweet-info">
+        <ion-col size="12">
+          <span class="name">Usuario 1</span>
+          <span class="handle">@usuario</span>
+          <!-- <span class="handle">- {{ tweet.date*1000 | date: 'shortDate' }}</span> -->
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <div [innerHtml]="preview.title"></div>
+          <img class="preview-img" [src]="preview.image" *ngIf="preview.image">
+        </ion-col>
+      </ion-row>
+      <ion-row class="ion-justify-content-start">
+        <ion-col>
+          <ion-button fill="clear" color="medium" size="small">
+            <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
+            Comentario
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button fill="clear" size="small">
+            <ion-icon name="heart-outline" slot="start"></ion-icon>
+            Like
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button fill="clear" color="medium" size="small">
+            <ion-icon name="share-outline" slot="start"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+
 </ion-content>
