@@ -10,7 +10,15 @@ const routes: Routes = [
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
+  },  {
+    path: 'alta-evento',
+    loadChildren: () => import('./UI/alta-evento/alta-evento.module').then( m => m.AltaEventoPageModule)
   },
+  {
+    path: 'baja-evento',
+    loadChildren: () => import('./UI/baja-evento/baja-evento.module').then( m => m.BajaEventoPageModule)
+  },
+
 ];
 
 @NgModule({
