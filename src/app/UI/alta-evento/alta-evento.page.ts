@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Evento } from './alta-evento-routing.module';
 
 @Component({
   selector: 'app-alta-evento',
   templateUrl: './alta-evento.page.html',
   styleUrls: ['./alta-evento.page.scss'],
 })
+
+
 export class AltaEventoPage implements OnInit {
 
   evento: Evento;
@@ -13,6 +14,7 @@ export class AltaEventoPage implements OnInit {
   inicio: String = new Date().toISOString();
   fin: String = new Date().toISOString();
   today: Date;
+  validated= true;
 
   constructor() {
     this.evento = new Evento();
@@ -34,4 +36,18 @@ export class AltaEventoPage implements OnInit {
     console.log(event.detail);
   }
 
+  submit() {
+    console.log('Submit!');
+  }
+
+}
+
+
+class Evento {
+  idEvento: number;
+  nombre: string;
+  descripcion: string;
+  ubicacion: string;
+  inicio: Date;
+  fin: Date;
 }

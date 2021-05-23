@@ -31,6 +31,18 @@ const routes: Routes = [
     path: 'baja-evento',
     loadChildren: () => import('./UI/baja-evento/baja-evento.module').then( m => m.BajaEventoPageModule)
   },
+  {
+    path: 'chat',
+    loadChildren: () => import('./UI/chat/chat.module').then( m => m.ChatPageModule)
+  },
+  {
+    path: 'estadisticas',
+    loadChildren: () => import('./UI/estadisticas/estadisticas.module').then( m => m.EstadisticasPageModule)
+  },
+  {
+    path: 'chat/:nickname',
+    loadChildren: () => import('./UI/chat/chat.module').then( m => m.ChatPageModule)
+  }
 
 ];
 

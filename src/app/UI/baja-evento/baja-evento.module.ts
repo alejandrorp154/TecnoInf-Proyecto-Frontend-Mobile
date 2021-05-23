@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { BajaEventoPageRoutingModule } from './baja-evento-routing.module';
 
 import { BajaEventoPage } from './baja-evento.page';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { BajaEventoPage } from './baja-evento.page';
     IonicModule,
     BajaEventoPageRoutingModule
   ],
-  declarations: [BajaEventoPage]
+  declarations: [BajaEventoPage, NavbarComponent]
 })
 export class BajaEventoPageModule {}

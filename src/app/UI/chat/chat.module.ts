@@ -4,20 +4,19 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AltaEventoPageRoutingModule } from './alta-evento-routing.module';
+import { ChatPageRoutingModule } from './chat-routing.module';
 
-import { MapaComponent } from '../mapa/mapa.component';
+import { ChatPage } from './chat.page';
 import { NavbarComponent } from '../navbar/navbar.component';
-import { AltaEventoPage } from './alta-evento.page';
-
+import { FormatFileSizePipe } from './format-file-size.pipe';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AltaEventoPageRoutingModule
+    ChatPageRoutingModule
   ],
-  declarations: [AltaEventoPage, MapaComponent, NavbarComponent]
+  declarations: [ChatPage, NavbarComponent, FormatFileSizePipe]
 })
-export class AltaEventoPageModule {}
+export class ChatPageModule {}

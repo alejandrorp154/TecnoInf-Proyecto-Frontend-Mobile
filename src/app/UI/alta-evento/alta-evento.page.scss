@@ -37,3 +37,7 @@ ion-col.datepicker-icon {
 ion-img {
   overflow: hidden;
 }
+
+ion-textarea, ion-textarea textarea{
+  min-height: 100px;
+}
