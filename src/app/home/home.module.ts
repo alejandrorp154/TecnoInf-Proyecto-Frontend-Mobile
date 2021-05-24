@@ -1,3 +1,4 @@
+import { PanelDerechoPage } from './../UI/panel-derecho/panel-derecho.page';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
@@ -15,6 +16,6 @@ import { NavbarComponent } from '../UI/navbar/navbar.component';
     IonicModule,
     HomePageRoutingModule
   ],
-  declarations: [HomePage, NavbarComponent]
+  declarations: [HomePage, NavbarComponent, PanelDerechoPage]
 })
 export class HomePageModule {}

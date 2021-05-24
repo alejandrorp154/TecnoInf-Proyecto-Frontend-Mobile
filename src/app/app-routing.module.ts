@@ -10,7 +10,12 @@ const routes: Routes = [
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
-  },
+  }
+  // {
+  //   path: 'panel-derecho',
+  //   loadChildren: () => import('./UI/panel-derecho/panel-derecho.module').then( m => m.PanelDerechoPageModule)
+  // },
+
 ];
 
 @NgModule({

@@ -9,4 +9,7 @@ export class HomePage {
 
   constructor() {}
 
+  onPublicar(){
+    console.log('Presiono publicar...');
+  }
 }
