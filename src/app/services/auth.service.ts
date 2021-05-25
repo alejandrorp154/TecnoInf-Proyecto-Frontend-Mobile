@@ -5,6 +5,7 @@ import { BehaviorSubject, from} from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Persona } from '../clases/persona.model';
 import { Plugins } from '@capacitor/core';
+import { Router } from '@angular/router';
 
 
 export interface AuthResponseData {
@@ -55,7 +56,7 @@ export class AuthService {
     );
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   autoLogin() {
     return from(Plugins.Storage.get({ key: 'authData' })).pipe(
@@ -87,8 +88,8 @@ export class AuthService {
           //this.autoLogout(persona.tokenDuration);
         }
       }),
-      map(user => {
-        return !!user;
+      map(persona => {
+        return !!persona;
       })
     );
   }
@@ -115,6 +116,7 @@ export class AuthService {
   {
     this._persona.next(null);
     Plugins.Storage.remove({ key: 'authData' });
+    this.router.navigateByUrl('/login');
   }
 
   private setPersonaData(personaData: AuthResponseData)

@@ -14,20 +14,6 @@ export class AppComponent implements OnInit{
 
   ngOnInit()
   {
-    this.authService.userIsAuthenticated.pipe(
-      take(1),
-      switchMap(isAuthenticated => {
-        if (!isAuthenticated) {
-          return this.authService.autoLogin();
-        } else {
-          return of(isAuthenticated);
-        }
-      }),
-      tap(isAuthenticated => {
-        if (!isAuthenticated) {
-          this.router.navigateByUrl('/login');
-        }
-      })
-    );
+
   }
 }
