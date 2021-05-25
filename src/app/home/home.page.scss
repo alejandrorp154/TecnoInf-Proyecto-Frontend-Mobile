@@ -18,8 +18,29 @@
   line-height: 22px;
 
   color: #8c8c8c;
-
   margin: 0;
+}
+
+.ion-textarea {
+  border: black;
+}
+
+.botonPublicar {
+  margin-left: 385px;
+  position: floating;
+}
+
+.iconosPubPadre {
+  margin-left: 395px;
+  border: none;
+}
+
+.iconosPublicacion {
+  height: 0.7cm;
+  width: 0.7cm;
+  display: flex;
+  padding: 0px;
+  position: floating;
 }
 
 #container a {
