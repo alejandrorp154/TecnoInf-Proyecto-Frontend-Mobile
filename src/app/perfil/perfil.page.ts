@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-perfil',
@@ -12,5 +12,6 @@ export class PerfilPage implements OnInit {
 
   ngOnInit() {
   }
+
 
 }
