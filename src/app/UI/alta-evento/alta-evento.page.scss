@@ -1,0 +1,43 @@
+ion-content > ion-grid, h1 {
+  padding: 20px !important;
+}
+
+ion-input, ion-textarea, ion-img {
+  border:  solid 1px #808786;
+  border-radius: 5px;
+}
+
+ion-input::placeholder {
+  color: grey;
+  font-size: 1em;
+  font-style: italic;
+}
+
+ion-col.datepicker {
+  padding-right: 0;
+
+  ion-datetime {
+    border:  solid 1px #808786;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+}
+ion-col.datepicker-icon {
+  padding-left: 0;
+
+  ion-icon {
+    height: 100%;
+    background: lighten(#91c6b8, 15);
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    cursor: pointer;
+  }
+}
+
+ion-img {
+  overflow: hidden;
+}
+
+ion-textarea, ion-textarea textarea{
+  min-height: 100px;
+}
