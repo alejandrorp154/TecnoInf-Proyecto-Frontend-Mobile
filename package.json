@@ -6,7 +6,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod",
+    "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -19,7 +19,9 @@
     "@angular/forms": "~11.2.0",
     "@angular/platform-browser": "~11.2.0",
     "@angular/platform-browser-dynamic": "~11.2.0",
+    "@angular/pwa": "^0.1102.8",
     "@angular/router": "~11.2.0",
+    "@angular/service-worker": "^11.2.9",
     "@capacitor/core": "2.4.7",
     "@ionic/angular": "^5.5.2",
     "@ionic/pwa-elements": "^3.0.2",
