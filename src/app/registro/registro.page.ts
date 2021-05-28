@@ -4,7 +4,7 @@ import { NgForm } from '@angular/forms';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 
-import { AuthService, AuthResponseData } from '../services/auth.service';
+import { AuthService, AuthResponseData } from '../servicios/auth.service';
 
 @Component({
   selector: 'app-registro',
