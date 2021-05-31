@@ -1,4 +1,4 @@
-export class Persona
+export class UserFire
 {
   constructor(
     public id: string,

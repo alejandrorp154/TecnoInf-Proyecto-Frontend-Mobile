@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { BehaviorSubject, from} from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { Persona } from '../clases/persona.model';
+import { UserFire } from '../models/userFire.model';
 import { Plugins } from '@capacitor/core';
 import { Router } from '@angular/router';
 
@@ -22,7 +22,7 @@ export interface AuthResponseData {
   providedIn: 'root'
 })
 export class AuthService {
-  private _persona = new BehaviorSubject<Persona>(null);
+  private _persona = new BehaviorSubject<UserFire>(null);
 
   get userIsAuthenticated()
   {
@@ -74,7 +74,7 @@ export class AuthService {
         if (expirationTime <= new Date()) {
           return null;
         }
-        const persona = new Persona(
+        const persona = new UserFire(
           parsedData.userId,
           parsedData.email,
           parsedData.token,
@@ -125,7 +125,7 @@ export class AuthService {
       new Date().getTime() + (+personaData.expiresIn * 1000))
       ;
 
-    const persona = new Persona(
+    const persona = new UserFire(
       personaData.localId,
       personaData.email,
       personaData.idToken,
