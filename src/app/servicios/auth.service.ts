@@ -40,6 +40,18 @@ export class AuthService {
     );
   }
 
+  get token() {
+    return this._userFire.asObservable().pipe(
+      map(user => {
+        if (user) {
+          return user.token;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
   get userID()
   {
     return this._userFire.asObservable().pipe(map(userFire =>
@@ -97,7 +109,7 @@ export class AuthService {
   signup(email: string, password: string)
   {
     return this.http.post<AuthResponseData>(
-      `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.firebaseAPIKey}`,
+      `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.firebaseConfig.apiKey}`,
       {email: email, password: password, returnSecureToken: true}
       ).pipe(tap(this.setUserFireData.bind(this)));
   }
@@ -106,7 +118,7 @@ export class AuthService {
     return this.http
       .post<AuthResponseData>(
         `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${
-          environment.firebaseAPIKey
+          environment.firebaseConfig.apiKey
         }`,
         { email: email, password: password, returnSecureToken: true }
       ).pipe(tap(this.setUserFireData.bind(this)));
@@ -117,6 +129,22 @@ export class AuthService {
     this._userFire.next(null);
     Plugins.Storage.remove({ key: 'authData' });
     this.router.navigateByUrl('/login');
+  }
+
+  deleteAccount(userID: string)
+  {
+    try {
+      return this.http.post(`https://identitytoolkit.googleapis.com/v1/accounts:delete?key=${
+        environment.firebaseConfig.apiKey
+      }`, {idToken: userID})
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  restorePassword()
+  {
+
   }
 
   private setUserFireData(userFireData: AuthResponseData)
@@ -131,6 +159,7 @@ export class AuthService {
       userFireData.idToken,
       expirationTime
     );
+    this._userFire.next(userFire);
     this.storeAuthData(
       userFireData.localId,
       userFireData.idToken,
