@@ -5,6 +5,9 @@ import { LoadingController, AlertController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 
 import { AuthService, AuthResponseData } from '../servicios/auth.service';
+import { Usuario } from '../models/usuario.model';
+import { take } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-registro',
@@ -15,12 +18,15 @@ export class RegistroPage implements OnInit {
 
   isLoading = false;
   isLogin = false;
+  private user: Usuario;
+  baseUrl: string = 'http://3.18.102.215:8080/pryectoBack-web/rest';
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private loadingCtrl: LoadingController,
-    private alertCtrl: AlertController) { }
+    private alertCtrl: AlertController,
+    private httpClient: HttpClient) { }
 
   ngOnInit() {}
 
@@ -38,7 +44,8 @@ export class RegistroPage implements OnInit {
         }
         authObs.subscribe(
           resData => {
-            console.log(resData);
+            //this.callBackend();
+
             this.isLoading = false;
             loadingEl.dismiss();
             this.router.navigateByUrl('/home');
@@ -64,16 +71,11 @@ export class RegistroPage implements OnInit {
     if (!form.valid) {
       return;
     }
-    const email = form.value.email;
-    const password = form.value.password;
+    this.user = new Usuario("", form.value.nickname, form.value.nombre, form.value.apellido, form.value.celular, form.value.email)
 
-    const nombre = form.value.nombre;
-    const apellido = form.value.apellido;
-    const direccion = form.value.direccion;
-    const nickname = form.value.nickname;
+    console.log(form.value.nombre)
 
-    console.log(nombre)
-    this.authenticate(email, password);
+    this.authenticate(form.value.email, form.value.password);
     form.reset();
 
   }
@@ -87,4 +89,29 @@ export class RegistroPage implements OnInit {
       })
       .then(alertEl => alertEl.present());
   }
+
+  private callBackend()
+  {
+    this.authService.userID.pipe(take(1)).subscribe(userID =>
+      {
+        if(!userID)
+        {
+          throw new Error('No se encontro la ID del usuario.');
+        }
+        else
+        {
+           this.user.idUsuario = userID;
+        }
+      });
+
+      try {
+        const url = `${this.baseUrl}/registro`;
+        let response = this.httpClient.post(url, this.user);
+      } catch (error) {
+        console.log(error);
+      }
+  }
 }
+
+
+

@@ -22,15 +22,15 @@ export interface AuthResponseData {
   providedIn: 'root'
 })
 export class AuthService {
-  private _persona = new BehaviorSubject<UserFire>(null);
+  private _userFire = new BehaviorSubject<UserFire>(null);
 
   get userIsAuthenticated()
   {
-    return this._persona.asObservable().pipe(
-      map(persona => {
-        if(persona)
+    return this._userFire.asObservable().pipe(
+      map(userFire => {
+        if(userFire)
         {
-          return !!persona.token;
+          return !!userFire.token;
         }
         else
         {
@@ -42,11 +42,11 @@ export class AuthService {
 
   get userID()
   {
-    return this._persona.asObservable().pipe(map(persona =>
+    return this._userFire.asObservable().pipe(map(userFire =>
       {
-        if(persona)
+        if(userFire)
         {
-          return persona.id;
+          return userFire.id;
         }
         else
         {
@@ -74,22 +74,22 @@ export class AuthService {
         if (expirationTime <= new Date()) {
           return null;
         }
-        const persona = new UserFire(
+        const userFire = new UserFire(
           parsedData.userId,
           parsedData.email,
           parsedData.token,
           expirationTime
         );
-        return persona;
+        return userFire;
       }),
-      tap(persona => {
-        if (persona) {
-          this._persona.next(persona);
-          //this.autoLogout(persona.tokenDuration);
+      tap(userFire => {
+        if (userFire) {
+          this._userFire.next(userFire);
+          //this.autoLogout(userFire.tokenDuration);
         }
       }),
-      map(persona => {
-        return !!persona;
+      map(userFire => {
+        return !!userFire;
       })
     );
   }
@@ -99,7 +99,7 @@ export class AuthService {
     return this.http.post<AuthResponseData>(
       `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.firebaseAPIKey}`,
       {email: email, password: password, returnSecureToken: true}
-      ).pipe(tap(this.setPersonaData.bind(this)));
+      ).pipe(tap(this.setUserFireData.bind(this)));
   }
 
   login(email: string, password: string) {
@@ -109,33 +109,33 @@ export class AuthService {
           environment.firebaseAPIKey
         }`,
         { email: email, password: password, returnSecureToken: true }
-      ).pipe(tap(this.setPersonaData.bind(this)));
+      ).pipe(tap(this.setUserFireData.bind(this)));
   }
 
   logout()
   {
-    this._persona.next(null);
+    this._userFire.next(null);
     Plugins.Storage.remove({ key: 'authData' });
     this.router.navigateByUrl('/login');
   }
 
-  private setPersonaData(personaData: AuthResponseData)
+  private setUserFireData(userFireData: AuthResponseData)
   {
     const expirationTime = new Date(
-      new Date().getTime() + (+personaData.expiresIn * 1000))
+      new Date().getTime() + (+userFireData.expiresIn * 1000))
       ;
 
-    const persona = new UserFire(
-      personaData.localId,
-      personaData.email,
-      personaData.idToken,
+    const userFire = new UserFire(
+      userFireData.localId,
+      userFireData.email,
+      userFireData.idToken,
       expirationTime
     );
     this.storeAuthData(
-      personaData.localId,
-      personaData.idToken,
+      userFireData.localId,
+      userFireData.idToken,
       expirationTime.toISOString(),
-      personaData.email
+      userFireData.email
     );
   }
 
