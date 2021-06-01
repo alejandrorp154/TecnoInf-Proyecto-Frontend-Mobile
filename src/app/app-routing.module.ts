@@ -45,6 +45,10 @@ const routes: Routes = [
   },  {
     path: 'interes',
     loadChildren: () => import('./UI/interes/interes.module').then( m => m.InteresPageModule)
+  },
+  {
+    path: 'sugerir-amigos',
+    loadChildren: () => import('./UI/sugerir-amigos/sugerir-amigos.module').then( m => m.SugerirAmigosPageModule)
   }
 
 

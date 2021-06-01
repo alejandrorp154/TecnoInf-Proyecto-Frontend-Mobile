@@ -26,7 +26,7 @@ export class InteresService {
     }
   ]
 
-  private baseUrl = 'http://localhost:8080/pryectoBack-web/rest';
+  private baseUrl = 'http://3.18.102.215:8080/pryectoBack-web/rest';
 
   constructor(public httpClient: HttpClient) { }
 
