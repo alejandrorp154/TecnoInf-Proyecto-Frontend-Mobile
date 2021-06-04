@@ -6,8 +6,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { AltaEventoPageRoutingModule } from './alta-evento-routing.module';
 
-import { MapaComponent } from '../mapa/mapa.component';
-import { NavbarComponent } from '../navbar/navbar.component';
+import { MapaComponent } from '../UI/mapa/mapa.component';
+import { NavbarComponent } from '../UI/navbar/navbar.component';
 import { AltaEventoPage } from './alta-evento.page';
 
 

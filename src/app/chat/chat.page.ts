@@ -6,7 +6,11 @@ import { finalize, map, startWith, tap } from 'rxjs/operators';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Chatroom, ChatService, imgFile, Usuario } from 'src/app/servicios/chat.service';
+import { ChatService } from 'src/app/servicios/chat.service';
+import { Usuario } from '../modelos/usuario.model';
+import { Chat } from '../modelos/chat.model';
+import { imgFile } from '../modelos/mensaje.model';
+import { UsuarioService } from '../servicios/usuario.service';
 
 @Component({
   selector: 'app-chat',
@@ -27,7 +31,7 @@ export class ChatPage implements OnInit {
   searching = false;
   friends: Usuario[];
   currentFriend: Usuario;
-  chatrooms: Chatroom[];
+  chatrooms: Chat[];
   currentChatroomId: string;
 
   nickname = '';
@@ -59,8 +63,8 @@ export class ChatPage implements OnInit {
 
   private filesCollection: AngularFirestoreCollection<imgFile>;
 
-  constructor(private chatService: ChatService, private afs: AngularFirestore, private afStorage: AngularFireStorage,
-    private router: Router, private _Activatedroute: ActivatedRoute) {
+  constructor(private chatService: ChatService, private usuarioService: UsuarioService,
+    private afs: AngularFirestore, private afStorage: AngularFireStorage, private router: Router, private _Activatedroute: ActivatedRoute) {
 
     this.isFileUploading = false;
     this.isFileUploaded = false;
@@ -72,7 +76,10 @@ export class ChatPage implements OnInit {
 
   async ngOnInit() {
     this.searchBar.setValue('');
-    this.currentUser = this.chatService.getCurrentUser();
+    //this.currentUser = this.usuarioService.getCurrentUser();
+    // *********************************************************************
+    this.currentUser = new Usuario('WnVrwbfSYjYULq1uCQ0pUOZhBH13', 'michel', 'Michel', 'Jackson', 99999999, 'mj@mail.com');
+    // *********************************************************************
     this._Activatedroute.paramMap.subscribe(params => {
       try{
         console.log(params);
@@ -81,12 +88,12 @@ export class ChatPage implements OnInit {
       } catch (ex) { }
     });
 
-    this.friends = this.chatService.getFriends();
+    this.friends = this.usuarioService.obtenerContactos();
     console.log(this.friends);
 
     try{
 
-      this.chatService.getMyChatrooms().subscribe(res => {
+      this.chatService.obtenerMisChats().subscribe(res => {
         this.chatrooms = res;
         console.log(this.chatrooms);
       });
@@ -103,8 +110,8 @@ export class ChatPage implements OnInit {
 
         console.log(this.currentFriend);
         if (this.currentFriend) {
-          if (this.chatrooms && this.chatrooms.some(c => c.uids == [this.currentUser.uid, this.currentFriend.uid])) {
-            this.messages = this.chatService.getChatMessages(this.chatrooms.find(c => c.uids == [this.currentUser.uid, this.currentFriend.uid]).id);
+          if (this.chatrooms && this.chatrooms.some(c => c.uids == [this.currentUser.idUsuario, this.currentFriend.idUsuario])) {
+            this.messages = this.chatService.obtenerMensajes(this.chatrooms.find(c => c.uids == [this.currentUser.idUsuario, this.currentFriend.idUsuario]).idChat);
           } else {
             /*this.chatService.createChatroom([this.currentUser.uid, this.currentFriend.uid]).then(res => {
               this.currentChatroomId = res.id;
@@ -113,9 +120,9 @@ export class ChatPage implements OnInit {
             this.messages = new Observable((observer) => observer.next([]));
           }
         } else {
-          this.messages = this.chatService.getChatMessages(this.currentChatroomId);
-          let cchrom = this.chatrooms.find(c => c.id === this.currentChatroomId);
-          this.currentFriend = this.friends.find(f => f.uid === cchrom.uids.find(g => g != this.currentUser.uid));
+          this.messages = this.chatService.obtenerMensajes(this.currentChatroomId);
+          let cchrom = this.chatrooms.find(c => c.idChat === this.currentChatroomId);
+          this.currentFriend = this.friends.find(f => f.idUsuario === cchrom.uids.find(g => g != this.currentUser.idUsuario));
         }
       }
     } catch(ex) { console.log(ex); }
@@ -132,10 +139,10 @@ export class ChatPage implements OnInit {
 
   chatWith(amigo: Usuario) {
     console.log(amigo);
-    if (this.chatrooms && this.chatrooms.some(c => c.uids == [this.currentUser.uid, amigo.uid])) {
-      this.router.navigateByUrl('/chat/' + this.chatrooms.find(c => c.uids == [this.currentUser.uid, amigo.uid]));
+    if (this.chatrooms && this.chatrooms.some(c => c.uids == [this.currentUser.idUsuario, amigo.idUsuario])) {
+      this.router.navigateByUrl('/chat/' + this.chatrooms.find(c => c.uids == [this.currentUser.idUsuario, amigo.idUsuario]));
     } else {
-      this.chatService.createChatroom([this.currentUser.uid, amigo.uid]).then(res => {
+      this.chatService.crearChat([this.currentUser.idUsuario, amigo.idUsuario]).then(res => {
         this.currentChatroomId = res.id;
         console.log('Chatroom creado: ' ,res.id);
         this.router.navigateByUrl('/chat/' + res.id);
@@ -143,22 +150,20 @@ export class ChatPage implements OnInit {
     }
   }
 
-  goChatroom(chatroom: Chatroom) {
+  goChatroom(chatroom: Chat) {
     console.log(chatroom);
-    this.router.navigateByUrl('/chat/' + chatroom.id);
+    this.router.navigateByUrl('/chat/' + chatroom.idChat);
   }
 
-  getFriendImage(chatroom: Chatroom) {
+  getFriendImage(chatroom: Chat) {
       return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8WPcgKdDDPzz76xNKr9pKb_xmWJznpOjs1w&usqp=CAU';
-
   }
 
-  getChatroomName(chatroom: Chatroom) {
+  getChatroomName(chatroom: Chat) {
       return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8WPcgKdDDPzz76xNKr9pKb_xmWJznpOjs1w&usqp=CAU';
-
   }
 
-  sendMessage() {
+  enviarMessage() {
     this.chatService.addChatMessage(this.newMsg, this.mediaUrl, this.currentChatroomId).then(() => {
       this.newMsg = '';
       this.mediaUrl = '';

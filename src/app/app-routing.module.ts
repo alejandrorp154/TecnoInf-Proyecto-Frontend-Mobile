@@ -25,26 +25,27 @@ const routes: Routes = [
   },
   {
     path: 'alta-evento',
-    loadChildren: () => import('./UI/alta-evento/alta-evento.module').then( m => m.AltaEventoPageModule)
+    loadChildren: () => import('./alta-evento/alta-evento.module').then( m => m.AltaEventoPageModule)
   },
   {
     path: 'baja-evento',
-    loadChildren: () => import('./UI/baja-evento/baja-evento.module').then( m => m.BajaEventoPageModule)
+    loadChildren: () => import('./baja-evento/baja-evento.module').then( m => m.BajaEventoPageModule)
   },
   {
     path: 'chat',
-    loadChildren: () => import('./UI/chat/chat.module').then( m => m.ChatPageModule)
+    loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule)
   },
   {
     path: 'estadisticas',
-    loadChildren: () => import('./UI/estadisticas/estadisticas.module').then( m => m.EstadisticasPageModule)
+    loadChildren: () => import('./estadisticas/estadisticas.module').then( m => m.EstadisticasPageModule)
   },
   {
     path: 'chat/:nickname',
-    loadChildren: () => import('./UI/chat/chat.module').then( m => m.ChatPageModule)
-  },  {
+    loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule)
+  },
+  {
     path: 'interes',
-    loadChildren: () => import('./UI/interes/interes.module').then( m => m.InteresPageModule)
+    loadChildren: () => import('./interes/interes.module').then( m => m.InteresPageModule)
   }
 
 
