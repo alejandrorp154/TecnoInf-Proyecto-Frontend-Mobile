@@ -1,8 +1,8 @@
-import { Usuario } from './usuario.model';
+import { Persona } from './persona.model';
 
 export class SugerenciaAmigo {
   constructor(
-    public Usuario: Usuario
+    public Persona: Persona
   ){
 
   }

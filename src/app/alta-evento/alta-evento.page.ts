@@ -6,7 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./alta-evento.page.scss'],
 })
 
-
 export class AltaEventoPage implements OnInit {
 
   evento: Evento;
@@ -16,18 +15,24 @@ export class AltaEventoPage implements OnInit {
   today: Date;
   validated= true;
 
+  longitud: number;
+  latitud: number;
+
   constructor() {
     this.evento = new Evento();
     this.evento.descripcion = '';
+    this.latitud = -34.8833;
+    this.longitud = -58.1667;
    }
 
   ngOnInit() {
     this.today = new Date();
     console.log(this.today);
+
   }
 
   marcarUbicacion(ubicacion: string) {
-    console.log(ubicacion + ' (altaEvento)');
+    console.log(ubicacion, ' (altaEvento)');
     console.log(new Date(this.inicio.toString()) > new Date(this.fin.toString()));
   }
 
@@ -38,6 +43,7 @@ export class AltaEventoPage implements OnInit {
 
   submit() {
     console.log('Submit!');
+    console.log(this.latitud, this.longitud);
   }
 
 }

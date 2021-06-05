@@ -7,10 +7,10 @@ import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChatService } from 'src/app/servicios/chat.service';
-import { Usuario } from '../modelos/usuario.model';
+import { Persona } from '../modelos/persona.model';
 import { Chat } from '../modelos/chat.model';
 import { imgFile } from '../modelos/mensaje.model';
-import { UsuarioService } from '../servicios/usuario.service';
+import { UsuarioService } from '../servicios/persona.service';
 
 @Component({
   selector: 'app-chat',
@@ -25,12 +25,12 @@ export class ChatPage implements OnInit {
   newMsg = '';
   mediaUrl = '';
   searchBar = new FormControl;
-  currentUser: Usuario;
+  currentUser: Persona;
 
   chatting = false;
   searching = false;
-  friends: Usuario[];
-  currentFriend: Usuario;
+  friends: Persona[];
+  currentFriend: Persona;
   chatrooms: Chat[];
   currentChatroomId: string;
 
@@ -78,7 +78,7 @@ export class ChatPage implements OnInit {
     this.searchBar.setValue('');
     //this.currentUser = this.usuarioService.getCurrentUser();
     // *********************************************************************
-    this.currentUser = new Usuario('WnVrwbfSYjYULq1uCQ0pUOZhBH13', 'michel', 'Michel', 'Jackson', 99999999, 'mj@mail.com');
+    this.currentUser = new Persona('WnVrwbfSYjYULq1uCQ0pUOZhBH13', 'michel', 'Michel', 'Jackson', 99999999, 'mj@mail.com');
     // *********************************************************************
     this._Activatedroute.paramMap.subscribe(params => {
       try{
@@ -137,7 +137,7 @@ export class ChatPage implements OnInit {
 
   }
 
-  chatWith(amigo: Usuario) {
+  chatWith(amigo: Persona) {
     console.log(amigo);
     if (this.chatrooms && this.chatrooms.some(c => c.uids == [this.currentUser.idUsuario, amigo.idUsuario])) {
       this.router.navigateByUrl('/chat/' + this.chatrooms.find(c => c.uids == [this.currentUser.idUsuario, amigo.idUsuario]));
@@ -177,7 +177,7 @@ export class ChatPage implements OnInit {
     });
   }
 
-  private _filter(value: string): Usuario[] {
+  private _filter(value: string): Persona[] {
     console.log(this.chatrooms);
     if(value) {
       this.searching = true;
