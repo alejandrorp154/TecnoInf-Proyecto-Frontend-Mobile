@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import { Interes, InteresService } from 'src/app/servicios/interes.service';
+import { Interes } from 'src/app/Models/interes.model';
+import { InteresService } from 'src/app/servicios/interes.service';
 
 
 @Component({
@@ -9,18 +10,18 @@ import { Interes, InteresService } from 'src/app/servicios/interes.service';
   styleUrls: ['./interes.page.scss'],
 })
 export class InteresPage implements OnInit {
-  intereses: Interes[];
+  intereses;
   interes: Interes
   showError: boolean
+  errorMessage: string
 
   constructor(private interesesService: InteresService, private alertCtrl: AlertController) { 
     this.interes = new Interes();
-    this.interes.interes = "";
     this.showError = false;
   }
 
   ngOnInit() {
-    this.intereses = this.interesesService.getAllIntereses();
+    this.intereses = this.interesesService.getAllInteresesAsync();
   }
 
   onDeleteInteres(idInteres: string){
@@ -37,7 +38,7 @@ export class InteresPage implements OnInit {
             text: 'Borrar',
             handler: () => {
               this.interesesService.deleteInteres(idInteres);
-              this.intereses = this.interesesService.getAllIntereses();
+              this.intereses = this.interesesService.getAllInteresesAsync();
               this.showError = false;
             }
           }
@@ -74,9 +75,10 @@ export class InteresPage implements OnInit {
               });
               if(!interesExiste){
                 this.interesesService.modifyInteres(idInteres, data.interesNuevo.toString());
-                this.intereses = this.interesesService.getAllIntereses();
+                this.intereses = this.interesesService.getAllInteresesAsync();
                 this.showError = false;
               } else {
+                this.errorMessage = "El interés ingresado ya existe.";
                 this.showError = true;
               }
             } else {
@@ -98,6 +100,7 @@ export class InteresPage implements OnInit {
     });
 
     if(interesExiste){
+      this.errorMessage = "El interés ingresado ya existe.";
       this.showError = true;
       return;
     };
@@ -111,7 +114,7 @@ export class InteresPage implements OnInit {
         handler: () => {
           this.interesesService.addInteres(this.interes.interes);
           this.interes.interes = "";
-          this.intereses = this.interesesService.getAllIntereses();
+          this.intereses = this.interesesService.getAllInteresesAsync();
           this.showError = false;
         }
       }
