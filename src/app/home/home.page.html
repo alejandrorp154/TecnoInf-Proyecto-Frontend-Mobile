@@ -19,7 +19,14 @@
           GRUPO 3
         </div>
         <br>
-        <ion-label>Sugerencias</ion-label>
+        <ion-row>
+          <ion-col size-sm="8">
+            <ion-label>Sugerencias</ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-label class="underline" (click)="onShowAllSuggested()">Ver todas</ion-label>
+          </ion-col>
+        </ion-row>
         <ion-item style="display: inline; padding: 5px;">
           <ion-avatar>
             <img src="../../assets/189-1896573_male-shadow-fill-circle-comments-question-mark-flat.png">
@@ -43,5 +50,5 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  
+
 </ion-content>

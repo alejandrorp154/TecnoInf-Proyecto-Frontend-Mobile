@@ -11,7 +11,7 @@ export class SugerirAmigosService {
 
   private amigos: Usuario[] = [
     {
-      idUsuario: 1,
+      idUsuario: "1",
       nickname: "Tuki",
       nombre: "Federico",
       apellido: "Gonzalez",
@@ -19,7 +19,7 @@ export class SugerirAmigosService {
       email: "test@gmail.com"
     },
     {
-      idUsuario: 2,
+      idUsuario: "2",
       nickname: "Muki",
       nombre: "Tiago",
       apellido: "Mendaro",
@@ -27,7 +27,7 @@ export class SugerirAmigosService {
       email: "tiagoMendaro@gmail.com"
     },
     {
-      idUsuario: 3,
+      idUsuario:"3",
       nickname: "Suki",
       nombre: "Rodrigo",
       apellido: "Gonzalez",

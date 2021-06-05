@@ -11,7 +11,7 @@
           <ion-card-content>
             <ion-item-divider>
               <ion-label>
-                Lista de intereses:
+                Lista de usuarios:
               </ion-label>
             </ion-item-divider>
             <ion-list>
@@ -20,8 +20,9 @@
                   <img src="data:image/png;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==">
                 </ion-avatar>
                 <ion-label> {{ amigo.nombre }} {{ amigo.apellido }}</ion-label>
+
                 <ion-button (click)="onViewProfile(amigo.idUsuario)">
-                  <ion-icon name="create" slot="icon-only" ></ion-icon>
+                  <ion-icon name="person-circle-outline" slot="icon-only"></ion-icon>
                 </ion-button>
               </ion-item>
             </ion-list>

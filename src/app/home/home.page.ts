@@ -12,4 +12,9 @@ export class HomePage {
   onPublicar(){
     console.log('Presiono publicar...');
   }
+
+  onShowAllSuggested()
+  {
+    console.log('aa')
+  }
 }
