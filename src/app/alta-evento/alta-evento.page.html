@@ -16,7 +16,7 @@
         <ion-label>Ubicación</ion-label>
       </ion-col>
       <ion-col id="mapa" size="8" size-md="5" size-lg="3">
-        <app-mapa [componente]="'altaEvento'" [currentLocation]="true" [latitud]="latitud" [longitud]='longitud' (ubicacion)="marcarUbicacion($event)"></app-mapa>
+        <app-mapa [componente]="'altaEvento'" [currentLocation]="true" [latitud]="latitud" [longitud]='longitud' [marcarUbicacion]="true" (ubicacion)="marcarUbicacion($event)"></app-mapa>
       </ion-col>
     </ion-row>
     <ion-row>

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import * as Mapboxgl from 'mapbox-gl';
 import { BehaviorSubject } from 'rxjs';
+import { Ubicacion } from 'src/app/modelos/ubicacion.interface';
 
 declare var require: any
 
@@ -15,8 +16,10 @@ export class MapaComponent implements OnInit {
   @Input() componente: string;
 
   @Input() currentLocation: boolean;
+  @Input() marcarUbicacion: boolean;
   @Input() latitud: number;
   @Input() longitud: number;
+  @Input() ubicaciones: Ubicacion[];
 
   currentLat: number;
   currentLng: number;
@@ -25,6 +28,7 @@ export class MapaComponent implements OnInit {
 
   marcador1;
   marcador2;
+  marcadores: any[];
 
   @Output() ubicacion = new EventEmitter();
 
@@ -69,17 +73,29 @@ console.log(this.currentLat, this.currentLng);
     this.marcador1 = new mapboxgl.Marker({scale: 0.5})
       .setLngLat([this.currentLng, this.currentLat])
       .addTo(map);
-    this.marcador2 = new mapboxgl.Marker({ color: 'black', rotation: 45, draggable: true })
-      .setLngLat([this.lng.value, this.lat.value])
-      .addTo(map);
-    console.log(this.marcador2);
 
-    this.marcador2.on('dragend', () => {
-      // console.log(this.marcador2.getLngLat());
-      this.latitud = this.marcador2.getLngLat().lat;
-      this.longitud = this.marcador2.getLngLat().lng;
-      this.ubicacion.emit({lat: this.latitud, lng: this.longitud});
-    });
+    if(this.marcarUbicacion) {
+      this.marcador2 = new mapboxgl.Marker({ color: 'black', rotation: 45, draggable: true })
+        .setLngLat([this.lng.value, this.lat.value])
+        .addTo(map);
+      console.log(this.marcador2);
+
+      this.marcador2.on('dragend', () => {
+        // console.log(this.marcador2.getLngLat());
+        this.latitud = this.marcador2.getLngLat().lat;
+        this.longitud = this.marcador2.getLngLat().lng;
+        this.ubicacion.emit({lat: this.latitud, lng: this.longitud});
+      });
+    }
+
+    this.ubicaciones.forEach(u => {
+      let marker = new mapboxgl.Marker({ color: 'black', rotation: 45, draggable: true })
+        .setLngLat([u.lng, u.lat])
+        .addTo(map);
+
+      this.marcadores.push(marker);
+    })
+
   }
 
 
