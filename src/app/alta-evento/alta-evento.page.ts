@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Evento } from '../modelos/evento.model';
+import { Ubicacion } from '../modelos/ubicacion.interface';
+import { EventoService } from '../servicios/evento.service';
 
 @Component({
   selector: 'app-alta-evento',
@@ -13,27 +16,29 @@ export class AltaEventoPage implements OnInit {
   inicio: String = new Date().toISOString();
   fin: String = new Date().toISOString();
   today: Date;
-  validated= true;
 
-  longitud: number;
   latitud: number;
+  longitud: number;
 
-  constructor() {
+  constructor(private eventoService: EventoService) {
     this.evento = new Evento();
     this.evento.descripcion = '';
-    this.latitud = -34.8833;
+    this.evento.nombre = '';
+    this.latitud = -34.8833
     this.longitud = -58.1667;
    }
 
   ngOnInit() {
     this.today = new Date();
     console.log(this.today);
-
   }
 
-  marcarUbicacion(ubicacion: string) {
+  marcarUbicacion(ubicacion: Ubicacion) {
     console.log(ubicacion, ' (altaEvento)');
     console.log(new Date(this.inicio.toString()) > new Date(this.fin.toString()));
+
+    this.evento.ubicacion = ubicacion.lat.toString() + '|' + ubicacion.lng.toString();
+    console.log(this.isValid(), this.evento);
   }
 
   setMinFin(event) {
@@ -44,16 +49,15 @@ export class AltaEventoPage implements OnInit {
   submit() {
     console.log('Submit!');
     console.log(this.latitud, this.longitud);
+    this.evento.fechaInicio = new Date(this.inicio.toString());
+    this.evento.fechaFin = new Date(this.fin.toString());
+
+    this.eventoService.crearEvento(this.evento);
+  }
+
+  isValid(): boolean {
+    return this.inicio && this.fin && this.evento.ubicacion && this.evento.nombre != '' && this.evento.descripcion != '';
   }
 
 }
 
-
-class Evento {
-  idEvento: number;
-  nombre: string;
-  descripcion: string;
-  ubicacion: string;
-  inicio: Date;
-  fin: Date;
-}

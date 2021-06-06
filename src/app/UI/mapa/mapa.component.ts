@@ -17,8 +17,7 @@ export class MapaComponent implements OnInit {
 
   @Input() currentLocation: boolean;
   @Input() marcarUbicacion: boolean;
-  @Input() latitud: number;
-  @Input() longitud: number;
+  @Input() ubiCentral: Ubicacion;
   @Input() ubicaciones: Ubicacion[];
 
   currentLat: number;
@@ -35,8 +34,8 @@ export class MapaComponent implements OnInit {
   constructor(private geolocation: Geolocation) {
     this.currentLat = -34.8833;
     this.currentLng = -56.1667;
-    this.lat.next(this.latitud);
-    this.lng.next(this.longitud);
+    this.lat.next(this.ubiCentral ? this.ubiCentral.lat : -34.8833);
+    this.lng.next(this.ubiCentral ? this.ubiCentral.lng : -56.1667);
    }
 
   async ngOnInit() {
@@ -53,12 +52,12 @@ export class MapaComponent implements OnInit {
       this.lat.next(this.currentLat);
       this.lng.next(this.currentLng);
     } else {
-      this.lat.next(this.latitud);
-      this.lng.next(this.longitud);
+      this.lat.next(this.ubiCentral.lat);
+      this.lng.next(this.ubiCentral.lng);
     }
 
 console.log(this.lat, this.lng);
-console.log(this.latitud, this.longitud);
+if(this.ubiCentral) { console.log(this.ubiCentral.lat, this.ubiCentral.lng); }
 console.log(this.currentLat, this.currentLng);
 
     let mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
@@ -70,31 +69,32 @@ console.log(this.currentLat, this.currentLng);
       zoom: 10
     });
 
-    this.marcador1 = new mapboxgl.Marker({scale: 0.5})
+    this.marcador1 = new mapboxgl.Marker({scale: 0.5, anchor: 'bottom'})
       .setLngLat([this.currentLng, this.currentLat])
       .addTo(map);
 
     if(this.marcarUbicacion) {
-      this.marcador2 = new mapboxgl.Marker({ color: 'black', rotation: 45, draggable: true })
+      this.marcador2 = new mapboxgl.Marker({ color: 'black', rotation: 45, draggable: true, anchor: 'bottom-left' })
         .setLngLat([this.lng.value, this.lat.value])
         .addTo(map);
       console.log(this.marcador2);
 
       this.marcador2.on('dragend', () => {
         // console.log(this.marcador2.getLngLat());
-        this.latitud = this.marcador2.getLngLat().lat;
-        this.longitud = this.marcador2.getLngLat().lng;
-        this.ubicacion.emit({lat: this.latitud, lng: this.longitud});
+        this.ubiCentral = { lat: this.marcador2.getLngLat().lat , lng: this.marcador2.getLngLat().lng };
+        this.ubicacion.emit({lat: this.ubiCentral.lat, lng: this.ubiCentral.lng});
       });
     }
 
-    this.ubicaciones.forEach(u => {
-      let marker = new mapboxgl.Marker({ color: 'black', rotation: 45, draggable: true })
-        .setLngLat([u.lng, u.lat])
-        .addTo(map);
+    if(this.ubicaciones) {
+      this.ubicaciones.forEach(u => {
+        let marker = new mapboxgl.Marker({ color: 'black', rotation: 45, draggable: true })
+          .setLngLat([u.lng, u.lat])
+          .addTo(map);
 
-      this.marcadores.push(marker);
-    })
+        this.marcadores.push(marker);
+      });
+    }
 
   }
 
