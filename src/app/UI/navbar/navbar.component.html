@@ -1,14 +1,19 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-buttons slot="start" [routerLink]="['/home']" class="pointer">
-      <ion-item>
+    <ion-buttons slot="start">
+      <ion-back-button [routerLink]="['/home']" class="pointer"></ion-back-button>
+    </ion-buttons>
+
+    <!--<ion-button type="button" style="display: block;" fill="outline" (click)="onLogout()">logout test</ion-button> -->
+    <ion-buttons slot="end" (click)="onDeleteAccount()">
+    <ion-item>
         <ion-avatar>
           <img src="../../../assets/icon/Logo.png">
         </ion-avatar>
       </ion-item>
     </ion-buttons>
     <ion-searchbar slot="primary" showCancelButton="focus"></ion-searchbar>
-    <ion-buttons slot="end">
+    <ion-buttons slot="end" (click)="onLogout()">
       <ion-avatar>
         <img src="../../../assets/icon/1024px-User-avatar.svg.png" class="iconosPublicacion">
       </ion-avatar>
