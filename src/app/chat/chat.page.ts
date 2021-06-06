@@ -7,7 +7,7 @@ import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChatService } from 'src/app/servicios/chat.service';
-import { Persona } from '../modelos/persona.model';
+import { Persona, Rol } from '../modelos/persona.model';
 import { Chat } from '../modelos/chat.model';
 import { imgFile } from '../modelos/mensaje.model';
 import { UsuarioService } from '../servicios/persona.service';
@@ -78,7 +78,8 @@ export class ChatPage implements OnInit {
     this.searchBar.setValue('');
     //this.currentUser = this.usuarioService.getCurrentUser();
     // *********************************************************************
-    this.currentUser = new Persona('WnVrwbfSYjYULq1uCQ0pUOZhBH13', 'michel', 'Michel', 'Jackson', 99999999, 'mj@mail.com');
+    this.currentUser = {idPersona: 'WnVrwbfSYjYULq1uCQ0pUOZhBH13', nickname: 'michel', nombre: 'Michel',
+      apellido: 'Jackson', celular: 99999999, email: 'mj@mail.com', rol: Rol.Turista};
     // *********************************************************************
     this._Activatedroute.paramMap.subscribe(params => {
       try{
@@ -110,8 +111,8 @@ export class ChatPage implements OnInit {
 
         console.log(this.currentFriend);
         if (this.currentFriend) {
-          if (this.chatrooms && this.chatrooms.some(c => c.uids == [this.currentUser.idUsuario, this.currentFriend.idUsuario])) {
-            this.messages = this.chatService.obtenerMensajes(this.chatrooms.find(c => c.uids == [this.currentUser.idUsuario, this.currentFriend.idUsuario]).idChat);
+          if (this.chatrooms && this.chatrooms.some(c => c.uids == [this.currentUser.idPersona, this.currentFriend.idPersona])) {
+            this.messages = this.chatService.obtenerMensajes(this.chatrooms.find(c => c.uids == [this.currentUser.idPersona, this.currentFriend.idPersona]).idChat);
           } else {
             /*this.chatService.createChatroom([this.currentUser.uid, this.currentFriend.uid]).then(res => {
               this.currentChatroomId = res.id;
@@ -122,7 +123,7 @@ export class ChatPage implements OnInit {
         } else {
           this.messages = this.chatService.obtenerMensajes(this.currentChatroomId);
           let cchrom = this.chatrooms.find(c => c.idChat === this.currentChatroomId);
-          this.currentFriend = this.friends.find(f => f.idUsuario === cchrom.uids.find(g => g != this.currentUser.idUsuario));
+          this.currentFriend = this.friends.find(f => f.idPersona === cchrom.uids.find(g => g != this.currentUser.idPersona));
         }
       }
     } catch(ex) { console.log(ex); }
@@ -139,10 +140,10 @@ export class ChatPage implements OnInit {
 
   chatWith(amigo: Persona) {
     console.log(amigo);
-    if (this.chatrooms && this.chatrooms.some(c => c.uids == [this.currentUser.idUsuario, amigo.idUsuario])) {
-      this.router.navigateByUrl('/chat/' + this.chatrooms.find(c => c.uids == [this.currentUser.idUsuario, amigo.idUsuario]));
+    if (this.chatrooms && this.chatrooms.some(c => c.uids == [this.currentUser.idPersona, amigo.idPersona])) {
+      this.router.navigateByUrl('/chat/' + this.chatrooms.find(c => c.uids == [this.currentUser.idPersona, amigo.idPersona]));
     } else {
-      this.chatService.crearChat([this.currentUser.idUsuario, amigo.idUsuario]).then(res => {
+      this.chatService.crearChat([this.currentUser.idPersona, amigo.idPersona]).then(res => {
         this.currentChatroomId = res.id;
         console.log('Chatroom creado: ' ,res.id);
         this.router.navigateByUrl('/chat/' + res.id);
