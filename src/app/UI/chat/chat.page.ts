@@ -6,7 +6,8 @@ import { finalize, map, startWith, tap } from 'rxjs/operators';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Chatroom, ChatService, imgFile, Usuario } from 'src/app/servicios/chat.service';
+import { Chatroom, ChatService, imgFile} from 'src/app/servicios/chat.service';
+import { Usuario } from '../../Models/usuario.model';
 
 @Component({
   selector: 'app-chat',
