@@ -6,6 +6,7 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { NavbarComponent } from '../UI/navbar/navbar.component';
+import { AppModule } from '../app.module';
 
 
 @NgModule({

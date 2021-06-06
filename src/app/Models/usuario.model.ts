@@ -1,16 +1,16 @@
 export class Usuario {
   constructor (
-      public uid: string,
-      public nickname: string,
-      public passphrase: string,
-      public nombre: string,
-      public apellido: string,
-      public email: string,
-      public sexo: string,
-      public rol: Rol,
-      public imgurl: string,
-      public bloqueado: boolean
-
+    public idUsuario: string,
+    public nickname: string,
+    public nombre: string,
+    public apellido: string,
+    public celular: number,
+    public email: string,
+    public passphrase: string,
+    public sexo: string,
+    public rol: Rol,
+    public imgurl: string,
+    public bloqueado: boolean
   ){ }
 
 }

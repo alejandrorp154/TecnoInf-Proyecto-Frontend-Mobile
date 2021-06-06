@@ -37,3 +37,9 @@ flex-basis: 50px;
   position: absolute;
   display: block;
 }
+
+// Ionic no toma las alertas como elementros dentro del componente que las llamo, asi que hay que poner los estilos aqui.
+.alrtDanger
+{
+  color: #eb445a !important
+}
