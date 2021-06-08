@@ -11,43 +11,38 @@ export class ComentariosService {
 
   private baseUrl = 'http://3.18.102.215:8080/pryectoBack-web/rest';
 
-  public async getAllComentariosAsync(): Promise<Comentario[]> {
+  /* habrá que hacer un get all publicaciones aca?
+  public getAllComentariosAsync(): Promise<Comentario[]> {
     try {
-      const url = `${this.baseUrl}/comentario`;
-      let response = await this.httpClient.get(url).toPromise();
-      return response as Comentario[];
+      const url = `${this.baseUrl}/publicacionComentario/comentario`;
+      return this.httpClient.get<Comentario[]>(url).toPromise();
+    } catch (error) {
+      console.log(error);
+    }
+  }*/
+
+  addComentario(comentario: Comentario): Promise<Comentario> {
+    const url = `${this.baseUrl}/publicacionComentario/comentario`;
+    return this.httpClient.post<Comentario>(url, comentario).toPromise();
+  }
+
+  /*
+  deleteComentario(idComentario: string){
+    try {
+      const url = `${this.baseUrl}/comentario${idComentario}`;
+      return this.httpClient.delete(url).toPromise();
     } catch (error) {
       console.log(error);
     }
   }
 
-  addComentario(comentario: Comentario) {
-    try {
-      const url = `${this.baseUrl}/comentario`;
-      let response = this.httpClient.post(url,comentario);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  modifyComentario(idComentario: string, comentarioNuevo: string){
 
-  deleteInteres(idComentario: string){
-    try {
-      const url = `${this.baseUrl}/comentario`;
-      //let response = this.httpClient.delete(url,idComentario);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+    //armar el comentario en base a la clase 
 
-  modifyInteres(idInteres: string, interesNuevo: string){
-    try {
-      const url = `${this.baseUrl}/comentarioMod`;
-      //envio un comentario de modelo Comentario o solo el id?
-      //let response = this.httpClient.post(url, idInteres, interesNuevo)
-    } catch (error) {
-      console.log(error);
-    }
-  }
+    const url = `${this.baseUrl}/comentarioMod`;
+    return this.httpClient.put<Interes>(url, modInteres).toPromise();
+  }*/
 
 }
 
