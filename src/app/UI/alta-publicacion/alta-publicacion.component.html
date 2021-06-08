@@ -1,0 +1,42 @@
+<!-- TEXTO -->
+<ion-item lines="none" *ngIf="tipo === 'texto'">
+  <ion-textarea [(ngModel)]="texto.textoPub" placeholder="En que estas pensando?" position="floating"></ion-textarea>
+</ion-item>
+<!-- URL -->
+	<ion-card *ngIf="tipo === 'enlaceExterno'">
+    <ion-card-header>
+      <ion-icon (click)="cancelar()" name="close"></ion-icon>
+      <ion-card-title [innerHtml]="preview.title"></ion-card-title>
+      <img [src]="preview.image">
+    </ion-card-header>
+    <ion-card-content [innerHtml]="preview.description"></ion-card-content>
+  </ion-card>
+<!-- MAPA -->
+  <div id="mapa-mapbox" *ngIf="tipo === 'mapa'"></div>
+<!-- IMAGEN -->
+<ion-card *ngIf="tipo === 'foto'">
+  <ion-icon (click)="cancelar()" name="close"></ion-icon>
+  <ion-card-header>
+    <img id="foto" [src]="imageSource">    
+  </ion-card-header>
+</ion-card>
+
+
+<ion-item class="iconos">
+  <ion-avatar (click)="presentAlertPrompt()">
+    <!-- Link externo -->
+    <img src="../../assets/icon/link-outline.svg" />
+  </ion-avatar>
+  <ion-avatar (click)="modalUbicacion()">
+    <!-- Ubicacion -->
+    <img src="../../assets/icon/location-outline.svg" />
+  </ion-avatar>
+  <ion-avatar>
+    <input type="file" #fileInput (change)="uploadFile($event)" hidden="true" accept="image/*"/>
+    <!-- Imagen -->
+    <img src="../../assets/icon/image-outline.svg" (click)="selectImageSource()"/>
+  </ion-avatar>
+  <ion-button type="submit" slot="end" (click)="publicar()">
+    Publicar
+  </ion-button>
+</ion-item>
