@@ -3,6 +3,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import * as Mapboxgl from 'mapbox-gl';
 import { BehaviorSubject } from 'rxjs';
 import { Ubicacion } from 'src/app/modelos/ubicacion.interface';
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 
 declare var require: any
 
@@ -84,7 +85,24 @@ console.log(this.currentLat, this.currentLng);
         this.ubiCentral = { lat: this.marcador2.getLngLat().lat , lng: this.marcador2.getLngLat().lng };
         this.ubicacion.emit({lat: this.ubiCentral.lat, lng: this.ubiCentral.lng});
       });
+
+      let geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl
+      });
+
+      let $this = this;
+
+      geocoder.on('result', function(e) {
+        console.log(e.result.center);
+        geocoder.clear();
+        $this.marcador2.setLngLat(e.result.center);
+      });
+
+      // Add the control to the map.
+      map.addControl(geocoder);
     }
+
 
     if(this.ubicaciones) {
       this.ubicaciones.forEach(u => {

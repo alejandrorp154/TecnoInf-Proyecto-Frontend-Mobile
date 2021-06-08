@@ -7,46 +7,19 @@ import { Observable } from 'rxjs';
 import { Mensaje } from '../modelos/mensaje.model';
 import { Chat } from '../modelos/chat.model';
 import { Usuario } from '../modelos/usuario.interface';
-
-export interface User {
-  uid: string;
-  email: string;
-}
+import { AuthService } from './auth.service';
+import { UserFire } from '../modelos/userFire.model';
+import { UsuarioService } from './usuario.service';
+import { Persona } from '../modelos/persona.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
-  currentUser: User = null;
+  currentUser: UserFire = null;
 
-  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {
-    this.afAuth.onAuthStateChanged((user) => {
-      this.currentUser = user;
-    });
-  }
-
-  async signup({ email, password }): Promise<any> {
-    const credential = await this.afAuth.createUserWithEmailAndPassword(
-      email,
-      password
-    );
-
-    const uid = credential.user.uid;
-
-    return this.afs.doc(
-      `users/${uid}`
-    ).set({
-      uid,
-      email: credential.user.email,
-    })
-  }
-
-  signIn({ email, password }) {
-    return this.afAuth.signInWithEmailAndPassword(email, password);
-  }
-
-  signOut(): Promise<void> {
-    return this.afAuth.signOut();
+  constructor(private authService: AuthService, private usuarioService: UsuarioService, private afs: AngularFirestore) {
+    this.authService.getCurrentUserFire().subscribe(res => this.currentUser = res);
   }
 
   // Chat functionality
@@ -55,7 +28,7 @@ export class ChatService {
     return this.afs.collection('mensajes').add({
       contenido: msj,
       path: path,
-      de: this.currentUser.uid,
+      de: this.currentUser.id,
       idChat: idChat,
       fecha: firebase.firestore.FieldValue.serverTimestamp()
     });
@@ -80,7 +53,7 @@ export class ChatService {
         // Get the real name for each user
         for (let m of mensajes) {
           m.nombreDe = this.getUserForMsg(m.de, users);
-          m.miMsj = this.currentUser.uid === m.de;
+          m.miMsj = this.currentUser.id === m.de;
         }
         return mensajes
       })
@@ -88,16 +61,16 @@ export class ChatService {
   }
 
   private getUsers() {
-    return this.afs.collection('users').valueChanges({ idField: 'uid' }) as Observable<User[]>;
+    return this.usuarioService.getAllUsuariosObs() as Observable<Persona[]>;
   }
 
   private getUser(uid: string) {
-    return this.afs.collection('users', ref => ref.where('uid', '==', uid)).valueChanges({ idField: 'uid'}) as Observable<User[]>;
+    return this.usuarioService.getUsuario(uid);
   }
 
-  private getUserForMsg(msgFromId, users: User[]): string {
+  private getUserForMsg(msgFromId, users: UserFire[]): string {
     for (let usr of users) {
-      if (usr.uid == msgFromId) {
+      if (usr.id == msgFromId) {
         return usr.email;
       }
     }
@@ -112,7 +85,9 @@ export class ChatService {
   }*/
   obtenerMisChats() {
     if (this.currentUser)
-    return this.afs.collection('chats', ref => ref.where('uids', 'array-contains', this.currentUser.uid).orderBy('fecha', 'desc')).valueChanges({ idField: 'id' }) as Observable<any>;
+      return this.afs.collection('chats', ref => ref.where('uids', 'array-contains', this.currentUser.id).orderBy('fecha', 'desc')).valueChanges({ idField: 'id' }) as Observable<any>;
+    else
+      return new Observable((observer) => observer.next([]));
   }
 
   private getChatroom(uids: []) {

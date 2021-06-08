@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Persona, Rol } from '../modelos/persona.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,15 @@ export class UsuarioService {
     }
   }
 
+  public getAllUsuariosObs(): Observable<Persona[]> {
+    try {
+      const url = `${this.baseUrl}/usuarios/10/10`;
+      return this.httpClient.get<Persona[]>(url);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   getAllUsuarios(){
     return [...this.usuarios];
   }
@@ -73,6 +83,12 @@ export class UsuarioService {
     if(user != null){
       user.bloqueado = true;
     }
+  }
+
+  getContactos(idUsuario: string) {
+    /* ************** EDITAR GET ************** */
+    return this.getAllUsuarios();
+    /* ************** END EDITAR GET ************** */
   }
 
 }
