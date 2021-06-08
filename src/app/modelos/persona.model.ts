@@ -4,7 +4,7 @@ export class Persona {
   nombre: string;
   apellido: string;
   sexo?: string;
-  celular?: number;
+  celular?: string;
   email: string;
   imgUrl?: string;
   rol: Rol;

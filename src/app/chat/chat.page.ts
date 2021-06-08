@@ -79,7 +79,7 @@ export class ChatPage implements OnInit {
     //this.currentUser = this.usuarioService.getCurrentUser();
     // *********************************************************************
     this.currentUser = {idPersona: 'WnVrwbfSYjYULq1uCQ0pUOZhBH13', nickname: 'michel', nombre: 'Michel',
-      apellido: 'Jackson', celular: 99999999, email: 'mj@mail.com', rol: Rol.Turista};
+      apellido: 'Jackson', celular: '099999999', email: 'mj@mail.com', rol: Rol.Turista};
     // *********************************************************************
     this._Activatedroute.paramMap.subscribe(params => {
       try{
