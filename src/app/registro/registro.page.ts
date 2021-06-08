@@ -44,7 +44,7 @@ export class RegistroPage implements OnInit {
         }
         authObs.subscribe(
           resData => {
-            //this.callBackend();
+            this.callBackend();
 
             this.isLoading = false;
             loadingEl.dismiss();
@@ -71,7 +71,7 @@ export class RegistroPage implements OnInit {
     if (!form.valid) {
       return;
     }
-    this.user = new Usuario("", form.value.nickname, form.value.nombre, form.value.apellido, form.value.celular, form.value.email)
+    this.user = new Usuario("", form.value.nickname, form.value.nombre, form.value.apellido, form.value.celular, form.value.direccion ,form.value.email)
 
     console.log(form.value.nombre)
 
@@ -100,13 +100,14 @@ export class RegistroPage implements OnInit {
         }
         else
         {
-           this.user.idUsuario = userID;
+           this.user.idPersona = userID;
         }
       });
 
       try {
-        const url = `${this.baseUrl}/registro`;
-        let response = this.httpClient.post(url, this.user);
+        const url = `${this.baseUrl}/usuario`;
+        console.log(this.user);
+        let response = this.httpClient.post(url, this.user).toPromise()
       } catch (error) {
         console.log(error);
       }
