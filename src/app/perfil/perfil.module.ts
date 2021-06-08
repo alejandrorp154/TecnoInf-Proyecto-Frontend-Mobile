@@ -17,6 +17,6 @@ import { FeedComponent } from '../UI/feed/feed.component';
     IonicModule,
     PerfilPageRoutingModule
   ],
-  declarations: [PerfilPage, NavbarComponent, FeedComponent]
+  declarations: [PerfilPage,NavbarComponent, FeedComponent]
 })
 export class PerfilPageModule {}

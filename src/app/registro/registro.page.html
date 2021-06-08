@@ -1,85 +1,92 @@
 <ion-content>
-  <ion-grid fixed>
-    <ion-row>
-      <ion-col size="12">
-        <ion-card>
-          <ion-card-content>
-            <ion-card-title>Travel Pack</ion-card-title>
-            <ion-list class="form-input">
-              <ion-item>
-                <!-- <ion-input type="email" placeholder="Email" #txtEmail></ion-input> -->
-                <ion-label position="floating">Email</ion-label>
-                <ion-input type="email" #txtEmail></ion-input>
-              </ion-item>
-              <ion-item>
-                <!-- <ion-input type="text" placeholder="Nombre" #txtNombre></ion-input> -->
-                <ion-label position="floating">Nombre</ion-label>
-                <ion-input type="text" #txtNombre></ion-input>
-              </ion-item>
-              <ion-item>
-               <!-- <ion-input type="text" placeholder="Apellido" #txtApellido></ion-input> -->
-               <ion-label position="floating">Apellido</ion-label>
-               <ion-input type="text" #txtApellido></ion-input>
-              </ion-item>
-              <ion-item>
-                <!-- <ion-input type="text" placeholder="Direccion" #txtDireccion></ion-input> -->
-                <ion-label position="floating">Direccion</ion-label>
-                <ion-input type="text" #txtDireccion></ion-input>
-              </ion-item>
-              <ion-item>
-                <!-- <ion-input type="text" placeholder="Nickname" #txtNickname></ion-input> -->
-                <ion-label position="floating">Nickname</ion-label>
-                <ion-input type="text" #txtNickname></ion-input>
-              </ion-item>
-              <ion-item>
-                <!-- <ion-input type="password" placeholder="Contraseña" #txtPass></ion-input> -->
-                <ion-label position="floating">Contraseña</ion-label>
-                <ion-input type="password" #txtPass></ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-label>Intereses</ion-label>
-              </ion-item>
-              <ion-item>
-                <ion-chip>
-                  <ion-icon name="fast-food" color="primary"></ion-icon>
-                  <ion-label>Comida</ion-label>
-                  <ion-icon name="close"></ion-icon>
-                </ion-chip>
-                <ion-chip>
-                  <ion-icon name="football" color="primary"></ion-icon>
-                  <ion-label>Deportes</ion-label>
-                </ion-chip>
-                <ion-chip>
-                  <ion-icon name="beer" color="primary"></ion-icon>
-                  <ion-label>Fiestas</ion-label>
-                  <ion-icon name="close"></ion-icon>
-                </ion-chip>
-                <ion-chip>
-                  <ion-icon name="snow" color="primary"></ion-icon>
-                  <ion-label>Invierno</ion-label>
-                  <ion-icon name="close"></ion-icon>
-                </ion-chip>
-                <ion-chip>
-                  <ion-icon name="telescope" color="primary"></ion-icon>
-                  <ion-label>Explorar</ion-label>
-                  <ion-icon name="close"></ion-icon>
-                </ion-chip>
-                <ion-chip>
-                  <ion-icon name="person-add" color="primary"></ion-icon>
-                  <ion-label>Conocer personas</ion-label>
-                </ion-chip>
-              </ion-item>
-              <ion-row>
-                <ion-col>
-                  <ion-button style="display: block;" fill="outline" href="/login">
-                    Registrate!!
-                  </ion-button>
-                </ion-col>
-              </ion-row>
-            </ion-list>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col size="12">
+          <ion-card>
+            <ion-card-content>
+              <ion-card-title>Travel Pack</ion-card-title>
+              <ion-list class="form-input">
+                <ion-item>
+                  <!-- <ion-input type="email" placeholder="Email" #txtEmail></ion-input> -->
+                  <ion-label position="floating">Email</ion-label>
+                  <ion-input type="email" ngModel name="email" required email #emailCtrl="ngModel"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <!-- <ion-input type="text" placeholder="Nombre" #txtNombre></ion-input> -->
+                  <ion-label position="floating">Nombre</ion-label>
+                  <ion-input type="text" ngModel name="nombre" #txtNombre></ion-input>
+                </ion-item>
+                <ion-item>
+                <!-- <ion-input type="text" placeholder="Apellido" #txtApellido></ion-input> -->
+                <ion-label position="floating">Apellido</ion-label>
+                <ion-input type="text" ngModel name="apellido" #txtApellido></ion-input>
+                </ion-item>
+                <ion-item>
+                  <!-- <ion-input type="text" placeholder="Direccion" #txtDireccion></ion-input> -->
+                  <ion-label position="floating">Direccion</ion-label>
+                  <ion-input type="text" ngModel name="direccion" #txtDireccion></ion-input>
+                </ion-item>
+                <ion-item>
+                  <!-- <ion-input type="text" placeholder="Direccion" #txtDireccion></ion-input> -->
+                  <ion-label position="floating">Celular</ion-label>
+                  <ion-input type="text" ngModel name="celular" #txtCelular></ion-input>
+                </ion-item>
+                <ion-item>
+                  <!-- <ion-input type="text" placeholder="Nickname" #txtNickname></ion-input> -->
+                  <ion-label position="floating">Nickname</ion-label>
+                  <ion-input type="text" ngModel name="nickname" #txtNickname></ion-input>
+                </ion-item>
+                <ion-item>
+                  <!-- <ion-input type="password" placeholder="Contraseña" #txtPass></ion-input> -->
+                  <ion-label position="floating">Contraseña</ion-label>
+                  <ion-input type="password" ngModel name="password" required minlength="6" #passwordCtrl="ngModel"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label>Intereses</ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-chip>
+                    <ion-icon name="fast-food" color="primary"></ion-icon>
+                    <ion-label>Comida</ion-label>
+                    <ion-icon name="close"></ion-icon>
+                  </ion-chip>
+                  <ion-chip>
+                    <ion-icon name="football" color="primary"></ion-icon>
+                    <ion-label>Deportes</ion-label>
+                  </ion-chip>
+                  <ion-chip>
+                    <ion-icon name="beer" color="primary"></ion-icon>
+                    <ion-label>Fiestas</ion-label>
+                    <ion-icon name="close"></ion-icon>
+                  </ion-chip>
+                  <ion-chip>
+                    <ion-icon name="snow" color="primary"></ion-icon>
+                    <ion-label>Invierno</ion-label>
+                    <ion-icon name="close"></ion-icon>
+                  </ion-chip>
+                  <ion-chip>
+                    <ion-icon name="telescope" color="primary"></ion-icon>
+                    <ion-label>Explorar</ion-label>
+                    <ion-icon name="close"></ion-icon>
+                  </ion-chip>
+                  <ion-chip>
+                    <ion-icon name="person-add" color="primary"></ion-icon>
+                    <ion-label>Conocer personas</ion-label>
+                  </ion-chip>
+                </ion-item>
+                <ion-row>
+                  <ion-col>
+                    <ion-button type="submit" style="display: block;" fill="outline" [disabled]="!f.valid">
+                      Registrarme
+                    </ion-button>
+                  </ion-col>
+                </ion-row>
+              </ion-list>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
 </ion-content>
