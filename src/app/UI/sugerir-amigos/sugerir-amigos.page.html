@@ -21,11 +21,19 @@
                 </ion-avatar>
                 <ion-label> {{ amigo.nombre }} {{ amigo.apellido }}</ion-label>
 
-                <ion-button (click)="onViewProfile(amigo.idUsuario)">
+                <ion-button (click)="onViewProfile(amigo.idPersona)">
                   <ion-icon name="person-circle-outline" slot="icon-only"></ion-icon>
                 </ion-button>
               </ion-item>
             </ion-list>
+
+            <ion-infinite-scroll threshold="100px" (ionInfinite)="getSugerirAmigos($event)">
+              <ion-infinite-scroll-content
+                loadingSpinner="bubbles"
+                loadingText="Cargando más sugerencias...">
+              </ion-infinite-scroll-content>
+            </ion-infinite-scroll>
+
           </ion-card-content>
         </ion-card>
       </ion-col>

@@ -13,7 +13,12 @@ export class SugerirAmigosPage implements OnInit {
   constructor(private sugerirAmigos: SugerirAmigosService) { }
 
   ngOnInit() {
-    this.amigos = this.sugerirAmigos.getAllUsuarios();
+    this.getSugerirAmigos();
+  }
+
+  async getSugerirAmigos(event?)
+  {
+    this.amigos.concat(await this.sugerirAmigos.getUsuariosSugeridosAsync(event));
   }
 
   onViewProfile(idUsuario: string)
