@@ -1,4 +1,6 @@
 export class Interes {
-    idInteres: string;
-    interes: string
+    idInteres: number;
+    interes: string;
+    perfiles: any[];
 }
+

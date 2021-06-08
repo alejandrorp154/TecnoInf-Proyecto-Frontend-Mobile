@@ -10,7 +10,7 @@ import { InteresService } from 'src/app/servicios/interes.service';
   styleUrls: ['./interes.page.scss'],
 })
 export class InteresPage implements OnInit {
-  intereses;
+  intereses: Interes[];
   interes: Interes
   showError: boolean
   errorMessage: string
@@ -21,10 +21,14 @@ export class InteresPage implements OnInit {
   }
 
   ngOnInit() {
-    this.intereses = this.interesesService.getAllInteresesAsync();
+    this.getAllIntereses();
   }
 
-  onDeleteInteres(idInteres: string){
+  async getAllIntereses(){
+    this.intereses = await this.interesesService.getAllInteresesAsync();
+  }
+
+  onDeleteInteres(idInteres: number){
     this.alertCtrl
       .create({
         header: '¿Estas seguro?',
@@ -36,9 +40,9 @@ export class InteresPage implements OnInit {
           },
           {
             text: 'Borrar',
-            handler: () => {
-              this.interesesService.deleteInteres(idInteres);
-              this.intereses = this.interesesService.getAllInteresesAsync();
+            handler: async () => {
+              await this.interesesService.deleteInteres(idInteres);
+              await this.getAllIntereses();
               this.showError = false;
             }
           }
@@ -49,7 +53,7 @@ export class InteresPage implements OnInit {
       });
   }
 
-  onModificarInteres(idInteres: string, interes: string){
+  onModificarInteres(idInteres: number, interes: string){
     this.alertCtrl.create({
       header: 'Modificar interés ' + interes,
       inputs: [
@@ -68,14 +72,14 @@ export class InteresPage implements OnInit {
         },
         {
           text: 'Modificar',
-          handler: data => {
+          handler: async data => {
             if (data.interesNuevo !== '') {
               var interesExiste = this.intereses.find(inte => {
                 return inte.interes === data.interesNuevo
               });
               if(!interesExiste){
-                this.interesesService.modifyInteres(idInteres, data.interesNuevo.toString());
-                this.intereses = this.interesesService.getAllInteresesAsync();
+                await this.interesesService.modifyInteres(idInteres, data.interesNuevo.toString());
+                await this.getAllIntereses();
                 this.showError = false;
               } else {
                 this.errorMessage = "El interés ingresado ya existe.";
@@ -94,7 +98,7 @@ export class InteresPage implements OnInit {
   }
 
 
-  onCreateInteres() {
+  async onCreateInteres() {
     var interesExiste = this.intereses.find(inte => {
         return inte.interes === this.interes.interes
     });
@@ -111,10 +115,10 @@ export class InteresPage implements OnInit {
     buttons: [
       {
         text: 'Okay',
-        handler: () => {
-          this.interesesService.addInteres(this.interes.interes);
+        handler: async () => {
+          await this.interesesService.addInteres(this.interes.interes);
           this.interes.interes = "";
-          this.intereses = this.interesesService.getAllInteresesAsync();
+          this.getAllIntereses();
           this.showError = false;
         }
       }

@@ -2,6 +2,6 @@ export class Comentario {
   idComentario: number;
   contenido: string;
   fecha: Date;
-  esHijoDe: number;
+  idComentarioPadre: number;
   UID: string
 }

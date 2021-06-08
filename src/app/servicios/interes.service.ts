@@ -12,35 +12,37 @@ export class InteresService {
 
   constructor(public httpClient: HttpClient) { }
 
-  public async getAllInteresesAsync(): Promise<Interes[]> {
+  public getAllInteresesAsync(): Promise<Interes[]> {
     try {
-      const url = `${this.baseUrl}/interes`;
-      let response = await this.httpClient.get(url).toPromise();
-      return response as Interes[];
+      const url = `${this.baseUrl}/interes/0/5000`;
+      return this.httpClient.get<Interes[]>(url).toPromise();
+
     } catch (error) {
       console.log(error);
     }
   }
 
-  addInteres(interes: string){
+  addInteres(interes: string): Promise<Interes> {
     const newInteres = new Interes();
     newInteres.interes= interes;
-    //hacer el http put
-    
-    
-    //this.intereses.push(newInteres);
+
+    const url = `${this.baseUrl}/interes`;
+    return this.httpClient.post<Interes>(url, newInteres).toPromise();
   }
 
-  deleteInteres(idInteres: string){
-    /*this.intereses = this.intereses.filter(interes => {
-      return interes.idInteres !== idInteres;
-    })*/
+  deleteInteres(idInteres: number){
+    const url = `${this.baseUrl}/interes/${idInteres}`;
+    return this.httpClient.delete(url).toPromise();
   }
 
-  modifyInteres(idInteres: string, interesNuevo: string){
-    /*//hacer el http update
-    var objIndex = this.intereses.findIndex((inte => inte.idInteres == idInteres));
-    this.intereses[objIndex].interes = interesNuevo*/
+  modifyInteres(idInteres: number, interesNuevo: string): Promise<Interes>{
+    const modInteres = new Interes();
+    modInteres.idInteres = idInteres;
+    modInteres.interes = interesNuevo;
+    modInteres.perfiles = [];
+
+    const url = `${this.baseUrl}/interes`;
+    return this.httpClient.put<Interes>(url, modInteres).toPromise();
   }
 
 }
