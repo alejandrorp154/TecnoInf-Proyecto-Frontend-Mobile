@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ChatPageRoutingModule } from './chat-routing.module';
 
 import { ChatPage } from './chat.page';
-import { NavbarComponent } from '../navbar/navbar.component';
+import { NavbarComponent } from '../UI/navbar/navbar.component';
 import { FormatFileSizePipe } from './format-file-size.pipe';
 
 @NgModule({

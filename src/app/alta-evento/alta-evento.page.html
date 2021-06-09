@@ -16,7 +16,7 @@
         <ion-label>Ubicación</ion-label>
       </ion-col>
       <ion-col id="mapa" size="8" size-md="5" size-lg="3">
-        <app-mapa [componente]="'altaEvento'" (ubicacion)="marcarUbicacion($event)"></app-mapa>
+        <app-mapa [componente]="'altaEvento'" [currentLocation]="true" [ubiCentral]="ubicacion" [marcarUbicacion]="true" (ubicacion)="marcarUbicacion($event)"></app-mapa>
       </ion-col>
     </ion-row>
     <ion-row>
@@ -24,7 +24,7 @@
         <ion-label>Descripción</ion-label>
       </ion-col>
       <ion-col size="8" size-md="5" size-lg="3">
-        <ion-textarea rows="4" autoGrow="true" [(ngModel)]="evento.descripcion" placeholder="Descripción">
+        <ion-textarea rows="4" [(ngModel)]="evento.descripcion" placeholder="Descripción">
         </ion-textarea>
       </ion-col>
     </ion-row>
@@ -55,7 +55,7 @@
     <ion-row>
       <ion-col size="2"></ion-col>
       <ion-col size="8">
-        <ion-button expand="block" color="primary" [disabled]="validated" (click)="submit()">Aceptar</ion-button>
+        <ion-button expand="block" color="primary" [disabled]="!isValid()" (click)="submit()">Aceptar</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>
