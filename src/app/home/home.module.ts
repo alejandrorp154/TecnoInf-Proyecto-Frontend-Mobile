@@ -18,6 +18,6 @@ import { AppModule } from '../app.module';
     IonicModule,
     HomePageRoutingModule
   ],
-  declarations: [HomePage, NavbarComponent, PanelDerechoPage, AltaPublicacionComponent, BuscarMapaComponent]
+  declarations: [HomePage, NavbarComponent, AltaPublicacionComponent, BuscarMapaComponent]
 })
 export class HomePageModule {}
