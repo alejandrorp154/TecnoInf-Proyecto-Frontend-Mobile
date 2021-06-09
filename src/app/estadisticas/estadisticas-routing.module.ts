@@ -1,4 +1,4 @@
-import { NavbarComponent } from './../navbar/navbar.component';
+import { NavbarComponent } from '../UI/navbar/navbar.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 

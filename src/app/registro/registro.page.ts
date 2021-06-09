@@ -5,9 +5,9 @@ import { LoadingController, AlertController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 
 import { AuthService, AuthResponseData } from '../servicios/auth.service';
-import { Usuario } from '../models/usuario.model';
 import { take } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { Persona, Rol } from '../modelos/persona.model';
 
 @Component({
   selector: 'app-registro',
@@ -18,7 +18,7 @@ export class RegistroPage implements OnInit {
 
   isLoading = false;
   isLogin = false;
-  private user: Usuario;
+  private user: Persona;
   baseUrl: string = 'http://3.18.102.215:8080/pryectoBack-web/rest';
 
   constructor(
@@ -71,7 +71,8 @@ export class RegistroPage implements OnInit {
     if (!form.valid) {
       return;
     }
-    this.user = new Usuario("", form.value.nickname, form.value.nombre, form.value.apellido, form.value.celular, form.value.email)
+    this.user = {idPersona: "", nickname: form.value.nickname, nombre: form.value.nombre, apellido: form.value.apellido,
+      celular: form.value.celular, email: form.value.email, rol: Rol.Turista}
 
     console.log(form.value.nombre)
 
@@ -100,7 +101,7 @@ export class RegistroPage implements OnInit {
         }
         else
         {
-           this.user.idUsuario = userID;
+           this.user.idPersona = userID;
         }
       });
 
