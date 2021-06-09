@@ -2,10 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import * as Mapboxgl from 'mapbox-gl';
 import { BehaviorSubject } from 'rxjs';
-import { Ubicacion } from 'src/app/modelos/ubicacion.interface';
+import { Ubicacion } from 'src/app/modelos/ubicacion.model';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 
-declare var require: any
+declare var require: any;
 
 @Component({
   selector: 'app-mapa',
@@ -35,8 +35,8 @@ export class MapaComponent implements OnInit {
   constructor(private geolocation: Geolocation) {
     this.currentLat = -34.8833;
     this.currentLng = -56.1667;
-    this.lat.next(this.ubiCentral ? this.ubiCentral.lat : -34.8833);
-    this.lng.next(this.ubiCentral ? this.ubiCentral.lng : -56.1667);
+    this.lat.next(this.ubiCentral ? this.ubiCentral.latitud : -34.8833);
+    this.lng.next(this.ubiCentral ? this.ubiCentral.longitud : -56.1667);
    }
 
   async ngOnInit() {
@@ -53,12 +53,12 @@ export class MapaComponent implements OnInit {
       this.lat.next(this.currentLat);
       this.lng.next(this.currentLng);
     } else {
-      this.lat.next(this.ubiCentral.lat);
-      this.lng.next(this.ubiCentral.lng);
+      this.lat.next(this.ubiCentral.latitud);
+      this.lng.next(this.ubiCentral.longitud);
     }
 
 console.log(this.lat, this.lng);
-if(this.ubiCentral) { console.log(this.ubiCentral.lat, this.ubiCentral.lng); }
+if(this.ubiCentral) { console.log(this.ubiCentral.latitud, this.ubiCentral.longitud); }
 console.log(this.currentLat, this.currentLng);
 
     let mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
@@ -82,8 +82,8 @@ console.log(this.currentLat, this.currentLng);
 
       this.marcador2.on('dragend', () => {
         // console.log(this.marcador2.getLngLat());
-        this.ubiCentral = { lat: this.marcador2.getLngLat().lat , lng: this.marcador2.getLngLat().lng };
-        this.ubicacion.emit({lat: this.ubiCentral.lat, lng: this.ubiCentral.lng});
+        this.ubiCentral = { idUbicacion: 0, latitud: this.marcador2.getLngLat().lat , longitud: this.marcador2.getLngLat().lng, fecha: new Date(), descripcion: '' };
+        this.ubicacion.emit({lat: this.ubiCentral.latitud, lng: this.ubiCentral.longitud});
       });
 
       let geocoder = new MapboxGeocoder({
@@ -107,7 +107,7 @@ console.log(this.currentLat, this.currentLng);
     if(this.ubicaciones) {
       this.ubicaciones.forEach(u => {
         let marker = new mapboxgl.Marker({ color: 'black', rotation: 45, draggable: true })
-          .setLngLat([u.lng, u.lat])
+          .setLngLat([u.longitud, u.latitud])
           .addTo(map);
 
         this.marcadores.push(marker);

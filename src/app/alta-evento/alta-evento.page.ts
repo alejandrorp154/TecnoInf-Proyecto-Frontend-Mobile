@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Evento } from '../modelos/evento.model';
-import { Ubicacion } from '../modelos/ubicacion.interface';
+import { Ubicacion } from '../modelos/ubicacion.model';
 import { EventoService } from '../servicios/evento.service';
 
 @Component({
@@ -24,7 +24,7 @@ export class AltaEventoPage implements OnInit {
     this.evento = new Evento();
     this.evento.descripcion = '';
     this.evento.nombre = '';
-    this.latitud = -34.8833
+    this.latitud = -34.8833;
     this.longitud = -58.1667;
    }
 
@@ -37,7 +37,7 @@ export class AltaEventoPage implements OnInit {
     console.log(ubicacion, ' (altaEvento)');
     console.log(new Date(this.inicio.toString()) > new Date(this.fin.toString()));
 
-    this.evento.ubicacion = ubicacion.lat.toString() + '|' + ubicacion.lng.toString();
+    this.evento.ubicacion = ubicacion.latitud.toString() + '|' + ubicacion.longitud.toString();
     console.log(this.isValid(), this.evento);
   }
 

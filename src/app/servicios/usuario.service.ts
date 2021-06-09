@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Persona, Rol } from '../modelos/persona.model';
 import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +36,7 @@ export class UsuarioService {
 
   private baseUrl = 'http://localhost:8080/pryectoBack-web/rest';
 
-  constructor(public httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private authService: AuthService) { }
 
   public async getAllUsuariosAsync(): Promise<Persona[]> {
     try {
@@ -89,6 +90,13 @@ export class UsuarioService {
     /* ************** EDITAR GET ************** */
     return this.getAllUsuarios();
     /* ************** END EDITAR GET ************** */
+  }
+
+  getLoggedUser(): Promise<Persona> {
+    return new Promise(async (resolve) => {
+      let userFire = await this.authService.getCurrentUserFire().toPromise();
+      resolve(this.getUsuario(userFire.id));
+    });
   }
 
 }
