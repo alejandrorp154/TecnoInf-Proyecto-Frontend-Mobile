@@ -5,7 +5,7 @@ import { LinkPrevService } from 'src/app/servicios/link-prev.service';
 import { BuscarMapaComponent } from '../buscar-mapa/buscar-mapa.component';
 import { PubicacionService } from 'src/app/servicios/pubicacion.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { idPersona, Publicacion, TipoPublicacion, TipoPublicacionEnum, usuario } from 'src/app/Models/publicacion.model';
+import { idPersona, Publicacion, TipoPublicacion, TipoPublicacionEnum, usuario } from 'src/app/modelos/publicacion.model';
 import { environment } from 'src/environments/environment';
 import * as Mapboxgl from 'mapbox-gl';
 import { DomSanitizer } from '@angular/platform-browser';

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { ErrorHandler, Injectable } from '@angular/core';
-import { Publicacion } from '../Models/publicacion.model';
+import { Publicacion } from '../modelos/publicacion.model';
 
 @Injectable({
   providedIn: 'root'
