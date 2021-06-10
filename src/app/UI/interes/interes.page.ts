@@ -3,7 +3,6 @@ import { AlertController } from '@ionic/angular';
 import { Interes } from 'src/app/Models/interes.model';
 import { InteresService } from 'src/app/servicios/interes.service';
 
-
 @Component({
   selector: 'app-interes',
   templateUrl: './interes.page.html',
