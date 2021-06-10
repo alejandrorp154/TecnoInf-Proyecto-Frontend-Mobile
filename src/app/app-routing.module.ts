@@ -51,8 +51,11 @@ const routes: Routes = [
     path: 'chat/:nickname',
     loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule),
     canLoad: [LoginGuard]
+  },
+  {
+    path: 'interes',
+    loadChildren: () => import('./interes/interes.module').then( m => m.InteresPageModule)
   }
-
 
 ];
 
