@@ -28,6 +28,7 @@
     "@ionic/angular": "^5.5.2",
     "@ionic/pwa-elements": "^3.0.2",
     "cordova-plugin-geolocation": "^4.1.0",
+    "chart.js": "^2.7.0",
     "firebase": "^8.6.2",
     "mapbox-gl": "^2.3.0",
     "rxjs": "~6.6.0",

@@ -13,19 +13,19 @@ export class EventoService {
 
 
   obtenerEvento(idEvento: number): Promise<Evento> {
-    return this.http.get<Evento>(this.baseUrl + 'api/Evento' + idEvento).toPromise();
+    return this.http.get<Evento>(this.baseUrl + 'api/evento' + idEvento).toPromise();
   }
 
   obtenerEventosXPersona(idPersona: string): Promise<Evento[]> {
-    return this.http.get<Evento[]>(this.baseUrl + 'api/Evento' + idPersona).toPromise();
+    return this.http.get<Evento[]>(this.baseUrl + 'api/evento' + idPersona).toPromise();
   }
 
   crearEvento(evento: Evento): Promise<Evento> {
-    return this.http.post<any>(this.baseUrl + 'api/Evento', evento).toPromise();
+    return this.http.post<any>(this.baseUrl + 'api/evento', evento).toPromise();
   }
 
   elminarEvento(idEvento: number): Promise<boolean> {
-    return this.http.delete<boolean>(this.baseUrl + 'api/Evento' + idEvento).toPromise();
+    return this.http.delete<boolean>(this.baseUrl + 'api/evento' + idEvento).toPromise();
   }
 
 }
