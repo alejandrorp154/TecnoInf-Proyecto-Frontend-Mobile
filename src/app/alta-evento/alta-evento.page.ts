@@ -16,7 +16,7 @@ export class AltaEventoPage implements OnInit {
   inicio: String = new Date().toISOString();
   fin: String = new Date().toISOString();
   today: Date;
-
+  ubicacion: any;
   latitud: number;
   longitud: number;
 

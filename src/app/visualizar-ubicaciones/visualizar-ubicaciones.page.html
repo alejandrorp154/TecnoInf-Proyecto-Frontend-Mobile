@@ -12,18 +12,9 @@
                 Lista de ubicaciones:
               </ion-label>
             </ion-item-divider>
-            <ion-list>
-              <ion-item *ngFor="let inte of intereses" >
-                <ion-label> {{ inte.interes }} </ion-label>
-                <ion-button (click)="onModificarInteres(inte.idInteres, inte.interes)">
-                  <ion-icon name="create" slot="icon-only" ></ion-icon>
-                </ion-button>
-                <ion-button (click)="onDeleteInteres(inte.idInteres)">
-                  <ion-icon name="trash" slot="icon-only" ></ion-icon>
-                </ion-button>
-                
-              </ion-item>
-            </ion-list>
+            <ion-col id="mapa" size="8" size-md="5" size-lg="3">
+              <app-mapa [componente]="'altaEvento'" [currentLocation]="true" [ubiCentral]="ubicacion" [marcarUbicacion]="true" (ubicacion)="marcarUbicacion($event)"></app-mapa>
+            </ion-col>
           </ion-card-content>
         </ion-card>
       </ion-col>
