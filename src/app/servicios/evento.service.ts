@@ -21,9 +21,9 @@ export class EventoService {
     console.log('Ingresó a obtenerEventosXPersona(idPersona)');
     return new Promise((resolve) => resolve([
       { idEvento: 1, nombre: 'Evento 1', ubicacion: '-34.8833|-58.1667', descripcion: 'Evento 1 de prueba', fechaInicio: new Date(), fechaFin: new Date(),
-        estado: 'Pendiente', idPersona: '0V635VCDkeYlW5er6SvVSG5UbVD2', participantes: [], publicaciones: [] },
+        estado: 'Pendiente', idPersona: '0V635VCDkeYlW5er6SvVSG5UbVD2', participantes: [], publicaciones: [], nombreImagen: '', extension: '', imagen: ''  },
       { idEvento: 2, nombre: 'Evento 2', ubicacion: '-34.8833|-58.1667', descripcion: 'Evento 2 de prueba', fechaInicio: new Date(), fechaFin: new Date(),
-        estado: 'Pendiente', idPersona: '0V635VCDkeYlW5er6SvVSG5UbVD2', participantes: [], publicaciones: [] },
+        estado: 'Pendiente', idPersona: '0V635VCDkeYlW5er6SvVSG5UbVD2', participantes: [], publicaciones: [], nombreImagen: '', extension: '', imagen: '' },
     ]));
     return this.http.get<Evento[]>(this.baseUrl + 'api/evento' + idPersona).toPromise();
   }

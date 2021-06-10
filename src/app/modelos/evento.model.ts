@@ -10,6 +10,9 @@ export class Evento {
   fechaFin: Date;
   estado: string;
   idPersona: string;
+  nombreImagen: string;
+  imagen: string;
+  extension: string;
 
   participantes?: Persona[];
   publicaciones?: Publicacion[];

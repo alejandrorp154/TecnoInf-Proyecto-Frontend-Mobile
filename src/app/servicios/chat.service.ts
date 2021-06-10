@@ -6,7 +6,6 @@ import { switchMap, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Mensaje } from '../modelos/mensaje.model';
 import { Chat } from '../modelos/chat.model';
-import { Usuario } from '../modelos/usuario.interface';
 import { AuthService } from './auth.service';
 import { UserFire } from '../modelos/userFire.model';
 import { UsuarioService } from './usuario.service';

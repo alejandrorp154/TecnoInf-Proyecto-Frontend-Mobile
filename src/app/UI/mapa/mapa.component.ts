@@ -82,7 +82,7 @@ console.log(this.currentLat, this.currentLng);
 
       this.marcador2.on('dragend', () => {
         // console.log(this.marcador2.getLngLat());
-        this.ubiCentral = { idUbicacion: 0, latitud: this.marcador2.getLngLat().lat , longitud: this.marcador2.getLngLat().lng, fecha: new Date(), descripcion: '' };
+        this.ubiCentral = { idUbicacion: 0, latitud: this.marcador2.getLngLat().lat , longitud: this.marcador2.getLngLat().lng, fecha: new Date(), descripcion: '', pais: '' };
         this.ubicacion.emit({lat: this.ubiCentral.latitud, lng: this.ubiCentral.longitud});
       });
 
