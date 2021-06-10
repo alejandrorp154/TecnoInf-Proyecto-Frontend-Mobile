@@ -20,6 +20,7 @@ export function getBaseUrl() {
   //console.log(document.getElementsByTagName('base')[0].href);
   return 'http://3.18.102.215:8080/pryectoBack-web/rest/';
 }
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,7 +28,7 @@ export function getBaseUrl() {
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule, AngularFirestoreModule, AngularFireStorageModule,
-    FormsModule, ReactiveFormsModule, HttpClientModule],
+    FormsModule, ReactiveFormsModule, HttpClientModule, CommonModule],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] },
