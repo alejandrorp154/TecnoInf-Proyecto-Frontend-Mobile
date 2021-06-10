@@ -11,7 +11,7 @@ export class Evento {
   estado: string;
   idPersona: string;
 
-  participantes: Persona[];
-  publicaciones: Publicacion[];
+  participantes?: Persona[];
+  publicaciones?: Publicacion[];
 
 }

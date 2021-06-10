@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Persona, Rol } from '../modelos/persona.model';
+import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -34,13 +36,22 @@ export class UsuarioService {
 
   private baseUrl = 'http://localhost:8080/pryectoBack-web/rest';
 
-  constructor(public httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private authService: AuthService) { }
 
   public async getAllUsuariosAsync(): Promise<Persona[]> {
     try {
       const url = `${this.baseUrl}/usuarios/10/10`;
       let response = await this.httpClient.get(url).toPromise();
       return response as Persona[];
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  public getAllUsuariosObs(): Observable<Persona[]> {
+    try {
+      const url = `${this.baseUrl}/usuarios/10/10`;
+      return this.httpClient.get<Persona[]>(url);
     } catch (error) {
       console.log(error);
     }
@@ -73,6 +84,19 @@ export class UsuarioService {
     if(user != null){
       user.bloqueado = true;
     }
+  }
+
+  getContactos(idUsuario: string) {
+    /* ************** EDITAR GET ************** */
+    return this.getAllUsuarios();
+    /* ************** END EDITAR GET ************** */
+  }
+
+  getLoggedUser(): Promise<Persona> {
+    return new Promise(async (resolve) => {
+      let userFire = await this.authService.getCurrentUserFire().toPromise();
+      resolve(this.getUsuario(userFire.id));
+    });
   }
 
 }
