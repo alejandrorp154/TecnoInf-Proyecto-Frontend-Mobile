@@ -9,7 +9,7 @@ import { AltaEventoPageRoutingModule } from './alta-evento-routing.module';
 import { MapaComponent } from '../UI/mapa/mapa.component';
 import { NavbarComponent } from '../UI/navbar/navbar.component';
 import { AltaEventoPage } from './alta-evento.page';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
+//import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 
 @NgModule({
@@ -21,7 +21,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
   ],
   declarations: [AltaEventoPage, MapaComponent, NavbarComponent],
   providers: [
-    Geolocation
+    //Geolocation
   ]
 })
 export class AltaEventoPageModule {}

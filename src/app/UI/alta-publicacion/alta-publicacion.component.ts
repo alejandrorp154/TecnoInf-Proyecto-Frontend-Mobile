@@ -4,8 +4,8 @@ import { Preview } from 'src/app/Models/preview';
 import { LinkPrevService } from 'src/app/servicios/link-prev.service';
 import { BuscarMapaComponent } from '../buscar-mapa/buscar-mapa.component';
 import { PubicacionService } from 'src/app/servicios/pubicacion.service';
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { idPersona, Publicacion, TipoPublicacion, TipoPublicacionEnum, usuario } from 'src/app/Models/publicacion.model';
+//import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { idPersona, Publicacion, TipoPublicacion, TipoPublicacionEnum, usuario } from 'src/app/modelos/publicacion.model';
 import { environment } from 'src/environments/environment';
 import * as Mapboxgl from 'mapbox-gl';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -190,28 +190,28 @@ export class AltaPublicacionComponent implements OnInit {
   async selectImageSource() {
  
     if (this.plt.is('android')) {
-      const buttons = [
-        {
-          text: 'Take Photo',
-          icon: 'camera',
-          handler: () => {
-            this.addImage(CameraSource.Camera);
-          }
-        },
-        {
-          text: 'Choose From Photos Photo',
-          icon: 'image',
-          handler: () => {
-            this.addImage(CameraSource.Photos);
-          }
-        }
-      ];
+      // const buttons = [
+      //   {
+      //     text: 'Take Photo',
+      //     icon: 'camera',
+      //     handler: () => {
+      //       this.addImage(CameraSource.Camera);
+      //     }
+      //   },
+      //   {
+      //     text: 'Choose From Photos Photo',
+      //     icon: 'image',
+      //     handler: () => {
+      //       this.addImage(CameraSource.Photos);
+      //     }
+      //   }
+      // ];
 
-      const actionSheet = await this.actionSheetCtrl.create({
-        header: 'Select Image Source',
-        buttons
-      });
-      await actionSheet.present();
+      // const actionSheet = await this.actionSheetCtrl.create({
+      //   header: 'Select Image Source',
+      //   buttons
+      // });
+      // await actionSheet.present();
     }
     else{
       this.fileInput.nativeElement.click();
@@ -219,19 +219,19 @@ export class AltaPublicacionComponent implements OnInit {
 
   }
  
-  async addImage(source: CameraSource) {
-    const image = await Camera.getPhoto({
-      quality: 60,
-      allowEditing: true,
-      resultType: CameraResultType.Base64,
-      source
-    });
+  // async addImage(source: CameraSource) {
+  //   const image = await Camera.getPhoto({
+  //     quality: 60,
+  //     allowEditing: true,
+  //     resultType: CameraResultType.Base64,
+  //     source
+  //   });
  
-    const blobData = this.b64toBlob(image.base64String, `image/${image.format}`);
-    const imageName = 'Give me a name';
+  //   const blobData = this.b64toBlob(image.base64String, `image/${image.format}`);
+  //   const imageName = 'Give me a name';
  
-    this.pubService.uploadImage(blobData, imageName, image.format);
-  }
+  //   this.pubService.uploadImage(blobData, imageName, image.format);
+  // }
  
   // Used for browser direct file upload
   uploadFile(event: EventTarget) {
