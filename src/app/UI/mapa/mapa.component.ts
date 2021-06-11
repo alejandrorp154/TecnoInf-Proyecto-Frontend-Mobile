@@ -4,6 +4,8 @@ import * as Mapboxgl from 'mapbox-gl';
 import { BehaviorSubject } from 'rxjs';
 import { Ubicacion } from 'src/app/modelos/ubicacion.model';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import { take } from 'rxjs/operators';
+import { AuthService } from '../../servicios/auth.service';
 
 declare var require: any;
 
@@ -13,6 +15,7 @@ declare var require: any;
   styleUrls: ['./mapa.component.scss'],
 })
 export class MapaComponent implements OnInit {
+
 
   @Input() componente: string;
 
@@ -25,6 +28,7 @@ export class MapaComponent implements OnInit {
   currentLng: number;
   lat: BehaviorSubject<number> = new BehaviorSubject(-34.8833);
   lng: BehaviorSubject<number> = new BehaviorSubject(-56.1667);
+  private userID: string;
 
   marcador1;
   marcador2;
@@ -32,7 +36,7 @@ export class MapaComponent implements OnInit {
 
   @Output() ubicacion = new EventEmitter();
 
-  constructor(private geolocation: Geolocation) {
+  constructor(private authService: AuthService,private geolocation: Geolocation) {
     this.currentLat = -34.8833;
     this.currentLng = -56.1667;
     this.lat.next(this.ubiCentral ? this.ubiCentral.latitud : -34.8833);
@@ -40,6 +44,7 @@ export class MapaComponent implements OnInit {
    }
 
   async ngOnInit() {
+    this.getUserID();
     console.log(this.componente);
     await this.geolocation.getCurrentPosition().then((resp) => {
       this.currentLat = resp.coords.latitude
@@ -105,10 +110,19 @@ console.log(this.currentLat, this.currentLng);
 
 
     if(this.ubicaciones) {
+      let marker;
       this.ubicaciones.forEach(u => {
-        let marker = new mapboxgl.Marker({ color: 'black', rotation: 45, draggable: true })
+        if (u.userID === this.userID) {
+          marker = new mapboxgl.Marker({ color: 'black', rotation: 45, draggable: false })
           .setLngLat([u.longitud, u.latitud])
           .addTo(map);
+        }
+        else
+        {
+          marker = new mapboxgl.Marker({ color: 'orange', rotation: 45, draggable: false })
+          .setLngLat([u.longitud, u.latitud])
+          .addTo(map);
+        }
 
         this.marcadores.push(marker);
       });
@@ -116,6 +130,21 @@ console.log(this.currentLat, this.currentLng);
 
   }
 
+
+  getUserID()
+  {
+    this.authService.userID.pipe(take(1)).subscribe(userID =>
+    {
+      if(!userID)
+      {
+        throw new Error('No se encontro la ID del usuario.');
+      }
+      else
+      {
+        this.userID = userID;
+      }
+    })
+  }
 
   setUbicacion($event) {
     console.log('setUbicacion mapaComponent');
