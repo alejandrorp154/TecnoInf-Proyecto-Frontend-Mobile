@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Persona, Rol } from '../modelos/persona.model';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { UserFire } from '../modelos/userFire.model';
 
 @Injectable({
   providedIn: 'root'

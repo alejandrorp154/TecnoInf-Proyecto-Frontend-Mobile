@@ -5,4 +5,5 @@ export class Ubicacion {
   fecha?: Date;
   descripcion: string;
   userID: string;
+  pais: string;
 }
