@@ -1,4 +1,4 @@
-
+<div *ngFor="let publicacion of publicaciones.value">
   <ion-row class="wrapper">
     <ion-col size="2">
       <ion-avatar>
@@ -15,7 +15,7 @@
       </ion-row>
       <ion-row>
         <ion-col size="12">
-          <div><ion-label>Esta es una publicacion nueva de Pepe</ion-label></div>
+          <div><ion-label>{{ this.publicaciones.value.length > 0 ? this.publicaciones.value[0].nombre : '' }}</ion-label></div>
           
           <!-- <img class="preview-img" src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"> -->
         </ion-col>
@@ -43,3 +43,4 @@
       </ion-row>
     </ion-col>
   </ion-row>
+</div>

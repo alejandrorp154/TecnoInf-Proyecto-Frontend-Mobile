@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { Publicacion } from 'src/app/modelos/perfil';
 
 @Component({
   selector: 'app-feed',
@@ -7,8 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FeedComponent implements OnInit {
 
+  @Input() publicaciones: BehaviorSubject<Publicacion[]>;
+
+  pub: Publicacion[] = [];
+
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    //this.publicaciones.subscribe(pub => console.log(pub));
+    //console.log(this.pub);
+  }
 
 }

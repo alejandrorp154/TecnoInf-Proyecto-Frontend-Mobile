@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Perfil } from '../modelos/perfil';
+import { BehaviorSubject } from 'rxjs';
+import { Perfil, Publicacion } from '../modelos/perfil';
 import { PerfilService } from '../servicios/perfil.service';
 
 @Component({
@@ -11,6 +12,9 @@ export class PerfilPage implements OnInit {
 
   perfil: Perfil;
 
+  publicaciones: BehaviorSubject<Publicacion[]> = new BehaviorSubject([]);
+
+
   constructor(private perfilServ: PerfilService) { }
 
   ngOnInit() {
@@ -19,6 +23,8 @@ export class PerfilPage implements OnInit {
 
   async obtenerPerfil(){
     this.perfil = await this.perfilServ.obtenerPerfil('1');
+    this.publicaciones.next(this.perfil.publicaciones);
+    
   }
 
 

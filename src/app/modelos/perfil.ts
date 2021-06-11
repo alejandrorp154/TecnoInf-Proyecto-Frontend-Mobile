@@ -2,7 +2,7 @@ export class Perfil {
     usuario: Usuario;
     intereses: [];
     galerias: [];
-    publicaciones: Publicacion;
+    publicaciones?: Publicacion[];
 }
 
 class Usuario {
@@ -24,7 +24,7 @@ class Medalla {
     usuario: Usuario
 }
 
-class Publicacion {
+export class Publicacion {
     idPublicacion: number;
     contenido: string;
     fecha: Date;
