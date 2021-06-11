@@ -19,6 +19,9 @@ import { MapaModule } from '../UI/mapa/mapa.module';
     NavbarModule,
     MapaModule
   ],
-  declarations: [VisualizarUbicacionesPage]
+  declarations: [VisualizarUbicacionesPage],
+  providers: [
+    Geolocation
+  ]
 })
 export class VisualizarUbicacionesPageModule {}

@@ -59,6 +59,10 @@ const routes: Routes = [
   {
     path: 'eventos',
     loadChildren: () => import('./eventos/eventos.module').then( m => m.EventosPageModule)
+  },
+  {
+    path: 'visualizar-ubicaciones',
+    loadChildren: () => import('./visualizar-ubicaciones/visualizar-ubicaciones.module').then( m => m.VisualizarUbicacionesPageModule)
   }
 
 ];
