@@ -11,13 +11,10 @@ export class FeedComponent implements OnInit {
 
   @Input() publicaciones: BehaviorSubject<Publicacion[]>;
 
-  pub: Publicacion[] = [];
-
   constructor() { }
 
   ngOnInit() {
-    //this.publicaciones.subscribe(pub => console.log(pub));
-    //console.log(this.pub);
+    
   }
 
 }

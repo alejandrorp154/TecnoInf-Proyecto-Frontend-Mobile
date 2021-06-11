@@ -14,17 +14,28 @@ export class PerfilPage implements OnInit {
 
   publicaciones: BehaviorSubject<Publicacion[]> = new BehaviorSubject([]);
 
-
   constructor(private perfilServ: PerfilService) { }
+
+  user: {
+    nombre: string;
+    apellido: string;
+    nickname: string;
+  }
 
   ngOnInit() {
     this.obtenerPerfil();
+    
+    // this.user.nombre = this.perfil.usuario.nombre;
+    //   this.user.apellido = this.perfil.usuario.apellido;
+    //   this.user.nickname =  this.perfil.usuario.nickname;
+    //   localStorage.setItem('usuario', JSON.stringify(this.user));
+    //    console.log(this.user);
+   
   }
 
   async obtenerPerfil(){
     this.perfil = await this.perfilServ.obtenerPerfil('1');
     this.publicaciones.next(this.perfil.publicaciones);
-    
   }
 
 
