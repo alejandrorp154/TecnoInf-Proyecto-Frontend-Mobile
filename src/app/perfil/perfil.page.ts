@@ -1,4 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Perfil } from '../modelos/perfil';
+import { PerfilService } from '../servicios/perfil.service';
 
 @Component({
   selector: 'app-perfil',
@@ -7,10 +9,16 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 })
 export class PerfilPage implements OnInit {
 
+  perfil: Perfil;
 
-  constructor() { }
+  constructor(private perfilServ: PerfilService) { }
 
   ngOnInit() {
+    this.obtenerPerfil();
+  }
+
+  async obtenerPerfil(){
+    this.perfil = await this.perfilServ.obtenerPerfil('1');
   }
 
 
