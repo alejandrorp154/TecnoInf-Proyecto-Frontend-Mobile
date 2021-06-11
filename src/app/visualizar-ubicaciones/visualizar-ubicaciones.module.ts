@@ -9,6 +9,7 @@ import { VisualizarUbicacionesPageRoutingModule } from './visualizar-ubicaciones
 import { VisualizarUbicacionesPage } from './visualizar-ubicaciones.page';
 import { NavbarModule } from '../UI/navbar/navbar.module';
 import { MapaModule } from '../UI/mapa/mapa.module';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @NgModule({
   imports: [

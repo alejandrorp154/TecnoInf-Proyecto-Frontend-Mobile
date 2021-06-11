@@ -13,7 +13,9 @@
               </ion-label>
             </ion-item-divider>
             <ion-col id="mapa" size="8" size-md="5" size-lg="3">
-              <app-mapa [currentLocation]="true" [ubicaciones]="ubicaciones" [ubiCentral]="ubicacion" [marcarUbicacion]="false"></app-mapa>
+              <div>
+                <app-mapa [currentLocation]="true" [ubicaciones]="ubicaciones" [ubiCentral]="ubicacion" [marcarUbicacion]="false"></app-mapa>
+              </div>
             </ion-col>
           </ion-card-content>
         </ion-card>
@@ -21,5 +23,3 @@
     </ion-row>
   </ion-grid>
 </ion-content>
-
-
