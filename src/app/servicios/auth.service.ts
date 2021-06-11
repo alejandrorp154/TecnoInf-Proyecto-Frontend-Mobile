@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { BehaviorSubject, from} from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { UserFire } from '../models/userFire.model';
+import { UserFire } from '../modelos/userFire.model';
 import { Plugins } from '@capacitor/core';
 import { Router } from '@angular/router';
 
