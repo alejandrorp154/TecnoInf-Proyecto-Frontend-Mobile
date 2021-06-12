@@ -91,9 +91,6 @@ export class RegistroPage implements OnInit {
     this.user = new Usuario("", form.value.nickname, form.value.nombre, form.value.apellido, form.value.celular, form.value.direccion,
     form.value.email, form.value.pais ,this.imagen.base64,this.imagen.nombre,this.imagen.ext);
 
-    //this.user = {idPersona: "", nickname: form.value.nickname, nombre: form.value.nombre, apellido: form.value.apellido,
-      //celular: form.value.celular, email: form.value.email}
-
     console.log(form.value.nombre)
 
     this.authenticate(form.value.email, form.value.password);
