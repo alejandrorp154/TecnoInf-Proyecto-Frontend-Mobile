@@ -20,6 +20,6 @@ import { BuscarMapaComponent } from '../UI/buscar-mapa/buscar-mapa.component';
     HomePageRoutingModule,
     NavbarModule
   ],
-  declarations: [HomePage, NavbarComponent, AltaPublicacionComponent, BuscarMapaComponent]
+  declarations: [HomePage, AltaPublicacionComponent, BuscarMapaComponent]
 })
 export class HomePageModule {}

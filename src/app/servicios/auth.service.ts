@@ -166,6 +166,7 @@ export class AuthService {
       expirationTime.toISOString(),
       userFireData.email
     );
+    console.log(this.userID)
   }
 
   private storeAuthData(userID: string, token: string, tokenExpirationDate: string, email: string)
