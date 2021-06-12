@@ -82,8 +82,8 @@ console.log(this.currentLat, this.currentLng);
 
       this.marcador2.on('dragend', () => {
         // console.log(this.marcador2.getLngLat());
-        this.ubiCentral = { idUbicacion: 0, latitud: this.marcador2.getLngLat().lat , longitud: this.marcador2.getLngLat().lng, fecha: new Date(), descripcion: '', pais: '' };
-        this.ubicacion.emit({lat: this.ubiCentral.latitud, lng: this.ubiCentral.longitud});
+        this.ubiCentral = { idUbicacion: 0, latitud: this.marcador2.getLngLat().lat , longitud: this.marcador2.getLngLat().lng, fecha: new Date(), descripcion: '' };
+        this.ubicacion.emit({latitud: this.ubiCentral.latitud, longitud: this.ubiCentral.longitud});
       });
 
       let geocoder = new MapboxGeocoder({

@@ -37,7 +37,10 @@ export class AltaEventoPage implements OnInit {
     console.log(ubicacion, ' (altaEvento)');
     console.log(new Date(this.inicio.toString()) > new Date(this.fin.toString()));
 
-    this.evento.ubicacion = ubicacion.latitud.toString() + '|' + ubicacion.longitud.toString();
+    this.evento.ubicacion = ubicacion;
+    this.evento.ubicacion.descripcion = '';
+    this.evento.ubicacion.fecha = new Date();
+    //this.evento.ubicacion.idUbicacion = 0;
     console.log(this.isValid(), this.evento);
   }
 
@@ -51,6 +54,16 @@ export class AltaEventoPage implements OnInit {
     console.log(this.latitud, this.longitud);
     this.evento.fechaInicio = new Date(this.inicio.toString());
     this.evento.fechaFin = new Date(this.fin.toString());
+    this.evento.idPersona = '';
+    this.evento.idChat = '';
+    this.evento.estado = 1;
+    //evento.idEvento = 0;
+    this.evento.nombreImagen = '';
+    this.evento.extension = '';
+    this.evento.imagen = '';
+
+    this.evento.ubicacion.latitud = -38;
+    this.evento.ubicacion.longitud = -56;
 
     this.eventoService.crearEvento(this.evento);
   }
