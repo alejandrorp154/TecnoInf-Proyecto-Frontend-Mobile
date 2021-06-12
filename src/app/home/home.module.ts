@@ -6,6 +6,10 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { NavbarModule } from '../UI/navbar/navbar.module';
+import { NavbarComponent } from '../UI/navbar/navbar.component';
+import { AppModule } from '../app.module';
+import { AltaPublicacionComponent } from '../UI/alta-publicacion/alta-publicacion.component';
+import { BuscarMapaComponent } from '../UI/buscar-mapa/buscar-mapa.component';
 
 
 @NgModule({
@@ -16,6 +20,6 @@ import { NavbarModule } from '../UI/navbar/navbar.module';
     HomePageRoutingModule,
     NavbarModule
   ],
-  declarations: [HomePage]
+  declarations: [HomePage, NavbarComponent, AltaPublicacionComponent, BuscarMapaComponent]
 })
 export class HomePageModule {}

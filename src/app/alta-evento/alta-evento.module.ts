@@ -23,7 +23,7 @@ import { MapaModule } from '../UI/mapa/mapa.module';
   ],
   declarations: [AltaEventoPage],
   providers: [
-    Geolocation
+    //Geolocation
   ]
 })
 export class AltaEventoPageModule {}

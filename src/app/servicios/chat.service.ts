@@ -10,6 +10,12 @@ import { AuthService } from './auth.service';
 import { UserFire } from '../modelos/userFire.model';
 import { UsuarioService } from './usuario.service';
 import { Persona } from '../modelos/persona.model';
+import { Usuario } from '../modelos/usuario.model';
+
+export interface User {
+  uid: string;
+  email: string;
+}
 
 @Injectable({
   providedIn: 'root'

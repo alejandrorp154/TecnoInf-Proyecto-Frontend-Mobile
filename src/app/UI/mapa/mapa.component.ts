@@ -46,13 +46,13 @@ export class MapaComponent implements OnInit {
   async ngOnInit() {
     this.getUserID();
     console.log(this.componente);
-    await this.geolocation.getCurrentPosition().then((resp) => {
-      this.currentLat = resp.coords.latitude
-      this.currentLng = resp.coords.longitude
-      console.log(resp)
-     }).catch((error) => {
-       console.log('Error obteniendo la ubicación', error);
-     });
+    // await this.geolocation.getCurrentPosition().then((resp) => {
+    //   this.currentLat = resp.coords.latitude
+    //   this.currentLng = resp.coords.longitude
+    //   console.log(resp)
+    //  }).catch((error) => {
+    //    console.log('Error obteniendo la ubicación', error);
+    //  });
 
     if (this.currentLocation && this.currentLat && this.currentLng) {
       this.lat.next(this.currentLat);
