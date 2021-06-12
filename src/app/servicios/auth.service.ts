@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { BehaviorSubject, from} from 'rxjs';
+import { BehaviorSubject, from, Observable} from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { UserFire } from '../modelos/userFire.model';
 import { Plugins } from '@capacitor/core';
@@ -192,5 +192,33 @@ export class AuthService {
         }
       })
   */
+
+  public getCurrentUserFire(): Observable<UserFire> {
+    return from(Plugins.Storage.get({ key: 'authData' })).pipe(
+      map(storedData => {
+        if (!storedData || !storedData.value) {
+          return null;
+        }
+        const parsedData = JSON.parse(storedData.value) as {
+          token: string;
+          tokenExpirationDate: string;
+          userId: string;
+          email: string;
+        };
+        const expirationTime = new Date(parsedData.tokenExpirationDate);
+        if (expirationTime <= new Date()) {
+          return null;
+        }
+        const userFire = new UserFire(
+          parsedData.userId,
+          parsedData.email,
+          parsedData.token,
+          expirationTime
+        );
+        return userFire;
+      })
+    );
+  }
+
 
 }

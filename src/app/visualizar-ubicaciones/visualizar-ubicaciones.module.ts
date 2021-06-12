@@ -4,26 +4,25 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AltaEventoPageRoutingModule } from './alta-evento-routing.module';
+import { VisualizarUbicacionesPageRoutingModule } from './visualizar-ubicaciones-routing.module';
 
-import { AltaEventoPage } from './alta-evento.page';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { VisualizarUbicacionesPage } from './visualizar-ubicaciones.page';
 import { NavbarModule } from '../UI/navbar/navbar.module';
 import { MapaModule } from '../UI/mapa/mapa.module';
-
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AltaEventoPageRoutingModule,
+    VisualizarUbicacionesPageRoutingModule,
     NavbarModule,
     MapaModule
   ],
-  declarations: [AltaEventoPage],
+  declarations: [VisualizarUbicacionesPage],
   providers: [
-    //Geolocation
+    Geolocation
   ]
 })
-export class AltaEventoPageModule {}
+export class VisualizarUbicacionesPageModule {}
