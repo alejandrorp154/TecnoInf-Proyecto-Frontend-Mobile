@@ -1,0 +1,22 @@
+<ion-content>
+  <ion-header>
+      <ion-grid>
+          <ion-row>
+              <ion-col>
+                  <div>
+                      <ion-searchbar color="primary" (ionInput)="search($event)" [value]="selectedAddress" animated></ion-searchbar>
+                      <div>
+                          <ion-list lines="none" *ngIf="addresses.length > 0">
+                            <ion-item button *ngFor="let address of addresses" (click)="onSelect(address)">
+                                <ion-icon name="pin"></ion-icon>
+                                {{ address }}
+                            </ion-item>  
+                          </ion-list>
+                      </div>
+                  </div>
+              </ion-col>
+          </ion-row>
+      </ion-grid>
+  </ion-header>
+  <div id="mapa-mapbox"></div>
+</ion-content>
