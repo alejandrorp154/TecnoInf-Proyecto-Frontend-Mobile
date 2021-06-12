@@ -29,6 +29,7 @@ export class VisualizarUbicacionesService {
   public getUserID(){
     this.authService.userID.pipe(take(1)).subscribe(userID =>
       {
+        console.log(userID);
         if(!userID)
         {
           throw new Error('No se encontro la ID del usuario.');

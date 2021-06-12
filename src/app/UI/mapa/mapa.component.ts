@@ -44,10 +44,6 @@ export class MapaComponent implements OnInit {
    }
 
   async ngOnInit() {
-    setTimeout(() => this.createMap(), 5);
-  }
-
-  async createMap(){
     this.getUserID();
     console.log(this.componente);
     await this.geolocation.getCurrentPosition().then((resp) => {
@@ -132,6 +128,7 @@ console.log(this.currentLat, this.currentLng);
       });
     }
   }
+
 
   getUserID()
   {

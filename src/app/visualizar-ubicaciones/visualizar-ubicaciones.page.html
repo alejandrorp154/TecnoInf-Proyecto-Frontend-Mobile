@@ -1,25 +1,13 @@
+<app-navbar></app-navbar>
+
 <ion-content>
   <ion-grid>
-    <ion-row>
-      <ion-col size-xs="12" size-md="10" offset-md="1">
-        <ion-card>
-          <ion-card-header color=tertiary>
-            <ion-card-title  class="ion-text-center">Mis Ubicaciones</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <ion-item-divider>
-              <ion-label>
-                Lista de ubicaciones:
-              </ion-label>
-            </ion-item-divider>
-            <ion-col id="mapa" size="8" size-md="5" size-lg="3">
-              <div>
-                <app-mapa [currentLocation]="true" [ubicaciones]="ubicaciones" [ubiCentral]="ubicacion" [marcarUbicacion]="false"></app-mapa>
-              </div>
-            </ion-col>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
+    <ion-card-header color=tertiary>
+      <ion-card-title  class="ion-text-center">Mis Ubicaciones</ion-card-title>
+    </ion-card-header>
+    <ion-row id="mapa">
+        <app-mapa id="mapa" [currentLocation]="true" [ubicaciones]="ubicaciones" [ubiCentral]="ubicacion" [marcarUbicacion]="false"></app-mapa>
     </ion-row>
-  </ion-grid>
-</ion-content>
+</ion-grid>
+  
+</ion-content>         
