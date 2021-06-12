@@ -28,33 +28,45 @@ const routes: Routes = [
   },
   {
     path: 'alta-evento',
-    loadChildren: () => import('./UI/alta-evento/alta-evento.module').then( m => m.AltaEventoPageModule),
+    loadChildren: () => import('./alta-evento/alta-evento.module').then( m => m.AltaEventoPageModule),
     canLoad: [LoginGuard]
 
   },
   {
     path: 'baja-evento',
-    loadChildren: () => import('./UI/baja-evento/baja-evento.module').then( m => m.BajaEventoPageModule),
+    loadChildren: () => import('./baja-evento/baja-evento.module').then( m => m.BajaEventoPageModule),
     canLoad: [LoginGuard]
   },
   {
     path: 'chat',
-    loadChildren: () => import('./UI/chat/chat.module').then( m => m.ChatPageModule),
+    loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule),
     canLoad: [LoginGuard]
   },
   {
     path: 'estadisticas',
-    loadChildren: () => import('./UI/estadisticas/estadisticas.module').then( m => m.EstadisticasPageModule),
+    loadChildren: () => import('./estadisticas/estadisticas.module').then( m => m.EstadisticasPageModule),
     canLoad: [LoginGuard]
   },
   {
     path: 'chat/:nickname',
-    loadChildren: () => import('./UI/chat/chat.module').then( m => m.ChatPageModule),
+    loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule),
     canLoad: [LoginGuard]
   },
   {
     path: 'sugerir-amigos',
     loadChildren: () => import('./UI/sugerir-amigos/sugerir-amigos.module').then( m => m.SugerirAmigosPageModule)
+  },
+  {
+    path: 'interes',
+    loadChildren: () => import('./interes/interes.module').then( m => m.InteresPageModule)
+  },
+  {
+    path: 'eventos',
+    loadChildren: () => import('./eventos/eventos.module').then( m => m.EventosPageModule)
+  },
+  {
+    path: 'visualizar-ubicaciones',
+    loadChildren: () => import('./visualizar-ubicaciones/visualizar-ubicaciones.module').then( m => m.VisualizarUbicacionesPageModule)
   }
 
 ];

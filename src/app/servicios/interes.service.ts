@@ -1,73 +1,48 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Interes } from '../Models/interes.model';
 
-export class Interes {
-  idInteres: string;
-  interes: string;
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class InteresService {
 
-  private intereses: Interes[] = [
-    {
-    idInteres: 'i1',
-    interes: 'Nadar'
-    },
-    {
-    idInteres: 'i2',
-    interes: 'Correr'
-    },
-    {
-    idInteres: 'i3',
-    interes: 'Conducir'
-    }
-  ]
-
-  private baseUrl = 'http://3.18.102.215:8080/pryectoBack-web/rest';
+  private baseUrl = 'http://18.217.108.158:8080/pryectoBack-web/rest';
 
   constructor(public httpClient: HttpClient) { }
 
-  public async getAllInteresesAsync(): Promise<Interes[]> {
+  public getAllInteresesAsync(): Promise<Interes[]> {
     try {
-      const url = `${this.baseUrl}/interes`;
-      let response = await this.httpClient.get(url).toPromise();
-      return response as Interes[];
+      const url = `${this.baseUrl}/interes/0/5000`;
+      return this.httpClient.get<Interes[]>(url).toPromise();
+
     } catch (error) {
       console.log(error);
     }
   }
 
-  getAllIntereses(){
-    return [...this.intereses];
-  }
-
-  getInteres(idInteres: string){
-    return {...this.intereses.find(interes => {
-      return interes.idInteres === idInteres
-    })};
-  }
-
-  addInteres(interes: string){
+  addInteres(interes: string): Promise<Interes> {
     const newInteres = new Interes();
-    newInteres.idInteres = "i"+this.intereses.length+1;
-    newInteres.interes = interes;
-    //hacer el http put
-    this.intereses.push(newInteres);
+    newInteres.interes= interes;
+
+    const url = `${this.baseUrl}/interes`;
+    return this.httpClient.post<Interes>(url, newInteres).toPromise();
   }
 
-  deleteInteres(idInteres: string){
-    this.intereses = this.intereses.filter(interes => {
-      return interes.idInteres !== idInteres;
-    })
+  deleteInteres(idInteres: number){
+    const url = `${this.baseUrl}/interes/${idInteres}`;
+    return this.httpClient.delete(url).toPromise();
   }
 
-  modifyInteres(idInteres: string, interesNuevo: string){
-    //hacer el http update
-    var objIndex = this.intereses.findIndex((inte => inte.idInteres == idInteres));
-    this.intereses[objIndex].interes = interesNuevo
+  modifyInteres(idInteres: number, interesNuevo: string): Promise<Interes>{
+    const modInteres = new Interes();
+    modInteres.idInteres = idInteres;
+    modInteres.interes = interesNuevo;
+    modInteres.perfiles = [];
+
+    const url = `${this.baseUrl}/interes`;
+    return this.httpClient.put<Interes>(url, modInteres).toPromise();
   }
 
 }

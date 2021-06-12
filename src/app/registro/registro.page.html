@@ -2,16 +2,50 @@
   <form #f="ngForm" (ngSubmit)="onSubmit(f)">
     <ion-grid fixed>
       <ion-row>
-        <ion-col size="12">
+        <ion-col size-xs="12" size-md="10" offset-md="1">
           <ion-card>
             <ion-card-content>
               <ion-card-title>Travel Pack</ion-card-title>
+
+              <!--<ion-icon (click)="cancelar()" name="close"></ion-icon>-->
+              <ion-row>
+
+                <ion-col size-xs="12" size-md="4">
+                 <ion-card-header *ngIf="imageSource === undefined">
+                  <img id="foto" src="../../assets/img/defaultProfileImage.png">
+                </ion-card-header>
+                <ion-card-header *ngIf="!(imageSource === undefined)">
+                  <img  id="foto" [src]="imageSource">
+                </ion-card-header>
+
+                <ion-avatar id="imageAdd">
+                  <input type="file" #fileInput (change)="uploadFile($event)" hidden="true" accept="image/*"/>
+                  <!-- Imagen -->
+                  <ion-button fill="outline" (click)="selectImageSource()">Añadir foto
+                    <ion-icon name="camera-outline" slot="start" ></ion-icon>
+                  </ion-button>
+                </ion-avatar>
+
+                </ion-col>
+
+              </ion-row>
+
+
+
               <ion-list class="form-input">
                 <ion-item>
                   <!-- <ion-input type="email" placeholder="Email" #txtEmail></ion-input> -->
                   <ion-label position="floating">Email</ion-label>
                   <ion-input type="email" ngModel name="email" required email #emailCtrl="ngModel"></ion-input>
                 </ion-item>
+                <ion-item
+                *ngIf="!emailCtrl.valid && emailCtrl.touched"
+                lines="none"
+              >
+                <ion-label>
+                  Debe de ser un correo valido.
+                </ion-label>
+              </ion-item>
                 <ion-item>
                   <!-- <ion-input type="text" placeholder="Nombre" #txtNombre></ion-input> -->
                   <ion-label position="floating">Nombre</ion-label>
@@ -38,43 +72,23 @@
                   <ion-input type="text" ngModel name="nickname" #txtNickname></ion-input>
                 </ion-item>
                 <ion-item>
+                  <!-- <ion-input type="text" placeholder="Nickname" #txtNickname></ion-input> -->
+                  <ion-label position="floating">Pais</ion-label>
+                  <ion-input type="text" ngModel name="pais" #txtPais></ion-input>
+                </ion-item>
+                <ion-item>
                   <!-- <ion-input type="password" placeholder="Contraseña" #txtPass></ion-input> -->
                   <ion-label position="floating">Contraseña</ion-label>
                   <ion-input type="password" ngModel name="password" required minlength="6" #passwordCtrl="ngModel"></ion-input>
                 </ion-item>
-                <ion-item>
-                  <ion-label>Intereses</ion-label>
-                </ion-item>
-                <ion-item>
-                  <ion-chip>
-                    <ion-icon name="fast-food" color="primary"></ion-icon>
-                    <ion-label>Comida</ion-label>
-                    <ion-icon name="close"></ion-icon>
-                  </ion-chip>
-                  <ion-chip>
-                    <ion-icon name="football" color="primary"></ion-icon>
-                    <ion-label>Deportes</ion-label>
-                  </ion-chip>
-                  <ion-chip>
-                    <ion-icon name="beer" color="primary"></ion-icon>
-                    <ion-label>Fiestas</ion-label>
-                    <ion-icon name="close"></ion-icon>
-                  </ion-chip>
-                  <ion-chip>
-                    <ion-icon name="snow" color="primary"></ion-icon>
-                    <ion-label>Invierno</ion-label>
-                    <ion-icon name="close"></ion-icon>
-                  </ion-chip>
-                  <ion-chip>
-                    <ion-icon name="telescope" color="primary"></ion-icon>
-                    <ion-label>Explorar</ion-label>
-                    <ion-icon name="close"></ion-icon>
-                  </ion-chip>
-                  <ion-chip>
-                    <ion-icon name="person-add" color="primary"></ion-icon>
-                    <ion-label>Conocer personas</ion-label>
-                  </ion-chip>
-                </ion-item>
+                <ion-item
+                *ngIf="!passwordCtrl.valid && passwordCtrl.touched"
+                lines="none"
+              >
+                <ion-label>
+                  Debe de contener al menos 6 caracteres.
+                </ion-label>
+              </ion-item>
                 <ion-row>
                   <ion-col>
                     <ion-button type="submit" style="display: block;" fill="outline" [disabled]="!f.valid">
