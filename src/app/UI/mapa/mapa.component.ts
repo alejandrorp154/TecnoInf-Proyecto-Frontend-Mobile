@@ -6,6 +6,7 @@ import { Ubicacion } from 'src/app/modelos/ubicacion.model';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import { take } from 'rxjs/operators';
 import { AuthService } from '../../servicios/auth.service';
+import { UserFire } from '../../modelos/userFire.model';
 
 declare var require: any;
 
@@ -28,7 +29,7 @@ export class MapaComponent implements OnInit {
   currentLng: number;
   lat: BehaviorSubject<number> = new BehaviorSubject(-34.8833);
   lng: BehaviorSubject<number> = new BehaviorSubject(-56.1667);
-  private userID: string;
+  private user: UserFire;
 
   marcador1;
   marcador2;
@@ -44,8 +45,7 @@ export class MapaComponent implements OnInit {
    }
 
   async ngOnInit() {
-    this.getUserID();
-    console.log(this.componente);
+    this.getUserFire();
     // await this.geolocation.getCurrentPosition().then((resp) => {
     //   this.currentLat = resp.coords.latitude
     //   this.currentLng = resp.coords.longitude
@@ -62,7 +62,7 @@ export class MapaComponent implements OnInit {
       this.lng.next(this.ubiCentral.longitud);
     }
 
-console.log(this.lat, this.lng);
+
 if(this.ubiCentral) { console.log(this.ubiCentral.latitud, this.ubiCentral.longitud); }
 console.log(this.currentLat, this.currentLng);
 
@@ -112,7 +112,8 @@ console.log(this.currentLat, this.currentLng);
     if(this.ubicaciones) {
       let marker;
       this.ubicaciones.forEach(u => {
-        if (u.userID === this.userID) {
+        console.log(`id en mapa: ${this.user.id}`)
+        if (u.userID === this.user.id) {
           marker = new mapboxgl.Marker({ color: 'black', rotation: 45, draggable: false })
           .setLngLat([u.longitud, u.latitud])
           .addTo(map);
@@ -130,19 +131,9 @@ console.log(this.currentLat, this.currentLng);
   }
 
 
-  getUserID()
+  async getUserFire()
   {
-    this.authService.userID.pipe(take(1)).subscribe(userID =>
-    {
-      if(!userID)
-      {
-        throw new Error('No se encontro la ID del usuario.');
-      }
-      else
-      {
-        this.userID = userID;
-      }
-    })
+    this.user = await this.authService.getCurrentUserFire().toPromise()
   }
 
   setUbicacion($event) {
