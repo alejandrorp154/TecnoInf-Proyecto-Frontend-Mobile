@@ -1,17 +1,15 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BajaContactoService {
 
-  private baseUrl = 'http://18.217.108.158:8080/pryectoBack-web/rest';
-
-  constructor(public httpClient: HttpClient) { }
+  constructor(public httpClient: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
 
   deleteInteres(idUsuario: string, idUsuarioBaja: string){
-    const url = `${this.baseUrl}/usuario/bajaContacto/${idUsuario}/${idUsuarioBaja}`;
+    const url = `${this.baseUrl}usuario/bajaContacto/${idUsuario}/${idUsuarioBaja}`;
     return this.httpClient.delete(url).toPromise();
   }
 
