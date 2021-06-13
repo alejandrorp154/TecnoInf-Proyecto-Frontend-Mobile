@@ -55,6 +55,9 @@ export class AltaAdministradorPage implements OnInit {
             this.callBackend();
             this.isLoading = false;
             loadingEl.dismiss();
+            let header = 'Registro exitoso';
+            let message = `Se a registrado satisfactoriamente al administrador ${this.usuarioAdmin.nombre} ${this.usuarioAdmin.apellido} en el sistema.`;
+            this.showAlert(header, message);
           },
           errRes => {
             loadingEl.dismiss();
@@ -67,16 +70,17 @@ export class AltaAdministradorPage implements OnInit {
             } else if (code === 'INVALID_PASSWORD') {
               message = 'La contraseña es incorrecta.';
             }
-            this.showAlert(message);
+            let header = 'Fallo de autentificación';
+            this.showAlert(header, message);
           }
         );
       });
   }
 
-  private showAlert(message: string) {
+  private showAlert(header: string, message: string) {
     this.alertCtrl
       .create({
-        header: 'Fallo de autentificación',
+        header: header,
         message: message,
         buttons: ['Ok']
       })

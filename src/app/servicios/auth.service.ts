@@ -7,6 +7,7 @@ import { UserFire } from '../modelos/userFire.model';
 import { Plugins } from '@capacitor/core';
 import { Router } from '@angular/router';
 import { Usuario } from '../modelos/usuario.model';
+import { AuthResponseData } from '../modelos/AuthResponseData.interface';
 
 
 

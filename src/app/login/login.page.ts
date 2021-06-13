@@ -99,10 +99,8 @@ export class LoginPage implements OnInit {
   }
   async getCurrentUser()
   {
-    console.log(this.userFire)
     this.user = await this.iniciarSesionService.getLoguedUser(this.userFire.id);
     this.storeUserData(this.user);
-    console.log(this.user)
   }
 
   storeUserData(userData: Usuario)
