@@ -42,6 +42,14 @@ export class AltaPublicacionComponent implements OnInit {
     ext: ''
   }
 
+  datoUsuario = {
+    email: '',
+    token: '',
+    tokenExpirationDate: '',
+    userId: ''
+  }
+
+
   public usr: usuario;
   public idPer: idPersona;
   public tipoPub: TipoPublicacion;
@@ -50,13 +58,16 @@ export class AltaPublicacionComponent implements OnInit {
 
   cord: string;
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.datoUsuario = JSON.parse(localStorage.getItem('_cap_authData'));
+  }
 
   publicar(){
     this.usr = new usuario();
     this.idPer = new idPersona();
     this.tipoPub = new TipoPublicacion();
     this.idPer.idPersona = '1'; //Cambiar por usuario logeado
+    //this.idPer.idPersona = this.datoUsuario.userId; //Usuario logeado
     this.usr.usuario = this.idPer;
     this.tipoPub.tipo = this.obtenerTipo();
     if(this.tipo=='texto'){

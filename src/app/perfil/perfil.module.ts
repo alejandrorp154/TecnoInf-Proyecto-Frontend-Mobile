@@ -10,6 +10,8 @@ import { PerfilPage } from './perfil.page';
 import { NavbarComponent } from '../UI/navbar/navbar.component';
 import { FeedComponent } from '../UI/feed/feed.component';
 import { CommonModule } from '@angular/common';
+import { PubMapaEEComponent } from '../UI/feed/pub-mapa-ee/pub-mapa-ee.component';
+import { MedallaComponent } from '../UI/medalla/medalla.component';
 
 @NgModule({
   imports: [
@@ -18,6 +20,6 @@ import { CommonModule } from '@angular/common';
     IonicModule,
     PerfilPageRoutingModule
   ],
-  declarations: [PerfilPage,NavbarComponent, FeedComponent]
+  declarations: [PerfilPage,NavbarComponent, FeedComponent, PubMapaEEComponent, MedallaComponent]
 })
 export class PerfilPageModule {}

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { ErrorHandler, Injectable } from '@angular/core';
+import { ErrorHandler, Inject, Injectable } from '@angular/core';
 import { Publicacion } from '../modelos/publicacion.model';
 
 @Injectable({
@@ -7,13 +7,11 @@ import { Publicacion } from '../modelos/publicacion.model';
 })
 export class PubicacionService {
 
-  private baseUrl = 'http://3.18.102.215:8080/pryectoBack-web/rest';
-
-
-  constructor(public httpClient: HttpClient, public handleError: ErrorHandler) { }
+  
+  constructor(public httpClient: HttpClient, public handleError: ErrorHandler, @Inject('BASE_URL') private baseUrl: string) { }
 
   altaPublicacion(publicacion: Publicacion){
-    return this.httpClient.post(this.baseUrl+"/publicacionComentario", publicacion).subscribe({
+    return this.httpClient.post(this.baseUrl+"publicacionComentario", publicacion).subscribe({
       error: error => {
           console.log(error);
       }

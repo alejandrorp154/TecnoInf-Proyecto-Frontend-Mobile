@@ -5,7 +5,7 @@ export class Perfil {
     publicaciones?: Publicacion[];
 }
 
-class Usuario {
+export class Usuario {
     idPersona: string;
     email: string;
     nombre: string;
@@ -16,7 +16,7 @@ class Usuario {
     medalla: Medalla;
 }
 
-class Medalla {
+export class Medalla {
     idMedalla: number;
     cantidadPuntos: number;
     logros: string;
