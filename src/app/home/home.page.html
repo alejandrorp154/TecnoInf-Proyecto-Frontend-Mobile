@@ -23,12 +23,12 @@
             <ion-label>Sugerencias</ion-label>
           </ion-col>
           <ion-col>
-            <ion-label class="underline" (click)="onShowAllSuggested()">Ver todas</ion-label>
+            <ion-label class="underline" [routerLink]="['/sugerir-amigos']">Ver todas</ion-label>
           </ion-col>
         </ion-row>
-        <ion-item style="display: inline; padding: 5px;" *ngFor="let sugerenciaAmigo of sugerenciaAmigos">
+        <ion-item lines ="none" style="float:left; padding: 5px;" *ngFor="let amigo of amigos">
           <ion-avatar>
-            <img src="../../assets/189-1896573_male-shadow-fill-circle-comments-question-mark-flat.png">
+            <img [src]="amigo.imagenPerfil">
           </ion-avatar>
         </ion-item>
       </ion-col>

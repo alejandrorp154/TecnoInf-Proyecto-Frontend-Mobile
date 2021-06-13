@@ -14,26 +14,25 @@
                 Lista de usuarios:
               </ion-label>
             </ion-item-divider>
+            <ion-content id="test">
             <ion-list>
               <ion-item *ngFor="let amigo of amigos" >
                 <ion-avatar slot="start">
-                  <img src="data:image/png;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw==">
+                  <img [src]="amigo.imagenPerfil">
                 </ion-avatar>
                 <ion-label> {{ amigo.nombre }} {{ amigo.apellido }}</ion-label>
-
-                <ion-button (click)="onViewProfile(amigo.idPersona)">
+                <ion-button (click)="onViewProfile()">
                   <ion-icon name="person-circle-outline" slot="icon-only"></ion-icon>
                 </ion-button>
               </ion-item>
             </ion-list>
-
             <ion-infinite-scroll threshold="100px" (ionInfinite)="getSugerirAmigos($event)">
               <ion-infinite-scroll-content
                 loadingSpinner="bubbles"
                 loadingText="Cargando más sugerencias...">
               </ion-infinite-scroll-content>
             </ion-infinite-scroll>
-
+          </ion-content>
           </ion-card-content>
         </ion-card>
       </ion-col>

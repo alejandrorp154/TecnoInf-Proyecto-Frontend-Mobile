@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Usuario } from '../../Models/usuario.model';
+import { AuthService } from 'src/app/servicios/auth.service';
+import { Usuario } from '../../modelos/usuario.model';
 import { SugerirAmigosService } from '../../servicios/sugerir-amigos.service';
+import { UserFire } from '../../modelos/userFire.model';
 
 @Component({
   selector: 'app-sugerir-amigos',
@@ -9,21 +11,33 @@ import { SugerirAmigosService } from '../../servicios/sugerir-amigos.service';
 })
 export class SugerirAmigosPage implements OnInit {
   amigos: Usuario[];
+  amigosAux: Usuario[];
+  userFire: UserFire;
 
-  constructor(private sugerirAmigos: SugerirAmigosService) { }
+  constructor(private authService: AuthService, private sugerirAmigos: SugerirAmigosService) {
+    this.amigos = []
+    this.amigosAux = []
+  }
 
   ngOnInit() {
-    this.getSugerirAmigos();
+    this.getSugerirAmigos()
   }
 
   async getSugerirAmigos(event?)
   {
-    this.amigos.concat(await this.sugerirAmigos.getUsuariosSugeridosAsync(event));
+    this.userFire = await this.authService.getCurrentUserFire().toPromise()
+    console.log(this.userFire.id)
+    this.amigosAux = await this.sugerirAmigos.getUsuariosSugeridosAsync(this.userFire.id, 10, event);
+    this.amigosAux.forEach(element => {
+      this.amigos.push(element)
+
+    });
+
   }
 
-  onViewProfile(idUsuario: string)
+  onViewProfile()
   {
-    const base64Data = ""
+
   }
 
 }

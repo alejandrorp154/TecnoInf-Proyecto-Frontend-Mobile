@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Usuario } from '../Models/usuario.model';
+import { Router } from '@angular/router';
+import { Usuario } from '../modelos/usuario.model';
+import { UserFire } from '../modelos/userFire.model';
+import { AuthService } from '../servicios/auth.service';
+import { SugerirAmigosService } from '../servicios/sugerir-amigos.service';
 
 @Component({
   selector: 'app-home',
@@ -7,22 +11,29 @@ import { Usuario } from '../Models/usuario.model';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
+  userFire: UserFire;
+  public amigos: Usuario[]
 
-  public sugerenciaAmigos: Usuario[]
+  constructor(private router: Router, private authService: AuthService, private sugerirAmigos: SugerirAmigosService) {}
 
-  constructor() {}
-
-  ngOnInit()
-  {
-
+  async ngOnInit() {
+    setTimeout(() => this.delayCall(), 5);
   }
 
-  onPublicar(){
-    console.log('Presiono publicar...');
+  async delayCall()
+  {
+    this.userFire = await this.authService.getCurrentUserFire().toPromise()
+    this.getSugerirAmigos()
+  }
+
+  async getSugerirAmigos(event?)
+  {
+    this.amigos = await this.sugerirAmigos.getUsuariosSugeridosAsync(this.userFire.id, 3, event);
   }
 
   onShowAllSuggested()
   {
-    console.log('aa')
+    this.router.navigateByUrl('/sugerir-amigos');
+
   }
 }

@@ -10,6 +10,15 @@ export class Usuario {
     public pais: string,
     public imagenPerfil: string,
     public nombreImagen: string,
-    public extension: string
+    public extension: string,
+    public medalla?: Medalla
   ){ }
+}
+
+export class Medalla {
+  idMedalla: number;
+  cantidadPuntos: number;
+  logros: string;
+  rango: string;
+  usuario: Usuario
 }
