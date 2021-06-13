@@ -12,9 +12,18 @@ import { Observable } from 'rxjs';
 })
 export class NavbarComponent implements OnInit {
 
+  datoUsuario = {
+    email: '',
+    token: '',
+    tokenExpirationDate: '',
+    userId: ''
+  }
+
   constructor(private authService: AuthService, private alertCtrl: AlertController, private router: Router) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.datoUsuario = JSON.parse(localStorage.getItem('_cap_authData'));
+  }
 
   onLogout() {
     this.authService.logout();
