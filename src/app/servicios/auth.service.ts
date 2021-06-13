@@ -9,15 +9,6 @@ import { Router } from '@angular/router';
 import { Usuario } from '../modelos/usuario.model';
 
 
-export interface AuthResponseData {
-  kind: string;
-  idToken: string;
-  email: string;
-  refreshToken: string;
-  localId: string;
-  expiresIn: string;
-  registered?: boolean;
-}
 
 @Injectable({
   providedIn: 'root'
