@@ -63,7 +63,11 @@ const routes: Routes = [
   {
     path: 'visualizar-ubicaciones',
     loadChildren: () => import('./visualizar-ubicaciones/visualizar-ubicaciones.module').then( m => m.VisualizarUbicacionesPageModule)
+  },  {
+    path: 'alta-administrador',
+    loadChildren: () => import('./alta-administrador/alta-administrador.module').then( m => m.AltaAdministradorPageModule)
   }
+
 
 ];
 
