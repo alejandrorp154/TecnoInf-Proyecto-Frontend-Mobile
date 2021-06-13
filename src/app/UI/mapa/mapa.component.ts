@@ -45,6 +45,7 @@ export class MapaComponent implements OnInit {
    }
 
   async ngOnInit() {
+    console.log("2:", this.ubicaciones);
     this.getUserFire();
     // await this.geolocation.getCurrentPosition().then((resp) => {
     //   this.currentLat = resp.coords.latitude
@@ -110,6 +111,7 @@ console.log(this.currentLat, this.currentLng);
 
 
     if(this.ubicaciones) {
+      console.log("3:", this.ubicaciones);
       let marker;
       this.ubicaciones.forEach(u => {
         console.log(`id en mapa: ${this.user.id}`)

@@ -12,17 +12,22 @@ import { UserFire } from '../modelos/userFire.model';
 })
 export class VisualizarUbicacionesPage implements OnInit {
 
-  ubicaciones: Ubicacion[];
-  user: UserFire;
-  constructor(private authService: AuthService, private ubicacionesService: VisualizarUbicacionesService) { }
-
-  async ngOnInit() {
-    this.user = await this.authService.getCurrentUserFire().toPromise()
-    this.getAllUbicaciones(this.user.id);
+  public ubicaciones: Ubicacion[];
+  public user: UserFire;
+  
+  constructor(private authService: AuthService, private ubicacionesService: VisualizarUbicacionesService) {
+    this.ubicaciones = [];
   }
 
-  async getAllUbicaciones(userID: string){
-    this.ubicaciones = await this.ubicacionesService.getAllUbicacionesAsync(userID);
+  async ngOnInit() {
+    await this.getAllUbicaciones();
+    console.log("testaso: ",this.ubicaciones);
+  }
+
+  async getAllUbicaciones(){
+    this.user = await this.authService.getCurrentUserFire().toPromise()
+    this.ubicaciones = await this.ubicacionesService.getAllUbicacionesAsync(this.user.id);
+    
   }
 
 }
