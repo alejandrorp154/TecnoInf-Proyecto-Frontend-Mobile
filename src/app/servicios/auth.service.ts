@@ -6,6 +6,7 @@ import { map, tap } from 'rxjs/operators';
 import { UserFire } from '../modelos/userFire.model';
 import { Plugins } from '@capacitor/core';
 import { Router } from '@angular/router';
+import { Usuario } from '../modelos/usuario.model';
 
 
 export interface AuthResponseData {
@@ -216,6 +217,45 @@ export class AuthService {
           expirationTime
         );
         return userFire;
+      })
+    );
+  }
+
+  public getCurrentUser(): Observable<Usuario> {
+    return from(Plugins.Storage.get({ key: 'currentUser' })).pipe(
+      map(storedData => {
+        if (!storedData || !storedData.value) {
+          return null;
+        }
+        const parsedData = JSON.parse(storedData.value) as {
+          idPersona: string,
+          nickname: string,
+          nombre: string,
+          apellido: string,
+          celular: string,
+          direccion: string,
+          email: string,
+          pais: string,
+          imagenPerfil: string,
+          nombreImagen: string,
+          extension: string,
+          administrador: boolean
+        };
+        const user = new Usuario(
+          parsedData.idPersona,
+          parsedData.nickname,
+          parsedData.nombre,
+          parsedData.apellido,
+          parsedData.celular,
+          parsedData.direccion,
+          parsedData.email,
+          parsedData.pais,
+          parsedData.imagenPerfil,
+          parsedData.nombreImagen,
+          parsedData.extension,
+          parsedData.administrador
+        );
+        return user;
       })
     );
   }

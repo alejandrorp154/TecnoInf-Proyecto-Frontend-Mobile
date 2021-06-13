@@ -10,6 +10,7 @@ export class Usuario {
     public pais: string,
     public imagenPerfil: string,
     public nombreImagen: string,
-    public extension: string
+    public extension: string,
+    public administrador?: boolean
   ){ }
 }

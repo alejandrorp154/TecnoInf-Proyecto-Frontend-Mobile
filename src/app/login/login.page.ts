@@ -116,6 +116,7 @@ export class LoginPage implements OnInit {
       direccion: userData.direccion,
       email: userData.email,
       pais: userData.pais,
+      administrador: userData.administrador,
       imagenPerfil: userData.imagenPerfil,
       nombreImagen: userData.nombreImagen,
       extension: userData.extension
