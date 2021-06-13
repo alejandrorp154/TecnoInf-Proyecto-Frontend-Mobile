@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActionSheetController, AlertController, ModalController, Platform } from '@ionic/angular';
-import { Preview } from 'src/app/Models/preview';
+import { Preview } from 'src/app/modelos/preview';
 import { LinkPrevService } from 'src/app/servicios/link-prev.service';
 import { BuscarMapaComponent } from '../buscar-mapa/buscar-mapa.component';
 import { PubicacionService } from 'src/app/servicios/pubicacion.service';

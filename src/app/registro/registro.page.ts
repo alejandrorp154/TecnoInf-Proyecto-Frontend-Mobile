@@ -73,7 +73,15 @@ export class RegistroPage implements OnInit {
       return;
     }
 
-    this.user = new Usuario("", form.value.nickname, form.value.nombre, form.value.apellido, form.value.celular, form.value.direccion ,form.value.email, "","","");
+    const usuario = new Usuario();
+    usuario.apellido = form.value.apellido;
+    usuario.nickname = form.value.nickname;
+    usuario.nombre = form.value.nombre;
+    usuario.celular = form.value.celular;
+    usuario.direccion = form.value.direccion;
+    usuario.email = form.value.email;
+
+    this.user = usuario;
 
     //this.user = {idPersona: "", nickname: form.value.nickname, nombre: form.value.nombre, apellido: form.value.apellido,
       //celular: form.value.celular, email: form.value.email}
