@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Interes } from '../Models/interes.model';
+import { Interes } from '../modelos/interes.model';
 
 
 @Injectable({
@@ -8,13 +8,11 @@ import { Interes } from '../Models/interes.model';
 })
 export class InteresService {
 
-  private baseUrl = 'http://3.18.102.215:8080/pryectoBack-web/rest';
-
-  constructor(public httpClient: HttpClient) { }
+  constructor(public httpClient: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
 
   public getAllInteresesAsync(): Promise<Interes[]> {
     try {
-      const url = `${this.baseUrl}/interes/0/5000`;
+      const url = `${this.baseUrl}interes/0/5000`;
       return this.httpClient.get<Interes[]>(url).toPromise();
 
     } catch (error) {
