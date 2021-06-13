@@ -6,17 +6,9 @@ import { map, tap } from 'rxjs/operators';
 import { UserFire } from '../modelos/userFire.model';
 import { Plugins } from '@capacitor/core';
 import { Router } from '@angular/router';
+import { AuthResponseData } from '../modelos/AuthResponseData.interface';
 
 
-export interface AuthResponseData {
-  kind: string;
-  idToken: string;
-  email: string;
-  refreshToken: string;
-  localId: string;
-  expiresIn: string;
-  registered?: boolean;
-}
 
 @Injectable({
   providedIn: 'root'

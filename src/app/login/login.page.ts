@@ -6,12 +6,13 @@ import { LoadingController, AlertController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { Plugins } from '@capacitor/core';
 
-import { AuthService, AuthResponseData } from '../servicios/auth.service';
+import { AuthService} from '../servicios/auth.service';
 import { take } from 'rxjs/operators';
 import { Usuario } from '../modelos/usuario.model';
 import { HttpClient } from '@angular/common/http';
 import { UserFire } from '../modelos/userFire.model';
 import { IniciarSesionService } from '../servicios/iniciar-sesion.service';
+import { AuthResponseData } from '../modelos/AuthResponseData.interface';
 
 @Component({
   selector: 'app-login',

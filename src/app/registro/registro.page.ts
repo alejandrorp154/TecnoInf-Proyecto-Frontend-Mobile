@@ -1,15 +1,16 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { LoadingController, AlertController, Platform } from '@ionic/angular';
 import { Observable } from 'rxjs';
 
-import { AuthService, AuthResponseData } from '../servicios/auth.service';
+import { AuthService} from '../servicios/auth.service';
 import { take } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Persona, Rol } from '../modelos/persona.model';
 import { Usuario } from '../modelos/usuario.model';
 import { DomSanitizer } from '@angular/platform-browser';
+import { AuthResponseData } from '../modelos/AuthResponseData.interface';
 
 @Component({
   selector: 'app-registro',
@@ -23,7 +24,6 @@ export class RegistroPage implements OnInit {
   isLoading = false;
   isLogin = false;
   private user: Usuario;
-  baseUrl: string = 'http://18.217.108.158:8080/pryectoBack-web/rest';
 
   imageResponse: any;
 
@@ -35,6 +35,7 @@ export class RegistroPage implements OnInit {
   }
 
   constructor(
+    @Inject('BASE_URL') private baseUrl: string,
     private authService: AuthService,
     private router: Router,
     private loadingCtrl: LoadingController,
