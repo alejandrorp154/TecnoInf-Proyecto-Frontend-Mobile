@@ -1,3 +1,4 @@
+import { Rol } from '../modelos/persona.model';
 import { Medalla } from './medalla.model';
 export class Usuario {
   constructor (
@@ -8,7 +9,6 @@ export class Usuario {
     public celular: string,
     public direccion: string,
     public email: string,
-<<<<<<< HEAD
     public passphrase: string,
     public sexo: string,
     public rol: Rol,
@@ -16,7 +16,5 @@ export class Usuario {
     public bloqueado: boolean,
     public pais: string,
     public medalla: Medalla
-=======
->>>>>>> desarrollo
   ){ }
 }

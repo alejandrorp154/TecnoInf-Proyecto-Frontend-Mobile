@@ -4,7 +4,6 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { Medalla } from '../models/medalla.model';
-import { HttpClient } from '@angular/common/http';
 import { Persona, Rol } from '../modelos/persona.model';
 
 @Injectable({
@@ -22,56 +21,56 @@ export class UsuarioService {
     })
   };
 
-  private usuarios: Persona[] = [
+  // private usuarios: Persona[] = [
 
-    {
-      idUsuario: '1',
-      nombre: 'Alejandro',
-      apellido: 'Rodriguez',
-      email: 'email@mail.com',
-      imgUrl: "",
-      nickname: 'aleuy',
-      passphrase: 'sexy',
-      idPersona: '1',
-      rol: Rol.Administrador,
-      sexo: "Masculino",
-      bloqueado: false,
-      pais: 'Uruguay',
-      medalla: new Medalla(),
-      celular: 123
-    },
-    {
-      idUsuario: '2',
-      nombre: 'Leo',
-      apellido: 'Messi',
-      email: 'messi@mail.com',
-      imgUrl: "",
-      nickname: 'leomessi',
-      passphrase: 'crack',
-      idPersona: '2',
-      rol: Rol.Turista,
-      sexo: "No sabe",
-      bloqueado: false,
-      pais: 'Argentina',
-      medalla: new Medalla(),
-      celular: 1234
-    },
-    {
-      idUsuario: '3',
-      nombre: 'Benito',
-      apellido: 'Camela',
-      email: 'elbenito@mail.com',
-      imgurl: "",
-      nickname: 'benitoc',
-      passphrase: 'jajaj',
-      rol: Rol.Turista,
-      sexo: "Masculino",
-      bloqueado: false,
-      pais: 'Mexico',
-      medalla: new Medalla(),
-      celular: 1235
-    }
-  ]
+  //   {
+  //     idUsuario: '1',
+  //     nombre: 'Alejandro',
+  //     apellido: 'Rodriguez',
+  //     email: 'email@mail.com',
+  //     imgUrl: "",
+  //     nickname: 'aleuy',
+  //     passphrase: 'sexy',
+  //     idPersona: '1',
+  //     rol: Rol.Administrador,
+  //     sexo: "Masculino",
+  //     bloqueado: false,
+  //     pais: 'Uruguay',
+  //     medalla: new Medalla(),
+  //     celular: 123
+  //   },
+  //   {
+  //     idUsuario: '2',
+  //     nombre: 'Leo',
+  //     apellido: 'Messi',
+  //     email: 'messi@mail.com',
+  //     imgUrl: "",
+  //     nickname: 'leomessi',
+  //     passphrase: 'crack',
+  //     idPersona: '2',
+  //     rol: Rol.Turista,
+  //     sexo: "No sabe",
+  //     bloqueado: false,
+  //     pais: 'Argentina',
+  //     medalla: new Medalla(),
+  //     celular: 1234
+  //   },
+  //   {
+  //     idUsuario: '3',
+  //     nombre: 'Benito',
+  //     apellido: 'Camela',
+  //     email: 'elbenito@mail.com',
+  //     imgurl: "",
+  //     nickname: 'benitoc',
+  //     passphrase: 'jajaj',
+  //     rol: Rol.Turista,
+  //     sexo: "Masculino",
+  //     bloqueado: false,
+  //     pais: 'Mexico',
+  //     medalla: new Medalla(),
+  //     celular: '1235'
+  //   }
+  // ]
 
   private baseUrl = 'http://3.18.102.215:8080/pryectoBack-web/rest';
 
@@ -89,7 +88,7 @@ export class UsuarioService {
     }
   }
 
-  getAllUsuarios(){
+  /*getAllUsuarios(){
     return [...this.usuarios];
   }
 
@@ -97,7 +96,7 @@ export class UsuarioService {
     return {...this.usuarios.find(user => {
       return user.idUsuario === idUsuario
     })};
-  }
+  }*/
 
   // addUsuario(uid: string, nombre: string, apellido: string, email: string, imgurl: string, nickname: string, passphrase: string, rol: Rol, sexo: string, pais: string){
     // const nuevoUsuario = new Usuario(uid, nickname, nombre, apellido, /*celular*/0, email, passphrase, sexo, rol, imgurl, false, pais, /*medalla*/null);
@@ -105,7 +104,7 @@ export class UsuarioService {
     // })};
   // }
 
-  addUsuario(idPersona: string, nombre: string, apellido: string, email: string, imgUrl: string, nickname: string, passphrase: string, rol: Rol, sexo: string){
+  /*addUsuario(idPersona: string, nombre: string, apellido: string, email: string, imgUrl: string, nickname: string, passphrase: string, rol: Rol, sexo: string){
     const nuevoUsuario: Persona = {idPersona, nombre, apellido, email, imgUrl, nickname, rol, sexo};
     //hacer el http put
     this.usuarios.push(nuevoUsuario);
@@ -115,7 +114,8 @@ export class UsuarioService {
     this.usuarios = this.usuarios.filter(user => {
       return user.idPersona !== idUsuario;
     })
-  }
+  }*/
+  //HACER ESTO CON LA API
 
   bloquearUsuario(idUsuario: string){
     const url = `${this.baseUrl}/usuario/bloquearUsuario/${idUsuario}`;
@@ -136,7 +136,8 @@ export class UsuarioService {
     });
   }
 
-  respuestaContacto(idPersona: string, contactoAAgregar: string, estado: string){
+  //LO COMENTO PARA HACER EL PR Y ME QUEDA HACERLO CON LA API
+  /*respuestaContacto(idPersona: string, contactoAAgregar: string, estado: string){
     const url = `${this.baseUrl}/usuario/respuestaContacto/`;
     let putData = {
       "idPersona": idPersona,
@@ -177,6 +178,6 @@ export class UsuarioService {
      }, error => {
       console.log(error);
     });
-  }
+  }*/
 
 }
