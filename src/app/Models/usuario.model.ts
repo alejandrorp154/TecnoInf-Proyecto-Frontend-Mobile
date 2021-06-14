@@ -1,3 +1,4 @@
+import { Medalla } from './medalla.model';
 export class Usuario {
   constructor (
     public idUsuario: string,
@@ -10,7 +11,9 @@ export class Usuario {
     public sexo: string,
     public rol: Rol,
     public imgurl: string,
-    public bloqueado: boolean
+    public bloqueado: boolean,
+    public pais: string,
+    public medalla: Medalla
   ){ }
 
 }

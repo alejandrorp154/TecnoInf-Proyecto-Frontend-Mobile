@@ -1,14 +1,31 @@
 <app-navbar></app-navbar>
 
 <ion-content>
-  <ion-list-header color="light">Vertical Bar Chart</ion-list-header>
-  <ion-card class="welcome-card">
+  <ion-card class="welcome-card" >
     <ion-card-header>
       <ion-card-subtitle>Cantidad de usuarios en la app</ion-card-subtitle>
       <ion-card-title>TravelPack</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <canvas #barChart></canvas>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="welcome-card">
+    <ion-card-header>
+      Line Chart
+    </ion-card-header>
+    <ion-card-content>
+      <canvas #lineCanvas style="position: relative; height:20vh; width:40vw"></canvas>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      Usuarios Por Paises
+    </ion-card-header>
+    <ion-card-content>
+      <canvas #doughnutCanvas style="position: relative; height:20vh; width:40vw"></canvas>
     </ion-card-content>
   </ion-card>
 </ion-content>
