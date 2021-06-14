@@ -2,9 +2,9 @@ import { UsuarioService } from './../servicios/usuario.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Chart } from 'chart.js';
 import { EstadisticasService } from 'src/app/servicios/estadisticas.service';
-import { Usuario } from 'src/app/models/usuario.model';
+import { Usuario } from '../Models/usuario.model';
 import { MedallaService } from 'src/app/servicios/medalla.service';
-import { rangos } from 'src/app/models/medalla.model';
+import { rangos } from '../Models/medalla.model';
 import { map } from 'rxjs/operators';
 
 @Component({
