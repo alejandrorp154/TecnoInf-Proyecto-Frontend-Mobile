@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Medalla, rangos } from '../models/medalla.model';
+import { Medalla, rangos } from '../Models/medalla.model';
 
 @Injectable({
   providedIn: 'root'
