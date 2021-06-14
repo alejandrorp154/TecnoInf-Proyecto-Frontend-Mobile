@@ -3,7 +3,7 @@ import { Usuario } from '../Models/usuario.model';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
-import { Medalla } from '../models/medalla.model';
+import { Medalla } from '../Models/medalla.model';
 import { Persona, Rol } from '../modelos/persona.model';
 
 @Injectable({
