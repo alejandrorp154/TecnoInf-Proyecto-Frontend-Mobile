@@ -121,6 +121,7 @@ export class AuthService {
   {
     this._userFire.next(null);
     Plugins.Storage.remove({ key: 'authData' });
+    Plugins.Storage.remove({ key: 'currentUser' });
     this.router.navigateByUrl('/login');
   }
 

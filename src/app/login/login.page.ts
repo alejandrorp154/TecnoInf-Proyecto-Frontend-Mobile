@@ -100,26 +100,6 @@ export class LoginPage implements OnInit {
   async getCurrentUser()
   {
     this.user = await this.iniciarSesionService.getLoguedUser(this.userFire.id);
-    this.storeUserData(this.user);
-  }
-
-  storeUserData(userData: Usuario)
-  {
-    console.log("la imagen es" + userData.imagenPerfil)
-    const data = JSON.stringify({
-      idPersona: userData.idPersona,
-      nickname: userData.nickname,
-      nombre: userData.nombre,
-      apellido: userData.apellido,
-      celular: userData.celular,
-      direccion: userData.direccion,
-      email: userData.email,
-      pais: userData.pais,
-      administrador: userData.administrador,
-      imagenPerfil: userData.imagenPerfil,
-      nombreImagen: userData.nombreImagen,
-      extension: userData.extension
-    });
-    Plugins.Storage.set({ key: 'currentUser', value: data });
+    this.iniciarSesionService.storeUserData(this.user);
   }
 }

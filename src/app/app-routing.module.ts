@@ -66,6 +66,10 @@ const routes: Routes = [
   },  {
     path: 'alta-administrador',
     loadChildren: () => import('./alta-administrador/alta-administrador.module').then( m => m.AltaAdministradorPageModule)
+  },
+  {
+    path: 'mod-administrador',
+    loadChildren: () => import('./mod-administrador/mod-administrador.module').then( m => m.ModAdministradorPageModule)
   }
 
 
