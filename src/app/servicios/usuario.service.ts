@@ -1,10 +1,11 @@
-import { Rol } from '../Models/usuario.model';
 import { Injectable } from '@angular/core';
 import { Usuario } from '../Models/usuario.model';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { Medalla } from '../models/medalla.model';
+import { HttpClient } from '@angular/common/http';
+import { Persona, Rol } from '../modelos/persona.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,15 +22,17 @@ export class UsuarioService {
     })
   };
 
-  private usuarios: Usuario[] = [
+  private usuarios: Persona[] = [
+
     {
       idUsuario: '1',
       nombre: 'Alejandro',
       apellido: 'Rodriguez',
       email: 'email@mail.com',
-      imgurl: "",
+      imgUrl: "",
       nickname: 'aleuy',
       passphrase: 'sexy',
+      idPersona: '1',
       rol: Rol.Administrador,
       sexo: "Masculino",
       bloqueado: false,
@@ -42,9 +45,10 @@ export class UsuarioService {
       nombre: 'Leo',
       apellido: 'Messi',
       email: 'messi@mail.com',
-      imgurl: "",
+      imgUrl: "",
       nickname: 'leomessi',
       passphrase: 'crack',
+      idPersona: '2',
       rol: Rol.Turista,
       sexo: "No sabe",
       bloqueado: false,
@@ -73,12 +77,13 @@ export class UsuarioService {
 
   constructor(public httpClient: HttpClient) { }
 
+
   //public async getAllUsuariosAsync(offset: number, size: number): Promise<Usuario[]> {
-  public async getAllUsuariosAsync(): Promise<Usuario[]> {
+  public async getAllUsuariosAsync(): Promise<Persona[]> {
     try {
       const url = `${this.baseUrl}/visualizacion/obtenerUsuarios/0/10`; //PASARLE EL OFFSET Y SIZE
       let response = await this.httpClient.get(url).toPromise();
-      return response as Usuario[];
+      return response as Persona[];
     } catch (error) {
       console.log(error);
     }
@@ -94,15 +99,21 @@ export class UsuarioService {
     })};
   }
 
-  addUsuario(uid: string, nombre: string, apellido: string, email: string, imgurl: string, nickname: string, passphrase: string, rol: Rol, sexo: string, pais: string){
-    const nuevoUsuario = new Usuario(uid, nickname, nombre, apellido, /*celular*/0, email, passphrase, sexo, rol, imgurl, false, pais, /*medalla*/null);
+  // addUsuario(uid: string, nombre: string, apellido: string, email: string, imgurl: string, nickname: string, passphrase: string, rol: Rol, sexo: string, pais: string){
+    // const nuevoUsuario = new Usuario(uid, nickname, nombre, apellido, /*celular*/0, email, passphrase, sexo, rol, imgurl, false, pais, /*medalla*/null);
+      // return user.idPersona === idUsuario
+    // })};
+  // }
+
+  addUsuario(idPersona: string, nombre: string, apellido: string, email: string, imgUrl: string, nickname: string, passphrase: string, rol: Rol, sexo: string){
+    const nuevoUsuario: Persona = {idPersona, nombre, apellido, email, imgUrl, nickname, rol, sexo};
     //hacer el http put
     this.usuarios.push(nuevoUsuario);
   }
 
   deleteUsuario(idUsuario: string){
     this.usuarios = this.usuarios.filter(user => {
-      return user.idUsuario !== idUsuario;
+      return user.idPersona !== idUsuario;
     })
   }
 
@@ -131,6 +142,9 @@ export class UsuarioService {
       "idPersona": idPersona,
       "contactoIdPersona": contactoAAgregar,
       "estadoContactos": estado
+    const user = this.usuarios.find(u => u.idPersona === idUsuario);
+    if(user != null){
+      user.bloqueado = true;
     }
     return this.httpClient.put<any>(url, putData, this.httpOptions)
     .subscribe(data => {

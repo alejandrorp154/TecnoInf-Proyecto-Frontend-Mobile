@@ -1,12 +1,14 @@
 import { Medalla } from './medalla.model';
 export class Usuario {
   constructor (
-    public idUsuario: string,
+    public idPersona: string,
     public nickname: string,
     public nombre: string,
     public apellido: string,
-    public celular: number,
+    public celular: string,
+    public direccion: string,
     public email: string,
+<<<<<<< HEAD
     public passphrase: string,
     public sexo: string,
     public rol: Rol,
@@ -14,8 +16,7 @@ export class Usuario {
     public bloqueado: boolean,
     public pais: string,
     public medalla: Medalla
+=======
+>>>>>>> desarrollo
   ){ }
-
 }
-
-export enum Rol { Administrador, Turista }
