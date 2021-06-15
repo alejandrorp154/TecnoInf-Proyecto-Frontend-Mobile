@@ -35,7 +35,7 @@ export class UsuarioService {
     }
   ]
 
-  private baseUrl = 'http://localhost:8080/pryectoBack-web/rest';
+  private baseUrl = 'http://18.217.108.158:8080/pryectoBack-web/rest';
 
   constructor(private httpClient: HttpClient, private authService: AuthService) { }
 
@@ -66,6 +66,11 @@ export class UsuarioService {
     return {...this.usuarios.find(user => {
       return user.idPersona === idUsuario
     })};
+  }
+
+  getUsuarioAsync(idPersona: string): Promise<Persona> {
+    console.log(this.baseUrl + '/usuario/' + idPersona);
+    return this.httpClient.get<Persona>(this.baseUrl + '/usuario/' + idPersona).toPromise();
   }
 
   addUsuario(idPersona: string, nombre: string, apellido: string, email: string, imgUrl: string, nickname: string, passphrase: string, rol: Rol, sexo: string){
