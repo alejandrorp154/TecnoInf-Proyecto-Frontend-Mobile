@@ -124,7 +124,7 @@ export class RegistroPage implements OnInit {
       });
 
       try {
-        const url = `${this.baseUrl}/usuario`;
+        const url = `${this.baseUrl}usuario`;
         console.log(this.user);
         let response = this.httpClient.post(url, this.user).toPromise()
       } catch (error) {
