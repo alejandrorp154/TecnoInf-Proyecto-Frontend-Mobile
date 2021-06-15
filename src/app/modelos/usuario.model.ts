@@ -12,5 +12,14 @@ export class Usuario {
     public nombreImagen: string,
     public extension: string,
     public administrador?: boolean
+    public medalla?: Medalla
   ){ }
+}
+
+export class Medalla {
+  idMedalla: number;
+  cantidadPuntos: number;
+  logros: string;
+  rango: string;
+  usuario: Usuario
 }
