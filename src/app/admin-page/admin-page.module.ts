@@ -1,7 +1,6 @@
 import { InteresPageModule } from "./../interes/interes.module";
 import { TabGestionUsuariosPageModule } from "./../tab-gestion-usuarios/tab-gestion-usuarios.module";
 import { TabMedallasPageModule } from "./../tab-medallas/tab-medallas.module";
-import { TabInteresesPageModule } from "./../tab-intereses/tab-intereses.module";
 import { EstadisticasPageModule } from "./../estadisticas/estadisticas.module";
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -12,7 +11,6 @@ import { IonicModule } from '@ionic/angular';
 import { AdminPagePageRoutingModule } from './admin-page-routing.module';
 
 import { AdminPagePage } from './admin-page.page';
-import { NavbarComponent } from "../UI/navbar/navbar.component";
 
 @NgModule({
   imports: [
@@ -21,7 +19,6 @@ import { NavbarComponent } from "../UI/navbar/navbar.component";
     IonicModule,
     AdminPagePageRoutingModule,
     EstadisticasPageModule,
-    TabInteresesPageModule,
     TabMedallasPageModule,
     TabGestionUsuariosPageModule,
     InteresPageModule

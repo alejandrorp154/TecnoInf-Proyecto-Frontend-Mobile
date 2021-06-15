@@ -82,10 +82,6 @@ const routes: Routes = [
     loadChildren: () => import('./admin-page/admin-page.module').then( m => m.AdminPagePageModule)
   },
   {
-    path: 'tab-intereses',
-    loadChildren: () => import('./tab-intereses/tab-intereses.module').then( m => m.TabInteresesPageModule)
-  },
-  {
     path: 'tab-medallas',
     loadChildren: () => import('./tab-medallas/tab-medallas.module').then( m => m.TabMedallasPageModule)
   },

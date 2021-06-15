@@ -4,7 +4,7 @@ export class Medalla {
   idMedalla: number;
   cantidadPuntos: number;
   logros: string;
-  rango: string;
+  rango: rangos;
   usuario: Usuario
 }
 export enum Logros {
