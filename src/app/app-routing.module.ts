@@ -44,8 +44,8 @@ const routes: Routes = [
   },
   {
     path: 'estadisticas',
-    loadChildren: () => import('./estadisticas/estadisticas.module').then( m => m.EstadisticasPageModule),
-    canLoad: [LoginGuard]
+    loadChildren: () => import('./estadisticas/estadisticas.module').then( m => m.EstadisticasPageModule)
+    // canLoad: [LoginGuard]
   },
   {
     path: 'chat/:nickname',
@@ -76,7 +76,24 @@ const routes: Routes = [
   {
     path: 'sugerir-amigos',
     loadChildren: () => import('./UI/sugerir-amigos/sugerir-amigos.module').then( m => m.SugerirAmigosPageModule)
+  },
+  {
+    path: 'admin-page',
+    loadChildren: () => import('./admin-page/admin-page.module').then( m => m.AdminPagePageModule)
+  },
+  {
+    path: 'tab-intereses',
+    loadChildren: () => import('./tab-intereses/tab-intereses.module').then( m => m.TabInteresesPageModule)
+  },
+  {
+    path: 'tab-medallas',
+    loadChildren: () => import('./tab-medallas/tab-medallas.module').then( m => m.TabMedallasPageModule)
+  },
+  {
+    path: 'tab-gestion-usuarios',
+    loadChildren: () => import('./tab-gestion-usuarios/tab-gestion-usuarios.module').then( m => m.TabGestionUsuariosPageModule)
   }
+
 
 
 ];
