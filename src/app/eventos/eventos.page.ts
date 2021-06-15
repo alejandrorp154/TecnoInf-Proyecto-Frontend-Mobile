@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { Evento } from '../modelos/evento.model';
 import { Persona } from '../modelos/persona.model';
+import { AuthService } from '../servicios/auth.service';
 import { EventoService } from '../servicios/evento.service';
 import { UsuarioService } from '../servicios/usuario.service';
 
@@ -15,13 +16,15 @@ export class EventosPage implements OnInit {
   loggedUser: Persona;
   eventos: Evento[];
 
-  constructor(private eventoService: EventoService, private usuarioService: UsuarioService, private alertController: AlertController) {
+  constructor(private eventoService: EventoService, private usuarioService: UsuarioService, private authService: AuthService, private alertController: AlertController) {
     this.eventos = [];
   }
 
   async ngOnInit() {
-    this.loggedUser = await this.usuarioService.getLoggedUser();
-    this.eventos = await this.eventoService.obtenerEventosXPersona(this.loggedUser.idPersona);
+    let userFire = await this.authService.getCurrentUserFire().toPromise();
+    console.log(userFire);
+    //this.loggedUser = await this.usuarioService.getUsuario(userFire.id);
+    this.eventos = await this.eventoService.obtenerEventosXPersona(userFire.id);
     console.log(this.eventos);
   }
 

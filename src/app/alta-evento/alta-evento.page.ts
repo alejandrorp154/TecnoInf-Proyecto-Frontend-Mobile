@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Evento } from '../modelos/evento.model';
 import { Ubicacion } from '../modelos/ubicacion.model';
 import { EventoService } from '../servicios/evento.service';
+import { Resultado, ToolsService } from '../servicios/tools.service';
 
 @Component({
   selector: 'app-alta-evento',
@@ -20,7 +21,7 @@ export class AltaEventoPage implements OnInit {
   latitud: number;
   longitud: number;
 
-  constructor(private eventoService: EventoService) {
+  constructor(private eventoService: EventoService, private toolsService: ToolsService) {
     this.evento = new Evento();
     this.evento.descripcion = '';
     this.evento.nombre = '';
@@ -49,7 +50,7 @@ export class AltaEventoPage implements OnInit {
     console.log(event.detail);
   }
 
-  submit() {
+  async submit() {
     console.log('Submit!');
     console.log(this.latitud, this.longitud);
     this.evento.fechaInicio = new Date(this.inicio.toString());
@@ -65,7 +66,14 @@ export class AltaEventoPage implements OnInit {
     this.evento.ubicacion.latitud = -38;
     this.evento.ubicacion.longitud = -56;
 
-    this.eventoService.crearEvento(this.evento);
+    await this.eventoService.crearEvento(this.evento).then(res => {
+      this.evento.idEvento = res.idEvento;
+      this.evento.idChat = res.idChat;
+      this.evento.idPersona = res.idPersona;
+      this.toolsService.presentToast('El evento se ingresó correctamente', Resultado.Ok);
+    }).catch(error => {
+      this.toolsService.presentToast('Surgió un error al crear el evento', Resultado.Error);
+    });
   }
 
   isValid(): boolean {
