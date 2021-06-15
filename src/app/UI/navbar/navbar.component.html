@@ -1,29 +1,33 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button [routerLink]="['/home']" class="pointer"></ion-back-button>
+      <ion-back-button icon="chevron-back-outline" class="pointer"></ion-back-button>
     </ion-buttons>
 
     <!--<ion-button type="button" style="display: block;" fill="outline" (click)="onLogout()">logout test</ion-button> -->
     <ion-buttons slot="end" (click)="onDeleteAccount()">
-    <ion-item>
+      <ion-item>
         <ion-avatar>
           <img src="../../../assets/icon/Logo.png">
         </ion-avatar>
       </ion-item>
     </ion-buttons>
+
     <ion-searchbar slot="primary" showCancelButton="focus"></ion-searchbar>
+
     <ion-buttons slot="end" (click)="onLogout()">
       <ion-avatar>
         <img src="../../../assets/icon/1024px-User-avatar.svg.png" class="iconosPublicacion">
       </ion-avatar>
     </ion-buttons>
-    <ion-buttons slot="end">
+
+    <ion-buttons slot="end" [routerLink]="['/alta-administrador']">
       <ion-avatar>
         <img src="../../../assets/icon/notifications-outline.svg" class="iconosPublicacion">
       </ion-avatar>
     </ion-buttons>
-    <ion-buttons slot="end">
+
+    <ion-buttons slot="end" [routerLink]="['/mod-administrador']">
       <ion-avatar>
         <img src="../../../assets/icon/caret-down-outline.svg" class="iconosPublicacion">
       </ion-avatar>

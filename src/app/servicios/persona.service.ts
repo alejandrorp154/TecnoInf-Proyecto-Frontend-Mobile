@@ -4,7 +4,7 @@ import { Persona } from '../modelos/persona.model';
 @Injectable({
   providedIn: 'root'
 })
-export class UsuarioService {
+export class PersonaService {
 
   constructor() { }
 

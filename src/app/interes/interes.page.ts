@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import { Interes, InteresService } from 'src/app/servicios/interes.service';
+import { Interes } from 'src/app/Models/interes.model';
+import { InteresService } from 'src/app/servicios/interes.service';
 
 
 @Component({
@@ -12,6 +13,7 @@ export class InteresPage implements OnInit {
   intereses: Interes[];
   interes: Interes
   showError: boolean
+  errorMessage: string
 
   constructor(private interesesService: InteresService, private alertCtrl: AlertController) { 
     this.interes = new Interes();
@@ -20,10 +22,14 @@ export class InteresPage implements OnInit {
   }
 
   ngOnInit() {
-    this.intereses = this.interesesService.getAllIntereses();
+    this.getAllIntereses();
   }
 
-  onDeleteInteres(idInteres: string){
+  async getAllIntereses(){
+    this.intereses = await this.interesesService.getAllInteresesAsync();
+  }
+
+  onDeleteInteres(idInteres: number){
     this.alertCtrl
       .create({
         header: '¿Estas seguro?',
@@ -35,9 +41,9 @@ export class InteresPage implements OnInit {
           },
           {
             text: 'Borrar',
-            handler: () => {
-              this.interesesService.deleteInteres(idInteres);
-              this.intereses = this.interesesService.getAllIntereses();
+            handler: async () => {
+              await this.interesesService.deleteInteres(idInteres);
+              await this.getAllIntereses();
               this.showError = false;
             }
           }
@@ -48,7 +54,7 @@ export class InteresPage implements OnInit {
       });
   }
 
-  onModificarInteres(idInteres: string, interes: string){
+  onModificarInteres(idInteres: number, interes: string){
     this.alertCtrl.create({
       header: 'Modificar interés ' + interes,
       inputs: [
@@ -67,16 +73,17 @@ export class InteresPage implements OnInit {
         },
         {
           text: 'Modificar',
-          handler: data => {
+          handler: async data => {
             if (data.interesNuevo !== '') {
               var interesExiste = this.intereses.find(inte => {
                 return inte.interes === data.interesNuevo
               });
               if(!interesExiste){
-                this.interesesService.modifyInteres(idInteres, data.interesNuevo.toString());
-                this.intereses = this.interesesService.getAllIntereses();
+                await this.interesesService.modifyInteres(idInteres, data.interesNuevo.toString());
+                await this.getAllIntereses();
                 this.showError = false;
               } else {
+                this.errorMessage = "El interés ingresado ya existe.";
                 this.showError = true;
               }
             } else {
@@ -92,12 +99,13 @@ export class InteresPage implements OnInit {
   }
 
 
-  onCreateInteres() {
+  async onCreateInteres() {
     var interesExiste = this.intereses.find(inte => {
         return inte.interes === this.interes.interes
     });
 
     if(interesExiste){
+      this.errorMessage = "El interés ingresado ya existe.";
       this.showError = true;
       return;
     };
@@ -108,10 +116,10 @@ export class InteresPage implements OnInit {
     buttons: [
       {
         text: 'Okay',
-        handler: () => {
-          this.interesesService.addInteres(this.interes.interes);
+        handler: async () => {
+          await this.interesesService.addInteres(this.interes.interes);
           this.interes.interes = "";
-          this.intereses = this.interesesService.getAllIntereses();
+          this.getAllIntereses();
           this.showError = false;
         }
       }

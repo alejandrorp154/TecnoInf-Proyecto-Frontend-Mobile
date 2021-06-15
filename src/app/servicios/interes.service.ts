@@ -8,7 +8,7 @@ import { Interes } from '../Models/interes.model';
 })
 export class InteresService {
 
-  private baseUrl = 'http://3.18.102.215:8080/pryectoBack-web/rest';
+  private baseUrl = 'http://18.217.108.158:8080/pryectoBack-web/rest';
 
   constructor(public httpClient: HttpClient) { }
 

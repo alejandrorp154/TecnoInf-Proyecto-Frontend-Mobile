@@ -1,14 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { LoadingController, AlertController } from '@ionic/angular';
+import { LoadingController, AlertController, Platform } from '@ionic/angular';
 import { Observable } from 'rxjs';
 
-import { AuthService, AuthResponseData } from '../servicios/auth.service';
+import { AuthService} from '../servicios/auth.service';
 import { take } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Persona, Rol } from '../modelos/persona.model';
 import { Usuario } from '../modelos/usuario.model';
+import { DomSanitizer } from '@angular/platform-browser';
+import { AuthResponseData } from '../modelos/AuthResponseData.interface';
 
 @Component({
   selector: 'app-registro',
@@ -17,17 +19,31 @@ import { Usuario } from '../modelos/usuario.model';
 })
 export class RegistroPage implements OnInit {
 
+  @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
+
   isLoading = false;
   isLogin = false;
   private user: Usuario;
-  baseUrl: string = 'http://18.217.108.158:8080/pryectoBack-web/rest';
+
+  imageResponse: any;
+
+  imageSource;
+  imagen = {
+    base64: '../../assets/img/defaultProfileImage.png',
+    nombre: 'defaultProfileImage',
+    ext: 'png'
+  }
 
   constructor(
+    @Inject('BASE_URL') private baseUrl: string,
     private authService: AuthService,
     private router: Router,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
-    private httpClient: HttpClient) { }
+    private httpClient: HttpClient,
+    private alertController: AlertController,
+    private sanitizer: DomSanitizer,
+    private plt: Platform) { }
 
   ngOnInit() {}
 
@@ -73,10 +89,8 @@ export class RegistroPage implements OnInit {
       return;
     }
 
-    this.user = new Usuario("", form.value.nickname, form.value.nombre, form.value.apellido, form.value.celular, form.value.direccion ,form.value.email, "","","");
-
-    //this.user = {idPersona: "", nickname: form.value.nickname, nombre: form.value.nombre, apellido: form.value.apellido,
-      //celular: form.value.celular, email: form.value.email}
+    this.user = new Usuario("", form.value.nickname, form.value.nombre, form.value.apellido, form.value.celular, form.value.direccion,
+    form.value.email, form.value.pais ,this.imagen.base64,this.imagen.nombre,this.imagen.ext);
 
     console.log(form.value.nombre)
 
@@ -116,6 +130,83 @@ export class RegistroPage implements OnInit {
       } catch (error) {
         console.log(error);
       }
+  }
+
+
+  async selectImageSource() {
+
+    if (this.plt.is('android')) {
+      // const buttons = [
+      //   {
+      //     text: 'Take Photo',
+      //     icon: 'camera',
+      //     handler: () => {
+      //       this.addImage(CameraSource.Camera);
+      //     }
+      //   },
+      //   {
+      //     text: 'Choose From Photos Photo',
+      //     icon: 'image',
+      //     handler: () => {
+      //       this.addImage(CameraSource.Photos);
+      //     }
+      //   }
+      // ];
+
+      // const actionSheet = await this.actionSheetCtrl.create({
+      //   header: 'Select Image Source',
+      //   buttons
+      // });
+      // await actionSheet.present();
+    }
+    else{
+      this.fileInput.nativeElement.click();
+    }
+  }
+
+  // manejo de imagenes
+  uploadFile(event) {
+    console.log(this.imageSource)
+    const eventObj: MSInputMethodContext = event as MSInputMethodContext;
+    const target: HTMLInputElement = eventObj.target as HTMLInputElement;
+    const file: File = target.files[0];
+    console.log(file);
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const img: string | ArrayBuffer = reader.result as string;
+      this.imagen.base64 = img;
+      this.imagen.nombre = file.name;
+      this.imagen.ext = file.type;
+      let base64 = [];
+      base64 = img.split(',');
+     this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(`${base64[0]}, ${base64[1]}`);
+    };
+  }
+
+  b64toBlob(b64Data, contentType = '', sliceSize = 512) {
+    const byteCharacters = atob(b64Data);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+
+    const blob = new Blob(byteArrays, { type: contentType });
+    return blob;
+  }
+
+  cancelar()
+  {
+
   }
 }
 

@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Usuario } from '../Models/usuario.model';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
-import { Medalla } from '../Models/medalla.model';
+import { HttpClient } from '@angular/common/http';
 import { Persona, Rol } from '../modelos/persona.model';
 
 @Injectable({
@@ -11,6 +7,32 @@ import { Persona, Rol } from '../modelos/persona.model';
 })
 export class UsuarioService {
 
+// <<<<<<< Updated upstream
+  // private usuarios: Persona[] = [
+    // {
+      // nombre: 'Alejandro',
+      // apellido: 'Rodriguez',
+      // email: 'email@mail.com',
+      // imgUrl: "",
+      // nickname: 'aleuy',
+      // idPersona: '1',
+      // rol: Rol.Administrador,
+      // sexo: "Masculino",
+      // bloqueado: false
+    // },
+    // {
+      // nombre: 'Leo',
+      // apellido: 'Messi',
+      // email: 'messi@mail.com',
+      // imgUrl: "",
+      // nickname: 'leomessi',
+      // idPersona: '2',
+      // rol: Rol.Turista,
+      // sexo: "No sabe",
+      // bloqueado: false
+    // }
+  // ]
+// =======
   readonly estados = {}
 
 
@@ -20,6 +42,8 @@ export class UsuarioService {
       //Authorization: 'my-auth-token'
     })
   };
+
+  
 
   // private usuarios: Persona[] = [
 
@@ -72,49 +96,69 @@ export class UsuarioService {
   //   }
   // ]
 
-  private baseUrl = 'http://3.18.102.215:8080/pryectoBack-web/rest';
+
+  private baseUrl = 'http://localhost:8080/pryectoBack-web/rest';
+
+  usuarios: Persona[];
 
   constructor(public httpClient: HttpClient) { }
-
 
   //public async getAllUsuariosAsync(offset: number, size: number): Promise<Usuario[]> {
   public async getAllUsuariosAsync(): Promise<Persona[]> {
     try {
-      const url = `${this.baseUrl}/visualizacion/obtenerUsuarios/0/10`; //PASARLE EL OFFSET Y SIZE
+      const url = `${this.baseUrl}/usuario/0/10`;
       let response = await this.httpClient.get(url).toPromise();
+      this.usuarios = response as Persona[];
       return response as Persona[];
     } catch (error) {
       console.log(error);
     }
   }
 
-  /*getAllUsuarios(){
-    return [...this.usuarios];
-  }
-
-  getUsuario(idUsuario: string){
+  /*getUsuario(idUsuario: string){
     return {...this.usuarios.find(user => {
-      return user.idUsuario === idUsuario
+      return user.idPersona === idUsuario
     })};
   }*/
+
 
   // addUsuario(uid: string, nombre: string, apellido: string, email: string, imgurl: string, nickname: string, passphrase: string, rol: Rol, sexo: string, pais: string){
     // const nuevoUsuario = new Usuario(uid, nickname, nombre, apellido, /*celular*/0, email, passphrase, sexo, rol, imgurl, false, pais, /*medalla*/null);
       // return user.idPersona === idUsuario
     // })};
   // }
-
-  /*addUsuario(idPersona: string, nombre: string, apellido: string, email: string, imgUrl: string, nickname: string, passphrase: string, rol: Rol, sexo: string){
-    const nuevoUsuario: Persona = {idPersona, nombre, apellido, email, imgUrl, nickname, rol, sexo};
+  addUsuario(idPersona: string, email: string, nombre: string, apellido: string, nickname: string,
+    direccion: string, celular: string, pais: string, imagenPerfil: string, nombreImagen: string, extensionImagen: string){
     //hacer el http put
-    this.usuarios.push(nuevoUsuario);
+    // this.usuarios.push(nuevoUsuario);
+    
+    const url = `${this.baseUrl}/usuario/registrarUsuario/`;
+    let postData = {
+      "idPersona": idPersona,
+      "email": email,
+      "nombre": nombre,
+      "apellido": apellido,
+      "nickname": nickname,
+      "direccion": direccion,
+      "celular": celular,
+      "pais": pais,
+      "imagenPerfil": imagenPerfil,
+      "nombreImagen": nombreImagen,
+      "extensionImagen": extensionImagen
+    }
+    return this.httpClient.post<Persona>(url, postData, this.httpOptions)
+    .subscribe(data => {
+      console.log(data['_body']);
+     }, error => {
+      console.log(error);
+    });
   }
 
   deleteUsuario(idUsuario: string){
     this.usuarios = this.usuarios.filter(user => {
       return user.idPersona !== idUsuario;
     })
-  }*/
+  }
   //HACER ESTO CON LA API
 
   bloquearUsuario(idUsuario: string){
@@ -136,48 +180,6 @@ export class UsuarioService {
     });
   }
 
-  //LO COMENTO PARA HACER EL PR Y ME QUEDA HACERLO CON LA API
-  /*respuestaContacto(idPersona: string, contactoAAgregar: string, estado: string){
-    const url = `${this.baseUrl}/usuario/respuestaContacto/`;
-    let putData = {
-      "idPersona": idPersona,
-      "contactoIdPersona": contactoAAgregar,
-      "estadoContactos": estado
-    const user = this.usuarios.find(u => u.idPersona === idUsuario);
-    if(user != null){
-      user.bloqueado = true;
-    }
-    return this.httpClient.put<any>(url, putData, this.httpOptions)
-    .subscribe(data => {
-      console.log(data['_body']);
-     }, error => {
-      console.log(error);
-    });
-  }
-
-
-  agregarContacto(idPersona: string, idPersona2: string){
-    const url = `${this.baseUrl}/usuario/agregarContacto/${idPersona}/${idPersona2}`;
-    let body = {
-      "idPersona": idPersona,
-      "idPersona2": idPersona2
-    }
-    return this.httpClient.post<Usuario>(url, body, this.httpOptions)
-    .subscribe(data => {
-      console.log(data['_body']);
-     }, error => {
-      console.log(error);
-    });
-  }
-
-  bajaContacto(idPersona: string, idPersona2: string){
-    const url = `${this.baseUrl}/usuario/bajaContacto/${idPersona}/${idPersona2}`;
-    return this.httpClient.delete<Usuario>(url, this.httpOptions)
-    .subscribe(data => {
-      console.log(data['_body']);
-     }, error => {
-      console.log(error);
-    });
-  }*/
+  
 
 }
