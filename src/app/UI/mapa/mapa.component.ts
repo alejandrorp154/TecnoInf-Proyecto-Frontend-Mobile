@@ -3,14 +3,11 @@ import * as Mapboxgl from 'mapbox-gl';
 import { BehaviorSubject } from 'rxjs';
 import { Ubicacion } from 'src/app/modelos/ubicacion.model';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-<<<<<<< HEAD
 import { MapboxService } from 'src/app/servicios/mapbox.service';
 import { Geolocation as Geo } from '@ionic-native/geolocation/ngx';
-=======
 import { take } from 'rxjs/operators';
 import { AuthService } from '../../servicios/auth.service';
 import { UserFire } from '../../modelos/userFire.model';
->>>>>>> desarrollo
 
 declare var require: any;
 
@@ -42,11 +39,7 @@ export class MapaComponent implements OnInit {
 
   @Output() ubicacion = new EventEmitter();
 
-<<<<<<< HEAD
-  constructor(private mapboxService: MapboxService, private geolocation: Geo) {
-=======
-  constructor(private authService: AuthService,private geolocation: Geolocation) {
->>>>>>> desarrollo
+  constructor(private authService: AuthService, private mapboxService: MapboxService, private geolocation: Geo) {
     this.currentLat = -34.8833;
     this.currentLng = -56.1667;
     this.lat.next(this.ubiCentral ? this.ubiCentral.latitud : -34.8833);
@@ -54,7 +47,6 @@ export class MapaComponent implements OnInit {
    }
 
   async ngOnInit() {
-<<<<<<< HEAD
     console.log(this.componente);
     //let position = await this.mapboxService.obtenerUbicacionActual();
     this.geolocation.getCurrentPosition().then((resp) => {
@@ -64,16 +56,7 @@ export class MapaComponent implements OnInit {
     }).catch((error) => {
       console.log('Error obteniendo la ubicación', error);
     });
-=======
     this.getUserFire();
-    // await this.geolocation.getCurrentPosition().then((resp) => {
-    //   this.currentLat = resp.coords.latitude
-    //   this.currentLng = resp.coords.longitude
-    //   console.log(resp)
-    //  }).catch((error) => {
-    //    console.log('Error obteniendo la ubicación', error);
-    //  });
->>>>>>> desarrollo
 
     if (this.currentLocation && this.currentLat && this.currentLng) {
       this.lat.next(this.currentLat);
@@ -108,13 +91,8 @@ console.log(this.currentLat, this.currentLng);
 
       this.marcador2.on('dragend', () => {
         // console.log(this.marcador2.getLngLat());
-<<<<<<< HEAD
-        this.ubiCentral = { idUbicacion: 0, latitud: this.marcador2.getLngLat().lat , longitud: this.marcador2.getLngLat().lng, fecha: new Date(), descripcion: '' };
-        this.ubicacion.emit({latitud: this.ubiCentral.latitud, longitud: this.ubiCentral.longitud});
-=======
         this.ubiCentral = { idUbicacion: 0, latitud: this.marcador2.getLngLat().lat , longitud: this.marcador2.getLngLat().lng, fecha: new Date(), descripcion: '', userID: '', pais: ''};
         this.ubicacion.emit({lat: this.ubiCentral.latitud, lng: this.ubiCentral.longitud});
->>>>>>> desarrollo
       });
 
       let geocoder = new MapboxGeocoder({

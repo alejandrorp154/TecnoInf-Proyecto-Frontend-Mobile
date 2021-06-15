@@ -11,7 +11,7 @@ export class Usuario {
     public imagenPerfil: string,
     public nombreImagen: string,
     public extension: string,
-    public administrador?: boolean
+    public administrador?: boolean,
     public medalla?: Medalla
   ){ }
 }
