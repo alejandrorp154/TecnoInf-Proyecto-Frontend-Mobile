@@ -10,7 +10,8 @@ import { ChatService } from 'src/app/servicios/chat.service';
 import { Persona, Rol } from '../modelos/persona.model';
 import { Chat } from '../modelos/chat.model';
 import { imgFile } from '../modelos/mensaje.model';
-import { UsuarioService } from '../servicios/persona.service';
+import { UsuarioService } from '../servicios/usuario.service';
+import { AuthService } from '../servicios/auth.service';
 
 @Component({
   selector: 'app-chat',
@@ -63,7 +64,7 @@ export class ChatPage implements OnInit {
 
   private filesCollection: AngularFirestoreCollection<imgFile>;
 
-  constructor(private chatService: ChatService, private usuarioService: UsuarioService,
+  constructor(private chatService: ChatService, private usuarioService: UsuarioService, private authService: AuthService,
     private afs: AngularFirestore, private afStorage: AngularFireStorage, private router: Router, private _Activatedroute: ActivatedRoute) {
 
     this.isFileUploading = false;
@@ -89,7 +90,7 @@ export class ChatPage implements OnInit {
       } catch (ex) { }
     });
 
-    this.friends = this.usuarioService.obtenerContactos();
+    this.friends = this.usuarioService.getContactos(this.currentUser.idPersona);
     console.log(this.friends);
 
     try{
@@ -169,12 +170,6 @@ export class ChatPage implements OnInit {
       this.newMsg = '';
       this.mediaUrl = '';
       this.content.scrollToBottom();
-    });
-  }
-
-  signOut() {
-    this.chatService.signOut().then(() => {
-      this.router.navigateByUrl('/', { replaceUrl: true });
     });
   }
 

@@ -51,8 +51,23 @@ const routes: Routes = [
     path: 'chat/:nickname',
     loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule),
     canLoad: [LoginGuard]
+  },
+  {
+    path: 'sugerir-amigos',
+    loadChildren: () => import('./UI/sugerir-amigos/sugerir-amigos.module').then( m => m.SugerirAmigosPageModule)
+  },
+  {
+    path: 'interes',
+    loadChildren: () => import('./interes/interes.module').then( m => m.InteresPageModule)
+  },
+  {
+    path: 'eventos',
+    loadChildren: () => import('./eventos/eventos.module').then( m => m.EventosPageModule)
+  },
+  {
+    path: 'visualizar-ubicaciones',
+    loadChildren: () => import('./visualizar-ubicaciones/visualizar-ubicaciones.module').then( m => m.VisualizarUbicacionesPageModule)
   }
-
 
 ];
 

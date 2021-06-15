@@ -4,11 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ChatPageRoutingModule } from './chat-routing.module';
+import { EventosPageRoutingModule } from './eventos-routing.module';
 
-import { ChatPage } from './chat.page';
-import { NavbarComponent } from '../UI/navbar/navbar.component';
-import { FormatFileSizePipe } from './format-file-size.pipe';
+import { EventosPage } from './eventos.page';
 import { NavbarModule } from '../UI/navbar/navbar.module';
 
 @NgModule({
@@ -16,9 +14,9 @@ import { NavbarModule } from '../UI/navbar/navbar.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    ChatPageRoutingModule,
+    EventosPageRoutingModule,
     NavbarModule
   ],
-  declarations: [ChatPage,  FormatFileSizePipe]
+  declarations: [EventosPage]
 })
-export class ChatPageModule {}
+export class EventosPageModule {}

@@ -9,14 +9,16 @@ import { PerfilPageRoutingModule } from './perfil-routing.module';
 import { PerfilPage } from './perfil.page';
 import { NavbarComponent } from '../UI/navbar/navbar.component';
 import { FeedComponent } from '../UI/feed/feed.component';
+import { NavbarModule } from '../UI/navbar/navbar.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PerfilPageRoutingModule
+    PerfilPageRoutingModule,
+    NavbarModule
   ],
-  declarations: [PerfilPage,NavbarComponent, FeedComponent]
+  declarations: [PerfilPage, FeedComponent]
 })
 export class PerfilPageModule {}

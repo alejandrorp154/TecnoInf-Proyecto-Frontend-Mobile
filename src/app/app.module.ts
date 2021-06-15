@@ -5,6 +5,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -18,7 +19,7 @@ import { LogInterceptorService } from './servicios/log-intercepetor.service';
 
 export function getBaseUrl() {
   //console.log(document.getElementsByTagName('base')[0].href);
-  return 'http://3.18.102.215:8080/pryectoBack-web/rest/';
+  return 'http://18.217.108.158:8080/pryectoBack-web/rest/';
 }
 
 @NgModule({
