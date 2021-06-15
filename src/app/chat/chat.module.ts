@@ -9,14 +9,16 @@ import { ChatPageRoutingModule } from './chat-routing.module';
 import { ChatPage } from './chat.page';
 import { NavbarComponent } from '../UI/navbar/navbar.component';
 import { FormatFileSizePipe } from './format-file-size.pipe';
+import { NavbarModule } from '../UI/navbar/navbar.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ChatPageRoutingModule
+    ChatPageRoutingModule,
+    NavbarModule
   ],
-  declarations: [ChatPage, NavbarComponent, FormatFileSizePipe]
+  declarations: [ChatPage,  FormatFileSizePipe]
 })
 export class ChatPageModule {}

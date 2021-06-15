@@ -24,12 +24,12 @@ export class InteresService {
     const newInteres = new Interes();
     newInteres.interes= interes;
 
-    const url = `${this.baseUrl}/interes`;
+    const url = `${this.baseUrl}interes`;
     return this.httpClient.post<Interes>(url, newInteres).toPromise();
   }
 
   deleteInteres(idInteres: number){
-    const url = `${this.baseUrl}/interes/${idInteres}`;
+    const url = `${this.baseUrl}interes/${idInteres}`;
     return this.httpClient.delete(url).toPromise();
   }
 
@@ -39,7 +39,7 @@ export class InteresService {
     modInteres.interes = interesNuevo;
     modInteres.perfiles = [];
 
-    const url = `${this.baseUrl}/interes`;
+    const url = `${this.baseUrl}interes`;
     return this.httpClient.put<Interes>(url, modInteres).toPromise();
   }
 

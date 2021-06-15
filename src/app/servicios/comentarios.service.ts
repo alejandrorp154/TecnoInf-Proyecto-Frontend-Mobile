@@ -9,7 +9,6 @@ export class ComentariosService {
 
   constructor(public httpClient: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
 
-
   /* habrá que hacer un get all publicaciones aca?
   public getAllComentariosAsync(): Promise<Comentario[]> {
     try {
@@ -37,7 +36,7 @@ export class ComentariosService {
 
   modifyComentario(idComentario: string, comentarioNuevo: string){
 
-    //armar el comentario en base a la clase 
+    //armar el comentario en base a la clase
 
     const url = `${this.baseUrl}/comentarioMod`;
     return this.httpClient.put<Interes>(url, modInteres).toPromise();

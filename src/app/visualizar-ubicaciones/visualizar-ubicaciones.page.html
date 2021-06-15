@@ -1,0 +1,13 @@
+<app-navbar></app-navbar>
+
+<ion-content>
+  <ion-grid>
+    <ion-card-header color=tertiary>
+      <ion-card-title  class="ion-text-center">Mis Ubicaciones</ion-card-title>
+    </ion-card-header>
+    <ion-row id="mapa">
+        <app-mapa id="mapa" [currentLocation]="true" [ubicaciones]="ubicaciones" [ubiCentral]="ubicacion" [marcarUbicacion]="false"></app-mapa>
+    </ion-row>
+</ion-grid>
+  
+</ion-content>         

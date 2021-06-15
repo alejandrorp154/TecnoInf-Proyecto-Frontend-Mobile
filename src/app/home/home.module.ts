@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
-import { NavbarComponent } from '../UI/navbar/navbar.component';
+import { NavbarModule } from '../UI/navbar/navbar.module';
 import { AppModule } from '../app.module';
 import { AltaPublicacionComponent } from '../UI/alta-publicacion/alta-publicacion.component';
 import { BuscarMapaComponent } from '../UI/buscar-mapa/buscar-mapa.component';
@@ -17,8 +17,9 @@ import { BuscarMapaComponent } from '../UI/buscar-mapa/buscar-mapa.component';
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NavbarModule
   ],
-  declarations: [HomePage, NavbarComponent, AltaPublicacionComponent, BuscarMapaComponent]
+  declarations: [HomePage, AltaPublicacionComponent, BuscarMapaComponent]
 })
 export class HomePageModule {}

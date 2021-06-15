@@ -15,7 +15,7 @@ export class InteresPage implements OnInit {
   showError: boolean
   errorMessage: string
 
-  constructor(private interesesService: InteresService, private alertCtrl: AlertController) { 
+  constructor(private interesesService: InteresService, private alertCtrl: AlertController) {
     this.interes = new Interes();
     this.showError = false;
   }
@@ -110,8 +110,8 @@ export class InteresPage implements OnInit {
     };
 
     this.alertCtrl.create({
-    header: 'Interés agregado exitosamente.', 
-    message: 'El interés '+this.interes.interes + ' fue agregado exitosamente.', 
+    header: 'Interés agregado exitosamente.',
+    message: 'El interés '+this.interes.interes + ' fue agregado exitosamente.',
     buttons: [
       {
         text: 'Okay',
@@ -126,7 +126,7 @@ export class InteresPage implements OnInit {
   }).then(alertElement => {
     alertElement.present();
   })
-    
+
   }
 
 }

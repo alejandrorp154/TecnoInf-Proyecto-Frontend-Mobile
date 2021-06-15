@@ -1,7 +1,7 @@
 <ion-content>
   <ion-grid>
     <ion-row>
-      <ion-col size-md="8" offset-md="2">
+      <ion-col size-md="8" size-xs="12"  offset-md="2">
         <ion-card>
           <ion-card-header color=tertiary>
             <ion-card-title  class="ion-text-center">Intereses</ion-card-title>
@@ -12,7 +12,7 @@
               <ion-input type="text" id="input-reason" [(ngModel)]="interes.interes" placeholder="Ej: Deportes al aire libre"></ion-input>
             </ion-item>
             <div  class="ion-margin-vertical ion-text-right">
-                <ion-button class="item-end" id="btn-confirm" [disabled]="interes.interes===''" (click)=onCreateInteres()> 
+                <ion-button class="item-end" id="btn-confirm" [disabled]="interes.interes===''" (click)=onCreateInteres()>
                   <ion-icon slot="start" name="add"></ion-icon>Añadir interés</ion-button>
             </div>
             <div >

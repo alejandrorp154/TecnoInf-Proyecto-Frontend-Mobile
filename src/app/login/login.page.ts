@@ -1,10 +1,18 @@
+import { idPersona } from 'src/app/modelos/publicacion.model';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { Observable } from 'rxjs';
+import { Plugins } from '@capacitor/core';
 
-import { AuthService, AuthResponseData } from '../servicios/auth.service';
+import { AuthService} from '../servicios/auth.service';
+import { take } from 'rxjs/operators';
+import { Usuario } from '../modelos/usuario.model';
+import { HttpClient } from '@angular/common/http';
+import { UserFire } from '../modelos/userFire.model';
+import { IniciarSesionService } from '../servicios/iniciar-sesion.service';
+import { AuthResponseData } from '../modelos/AuthResponseData.interface';
 
 @Component({
   selector: 'app-login',
@@ -15,12 +23,15 @@ export class LoginPage implements OnInit {
 
   isLoading = false;
   isLogin = true;
+  private userFire: UserFire;
+  private user: Usuario;
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private loadingCtrl: LoadingController,
-    private alertCtrl: AlertController) { }
+    private alertCtrl: AlertController,
+    private iniciarSesionService: IniciarSesionService) { }
 
   ngOnInit() {
   }
@@ -39,7 +50,7 @@ export class LoginPage implements OnInit {
         }
         authObs.subscribe(
           resData => {
-            console.log(resData);
+            this.getUserID();
             this.isLoading = false;
             loadingEl.dismiss();
             this.router.navigateByUrl('/home');
@@ -79,5 +90,16 @@ export class LoginPage implements OnInit {
         buttons: ['Ok']
       })
       .then(alertEl => alertEl.present());
+  }
+
+  async getUserID()
+  {
+    this.userFire = await this.authService.getCurrentUserFire().toPromise()
+    this.getCurrentUser();
+  }
+  async getCurrentUser()
+  {
+    this.user = await this.iniciarSesionService.getLoguedUser(this.userFire.id);
+    this.iniciarSesionService.storeUserData(this.user);
   }
 }
