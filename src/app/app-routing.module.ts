@@ -70,7 +70,7 @@ const routes: Routes = [
   },
   {
     path: 'mod-administrador',
-    loadChildren: () => import('./mod-administrador/mod-administrador.module').then( m => m.ModAdministradorPageModule)
+    loadChildren: () => import('./mod-administrador/mod-administrador.module').then( m => m.ModAdministradorPageModule),
     canLoad: [LoginGuard]
   },
   {
