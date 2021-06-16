@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
 import * as Mapboxgl from 'mapbox-gl';
 import { BehaviorSubject } from 'rxjs';
 import { Ubicacion } from 'src/app/modelos/ubicacion.model';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import { MapboxService } from 'src/app/servicios/mapbox.service';
+import { Geolocation as Geo } from '@ionic-native/geolocation/ngx';
 import { take } from 'rxjs/operators';
 import { AuthService } from '../../servicios/auth.service';
 import { UserFire } from '../../modelos/userFire.model';
@@ -15,6 +16,7 @@ declare var require: any;
   templateUrl: './mapa.component.html',
   styleUrls: ['./mapa.component.scss'],
 })
+
 export class MapaComponent implements OnInit {
 
 
@@ -37,7 +39,7 @@ export class MapaComponent implements OnInit {
 
   @Output() ubicacion = new EventEmitter();
 
-  constructor(private authService: AuthService,private geolocation: Geolocation) {
+  constructor(private authService: AuthService, private mapboxService: MapboxService, private geolocation: Geo) {
     this.currentLat = -34.8833;
     this.currentLng = -56.1667;
     this.lat.next(this.ubiCentral ? this.ubiCentral.latitud : -34.8833);
@@ -45,14 +47,16 @@ export class MapaComponent implements OnInit {
    }
 
   async ngOnInit() {
+    console.log(this.componente);
+    //let position = await this.mapboxService.obtenerUbicacionActual();
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.currentLat = resp.coords.latitude
+      this.currentLng = resp.coords.longitude
+      console.log(resp)
+    }).catch((error) => {
+      console.log('Error obteniendo la ubicación', error);
+    });
     this.getUserFire();
-    // await this.geolocation.getCurrentPosition().then((resp) => {
-    //   this.currentLat = resp.coords.latitude
-    //   this.currentLng = resp.coords.longitude
-    //   console.log(resp)
-    //  }).catch((error) => {
-    //    console.log('Error obteniendo la ubicación', error);
-    //  });
 
     if (this.currentLocation && this.currentLat && this.currentLng) {
       this.lat.next(this.currentLat);

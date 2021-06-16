@@ -1,4 +1,4 @@
-import { Medalla } from "./medalla.model";
+import { Medalla } from '../modelos/medalla.model';
 
 export class Usuario {
   constructor (

@@ -1,4 +1,4 @@
-import { Usuario } from "./usuario.model";
+import { Usuario } from "../modelos/usuario.model";
 
 export class Medalla {
   idMedalla: number;

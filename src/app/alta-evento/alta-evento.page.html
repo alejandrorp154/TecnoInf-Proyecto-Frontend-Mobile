@@ -1,54 +1,62 @@
-<app-navbar></app-navbar>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button icon="chevron-back-outline" class="pointer" text=""></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Alta Evento</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 
 <ion-content>
-  <h1>Alta Evento</h1>
   <ion-grid>
     <ion-row>
-      <ion-col size="4" size-md="2">
+      <ion-col size="4" size-md="2" size-xs="12">
         <ion-label>Nombre</ion-label>
       </ion-col>
-      <ion-col size="8" size-md="5" size-lg="3">
+      <ion-col size="8" size-md="5" size-lg="3" size-xs="12">
         <ion-input type="text" [(ngModel)]="evento.nombre" placeholder="Ej: Recorrido por la ciudad"></ion-input>
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col size="4" size-md="2">
+      <ion-col size="4" size-md="2" size-xs="12">
         <ion-label>Ubicación</ion-label>
       </ion-col>
-      <ion-col id="mapa" size="8" size-md="5" size-lg="3">
+      <ion-col id="mapa" size="8" size-md="5" size-lg="3" size-xs="12">
         <app-mapa [componente]="'altaEvento'" [currentLocation]="true" [ubiCentral]="ubicacion" [marcarUbicacion]="true" (ubicacion)="marcarUbicacion($event)"></app-mapa>
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col size="4" size-md="2">
+      <ion-col size="4" size-md="2" size-xs="12">
         <ion-label>Descripción</ion-label>
       </ion-col>
-      <ion-col size="8" size-md="5" size-lg="3">
+      <ion-col size="8" size-md="5" size-lg="3" size-xs="12">
         <ion-textarea rows="4" [(ngModel)]="evento.descripcion" placeholder="Descripción">
         </ion-textarea>
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col size="4" size-md="2">
+      <ion-col size="4" size-md="2" size-xs="12">
         <ion-label>Inicio</ion-label>
       </ion-col>
-      <ion-col class="datepicker" size="7" size-md="3" size-lg="2">
+      <ion-col class="datepicker" size="7" size-md="3" size-lg="2" size-xs="10">
         <ion-datetime #pickerInicio [min]="inicio" [(ngModel)]="inicio" (ionChange)="setMinFin($event)">
         </ion-datetime>
       </ion-col>
-      <ion-col class="datepicker-icon" size="1" size-md="1" size-lg="1">
+      <ion-col class="datepicker-icon" size="1" size-md="1" size-lg="1" size-xs="2">
         <ion-icon name="calendar-outline" size="large" (click)="pickerInicio.open()"></ion-icon>
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col size="4" size-md="2">
+      <ion-col size="4" size-md="2" size-xs="12">
         <ion-label>Fin</ion-label>
       </ion-col>
-      <ion-col class="datepicker" size="7" size-md="3" size-lg="2">
+      <ion-col class="datepicker" size="7" size-md="3" size-lg="2" size-xs="10">
         <ion-datetime #pickerFin [min]="inicio" [(ngModel)]="fin">
         </ion-datetime>
       </ion-col>
-      <ion-col class="datepicker-icon" size="1" size-md="1" size-lg="1">
+      <ion-col class="datepicker-icon" size="1" size-md="1" size-lg="1" size-xs="2">
         <ion-icon name="calendar-outline" size="large" (click)="pickerFin.open()"></ion-icon>
       </ion-col>
     </ion-row>

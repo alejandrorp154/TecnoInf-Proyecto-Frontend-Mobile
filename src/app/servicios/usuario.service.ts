@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Persona, Rol } from '../modelos/persona.model';
 import { Observable } from 'rxjs';
@@ -48,14 +48,12 @@ export class UsuarioService {
 
   usuarios: Persona[];
 
-  private baseUrl = 'http://18.217.108.158:8080/pryectoBack-web/rest';
-
-  constructor(private httpClient: HttpClient, private authService: AuthService) { }
+  constructor(private httpClient: HttpClient, private authService: AuthService, @Inject('BASE_URL') private baseUrl: string) { }
 
    //public async getAllUsuariosAsync(offset: number, size: number): Promise<Usuario[]> {
     public async getAllUsuariosAsync(): Promise<Persona[]> {
       try {
-        const url = `${this.baseUrl}/visualizacion/obtenerUsuarios/0/10`;
+        const url = `${this.baseUrl}visualizacion/obtenerUsuarios/0/10`;
         let response = await this.httpClient.get(url).toPromise();
         this.usuarios = response as Persona[];
         return response as Persona[];

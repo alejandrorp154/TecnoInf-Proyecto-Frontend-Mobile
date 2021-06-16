@@ -25,7 +25,7 @@ export class ChatPage implements OnInit {
   messages: Observable<any[]>;
   newMsg = '';
   mediaUrl = '';
-  searchBar = new FormControl;
+  //searchBar = new FormControl;
   currentUser: Persona;
 
   chatting = false;
@@ -76,12 +76,15 @@ export class ChatPage implements OnInit {
    }
 
   async ngOnInit() {
-    this.searchBar.setValue('');
-    //this.currentUser = this.usuarioService.getCurrentUser();
-    // *********************************************************************
+    //this.searchBar.setValue('');
+    let userFire = await this.authService.getCurrentUserFire().toPromise();
+    console.log(userFire);
+    this.currentUser = await this.usuarioService.getUsuarioAsync(userFire.id);
+    console.log(this.currentUser);
+    /*/ *********************************************************************
     this.currentUser = {idPersona: 'WnVrwbfSYjYULq1uCQ0pUOZhBH13', nickname: 'michel', nombre: 'Michel',
       apellido: 'Jackson', celular: '099999999', email: 'mj@mail.com', rol: Rol.Turista};
-    // *********************************************************************
+    // *********************************************************************/
     this._Activatedroute.paramMap.subscribe(params => {
       try{
         console.log(params);
@@ -96,6 +99,7 @@ export class ChatPage implements OnInit {
     try{
 
       this.chatService.obtenerMisChats().subscribe(res => {
+        console.log(res);
         this.chatrooms = res;
         console.log(this.chatrooms);
       });
@@ -129,14 +133,14 @@ export class ChatPage implements OnInit {
       }
     } catch(ex) { console.log(ex); }
 
-
+/*
 
     this.searchBar.valueChanges
     .pipe(
       startWith(''),
       map(value => this._filter(value.toString()))
     ).subscribe(res => this.searchResult.next(res));
-
+*/
   }
 
   chatWith(amigo: Persona) {
@@ -144,10 +148,10 @@ export class ChatPage implements OnInit {
     if (this.chatrooms && this.chatrooms.some(c => c.uids == [this.currentUser.idPersona, amigo.idPersona])) {
       this.router.navigateByUrl('/chat/' + this.chatrooms.find(c => c.uids == [this.currentUser.idPersona, amigo.idPersona]));
     } else {
-      this.chatService.crearChat([this.currentUser.idPersona, amigo.idPersona]).then(res => {
-        this.currentChatroomId = res.id;
-        console.log('Chatroom creado: ' ,res.id);
-        this.router.navigateByUrl('/chat/' + res.id);
+      this.chatService.crearChat([this.currentUser.idPersona, amigo.idPersona], amigo.nombre + ' ' + amigo.apellido).then(res => {
+        this.currentChatroomId = res;
+        console.log('Chatroom creado: ' ,res);
+        this.router.navigateByUrl('/chat/' + res);
       });
     }
   }
@@ -162,7 +166,7 @@ export class ChatPage implements OnInit {
   }
 
   getChatroomName(chatroom: Chat) {
-      return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8WPcgKdDDPzz76xNKr9pKb_xmWJznpOjs1w&usqp=CAU';
+      return chatroom.nombre;
   }
 
   enviarMessage() {

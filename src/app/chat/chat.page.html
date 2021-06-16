@@ -29,7 +29,7 @@
 
   <ion-list *ngIf="!chatting && !searching">
     <ion-item *ngFor="let chatroom of chatrooms" (click)="goChatroom(chatroom)" class="pointer">
-      <div class="circle">
+      <div class="circle chat-thumbnail">
         <img src="{{getFriendImage(chatroom)}}" />
       </div>
       <div class="nombre-amigo">

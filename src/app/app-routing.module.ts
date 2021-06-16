@@ -89,9 +89,6 @@ const routes: Routes = [
     path: 'tab-gestion-usuarios',
     loadChildren: () => import('./tab-gestion-usuarios/tab-gestion-usuarios.module').then( m => m.TabGestionUsuariosPageModule)
   }
-
-
-
 ];
 
 @NgModule({
