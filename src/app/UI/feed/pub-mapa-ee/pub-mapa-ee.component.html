@@ -1,0 +1,9 @@
+<ion-card *ngIf="publicacion.tipo.tipo === 'enlaceExterno'">
+  <ion-card-header>
+    <ion-card-title [innerHtml]="preview.title"></ion-card-title>
+    <img [src]="preview.image">
+  </ion-card-header>
+  <ion-card-content [innerHtml]="preview.description"></ion-card-content>
+</ion-card>
+
+<!-- <div id="mapa-mapbox"></div> -->
