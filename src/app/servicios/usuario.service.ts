@@ -1,3 +1,4 @@
+import { Multimedia } from "./../modelos/multimedia.model";
 import { idPersona } from "./../modelos/publicacion.model";
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -154,6 +155,18 @@ export class UsuarioService {
     };
     const url = `${this.baseUrl}usuario/respuestaContacto`;
     let response = this.httpClient.post<Contacto>(url, json).toPromise().catch(error => console.log(error));
+    return response;
+  }
+
+  async subirFoto(mult: Multimedia){
+    let json = {
+      "contenido" : mult.contenido,
+      "nombre" : mult.nombre,
+      "extension" : mult.extension,
+      "idPersona" : mult.idPersona
+    };
+    const url = `${this.baseUrl}usuario/subirFoto`;
+    let response = this.httpClient.post<Multimedia>(url, json).toPromise().catch(error => console.log(error));
     return response;
   }
 
