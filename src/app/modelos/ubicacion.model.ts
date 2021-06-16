@@ -4,6 +4,6 @@ export class Ubicacion {
   latitud: number;
   fecha?: Date;
   descripcion: string;
-  userID: string;
+  idPersona: string;
   pais: string;
 }

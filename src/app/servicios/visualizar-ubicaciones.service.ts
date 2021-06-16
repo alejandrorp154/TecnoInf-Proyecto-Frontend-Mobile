@@ -12,13 +12,10 @@ export class VisualizarUbicacionesService {
   private baseUrl = 'http://18.217.108.158:8080/pryectoBack-web/rest';
 
   constructor(private authService: AuthService, private httpClient: HttpClient) {
-
   }
 
   public getAllUbicacionesAsync(userID: string): Promise<Ubicacion[]> {
     try {
-
-      console.log(userID);
       const url = `${this.baseUrl}/ubicacion/${userID}`;
       return this.httpClient.get<Ubicacion[]>(url).toPromise();
 

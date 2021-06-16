@@ -8,6 +8,8 @@ import { ListarUsuariosRegistradosService } from 'src/app/servicios/listar-usuar
 import { Usuario } from 'src/app/modelos/usuario.model';
 import { FormControl } from '@angular/forms';
 import { finalize, map, startWith, tap } from 'rxjs/operators';
+import { EliminarCuentaService } from 'src/app/servicios/eliminar-cuenta.service';
+import { UserFire } from '../../modelos/userFire.model';
 
 @Component({
   selector: 'app-navbar',
@@ -21,15 +23,22 @@ export class NavbarComponent implements OnInit {
   searchResult: BehaviorSubject<any[]> = new BehaviorSubject([]);
   searchBar = new FormControl;
   searching: boolean = false;
+  userFire: UserFire;
 
-  datoUsuario = {
+   datoUsuario = {
     email: '',
     token: '',
     tokenExpirationDate: '',
     userId: ''
   }
+  
+  constructor(
+    private listarUsuariosRegistradosService: ListarUsuariosRegistradosService,
+    private authService: AuthService,
+    private alertCtrl: AlertController,
+    private router: Router,
+    private eliminarCuenta: EliminarCuentaService) {
 
-  constructor(private listarUsuariosRegistradosService: ListarUsuariosRegistradosService, private authService: AuthService, private alertCtrl: AlertController, private router: Router) {
     this.usuarios = [];
   }
 
@@ -94,17 +103,11 @@ export class NavbarComponent implements OnInit {
       buttons: [
         {
           text: 'Eliminar',
-          handler: () => {
-            this.authService.token.pipe(take(1)).subscribe(token =>
-              {
-                if(!token)
-                {
-                  throw new Error('No se encontro la ID del usuario');
-                }
-                else
-                {
+          handler: async () => {
+            this.userFire = await this.authService.getCurrentUserFire().toPromise()
+
                   let obs: Observable<any>;
-                  obs = this.authService.deleteAccount(token);
+                  obs = this.authService.deleteAccount(this.userFire.token);
 
                   obs.subscribe(
                     errorResponse => {
@@ -112,9 +115,8 @@ export class NavbarComponent implements OnInit {
                       console.log(code)
                     }
                   )
+                  this.eliminarCuenta.deleteAcount(this.userFire.id)
                   this.authService.logout();
-                }
-              })
           },
           cssClass: 'alrtDanger'
         },

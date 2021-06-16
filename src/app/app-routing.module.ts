@@ -6,7 +6,7 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
-    //canLoad: [LoginGuard]
+    canLoad: [LoginGuard]
   },
   {
     path: '',
@@ -16,7 +16,7 @@ const routes: Routes = [
   {
     path: 'perfil/:id',
     loadChildren: () => import('./perfil/perfil.module').then( m => m.PerfilPageModule),
-    //canLoad: [LoginGuard]
+    canLoad: [LoginGuard]
   },
   {
     path: 'login',
@@ -44,8 +44,8 @@ const routes: Routes = [
   },
   {
     path: 'estadisticas',
-    loadChildren: () => import('./estadisticas/estadisticas.module').then( m => m.EstadisticasPageModule),
-    canLoad: [LoginGuard]
+    loadChildren: () => import('./estadisticas/estadisticas.module').then( m => m.EstadisticasPageModule)
+    // canLoad: [LoginGuard]
   },
   {
     path: 'chat/:nickname',
@@ -54,8 +54,7 @@ const routes: Routes = [
   },
   {
     path: 'interes',
-    loadChildren: () => import('./interes/interes.module').then( m => m.InteresPageModule),
-    canLoad: [LoginGuard]
+    loadChildren: () => import('./interes/interes.module').then( m => m.InteresPageModule)
   },
   {
     path: 'eventos',
@@ -77,9 +76,19 @@ const routes: Routes = [
   {
     path: 'sugerir-amigos',
     loadChildren: () => import('./UI/sugerir-amigos/sugerir-amigos.module').then( m => m.SugerirAmigosPageModule)
+  },
+  {
+    path: 'admin-page',
+    loadChildren: () => import('./admin-page/admin-page.module').then( m => m.AdminPagePageModule)
+  },
+  {
+    path: 'tab-medallas',
+    loadChildren: () => import('./tab-medallas/tab-medallas.module').then( m => m.TabMedallasPageModule)
+  },
+  {
+    path: 'tab-gestion-usuarios',
+    loadChildren: () => import('./tab-gestion-usuarios/tab-gestion-usuarios.module').then( m => m.TabGestionUsuariosPageModule)
   }
-
-
 ];
 
 @NgModule({
@@ -89,5 +98,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-
 

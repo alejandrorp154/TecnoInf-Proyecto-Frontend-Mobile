@@ -7,15 +7,17 @@ import { IonicModule } from '@ionic/angular';
 import { SugerirAmigosPageRoutingModule } from './sugerir-amigos-routing.module';
 
 import { SugerirAmigosPage } from './sugerir-amigos.page';
-import { NavbarComponent } from '../navbar/navbar.component';
+
+import { NavbarModule } from '../navbar/navbar.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    SugerirAmigosPageRoutingModule
+    SugerirAmigosPageRoutingModule,
+    NavbarModule
   ],
-  declarations: [SugerirAmigosPage, NavbarComponent]
+  declarations: [SugerirAmigosPage]
 })
 export class SugerirAmigosPageModule {}
