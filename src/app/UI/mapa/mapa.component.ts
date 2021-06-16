@@ -23,7 +23,7 @@ export class MapaComponent implements OnInit {
   @Input() currentLocation: boolean;
   @Input() marcarUbicacion: boolean;
   @Input() ubiCentral: Ubicacion;
-  @Input() ubicaciones: Ubicacion[];
+  @Input() ubicaciones: BehaviorSubject<Ubicacion[]>;
 
   currentLat: number;
   currentLng: number;
@@ -42,10 +42,10 @@ export class MapaComponent implements OnInit {
     this.currentLng = -56.1667;
     this.lat.next(this.ubiCentral ? this.ubiCentral.latitud : -34.8833);
     this.lng.next(this.ubiCentral ? this.ubiCentral.longitud : -56.1667);
+    this.marcadores = []
    }
 
   async ngOnInit() {
-    console.log("2:", this.ubicaciones);
     this.getUserFire();
     // await this.geolocation.getCurrentPosition().then((resp) => {
     //   this.currentLat = resp.coords.latitude
@@ -88,7 +88,7 @@ console.log(this.currentLat, this.currentLng);
 
       this.marcador2.on('dragend', () => {
         // console.log(this.marcador2.getLngLat());
-        this.ubiCentral = { idUbicacion: 0, latitud: this.marcador2.getLngLat().lat , longitud: this.marcador2.getLngLat().lng, fecha: new Date(), descripcion: '', userID: '', pais: ''};
+        this.ubiCentral = { idUbicacion: 0, latitud: this.marcador2.getLngLat().lat , longitud: this.marcador2.getLngLat().lng, fecha: new Date(), descripcion: '', idPersona: '', pais: ''};
         this.ubicacion.emit({lat: this.ubiCentral.latitud, lng: this.ubiCentral.longitud});
       });
 
@@ -109,27 +109,28 @@ console.log(this.currentLat, this.currentLng);
       map.addControl(geocoder);
     }
 
+    this.ubicaciones.subscribe( res => {
+      if(this.ubicaciones.value && this.ubicaciones.value.length > 0) {
+        let marker;
+        this.ubicaciones.value.forEach(u => {
+          if (u.idPersona === this.user.id) {
+            marker = new mapboxgl.Marker({ color: 'black', rotation: 45, draggable: false })
+            .setLngLat([u.longitud, u.latitud])
+            .addTo(map);
+          }
+          else
+          {
+            marker = new mapboxgl.Marker({ color: 'orange', rotation: 45, draggable: false })
+            .setLngLat([u.longitud, u.latitud])
+            .addTo(map);
+          }
+          this.marcadores.push(marker);
+        });
+      }
 
-    if(this.ubicaciones) {
-      console.log("3:", this.ubicaciones);
-      let marker;
-      this.ubicaciones.forEach(u => {
-        console.log(`id en mapa: ${this.user.id}`)
-        if (u.userID === this.user.id) {
-          marker = new mapboxgl.Marker({ color: 'black', rotation: 45, draggable: false })
-          .setLngLat([u.longitud, u.latitud])
-          .addTo(map);
-        }
-        else
-        {
-          marker = new mapboxgl.Marker({ color: 'orange', rotation: 45, draggable: false })
-          .setLngLat([u.longitud, u.latitud])
-          .addTo(map);
-        }
-
-        this.marcadores.push(marker);
-      });
     }
+    )
+
   }
 
 

@@ -4,6 +4,7 @@ import { VisualizarUbicacionesService } from '../servicios/visualizar-ubicacione
 import { AuthService } from '../servicios/auth.service';
 import { take } from 'rxjs/operators';
 import { UserFire } from '../modelos/userFire.model';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-visualizar-ubicaciones',
@@ -12,22 +13,25 @@ import { UserFire } from '../modelos/userFire.model';
 })
 export class VisualizarUbicacionesPage implements OnInit {
 
-  public ubicaciones: Ubicacion[];
+  public ubicaciones:BehaviorSubject<Ubicacion[]> = new BehaviorSubject<Ubicacion[]>([]);
   public user: UserFire;
-  
+
   constructor(private authService: AuthService, private ubicacionesService: VisualizarUbicacionesService) {
-    this.ubicaciones = [];
   }
 
   async ngOnInit() {
     await this.getAllUbicaciones();
-    console.log("testaso: ",this.ubicaciones);
   }
 
   async getAllUbicaciones(){
     this.user = await this.authService.getCurrentUserFire().toPromise()
-    this.ubicaciones = await this.ubicacionesService.getAllUbicacionesAsync(this.user.id);
-    
+    await this.ubicacionesService.getAllUbicacionesAsync(this.user.id).then( res =>
+      {
+        this.ubicaciones.next(res);
+      }
+
+    );
+
   }
 
 }
