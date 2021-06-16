@@ -16,11 +16,9 @@ export class VisualizarUbicacionesService {
 
   public getAllUbicacionesAsync(userID: string): Promise<Ubicacion[]> {
     try {
-
-      console.log(userID);
       const url = `${this.baseUrl}/ubicacion/${userID}`;
       return this.httpClient.get<Ubicacion[]>(url).toPromise();
-      
+
     } catch (error) {
       console.log(error);
     }

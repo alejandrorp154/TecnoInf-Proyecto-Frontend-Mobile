@@ -30,6 +30,8 @@ export class MapaComponent implements OnInit {
   lat: BehaviorSubject<number> = new BehaviorSubject(-34.8833);
   lng: BehaviorSubject<number> = new BehaviorSubject(-56.1667);
   private user: UserFire;
+  mapboxgl;
+  map;
 
   marcador1;
   marcador2;
@@ -47,13 +49,13 @@ export class MapaComponent implements OnInit {
 
   async ngOnInit() {
     this.getUserFire();
-    // await this.geolocation.getCurrentPosition().then((resp) => {
-    //   this.currentLat = resp.coords.latitude
-    //   this.currentLng = resp.coords.longitude
-    //   console.log(resp)
-    //  }).catch((error) => {
-    //    console.log('Error obteniendo la ubicación', error);
-    //  });
+     /*await this.geolocation.getCurrentPosition().then((resp) => {
+    this.currentLat = resp.coords.latitude
+    this.currentLng = resp.coords.longitude
+    console.log(resp)
+    }).catch((error) => {
+        console.log('Error obteniendo la ubicación', error);
+      });*/
 
     if (this.currentLocation && this.currentLat && this.currentLng) {
       this.lat.next(this.currentLat);
@@ -66,70 +68,81 @@ export class MapaComponent implements OnInit {
 
 if(this.ubiCentral) { console.log(this.ubiCentral.latitud, this.ubiCentral.longitud); }
 console.log(this.currentLat, this.currentLng);
+    setTimeout(() => this.buildMap(), 200);
 
-    let mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
-    mapboxgl.accessToken = 'pk.eyJ1IjoidHJhdmVscGFjazIwMjEiLCJhIjoiY2tuNDR0cjl4MWUwbDJwbzgwcWY2NTRieSJ9.Fju2qmaYyp6zHcXCClCifg';
-    let map = new mapboxgl.Map({
+
+
+
+  }
+
+  buildMap()
+  {
+    this.mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
+    this.mapboxgl.accessToken = 'pk.eyJ1IjoidHJhdmVscGFjazIwMjEiLCJhIjoiY2tuNDR0cjl4MWUwbDJwbzgwcWY2NTRieSJ9.Fju2qmaYyp6zHcXCClCifg';
+    this.map = new this.mapboxgl.Map({
       container: 'mapa-container',
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [this.lng.value, this.lat.value],
       zoom: 10
     });
 
-    this.marcador1 = new mapboxgl.Marker({scale: 0.5, anchor: 'bottom'})
-      .setLngLat([this.currentLng, this.currentLat])
-      .addTo(map);
-
-    if(this.marcarUbicacion) {
-      this.marcador2 = new mapboxgl.Marker({ color: 'black', rotation: 45, draggable: true, anchor: 'bottom-left' })
-        .setLngLat([this.lng.value, this.lat.value])
-        .addTo(map);
-      console.log(this.marcador2);
-
-      this.marcador2.on('dragend', () => {
-        // console.log(this.marcador2.getLngLat());
-        this.ubiCentral = { idUbicacion: 0, latitud: this.marcador2.getLngLat().lat , longitud: this.marcador2.getLngLat().lng, fecha: new Date(), descripcion: '', idPersona: '', pais: ''};
-        this.ubicacion.emit({lat: this.ubiCentral.latitud, lng: this.ubiCentral.longitud});
-      });
-
-      let geocoder = new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken,
-        mapboxgl: mapboxgl
-      });
-
-      let $this = this;
-
-      geocoder.on('result', function(e) {
-        console.log(e.result.center);
-        geocoder.clear();
-        $this.marcador2.setLngLat(e.result.center);
-      });
-
-      // Add the control to the map.
-      map.addControl(geocoder);
-    }
-
     this.ubicaciones.subscribe( res => {
       if(this.ubicaciones.value && this.ubicaciones.value.length > 0) {
         let marker;
         this.ubicaciones.value.forEach(u => {
-          if (u.idPersona === this.user.id) {
-            marker = new mapboxgl.Marker({ color: 'black', rotation: 45, draggable: false })
+          /*
+          var element = document.createElement('div');
+          element.className = 'marker';
+          element.style.backgroundImage = `${u.}`;
+          element.style.width = 50 + 'px';
+          element.style.height =50 + 'px';
+          element.style.backgroundSize = '100%';
+          marker = new mapboxgl.Marker(element)
             .setLngLat([u.longitud, u.latitud])
-            .addTo(map);
-          }
-          else
-          {
-            marker = new mapboxgl.Marker({ color: 'orange', rotation: 45, draggable: false })
+            .addTo(map);*/
+            marker = new this.mapboxgl.Marker({ color: 'orange', rotation: 45, draggable: false })
             .setLngLat([u.longitud, u.latitud])
-            .addTo(map);
-          }
+            .addTo(this.map);
           this.marcadores.push(marker);
         });
       }
 
     }
     )
+
+    this.marcador1 = new this.mapboxgl.Marker({scale: 0.5, anchor: 'bottom'})
+    .setLngLat([this.currentLng, this.currentLat])
+    .addTo(this.map);
+
+  if(this.marcarUbicacion) {
+    this.marcador2 = new this.mapboxgl.Marker({ color: 'black', rotation: 45, draggable: true, anchor: 'bottom-left' })
+      .setLngLat([this.lng.value, this.lat.value])
+      .addTo(this.map);
+    console.log(this.marcador2);
+
+    this.marcador2.on('dragend', () => {
+      // console.log(this.marcador2.getLngLat());
+      this.ubiCentral = { idUbicacion: 0, latitud: this.marcador2.getLngLat().lat , longitud: this.marcador2.getLngLat().lng, fecha: new Date(), descripcion: '', idPersona: '', pais: ''};
+      this.ubicacion.emit({lat: this.ubiCentral.latitud, lng: this.ubiCentral.longitud});
+    });
+
+    let geocoder = new MapboxGeocoder({
+      accessToken: this.mapboxgl.accessToken,
+      mapboxgl: this.mapboxgl
+    });
+
+    let $this = this;
+
+    geocoder.on('result', function(e) {
+      console.log(e.result.center);
+      geocoder.clear();
+      $this.marcador2.setLngLat(e.result.center);
+    });
+
+    // Add the control to the map.
+    this.map.addControl(geocoder);
+  }
+
 
   }
 
