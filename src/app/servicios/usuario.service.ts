@@ -17,6 +17,9 @@ export class UsuarioService {
   readonly httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods' : 'GET,HEAD,OPTIONS,POST,PUT',
+      'Access-Control-Allow-Headers' : 'Origin, X-Requested-With, Content-Type,  Accept, x-client-key, x-client-token, x-client-secret, Authorization'
       //Authorization: 'my-auth-token'
     })
   };
@@ -64,7 +67,7 @@ export class UsuarioService {
 
   public getAllUsuariosObs(): Observable<Persona[]> {
     try {
-      const url = `${this.baseUrl}/visualizacion/obtenerUsuarios/0/10`;
+      const url = `${this.baseUrl}visualizacion/obtenerUsuarios/0/10`;
       return this.httpClient.get<Persona[]>(url);
     } catch (error) {
       console.log(error);
@@ -92,7 +95,7 @@ export class UsuarioService {
     //hacer el http put
     // this.usuarios.push(nuevoUsuario);
 
-    const url = `${this.baseUrl}/usuario/registrarUsuario/`;
+    const url = `${this.baseUrl}usuario/registrarUsuario/`;
     let postData = {
       "idPersona": idPersona,
       "email": email,
@@ -120,18 +123,20 @@ export class UsuarioService {
     })
   }
 
-  bloquearUsuario(idUsuario: string){
-    const url = `${this.baseUrl}/usuario/bloquearUsuario/${idUsuario}`;
-    this.httpClient.put<Usuario>(url, idUsuario, this.httpOptions)
+  async bloquearUsuario(idUsuario: string){
+    let json = {"idPersona": idUsuario};
+    const url = `${this.baseUrl}usuario/bloquearUsuario/${idUsuario}`;
+    this.httpClient.put<Usuario>(url, json, this.httpOptions)
     .subscribe(data => {
       console.log(data['_body']);
      }, error => {
       console.log(error);
     });
   }
-  desbloquearUsuario(idUsuario: string){
-    const url = `${this.baseUrl}/usuario/desbloquearUsuario/${idUsuario}`;
-    this.httpClient.put<Usuario>(url, idUsuario, this.httpOptions)
+  async desbloquearUsuario(idUsuario: string){
+    let json = {"idPersona": idUsuario};
+    const url = `${this.baseUrl}usuario/desbloquearUsuario/${idUsuario}`;
+    this.httpClient.put<Usuario>(url, json, this.httpOptions)
     .subscribe(data => {
       console.log(data['_body']);
      }, error => {
