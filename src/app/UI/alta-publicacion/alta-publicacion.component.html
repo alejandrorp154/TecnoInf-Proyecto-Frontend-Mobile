@@ -12,7 +12,7 @@
     <ion-card-content [innerHtml]="preview.description"></ion-card-content>
   </ion-card>
 <!-- MAPA -->
-  <div id="mapa-mapbox" *ngIf="tipo === 'mapa'"></div>
+<div id="mapa-mapbox" *ngIf="tipo === 'mapa'"></div>
 <!-- IMAGEN -->
 <ion-card *ngIf="tipo === 'foto'">
   <ion-icon (click)="cancelar()" name="close"></ion-icon>

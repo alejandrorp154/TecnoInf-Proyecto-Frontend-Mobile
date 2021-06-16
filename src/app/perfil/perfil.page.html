@@ -10,7 +10,7 @@
           </ion-avatar>
         </div>
       </ion-col>
-      <ion-col sizeMd="4">
+      <ion-col sizeMd="2">
         <ion-label>{{perfil?.usuario.nombre+' '+ perfil?.usuario.apellido}}</ion-label>
         <br>
         <ion-label style="color: var(--ion-color-medium);">@{{perfil?.usuario.nickname}}</ion-label>
@@ -22,6 +22,12 @@
       </ion-col>
       <ion-col sizeMd="4">
         <app-medalla [medalla] = "medalla"></app-medalla>
+      </ion-col>
+      <ion-col sizeMd="2">
+        <ion-button color="dark" size="small" fill="clear">
+          Editar Perfil
+          <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
+        </ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

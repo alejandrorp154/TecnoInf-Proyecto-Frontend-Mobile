@@ -1,5 +1,5 @@
 <div *ngFor="let publicacion of publicaciones.value">
-  <ion-row class="wrapper">
+  <ion-row class="wrapper" *ngIf="publicacion.tipo.tipo != 'mapa'">
     <ion-col size="2">
       <ion-avatar>
         <ion-img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"></ion-img>
@@ -21,9 +21,9 @@
           <div *ngIf="publicacion.tipo.tipo === 'foto'">
             <img id="foto" src="{{publicacion.contenido}}">
           </div>
-          <div *ngIf="publicacion.tipo.tipo === 'mapa'">
+          <!-- <div *ngIf="publicacion.tipo.tipo === 'mapa'">
             <app-pub-mapa-ee [publicacion] = "publicacion"></app-pub-mapa-ee>
-          </div>
+          </div> -->
           <div *ngIf="publicacion.tipo.tipo === 'enlaceExterno'">
             <app-pub-mapa-ee [publicacion] = "publicacion"></app-pub-mapa-ee>
           </div>

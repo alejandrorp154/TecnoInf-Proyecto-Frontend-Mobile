@@ -28,7 +28,7 @@ export class PerfilPage implements OnInit {
     this.perfil = await this.perfilServ.obtenerPerfil(id); //Usuario por id
     //this.perfil = await this.perfilServ.obtenerPerfil(this.datoUsuario.userId); //Usuario logeado
 
-    this.publicaciones.next(this.perfil.publicaciones);
+    this.publicaciones.next(this.perfil.publicaciones.reverse());
     this.usuario.next(this.perfil.usuario);
     this.medalla.next(this.perfil.usuario.medalla);
   }

@@ -15,6 +15,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LogInterceptorService } from './servicios/log-intercepetor.service';
+import {DatePipe} from '@angular/common';
 
 export function getBaseUrl() {
   //console.log(document.getElementsByTagName('base')[0].href);
@@ -31,7 +32,8 @@ export function getBaseUrl() {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] },
-    { provide: HTTP_INTERCEPTORS, useClass: LogInterceptorService, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: LogInterceptorService, multi: true },
+    DatePipe
   ],
   bootstrap: [AppComponent],
 })
