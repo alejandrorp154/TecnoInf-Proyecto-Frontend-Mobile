@@ -2,7 +2,7 @@
   <ion-header [translucent]="true">
     <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button [routerLink]="['/home']" class="pointer"></ion-back-button>
+          <ion-back-button  class="pointer" text=""></ion-back-button>
         </ion-buttons>
         <ion-buttons slot="end" (click)="onDeleteAccount()">
           <ion-item>
@@ -11,7 +11,7 @@
             </ion-avatar>
           </ion-item>
         </ion-buttons>
-        <ion-searchbar [formControl]="searchBar" class="listaUsuarios" autocomplete="on" (click)="dontShow=false" placeholder="Buscar usuarios registrados" slot="primary" showCancelButton="never" cancelButtonText="Custom Cancel"></ion-searchbar>
+       <ion-searchbar  class="listaUsuarios" autocomplete="on" (click)="dontShow=false" placeholder="Buscar usuarios registrados" slot="primary" showCancelButton="never" cancelButtonText="Custom Cancel"></ion-searchbar>
         <ion-buttons slot="end" (click)="onLogout()">
           <ion-avatar>
             <img src="../../../assets/icon/1024px-User-avatar.svg.png" class="iconosPublicacion">

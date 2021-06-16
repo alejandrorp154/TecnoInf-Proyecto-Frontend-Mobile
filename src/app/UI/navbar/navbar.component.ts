@@ -40,7 +40,7 @@ export class NavbarComponent implements OnInit {
   }
 
   test(){
-    
+
   }
 
   private _filter(value: string): Usuario[] {
@@ -62,7 +62,7 @@ export class NavbarComponent implements OnInit {
             usuario.apellido.toLocaleLowerCase().includes(filterValue)
             );
         }
-          
+
       });
     } else {
       this.searching = false;
