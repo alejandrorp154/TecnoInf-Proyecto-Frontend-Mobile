@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Publicacion } from 'src/app/modelos/perfil';
 import * as Mapboxgl from 'mapbox-gl';
 import { environment } from 'src/environments/environment';
-import { Preview } from 'src/app/Models/preview';
+import { Preview } from 'src/app/modelos/preview';
 
 @Component({
   selector: 'app-pub-mapa-ee',
