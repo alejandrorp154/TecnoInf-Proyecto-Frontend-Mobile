@@ -60,6 +60,8 @@ export class TabGestionUsuariosPage implements OnInit {
     }
   }
 
+  getContactosPersona
+
   onDesbloquearUsuario(idPersona: string, slidingUser: IonItemSliding){
     try{
       this.alertCtrl

@@ -29,6 +29,7 @@ export class UsuarioService {
   };
 
   usuarios: Persona[];
+  contactos: Contacto[];
 
   constructor(private httpClient: HttpClient, private authService: AuthService, @Inject('BASE_URL') private baseUrl: string) { }
 
@@ -115,10 +116,17 @@ export class UsuarioService {
     });
   }
 
-  getContactos(idUsuario: string) {
-    /* ************** EDITAR GET ************** */
-    return this.getAllUsuarios();
-    /* ************** END EDITAR GET ************** */
+  public async getContactosAsync(idPersona: string) {
+    try{
+      const url = `${this.baseUrl}usuario/obtenerAmigos/${idPersona}/10/10`;
+      let response = await this.httpClient.get(url).toPromise();
+      this.contactos = response as Contacto[];
+      return response as Contacto[];
+    }
+    catch(error){
+      console.log(error)
+    }
+
   }
 
   getLoggedUser(): Promise<Persona> {
@@ -168,6 +176,16 @@ export class UsuarioService {
     const url = `${this.baseUrl}usuario/subirFoto`;
     let response = this.httpClient.post<Multimedia>(url, json).toPromise().catch(error => console.log(error));
     return response;
+  }
+
+  async bajaContacto(idPersona1: string, idPersona2: string){
+    const url = `${this.baseUrl}usuario/bajaContacto/${idPersona1}/${idPersona2}`;
+    this.httpClient.delete<Usuario>(url)
+    .subscribe(data => {
+      console.log(data['_body']);
+     }, error => {
+      console.log(error);
+    });
   }
 
 }
