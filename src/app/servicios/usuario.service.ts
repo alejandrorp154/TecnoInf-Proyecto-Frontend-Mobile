@@ -1,3 +1,4 @@
+import { idPersona } from "./../modelos/publicacion.model";
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Persona, Rol } from '../modelos/persona.model';
@@ -5,10 +6,12 @@ import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { UserFire } from '../modelos/userFire.model';
 import { Usuario } from '../modelos/usuario.model';
+import { Contacto, EstadosContactos } from "../modelos/contacto.model";
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class UsuarioService {
 
   readonly estados = {}
@@ -23,31 +26,6 @@ export class UsuarioService {
       //Authorization: 'my-auth-token'
     })
   };
-
-  // private usuarios: Persona[] = [
-  //   {
-  //     nombre: 'Alejandro',
-  //     apellido: 'Rodriguez',
-  //     email: 'email@mail.com',
-  //     imgUrl: "",
-  //     nickname: 'aleuy',
-  //     idPersona: '1',
-  //     rol: Rol.Administrador,
-  //     sexo: "Masculino",
-  //     bloqueado: false
-  //   },
-  //   {
-  //     nombre: 'Leo',
-  //     apellido: 'Messi',
-  //     email: 'messi@mail.com',
-  //     imgUrl: "",
-  //     nickname: 'leomessi',
-  //     idPersona: '2',
-  //     rol: Rol.Turista,
-  //     sexo: "No sabe",
-  //     bloqueado: false
-  //   }
-  // ]
 
   usuarios: Persona[];
 
@@ -84,16 +62,8 @@ export class UsuarioService {
     })};
   }
 
-  // addUsuario(idPersona: string, nombre: string, apellido: string, email: string, imgUrl: string, nickname: string, passphrase: string, rol: Rol, sexo: string){
-  //   const nuevoUsuario: Persona = {idPersona, nombre, apellido, email, imgUrl, nickname, rol, sexo};
-  //   //hacer el http put
-  //   this.usuarios.push(nuevoUsuario);
-  // }
-
   addUsuario(idPersona: string, email: string, nombre: string, apellido: string, nickname: string,
     direccion: string, celular: string, pais: string, imagenPerfil: string, nombreImagen: string, extensionImagen: string){
-    //hacer el http put
-    // this.usuarios.push(nuevoUsuario);
 
     const url = `${this.baseUrl}usuario/registrarUsuario/`;
     let postData = {
@@ -160,6 +130,31 @@ export class UsuarioService {
   getUsuarioAsync(idPersona: string): Promise<Persona> {
     console.log(this.baseUrl + 'usuario/' + idPersona);
     return this.httpClient.get<Persona>(this.baseUrl + 'usuario/' + idPersona).toPromise();
+  }
+
+  async agregarContacto(idPersona1: string, idPersona2: string){
+    let json = {
+      "idPersona": idPersona1,
+      "idPersona2": idPersona2
+    };
+    const url = `${this.baseUrl}usuario/agregarContacto/${idPersona1}/${idPersona2}`;
+    this.httpClient.put<Usuario>(url, json, this.httpOptions)
+    .subscribe(data => {
+      console.log(data['_body']);
+     }, error => {
+      console.log(error);
+    });
+  }
+
+  async respuestaContacto(idPersona: string, idPersonaContacto: string, estado: EstadosContactos){
+    let json = {
+      "idPersona" : idPersona,
+      "contactoIdPersona" : idPersonaContacto,
+      "estadoContactos" : estado
+    };
+    const url = `${this.baseUrl}usuario/respuestaContacto`;
+    let response = this.httpClient.post<Contacto>(url, json).toPromise().catch(error => console.log(error));
+    return response;
   }
 
 }
