@@ -1,0 +1,21 @@
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-md="8" size-xs="12"  offset-md="2">
+        <ion-list *ngFor="let config of configuraciones">
+            <ion-item>
+              <ion-label>
+                <h5>{{config}}</h5>
+              </ion-label>
+              <ion-checkbox item-right checked={{config}}></ion-checkbox>
+            </ion-item>
+            <!-- <ion-item-options>
+              <ion-item-option color="danger" (click)="onBloquearUsuario(usuario.idPersona, slidingUser)">
+                <ion-icon name="lock-closed-sharp" slot="icon-only"></ion-icon>
+              </ion-item-option>
+            </ion-item-options> -->
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
