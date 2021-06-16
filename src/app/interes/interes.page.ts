@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import { Interes } from 'src/app/Models/interes.model';
+import { Interes } from 'src/app/modelos/interes.model';
 import { InteresService } from 'src/app/servicios/interes.service';
 
 
@@ -15,9 +15,8 @@ export class InteresPage implements OnInit {
   showError: boolean
   errorMessage: string
 
-  constructor(private interesesService: InteresService, private alertCtrl: AlertController) { 
+  constructor(private interesesService: InteresService, private alertCtrl: AlertController) {
     this.interes = new Interes();
-    this.interes.interes = "";
     this.showError = false;
   }
 
@@ -111,8 +110,8 @@ export class InteresPage implements OnInit {
     };
 
     this.alertCtrl.create({
-    header: 'Interés agregado exitosamente.', 
-    message: 'El interés '+this.interes.interes + ' fue agregado exitosamente.', 
+    header: 'Interés agregado exitosamente.',
+    message: 'El interés '+this.interes.interes + ' fue agregado exitosamente.',
     buttons: [
       {
         text: 'Okay',
@@ -127,7 +126,7 @@ export class InteresPage implements OnInit {
   }).then(alertElement => {
     alertElement.present();
   })
-    
+
   }
 
 }

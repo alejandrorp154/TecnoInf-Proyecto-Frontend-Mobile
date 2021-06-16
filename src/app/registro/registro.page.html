@@ -6,6 +6,31 @@
           <ion-card>
             <ion-card-content>
               <ion-card-title>Travel Pack</ion-card-title>
+
+              <!--<ion-icon (click)="cancelar()" name="close"></ion-icon>-->
+              <ion-row>
+
+                <ion-col size-xs="12" size-md="4">
+                 <ion-card-header *ngIf="imageSource === undefined">
+                  <img id="foto" src="../../assets/img/defaultProfileImage.png">
+                </ion-card-header>
+                <ion-card-header *ngIf="!(imageSource === undefined)">
+                  <img  id="foto" [src]="imageSource">
+                </ion-card-header>
+
+
+                <ion-avatar id="imageAdd">
+                  <input type="file" #fileInput (change)="uploadFile($event)" hidden="true" accept="image/*"/>
+                  <!-- Imagen -->
+                  <ion-button fill="outline" (click)="selectImageSource()">Añadir foto
+                    <ion-icon name="camera-outline" slot="start" ></ion-icon>
+                  </ion-button>
+                </ion-avatar>
+
+                </ion-col>
+
+              </ion-row>
+
               <ion-list class="form-input">
                 <ion-item>
                   <!-- <ion-input type="email" placeholder="Email" #txtEmail></ion-input> -->

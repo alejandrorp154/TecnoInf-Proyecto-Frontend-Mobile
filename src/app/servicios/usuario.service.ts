@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Persona, Rol } from '../modelos/persona.model';
 import { Observable } from 'rxjs';
@@ -35,13 +35,12 @@ export class UsuarioService {
     }
   ]
 
-  private baseUrl = 'http://localhost:8080/pryectoBack-web/rest';
 
-  constructor(private httpClient: HttpClient, private authService: AuthService) { }
+  constructor(private httpClient: HttpClient, private authService: AuthService, @Inject('BASE_URL') private baseUrl: string) { }
 
   public async getAllUsuariosAsync(): Promise<Persona[]> {
     try {
-      const url = `${this.baseUrl}/usuarios/10/10`;
+      const url = `${this.baseUrl}usuarios/10/10`;
       let response = await this.httpClient.get(url).toPromise();
       return response as Persona[];
     } catch (error) {
@@ -51,7 +50,7 @@ export class UsuarioService {
 
   public getAllUsuariosObs(): Observable<Persona[]> {
     try {
-      const url = `${this.baseUrl}/usuarios/10/10`;
+      const url = `${this.baseUrl}usuarios/10/10`;
       return this.httpClient.get<Persona[]>(url);
     } catch (error) {
       console.log(error);
@@ -66,6 +65,11 @@ export class UsuarioService {
     return {...this.usuarios.find(user => {
       return user.idPersona === idUsuario
     })};
+  }
+
+  getUsuarioAsync(idPersona: string): Promise<Persona> {
+    console.log(this.baseUrl + 'usuario/' + idPersona);
+    return this.httpClient.get<Persona>(this.baseUrl + 'usuario/' + idPersona).toPromise();
   }
 
   addUsuario(idPersona: string, nombre: string, apellido: string, email: string, imgUrl: string, nickname: string, passphrase: string, rol: Rol, sexo: string){

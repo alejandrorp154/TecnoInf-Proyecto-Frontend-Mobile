@@ -16,6 +16,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LogInterceptorService } from './servicios/log-intercepetor.service';
+import { FormControl } from '@angular/forms';
 
 export function getBaseUrl() {
   //console.log(document.getElementsByTagName('base')[0].href);
@@ -28,7 +29,7 @@ export function getBaseUrl() {
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule, AngularFirestoreModule, AngularFireStorageModule,
-    FormsModule, ReactiveFormsModule, HttpClientModule],
+    FormsModule, ReactiveFormsModule, HttpClientModule, ReactiveFormsModule],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] },

@@ -4,6 +4,12 @@
   margin-top: 20px;
 }
 
-ion-back-button {
-  display: block;
+.listaUsuarios{
+ position: absolute;
+ max-height: 250px;
+ width: 85% !important;
+}
+
+.scroll{
+  overflow-y: scroll;
 }

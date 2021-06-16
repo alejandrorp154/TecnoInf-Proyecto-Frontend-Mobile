@@ -54,7 +54,8 @@ const routes: Routes = [
   },
   {
     path: 'interes',
-    loadChildren: () => import('./interes/interes.module').then( m => m.InteresPageModule)
+    loadChildren: () => import('./interes/interes.module').then( m => m.InteresPageModule),
+    canLoad: [LoginGuard]
   },
   {
     path: 'eventos',
@@ -63,7 +64,21 @@ const routes: Routes = [
   {
     path: 'visualizar-ubicaciones',
     loadChildren: () => import('./visualizar-ubicaciones/visualizar-ubicaciones.module').then( m => m.VisualizarUbicacionesPageModule)
+  },
+  {
+    path: 'alta-administrador',
+    loadChildren: () => import('./alta-administrador/alta-administrador.module').then( m => m.AltaAdministradorPageModule)
+  },
+  {
+    path: 'mod-administrador',
+    loadChildren: () => import('./mod-administrador/mod-administrador.module').then( m => m.ModAdministradorPageModule),
+    canLoad: [LoginGuard]
+  },
+  {
+    path: 'sugerir-amigos',
+    loadChildren: () => import('./UI/sugerir-amigos/sugerir-amigos.module').then( m => m.SugerirAmigosPageModule)
   }
+
 
 ];
 
@@ -74,3 +89,5 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+
+
