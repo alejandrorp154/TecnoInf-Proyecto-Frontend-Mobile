@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
-import { NavbarComponent } from '../UI/navbar/navbar.component';
+import { NavbarModule } from '../UI/navbar/navbar.module';
 import { AppModule } from '../app.module';
 import { AltaPublicacionComponent } from '../UI/alta-publicacion/alta-publicacion.component';
 import { BuscarMapaComponent } from '../UI/buscar-mapa/buscar-mapa.component';
@@ -16,8 +16,10 @@ import { BuscarMapaComponent } from '../UI/buscar-mapa/buscar-mapa.component';
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule
+    HomePageRoutingModule,
+    ReactiveFormsModule,
+    NavbarModule
   ],
-  declarations: [HomePage, NavbarComponent, AltaPublicacionComponent, BuscarMapaComponent]
+  declarations: [HomePage, AltaPublicacionComponent, BuscarMapaComponent]
 })
 export class HomePageModule {}

@@ -7,7 +7,8 @@ import { Publicacion } from '../modelos/publicacion.model';
 })
 export class PubicacionService {
 
-  
+
+
   constructor(public httpClient: HttpClient, public handleError: ErrorHandler, @Inject('BASE_URL') private baseUrl: string) { }
 
   altaPublicacion(publicacion: Publicacion){
@@ -22,17 +23,17 @@ export class PubicacionService {
     const formData = new FormData();
     formData.append('file', blobData, `myimage.${ext}`);
     formData.append('name', name);
- 
+
     console.log(formData)
     //return this.httpClient.post(`${this.url}/image`, formData);
   }
- 
+
   uploadImageFile(file: File) {
     const ext = file.name.split('.').pop();
     const formData = new FormData();
     formData.append('file', file, `myimage.${ext}`);
     formData.append('name', file.name);
-    
+
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {

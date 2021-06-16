@@ -1,38 +1,51 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button [routerLink]="['/home']" class="pointer"></ion-back-button>
-    </ion-buttons>
 
-    <!--<ion-button type="button" style="display: block;" fill="outline" (click)="onLogout()">logout test</ion-button> -->
-    <ion-buttons slot="end" (click)="onDeleteAccount()">
-    <ion-item>
-        <ion-avatar>
-          <img src="../../../assets/icon/Logo.png">
-        </ion-avatar>
+  <ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-back-button  class="pointer" text=""></ion-back-button>
+        </ion-buttons>
+        <ion-buttons slot="end" (click)="onDeleteAccount()">
+          <ion-item>
+            <ion-avatar>
+              <img src="../../../assets/icon/Logo.png">
+            </ion-avatar>
+          </ion-item>
+        </ion-buttons>
+       <ion-searchbar  class="listaUsuarios" autocomplete="on" (click)="dontShow=false" placeholder="Buscar usuarios registrados" slot="primary" showCancelButton="never" cancelButtonText="Custom Cancel"></ion-searchbar>
+        <ion-buttons slot="end" routerLink="/perfil/{{datoUsuario.userId}}">
+          <ion-avatar>
+            <img src="../../../assets/icon/1024px-User-avatar.svg.png" class="iconosPublicacion">
+          </ion-avatar>
+        </ion-buttons>
+        <ion-buttons slot="end" [routerLink]="['../interes']">
+          <ion-avatar>
+            <img src="../../../assets/icon/notifications-outline.svg" class="iconosPublicacion">
+          </ion-avatar>
+        </ion-buttons>
+        <ion-buttons slot="end">
+          <ion-avatar>
+            <img src="../../../assets/icon/caret-down-outline.svg" class="iconosPublicacion">
+          </ion-avatar>
+        </ion-buttons>
+
+      <ion-buttons>
+        <ion-button slot="end">
+
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-toolbar class="listaUsuarios scroll" *ngIf="searching">
+    <ion-list >
+      <ion-item *ngFor="let usuario of searchResult | async">
+        <div style="display: flex; justify-content: center;">
+          <ion-avatar>
+            <!--<img [src]="usuario.imagenPerfil">-->
+            <img src="../../../assets/icon/1024px-User-avatar.svg.png">
+          </ion-avatar>
+        </div>
+        {{ usuario.nickname }}
       </ion-item>
-    </ion-buttons>
-    <ion-searchbar slot="primary" showCancelButton="focus"></ion-searchbar>
-    <ion-buttons slot="end" routerLink="/perfil/{{datoUsuario.userId}}">
-      <ion-avatar>
-        <img src="../../../assets/icon/1024px-User-avatar.svg.png" class="iconosPublicacion">
-      </ion-avatar>
-    </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-avatar>
-        <img src="../../../assets/icon/notifications-outline.svg" class="iconosPublicacion">
-      </ion-avatar>
-    </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-avatar>
-        <img src="../../../assets/icon/caret-down-outline.svg" class="iconosPublicacion">
-      </ion-avatar>
-    </ion-buttons>
-
-  <ion-buttons>
-    <ion-button slot="end">
-
-    </ion-button>
-  </ion-buttons>
+    </ion-list>
   </ion-toolbar>
-</ion-header>

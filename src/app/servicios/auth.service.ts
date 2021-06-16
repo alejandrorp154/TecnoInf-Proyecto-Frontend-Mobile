@@ -1,22 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { BehaviorSubject, from} from 'rxjs';
+import { BehaviorSubject, from, Observable} from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { UserFire } from '../modelos/userFire.model';
 import { Plugins } from '@capacitor/core';
 import { Router } from '@angular/router';
+import { Usuario } from '../modelos/usuario.model';
+import { AuthResponseData } from '../modelos/AuthResponseData.interface';
 
 
-export interface AuthResponseData {
-  kind: string;
-  idToken: string;
-  email: string;
-  refreshToken: string;
-  localId: string;
-  expiresIn: string;
-  registered?: boolean;
-}
 
 @Injectable({
   providedIn: 'root'
@@ -128,6 +121,7 @@ export class AuthService {
   {
     this._userFire.next(null);
     Plugins.Storage.remove({ key: 'authData' });
+    Plugins.Storage.remove({ key: 'currentUser' });
     this.router.navigateByUrl('/login');
   }
 
@@ -192,5 +186,72 @@ export class AuthService {
         }
       })
   */
+
+  public getCurrentUserFire(): Observable<UserFire> {
+    return from(Plugins.Storage.get({ key: 'authData' })).pipe(
+      map(storedData => {
+        if (!storedData || !storedData.value) {
+          return null;
+        }
+        const parsedData = JSON.parse(storedData.value) as {
+          token: string;
+          tokenExpirationDate: string;
+          userId: string;
+          email: string;
+        };
+        const expirationTime = new Date(parsedData.tokenExpirationDate);
+        if (expirationTime <= new Date()) {
+          return null;
+        }
+        const userFire = new UserFire(
+          parsedData.userId,
+          parsedData.email,
+          parsedData.token,
+          expirationTime
+        );
+        return userFire;
+      })
+    );
+  }
+
+  public getCurrentUser(): Observable<Usuario> {
+    return from(Plugins.Storage.get({ key: 'currentUser' })).pipe(
+      map(storedData => {
+        if (!storedData || !storedData.value) {
+          return null;
+        }
+        const parsedData = JSON.parse(storedData.value) as {
+          idPersona: string,
+          nickname: string,
+          nombre: string,
+          apellido: string,
+          celular: string,
+          direccion: string,
+          email: string,
+          pais: string,
+          imagenPerfil: string,
+          nombreImagen: string,
+          extension: string,
+          administrador: boolean
+        };
+        const user = new Usuario(
+          parsedData.idPersona,
+          parsedData.nickname,
+          parsedData.nombre,
+          parsedData.apellido,
+          parsedData.celular,
+          parsedData.direccion,
+          parsedData.email,
+          parsedData.pais,
+          parsedData.imagenPerfil,
+          parsedData.nombreImagen,
+          parsedData.extension,
+          parsedData.administrador
+        );
+        return user;
+      })
+    );
+  }
+
 
 }

@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Coordinates } from '@ionic-native/geolocation';
+import { Coordinates, Geoposition } from '@ionic-native/geolocation/ngx';
+import { Ubicacion } from '../modelos/ubicacion.model';
 
 export interface MapboxOutput {
   attribution: string;
@@ -17,7 +18,7 @@ export interface Feature{
 }
 
 export interface Geometry{
-  coordinates: Coordinates;  
+  coordinates: Coordinates;
 }
 
 @Injectable({
@@ -34,4 +35,14 @@ export class MapboxService {
       return res.features;
     }));
   }
+/*
+  obtenerUbicacionActual(): Promise<Geoposition> {
+    return this.geolocation.getCurrentPosition();
+    /*(pos: { coords: { latitude: number; longitude: number; }; }) => {
+      ubicacion.latitud = pos.coords.latitude
+      ubicacion.longitud = pos.coords.longitude
+      console.log(pos)
+    })});*
+
+  }*/
 }

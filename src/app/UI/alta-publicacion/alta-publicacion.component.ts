@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActionSheetController, AlertController, ModalController, Platform } from '@ionic/angular';
-import { Preview } from 'src/app/Models/preview';
+import { Preview } from 'src/app/modelos/preview';
 import { LinkPrevService } from 'src/app/servicios/link-prev.service';
 import { BuscarMapaComponent } from '../buscar-mapa/buscar-mapa.component';
 import { PubicacionService } from 'src/app/servicios/pubicacion.service';
@@ -85,7 +85,7 @@ export class AltaPublicacionComponent implements OnInit {
       this.pubService.altaPublicacion(this.publicacion);
       this.texto.textoPub = '';
     }
-    else if(this.tipo=='enlaceExterno'){  
+    else if(this.tipo=='enlaceExterno'){
       this.tipoPub.tipo = TipoPublicacionEnum.enlaceExterno;
       var prev = this.preview.title+'|*|'+this.preview.description+'|*|'+this.preview.image+'|*|'+this.preview.url;
       console.log(this.tipoPub);
@@ -175,7 +175,7 @@ export class AltaPublicacionComponent implements OnInit {
     this.linkPrevService.getPreview(url).subscribe((data: Preview) => {
       this.preview = data;
     });
-    
+
     this.tipo = 'enlaceExterno';
   }
 
@@ -196,7 +196,7 @@ export class AltaPublicacionComponent implements OnInit {
       .addTo(this.mapa);
   }
 
-  
+
   async modalUbicacion() {
     const modal = await this.modalController.create({
       component: BuscarMapaComponent
@@ -215,13 +215,13 @@ export class AltaPublicacionComponent implements OnInit {
           this.tipo = 'mapa';
         }
     });
-    
+
     return await modal.present();
   }
 
 //Si es android deja sacar foto - Si es web solo deja de file system
   async selectImageSource() {
- 
+
     if (this.plt.is('android')) {
       // const buttons = [
       //   {
@@ -251,7 +251,7 @@ export class AltaPublicacionComponent implements OnInit {
     }
 
   }
- 
+
   // async addImage(source: CameraSource) {
   //   const image = await Camera.getPhoto({
   //     quality: 60,
@@ -259,15 +259,15 @@ export class AltaPublicacionComponent implements OnInit {
   //     resultType: CameraResultType.Base64,
   //     source
   //   });
- 
+
   //   const blobData = this.b64toBlob(image.base64String, `image/${image.format}`);
   //   const imageName = 'Give me a name';
- 
+
   //   this.pubService.uploadImage(blobData, imageName, image.format);
   // }
- 
+
   // Used for browser direct file upload
-  uploadFile(event: EventTarget) {
+  uploadFile(event) {
     const eventObj: MSInputMethodContext = event as MSInputMethodContext;
     const target: HTMLInputElement = eventObj.target as HTMLInputElement;
     const file: File = target.files[0];
@@ -289,19 +289,19 @@ export class AltaPublicacionComponent implements OnInit {
   b64toBlob(b64Data, contentType = '', sliceSize = 512) {
     const byteCharacters = atob(b64Data);
     const byteArrays = [];
- 
+
     for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
       const slice = byteCharacters.slice(offset, offset + sliceSize);
- 
+
       const byteNumbers = new Array(slice.length);
       for (let i = 0; i < slice.length; i++) {
         byteNumbers[i] = slice.charCodeAt(i);
       }
- 
+
       const byteArray = new Uint8Array(byteNumbers);
       byteArrays.push(byteArray);
     }
- 
+
     const blob = new Blob(byteArrays, { type: contentType });
     return blob;
   }

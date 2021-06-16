@@ -1,0 +1,49 @@
+<app-navbar></app-navbar>
+<ion-content>
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col size-xs="12" size-md="10" offset-md="1">
+          <ion-card>
+            <ion-card-content>
+              <ion-card-title>Modificar mis datos</ion-card-title>
+
+              <ion-list class="form-input">
+                <ion-item>
+                  <!-- <ion-input type="email" placeholder="Email" #txtEmail></ion-input> -->
+                  <ion-label position="floating">Email</ion-label>
+                  <ion-input type="email" [(ngModel)]="emailDefault" name="email" required email #emailCtrl="ngModel"></ion-input>
+                </ion-item>
+                <ion-item
+                *ngIf="!emailCtrl.valid && emailCtrl.touched"
+                lines="none"
+              >
+                <ion-label>
+                  Debe de ser un correo valido.
+                </ion-label>
+              </ion-item>
+                <ion-item>
+                  <!-- <ion-input type="text" placeholder="Nombre" #txtNombre></ion-input> -->
+                  <ion-label position="floating">Nombre</ion-label>
+                  <ion-input type="text" [(ngModel)]="nombreDefault" name="nombre" #txtNombre></ion-input>
+                </ion-item>
+                <ion-item>
+                <!-- <ion-input type="text" placeholder="Apellido" #txtApellido></ion-input> -->
+                <ion-label position="floating">Apellido</ion-label>
+                <ion-input type="text" [(ngModel)]="apellidoDefault" name="apellido" #txtApellido></ion-input>
+                </ion-item>
+                <ion-row>
+                  <ion-col>
+                    <ion-button type="submit" style="display: block;" fill="outline" [disabled]="!f.valid">
+                      Guardar
+                    </ion-button>
+                  </ion-col>
+                </ion-row>
+              </ion-list>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

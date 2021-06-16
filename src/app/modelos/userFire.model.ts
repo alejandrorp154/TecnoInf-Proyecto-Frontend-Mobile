@@ -16,4 +16,9 @@ export class UserFire
       return this._token
     }
 
+    set token(token: string)
+    {
+      this._token = token;
+    }
+
 }

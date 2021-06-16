@@ -6,47 +6,19 @@ import { switchMap, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Mensaje } from '../modelos/mensaje.model';
 import { Chat } from '../modelos/chat.model';
-import { Usuario } from '../modelos/usuario.model';
-
-export interface User {
-  uid: string;
-  email: string;
-}
+import { AuthService } from './auth.service';
+import { UserFire } from '../modelos/userFire.model';
+import { UsuarioService } from './usuario.service';
+import { Persona } from '../modelos/persona.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
-  currentUser: User = null;
+  currentUser: UserFire = null;
 
-  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {
-    this.afAuth.onAuthStateChanged((user) => {
-      this.currentUser = user;
-    });
-  }
-
-  async signup({ email, password }): Promise<any> {
-    const credential = await this.afAuth.createUserWithEmailAndPassword(
-      email,
-      password
-    );
-
-    const uid = credential.user.uid;
-
-    return this.afs.doc(
-      `users/${uid}`
-    ).set({
-      uid,
-      email: credential.user.email,
-    })
-  }
-
-  signIn({ email, password }) {
-    return this.afAuth.signInWithEmailAndPassword(email, password);
-  }
-
-  signOut(): Promise<void> {
-    return this.afAuth.signOut();
+  constructor(private authService: AuthService, private usuarioService: UsuarioService, private afs: AngularFirestore) {
+    this.authService.getCurrentUserFire().subscribe(res => this.currentUser = res);
   }
 
   // Chat functionality
@@ -55,17 +27,26 @@ export class ChatService {
     return this.afs.collection('mensajes').add({
       contenido: msj,
       path: path,
-      de: this.currentUser.uid,
+      de: this.currentUser.id,
       idChat: idChat,
       fecha: firebase.firestore.FieldValue.serverTimestamp()
     });
   }
 
-  crearChat(uids) {
-    return this.afs.collection('chats').add({
+  async crearChat(uids: string[], nombre: string): Promise<string> {
+    let idChat: string;
+    await this.afs.collection('chats').add({
       uids: uids,
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      fecha: firebase.firestore.FieldValue.serverTimestamp(),
+      nombre: nombre
+    }).then(function(docRef) {
+      console.log("ChatId creado: ", docRef.id);
+      idChat = docRef.id;
+    })
+    .catch(function(error) {
+        console.error("Error creando el chat en Firebase: ", error);
     });
+    return new Promise(resolve => resolve(idChat));
   }
 
   obtenerMensajes(chatId: string) {
@@ -80,7 +61,7 @@ export class ChatService {
         // Get the real name for each user
         for (let m of mensajes) {
           m.nombreDe = this.getUserForMsg(m.de, users);
-          m.miMsj = this.currentUser.uid === m.de;
+          m.miMsj = this.currentUser.id === m.de;
         }
         return mensajes
       })
@@ -88,16 +69,16 @@ export class ChatService {
   }
 
   private getUsers() {
-    return this.afs.collection('users').valueChanges({ idField: 'uid' }) as Observable<User[]>;
+    return this.usuarioService.getAllUsuariosObs() as Observable<Persona[]>;
   }
 
   private getUser(uid: string) {
-    return this.afs.collection('users', ref => ref.where('uid', '==', uid)).valueChanges({ idField: 'uid'}) as Observable<User[]>;
+    return this.usuarioService.getUsuario(uid);
   }
 
-  private getUserForMsg(msgFromId, users: User[]): string {
+  private getUserForMsg(msgFromId, users: UserFire[]): string {
     for (let usr of users) {
-      if (usr.uid == msgFromId) {
+      if (usr.id == msgFromId) {
         return usr.email;
       }
     }
@@ -111,8 +92,13 @@ export class ChatService {
       {updatedAt: firebase.firestore.FieldValue.serverTimestamp(), uids: ["WnVrwbfSYjYULq1uCQ0pUOZhBH13", "bFOJqayOcKQRVCb4WdPOQdF8oRy2"], id: "NkHrH5aVQrfS3i2Fm4Fs"}]));
   }*/
   obtenerMisChats() {
-    if (this.currentUser)
-    return this.afs.collection('chats', ref => ref.where('uids', 'array-contains', this.currentUser.uid).orderBy('fecha', 'desc')).valueChanges({ idField: 'id' }) as Observable<any>;
+    console.log(this.currentUser);
+    if (this.currentUser){
+      console.log('entró a buscar los chats', this.currentUser.id);
+      return this.afs.collection('chats', ref => ref.where('uids', 'array-contains', this.currentUser.id).orderBy('fecha', 'desc')).valueChanges({ idField: 'id' }) as Observable<any>;
+    } else {
+      return new Observable((observer) => observer.next([]));
+    }
   }
 
   private getChatroom(uids: []) {

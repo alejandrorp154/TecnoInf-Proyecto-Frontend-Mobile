@@ -6,22 +6,19 @@ import { IonicModule } from '@ionic/angular';
 
 import { AltaEventoPageRoutingModule } from './alta-evento-routing.module';
 
-import { MapaComponent } from '../UI/mapa/mapa.component';
-import { NavbarComponent } from '../UI/navbar/navbar.component';
 import { AltaEventoPage } from './alta-evento.page';
-//import { Geolocation } from '@ionic-native/geolocation/ngx';
-
+import { NavbarModule } from '../UI/navbar/navbar.module';
+import { MapaModule } from '../UI/mapa/mapa.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AltaEventoPageRoutingModule
+    AltaEventoPageRoutingModule,
+    NavbarModule,
+    MapaModule
   ],
-  declarations: [AltaEventoPage, MapaComponent, NavbarComponent],
-  providers: [
-    //Geolocation
-  ]
+  declarations: [AltaEventoPage]
 })
 export class AltaEventoPageModule {}
