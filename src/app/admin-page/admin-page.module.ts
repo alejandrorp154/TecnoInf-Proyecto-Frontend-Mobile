@@ -11,6 +11,7 @@ import { IonicModule } from '@ionic/angular';
 import { AdminPagePageRoutingModule } from './admin-page-routing.module';
 
 import { AdminPagePage } from './admin-page.page';
+import { NavbarComponent } from "../UI/navbar/navbar.component";
 
 @NgModule({
   imports: [

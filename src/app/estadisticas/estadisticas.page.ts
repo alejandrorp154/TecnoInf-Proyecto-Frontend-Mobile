@@ -12,11 +12,22 @@ import { MedallaService } from '../servicios/medalla.service';
   styleUrls: ['./estadisticas.page.scss'],
 })
 
+
+
 export class EstadisticasPage implements OnInit{
 
   @ViewChild('barChart') private barChart: ElementRef;
   @ViewChild('lineCanvas') private lineCanvas: ElementRef;
   @ViewChild('doughnutCanvas') private doughnutCanvas: ElementRef;
+
+  countIronWolf: number;
+  countBronzeWolf: number;
+  countSilverWolf: number;
+  countGoldWolf: number;
+  countPlatinumWolf: number;
+  countDiamondWolf: number;
+  countMasterWolf: number;
+  countAlfaWolf: number;
 
   doughnutChart: any;
   bars: any;
@@ -28,7 +39,18 @@ export class EstadisticasPage implements OnInit{
   Usuarios: Usuario[];
   rangosM: rangos;
 
+  //Contadores Globales
+
+
   constructor(private usuarioService: UsuarioService, private estadisticaService: EstadisticasService, private medallaService: MedallaService) {
+    this.countIronWolf = 0;
+    this.countBronzeWolf = 0;
+    this.countSilverWolf = 0;
+    this.countGoldWolf = 0;
+    this.countPlatinumWolf = 0;
+    this.countDiamondWolf = 0;
+    this.countMasterWolf = 0;
+    this.countAlfaWolf = 0;
   }
 
   async ngOnInit(){
@@ -46,15 +68,11 @@ export class EstadisticasPage implements OnInit{
     });
     this.getRangos();
   }
-
-  //usuarios = this.usuarioService.getAllUsuariosAsync();
-
   // Obtengo las estadisticas que voy a mostrar
-
   ionViewDidEnter() {
     // console.log('Usuarios: ' , this.usuarios);
     // console.log('TotalUsuarios: ' , this.CantidadUsuariosTotal);
-    // console.log('UsuariosPorMedalla', this.UsuariosPorMedalla);
+    console.log('UsuariosPorMedalla', this.UsuariosPorMedalla);
     // console.log('CantidadVisitasPorUsuario: ', this.CantidadVisitasPorUsuario);
     // console.log('UsuariosPorPaises', this.CantidadusuariosPorPais);
     // console.log('PAISES', this.getPaises());
@@ -62,8 +80,6 @@ export class EstadisticasPage implements OnInit{
     this.createBarChart();
     this.doughnutChartMethod();
     this.lineChartMethod();
-
-
   }
 
   getPaises(){
@@ -82,6 +98,47 @@ export class EstadisticasPage implements OnInit{
     return medallas;
   }
 
+  getmedallasOcurrences(){
+    let t = this;
+    this.UsuariosPorMedalla.forEach(function(lineaEstadistica) {
+      switch (lineaEstadistica.nombreMedalla){
+        case 'ironWolf':
+          console.log("LINEA ESTADISTICA",lineaEstadistica.nombreMedalla);
+          t.countIronWolf += 1;
+          break;
+        case 'bronzeWolf':
+          console.log("LINEA ESTADISTICA",lineaEstadistica.nombreMedalla);
+          t.countBronzeWolf += 1;
+        break;
+        case 'silverWolf':
+          console.log("LINEA ESTADISTICA",lineaEstadistica.nombreMedalla);
+          t.countSilverWolf += 1;
+          break;
+        case 'goldWolf':
+          console.log("LINEA ESTADISTICA",lineaEstadistica.nombreMedalla);
+          t.countGoldWolf += 1;
+          break;
+        case 'platinumWolf':
+          console.log("LINEA ESTADISTICA",lineaEstadistica.nombreMedalla);
+          t.countPlatinumWolf += 1;
+          break;
+        case 'diamondWolf':
+          console.log("LINEA ESTADISTICA",lineaEstadistica.nombreMedalla);
+          t.countDiamondWolf += 1;
+          break;
+        case 'masterWolf':
+          console.log("LINEA ESTADISTICA",lineaEstadistica.nombreMedalla);
+          t.countMasterWolf += 1;
+          break;
+        case 'alphaWolf':
+          console.log("LINEA ESTADISTICA",lineaEstadistica.nombreMedalla);
+          t.countAlfaWolf += 1;
+          break;
+        default:
+        break;
+      }
+    });
+  }
 
   createBarChart() {
     this.bars = new Chart(this.barChart.nativeElement, {
@@ -110,6 +167,8 @@ export class EstadisticasPage implements OnInit{
   }
 
   lineChartMethod() {
+    this.getmedallasOcurrences();
+    let t = this;
     this.lineCanvas = new Chart(this.lineCanvas.nativeElement, {
       type: 'line',
       data: {
@@ -134,7 +193,7 @@ export class EstadisticasPage implements OnInit{
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: this.UsuariosPorMedalla.map(upm => upm.nombreMedalla === this.getRangos().includes(upm.nombreMedalla)),
+            data: [t.countIronWolf, t.countBronzeWolf, t.countSilverWolf, t.countGoldWolf, t.countPlatinumWolf, t.countDiamondWolf, t.countMasterWolf, t.countAlfaWolf],
             spanGaps: false,
           }
         ]
@@ -143,7 +202,7 @@ export class EstadisticasPage implements OnInit{
         scales: {
           yAxes: [{
               ticks: {
-                suggestedMax: 500,
+                suggestedMax: 10,
                 beginAtZero: true
             }
           }]

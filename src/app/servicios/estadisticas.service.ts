@@ -9,7 +9,7 @@ import { Estadistica } from '../modelos/estadistica.model';
 })
 export class EstadisticasService {
 
-  constructor(private userService: UsuarioService, private medallaService: MedallaService, private httpClient: HttpClient) { }
+  constructor(private userService: UsuarioService, private httpClient: HttpClient) { }
 
 
   private baseUrl = 'http://18.217.108.158:8080/pryectoBack-web/rest';
