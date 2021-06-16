@@ -77,7 +77,11 @@ const routes: Routes = [
   {
     path: 'sugerir-amigos',
     loadChildren: () => import('./UI/sugerir-amigos/sugerir-amigos.module').then( m => m.SugerirAmigosPageModule)
+  },  {
+    path: 'recuperar-password',
+    loadChildren: () => import('./recuperar-password/recuperar-password.module').then( m => m.RecuperarPasswordPageModule)
   }
+
 
 
 ];
