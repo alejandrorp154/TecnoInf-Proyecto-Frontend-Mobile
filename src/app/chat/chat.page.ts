@@ -25,7 +25,7 @@ export class ChatPage implements OnInit {
   messages: Observable<any[]>;
   newMsg = '';
   mediaUrl = '';
-  searchBar = new FormControl;
+  //searchBar = new FormControl;
   currentUser: Persona;
 
   chatting = false;
@@ -76,7 +76,7 @@ export class ChatPage implements OnInit {
    }
 
   async ngOnInit() {
-    this.searchBar.setValue('');
+    //this.searchBar.setValue('');
     let userFire = await this.authService.getCurrentUserFire().toPromise();
     console.log(userFire);
     this.currentUser = await this.usuarioService.getUsuarioAsync(userFire.id);
@@ -133,14 +133,14 @@ export class ChatPage implements OnInit {
       }
     } catch(ex) { console.log(ex); }
 
-
+/*
 
     this.searchBar.valueChanges
     .pipe(
       startWith(''),
       map(value => this._filter(value.toString()))
     ).subscribe(res => this.searchResult.next(res));
-
+*/
   }
 
   chatWith(amigo: Persona) {

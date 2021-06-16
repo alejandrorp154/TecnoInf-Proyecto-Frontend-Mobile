@@ -1,3 +1,5 @@
+import { Medalla } from '../modelos/medalla.model';
+
 export class Usuario {
   constructor (
     public idPersona: string,
@@ -14,12 +16,4 @@ export class Usuario {
     public administrador?: boolean,
     public medalla?: Medalla
   ){ }
-}
-
-export class Medalla {
-  idMedalla: number;
-  cantidadPuntos: number;
-  logros: string;
-  rango: string;
-  usuario: Usuario
 }

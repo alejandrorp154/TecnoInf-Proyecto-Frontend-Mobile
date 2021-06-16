@@ -3,7 +3,11 @@ import { AlertController } from '@ionic/angular';
 import { AuthService } from 'src/app/servicios/auth.service';
 import { take } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { ListarUsuariosRegistradosService } from 'src/app/servicios/listar-usuarios-registrados.service';
+import { Usuario } from 'src/app/modelos/usuario.model';
+import { FormControl } from '@angular/forms';
+import { finalize, map, startWith, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-navbar',
@@ -12,12 +16,65 @@ import { Observable } from 'rxjs';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private authService: AuthService, private alertCtrl: AlertController, private router: Router) { }
+  dontShow: boolean = true;
+  usuarios: Usuario[];
+  searchResult: BehaviorSubject<any[]> = new BehaviorSubject([]);
+  searchBar = new FormControl;
+  searching: boolean = false;
 
-  ngOnInit() {}
+  constructor(private listarUsuariosRegistradosService: ListarUsuariosRegistradosService, private authService: AuthService, private alertCtrl: AlertController, private router: Router) {
+    this.usuarios = [];
+  }
+
+  ngOnInit() {
+    this.searchBar.setValue('');
+    this.searchResult.next(this.usuarios);
+    this.getAllUsuariosRegistrados();
+
+    this.searchBar.valueChanges
+    .pipe(
+      startWith(''),
+      map(value => this._filter(value.toString()))
+    ).subscribe(res => this.searchResult.next(res));
+
+  }
+
+  test(){
+
+  }
+
+  private _filter(value: string): Usuario[] {
+    console.log(this.searchResult);
+    if(value) {
+      this.searching = true;
+      const filterValue = value.toLocaleLowerCase();
+
+      return this.usuarios.filter(usuario => {
+        if(usuario.nickname != null){
+          return (
+            usuario.nombre.toLocaleLowerCase().includes(filterValue) ||
+            usuario.apellido.toLocaleLowerCase().includes(filterValue) ||
+            usuario.nickname.toLocaleLowerCase().includes(filterValue)
+            );
+        }else{
+          return (
+            usuario.nombre.toLocaleLowerCase().includes(filterValue) ||
+            usuario.apellido.toLocaleLowerCase().includes(filterValue)
+            );
+        }
+
+      });
+    } else {
+      this.searching = false;
+    }
+  }
 
   onLogout() {
     this.authService.logout();
+  }
+
+  async getAllUsuariosRegistrados(){
+    this.usuarios = await this.listarUsuariosRegistradosService.getAllUsuariosRegistradosAsync();
   }
 
   onDeleteAccount()

@@ -54,7 +54,8 @@ const routes: Routes = [
   },
   {
     path: 'interes',
-    loadChildren: () => import('./interes/interes.module').then( m => m.InteresPageModule)
+    loadChildren: () => import('./interes/interes.module').then( m => m.InteresPageModule),
+    canLoad: [LoginGuard]
   },
   {
     path: 'eventos',
@@ -88,3 +89,5 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+
+
