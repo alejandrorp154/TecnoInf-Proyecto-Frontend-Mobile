@@ -19,6 +19,8 @@ export class EstadisticasPage implements OnInit{
   @ViewChild('barChart') private barChart: ElementRef;
   @ViewChild('lineCanvas') private lineCanvas: ElementRef;
   @ViewChild('doughnutCanvas') private doughnutCanvas: ElementRef;
+  @ViewChild("barCanvas") barCanvas: ElementRef;
+
 
   countIronWolf: number;
   countBronzeWolf: number;
@@ -28,6 +30,8 @@ export class EstadisticasPage implements OnInit{
   countDiamondWolf: number;
   countMasterWolf: number;
   countAlfaWolf: number;
+
+  private barCanvas2: Chart;
 
   doughnutChart: any;
   bars: any;
@@ -39,7 +43,6 @@ export class EstadisticasPage implements OnInit{
   Usuarios: Usuario[];
   rangosM: rangos;
 
-  //Contadores Globales
 
 
   constructor(private usuarioService: UsuarioService, private estadisticaService: EstadisticasService, private medallaService: MedallaService) {
@@ -79,7 +82,8 @@ export class EstadisticasPage implements OnInit{
 
     this.createBarChart();
     this.doughnutChartMethod();
-    this.lineChartMethod();
+    //this.lineChartMethod();
+    this.BarCanvasMethod();
   }
 
   getPaises(){
@@ -166,7 +170,7 @@ export class EstadisticasPage implements OnInit{
     });
   }
 
-  lineChartMethod() {
+  /*lineChartMethod() {
     this.getmedallasOcurrences();
     let t = this;
     this.lineCanvas = new Chart(this.lineCanvas.nativeElement, {
@@ -206,6 +210,56 @@ export class EstadisticasPage implements OnInit{
                 beginAtZero: true
             }
           }]
+        }
+      }
+    });
+  }*/
+
+  BarCanvasMethod(){
+    this.getmedallasOcurrences();
+    let t = this;
+    this.barCanvas2 = new Chart(this.barCanvas.nativeElement, {
+      type: "bar",
+      data: {
+        labels: this.getRangos(),
+        datasets: [
+          {
+            label: "Cantidad de usuarios por Medalla",
+            data: [t.countIronWolf, t.countBronzeWolf, t.countSilverWolf, t.countGoldWolf, t.countPlatinumWolf, t.countDiamondWolf, t.countMasterWolf, t.countAlfaWolf],
+            backgroundColor: [
+              "rgba(0, 0, 0, 0.51)", //iron
+              "rgba(116, 48, 0, 0.94)",//bronze
+              "rgba(0, 0, 0, 0.12)",//silver
+              "rgba(249, 164, 0, 0.99)", // gold
+              "rgba(4, 189, 111, 0.69)",//platinum
+              "rgba(4, 124, 214, 0.94)",//diamond
+              "rgba(117, 20, 252, 0.94)",//master
+              "rgba(255, 0, 0, 0.86)"//alfa
+            ],
+            borderColor: [
+              "rgba(0, 0, 0, 1)", //iron
+              "rgba(116, 48, 0, 1)",//bronze
+              "rgba(0, 0, 0, 1)",//silver
+              "rgba(249, 164, 0, 1)", // gold
+              "rgba(4, 189, 111, 1)",//platinum
+              "rgba(4, 124, 214, 1)",//diamond
+              "rgba(117, 20, 252, 1)",//master
+              "rgba(255, 0, 0, 1)"//alfa
+            ],
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                suggestedMax: 10,
+                beginAtZero: true
+              }
+            }
+          ]
         }
       }
     });
