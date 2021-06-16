@@ -31,7 +31,7 @@ export class EstadisticasPage implements OnInit{
   countMasterWolf: number;
   countAlfaWolf: number;
 
-  private barCanvas2: Chart;
+  barCanvas2: Chart;
 
   doughnutChart: any;
   bars: any;
@@ -71,15 +71,7 @@ export class EstadisticasPage implements OnInit{
     });
     this.getRangos();
   }
-  // Obtengo las estadisticas que voy a mostrar
   ionViewDidEnter() {
-    // console.log('Usuarios: ' , this.usuarios);
-    // console.log('TotalUsuarios: ' , this.CantidadUsuariosTotal);
-    console.log('UsuariosPorMedalla', this.UsuariosPorMedalla);
-    // console.log('CantidadVisitasPorUsuario: ', this.CantidadVisitasPorUsuario);
-    // console.log('UsuariosPorPaises', this.CantidadusuariosPorPais);
-    // console.log('PAISES', this.getPaises());
-
     this.createBarChart();
     this.doughnutChartMethod();
     //this.lineChartMethod();
