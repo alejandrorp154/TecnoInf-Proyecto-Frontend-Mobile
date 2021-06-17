@@ -43,4 +43,15 @@ export class InteresService {
     return this.httpClient.put<Interes>(url, modInteres).toPromise();
   }
 
+  subscribeInteres(idInteres: Number, userID: string)
+  {
+    const url = `${this.baseUrl}interes/suscribe/${userID}/${idInteres}`;
+    return this.httpClient.delete(url).toPromise();
+  }
+  unSubscribeInteres(idInteres: Number, userID: string)
+  {
+    const url = `${this.baseUrl}interes/desuscribe/${userID}/${idInteres}`;
+    return this.httpClient.delete(url).toPromise();
+  }
+
 }
