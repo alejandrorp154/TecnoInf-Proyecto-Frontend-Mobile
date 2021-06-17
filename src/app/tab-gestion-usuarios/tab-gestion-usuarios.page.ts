@@ -1,9 +1,8 @@
 import { Persona } from "./../modelos/persona.model";
 import { Usuario } from "src/app/modelos/usuario.model";
 import { UsuarioService } from "./../servicios/usuario.service";
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AlertController, IonItemSliding, IonList } from "@ionic/angular";
-import { createContentChild } from "@angular/compiler/src/core";
 
 @Component({
   selector: 'app-tab-gestion-usuarios',
@@ -34,7 +33,7 @@ export class TabGestionUsuariosPage implements OnInit {
     try{
       this.alertCtrl
       .create({
-        header: '¿Estas seguro?',
+        header: 'Bloquear Usuario',
         message: '¿Estas seguro que deseas bloquear este usuario?',
         buttons: [
           {
@@ -45,7 +44,6 @@ export class TabGestionUsuariosPage implements OnInit {
             text: 'Bloquear',
             handler: async () => {
               await this.usuarioService.bloquearUsuario(idPersona);
-              //await slidingUser.close();
               await this.getAllUsuarios();
               this.showError = false;
             }
@@ -66,7 +64,7 @@ export class TabGestionUsuariosPage implements OnInit {
     try{
       this.alertCtrl
       .create({
-        header: '¿Estas seguro?',
+        header: 'Desbloquear Usuario',
         message: '¿Estas seguro que deseas desbloquear este usuario?',
         buttons: [
           {

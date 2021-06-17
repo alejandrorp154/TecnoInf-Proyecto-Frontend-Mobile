@@ -63,7 +63,8 @@ export class EstadisticasPage implements OnInit{
     let PCantidadUsuariosPorPais = this.estadisticaService.getTipoEstadisticaAsync('CantidadUsuariosPorPais');
 
     await Promise.all([PCantidadUsuariosPorPais, PCantidadUsuariosTotal, PUsuariosPorMedalla, PCantidadVisitasPorUsuario]).then((values) => {
-      console.log(values);
+      console.log('CANTIDAD USUARIOS POR PAISES',values[3]);
+      console.log('CANTIDAD USUARIOS TOTAL',values[1]);
       this.CantidadusuariosPorPais = values[0];
       this.CantidadUsuariosTotal = values[1];
       this.UsuariosPorMedalla = values[2];
@@ -72,10 +73,13 @@ export class EstadisticasPage implements OnInit{
     this.getRangos();
   }
   ionViewDidEnter() {
-    this.createBarChart();
+    setTimeout(() => {
+      this.createBarChart();
     this.doughnutChartMethod();
-    //this.lineChartMethod();
+    this.lineChartMethod();
     this.BarCanvasMethod();
+    }, 100);
+
   }
 
   getPaises(){
@@ -142,7 +146,7 @@ export class EstadisticasPage implements OnInit{
       data: {
         labels: ['Usuarios registrados'],
         datasets: [{
-          label: 'Cantiadad de Usuarios: ' + this.CantidadUsuariosTotal[0].cantidadUsuariosRegistrados,
+          label: 'Cantidad de Usuarios: ' + this.CantidadUsuariosTotal[0].cantidadUsuariosRegistrados,
           data: [this.CantidadUsuariosTotal[0].cantidadUsuariosRegistrados],
           backgroundColor: 'rgb(38, 194, 129)', // array should have same number of elements as number of dataset
           borderColor: 'rgb(38, 194, 129)',// array should have same number of elements as number of dataset
@@ -162,16 +166,16 @@ export class EstadisticasPage implements OnInit{
     });
   }
 
-  /*lineChartMethod() {
+  lineChartMethod() {
     this.getmedallasOcurrences();
     let t = this;
     this.lineCanvas = new Chart(this.lineCanvas.nativeElement, {
       type: 'line',
       data: {
-        labels: this.getRangos(), //Medallas
+        labels: this.CantidadVisitasPorUsuario.map(a => a.nombreUsuario).sort((one, two) => (one > two ? -1 : 1)).slice(0, 10),
         datasets: [
           {
-            label: 'Usuarios Por Medalla',
+            label: 'Usuarios que visitaron mas paises',
             fill: false,
             lineTension: 1,
             backgroundColor: 'rgba(75,192,192,0.4)',
@@ -189,7 +193,7 @@ export class EstadisticasPage implements OnInit{
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [t.countIronWolf, t.countBronzeWolf, t.countSilverWolf, t.countGoldWolf, t.countPlatinumWolf, t.countDiamondWolf, t.countMasterWolf, t.countAlfaWolf],
+            data: this.CantidadVisitasPorUsuario.map(a => a.cantidadVisitas > 0).sort((one, two) => (one > two ? -1 : 1)).slice(0, 10),
             spanGaps: false,
           }
         ]
@@ -205,7 +209,7 @@ export class EstadisticasPage implements OnInit{
         }
       }
     });
-  }*/
+  }
 
   BarCanvasMethod(){
     this.getmedallasOcurrences();
