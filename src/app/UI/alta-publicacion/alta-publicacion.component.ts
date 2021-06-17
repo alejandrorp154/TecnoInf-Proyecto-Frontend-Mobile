@@ -9,6 +9,9 @@ import { idPersona, Publicacion, TipoPublicacion, TipoPublicacionEnum, usuario }
 import { environment } from 'src/environments/environment';
 import * as Mapboxgl from 'mapbox-gl';
 import { DomSanitizer } from '@angular/platform-browser';
+import { UbicacionService } from 'src/app/servicios/ubicacion.service';
+import { Ubicacion } from 'src/app/modelos/ubicacion';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-alta-publicacion',
@@ -22,7 +25,8 @@ export class AltaPublicacionComponent implements OnInit {
   constructor(private alertController: AlertController, private linkPrevService: LinkPrevService,
      public modalController: ModalController, private pubService: PubicacionService,
      private plt: Platform, private actionSheetCtrl: ActionSheetController,
-     private sanitizer: DomSanitizer) { }
+     private sanitizer: DomSanitizer, private ubiService: UbicacionService,
+     private datePipe: DatePipe) { }
 
   preview: Preview = new Preview;
 
@@ -33,6 +37,8 @@ export class AltaPublicacionComponent implements OnInit {
 
   publicacion: Publicacion;
 
+  ubicacion: Ubicacion;
+
   mapa: Mapboxgl.map;
 
   imageSource;
@@ -42,6 +48,14 @@ export class AltaPublicacionComponent implements OnInit {
     ext: ''
   }
 
+  datoUsuario = {
+    email: '',
+    token: '',
+    tokenExpirationDate: '',
+    userId: ''
+  }
+
+
   public usr: usuario;
   public idPer: idPersona;
   public tipoPub: TipoPublicacion;
@@ -49,14 +63,19 @@ export class AltaPublicacionComponent implements OnInit {
   texto = {textoPub: ''}
 
   cord: string;
+  lat: number;
+  long: number;
+  pais: string;
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.datoUsuario = JSON.parse(localStorage.getItem('_cap_authData'));
+  }
 
   publicar(){
     this.usr = new usuario();
     this.idPer = new idPersona();
     this.tipoPub = new TipoPublicacion();
-    this.idPer.idPersona = '1'; //Cambiar por usuario logeado
+    this.idPer.idPersona = this.datoUsuario.userId; //Usuario logeado
     this.usr.usuario = this.idPer;
     this.tipoPub.tipo = this.obtenerTipo();
     if(this.tipo=='texto'){
@@ -64,6 +83,7 @@ export class AltaPublicacionComponent implements OnInit {
       this.publicacion = new Publicacion(this.tipoPub,this.texto.textoPub,'','',this.usr);
       console.log(this.publicacion);
       this.pubService.altaPublicacion(this.publicacion);
+      this.texto.textoPub = '';
     }
     else if(this.tipo=='enlaceExterno'){
       this.tipoPub.tipo = TipoPublicacionEnum.enlaceExterno;
@@ -84,8 +104,18 @@ export class AltaPublicacionComponent implements OnInit {
       this.tipoPub.tipo = TipoPublicacionEnum.mapa;
       this.publicacion = new Publicacion(this.tipoPub,this.cord,'','',this.usr);
       this.pubService.altaPublicacion(this.publicacion);
+      //Alta Ubicacion
+      this.ubicacion = new Ubicacion;
+      this.ubicacion.descripcion = '';
+      var fecha = new Date();
+      this.ubicacion.fecha = this.datePipe.transform(fecha,"yyyy-MM-dd")
+      this.ubicacion.idPersona = this.usr.usuario.idPersona;
+      this.ubicacion.latitud = this.lat;
+      this.ubicacion.longitud = this.long;
+      this.ubicacion.pais = this.pais;
+      console.log(this.ubicacion);
+      this.ubiService.altaUbicacion(this.ubicacion);
     }
-    console.log('Salgo');
     this.cancelar();//Vuelve a tipo texto
   }
 
@@ -178,6 +208,9 @@ export class AltaPublicacionComponent implements OnInit {
           var cord: string[];
           this.cord = data.data;
           cord = data.data.split(',');
+          this.long = parseFloat(cord[0]);
+          this.lat = parseFloat(cord[1]);
+          this.pais = cord[2];
           setTimeout(() => this.buildMap(parseFloat(cord[0]),parseFloat(cord[1])), 5);
           this.tipo = 'mapa';
         }
