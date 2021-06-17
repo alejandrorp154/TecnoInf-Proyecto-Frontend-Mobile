@@ -14,6 +14,7 @@ export interface MapboxOutput {
 export interface Feature{
   place_name: string;
   geometry: Geometry;
+  context: any;
 }
 
 export interface Geometry{

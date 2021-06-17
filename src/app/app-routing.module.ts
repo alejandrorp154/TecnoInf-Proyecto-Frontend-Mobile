@@ -14,7 +14,7 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'perfil',
+    path: 'perfil/:id',
     loadChildren: () => import('./perfil/perfil.module').then( m => m.PerfilPageModule),
     canLoad: [LoginGuard]
   },
@@ -88,11 +88,7 @@ const routes: Routes = [
   {
     path: 'tab-gestion-usuarios',
     loadChildren: () => import('./tab-gestion-usuarios/tab-gestion-usuarios.module').then( m => m.TabGestionUsuariosPageModule)
-  },  {
-    path: 'configuracion-notificaciones',
-    loadChildren: () => import('./UI/configuracion-notificaciones/configuracion-notificaciones.module').then( m => m.ConfiguracionNotificacionesPageModule)
   }
-
 ];
 
 @NgModule({
@@ -102,3 +98,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+

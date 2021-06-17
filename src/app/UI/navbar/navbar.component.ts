@@ -25,12 +25,20 @@ export class NavbarComponent implements OnInit {
   searching: boolean = false;
   userFire: UserFire;
 
+   datoUsuario = {
+    email: '',
+    token: '',
+    tokenExpirationDate: '',
+    userId: ''
+  }
+  
   constructor(
     private listarUsuariosRegistradosService: ListarUsuariosRegistradosService,
     private authService: AuthService,
     private alertCtrl: AlertController,
     private router: Router,
     private eliminarCuenta: EliminarCuentaService) {
+
     this.usuarios = [];
   }
 
@@ -45,6 +53,7 @@ export class NavbarComponent implements OnInit {
       map(value => this._filter(value.toString()))
     ).subscribe(res => this.searchResult.next(res));
 
+    this.datoUsuario = JSON.parse(localStorage.getItem('_cap_authData'));
   }
 
   test(){
