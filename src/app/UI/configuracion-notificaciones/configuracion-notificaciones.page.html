@@ -16,7 +16,7 @@
             <ion-list *ngFor="let config of configuracionAMostrar | keyvalue">
               <ion-item>
                 <ion-label> {{ config.key }} </ion-label>
-                <ion-checkbox place-right [(ngModel)]="config.value" (click)="checkedChanged(config.key, config.value)"></ion-checkbox>
+                <ion-checkbox place-right checked={{config.value}} (click)="checkedChanged(config.key, config.value)"></ion-checkbox>
               </ion-item>
             </ion-list>
             <ion-item>

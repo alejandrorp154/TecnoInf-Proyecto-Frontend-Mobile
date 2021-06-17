@@ -1,3 +1,4 @@
+import { AlertController } from "@ionic/angular";
 import { UserFire } from "./../../modelos/userFire.model";
 import { AuthService } from "src/app/servicios/auth.service";
 import { idPersona } from "src/app/modelos/publicacion.model";
@@ -14,7 +15,7 @@ import { Persona } from "src/app/modelos/persona.model";
 })
 export class ConfiguracionNotificacionesPage implements OnInit {
 
-  constructor(private configuracionService: ConfiguracionesService, private authService: AuthService) { }
+  constructor(private configuracionService: ConfiguracionesService, private authService: AuthService, private alertCtrl: AlertController) { }
 
   configuraciones: Configuracion;
   user: UserFire;
@@ -40,12 +41,29 @@ export class ConfiguracionNotificacionesPage implements OnInit {
   }
 
   onAplicar(){
-    try{
-      console.log('CONFIG',this.configuraciones);
-      this.configuracionService.configurarNotificaciones(this.configuraciones);
-      this.getConfiguraciones(this.user.id);
-    }catch(error){
-      console.log(error);
-    }
+    this.alertCtrl.create({
+      header: 'Configurar Notificaciones',
+      message: '¿Estas seguro de que deseas aplicar esta configuracion?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Aceptar',
+          handler: async () => {
+            await this.configuracionService.configurarNotificaciones(this.configuraciones);
+            await this.getConfiguraciones(this.user.id);
+            window.location.reload();
+
+          }
+        }
+      ]
+    }).then(alertElement => {
+      alertElement.present();
+    })
   }
 }

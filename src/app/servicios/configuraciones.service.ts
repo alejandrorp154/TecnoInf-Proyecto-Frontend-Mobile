@@ -39,9 +39,9 @@ export class ConfiguracionesService {
 	      "modificacionEvento" : config.modificacionEvento,
         "idPersona" : config.idPersona,
       }
-      const url = `${this.baseUrl}configurarNotificaciones`;
+      const url = `${this.baseUrl}configSistema`;
       console.log('CONFIG EN SERVICE', config);
-      let response = this.httpClient.put<Configuracion>(url, config, this.httpOptions);
+      let response = this.httpClient.put<Configuracion>(url, postData);
       console.log('RESPONSE',response.toPromise());
     }catch(error){
       console.log(error);
