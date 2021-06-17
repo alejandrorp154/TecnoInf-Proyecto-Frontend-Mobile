@@ -1,34 +1,58 @@
 import { Configuracion } from "./../modelos/configuracion.model";
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
+import { getBaseUrl } from "../app.module";
+import { CompilerConfig } from "@angular/compiler";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConfiguracionesService {
 
-  constructor(private httpClient: HttpClient) { }
+  readonly httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json',
+      'Access-Control-Allow-Origin': '*'
+    })
+  };
 
-  configuraciones: Configuracion[];
+  constructor(private httpClient: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
 
-  private baseUrl = 'http://18.217.108.158:8080/pryectoBack-web/rest/configSistema';
+  configuraciones: Configuracion;
 
   async configurarNotificaciones(config: Configuracion){
     try{
-      const url = `${this.baseUrl}/configurarNotificaciones`;
-      let response = this.httpClient.put(url, config);
-      console.log(response);
+      let postData = {
+        "idConfiguracion" : config.idConfiguracion,
+	      "altaPublicacion" : config.altaPublicacion,
+	      "altaContacto" : config.altaContacto,
+	      "reaccionPublicacion" : config.reaccionPublicacion,
+	      "comentarPublicacion" : config.comentarPublicacion,
+	      "altaEvento" : config.altaEvento,
+	      "invitacionUsuario" : config.invitacionUsuario,
+	      "salirEvento" : config.salirEvento,
+	      "recuperarContrasenia" : config.recuperarContrasenia,
+	      "bloquearUsuario" : config.bloquearUsuario,
+	      "desbloquearUsuario" : config.desbloquearUsuario,
+	      "chatUsuario" : config.chatUsuario,
+	      "bajaEvento" : config.bajaEvento,
+	      "modificacionEvento" : config.modificacionEvento,
+        "idPersona" : config.idPersona,
+      }
+      const url = `${this.baseUrl}configurarNotificaciones`;
+      console.log('CONFIG EN SERVICE', config);
+      let response = this.httpClient.put<Configuracion>(url, config, this.httpOptions);
+      console.log('RESPONSE',response.toPromise());
     }catch(error){
       console.log(error);
     }
-
   }
 
-  async getConfiguraciones(){
+  async getConfiguraciones(idPersona: string){
     try{
-      const url = `${this.baseUrl}/configurarNotificaciones`;
+      const url = `${this.baseUrl}configSistema/${idPersona}`;
       let response = await this.httpClient.get(url).toPromise();
-      this.configuraciones = response as Configuracion[];
+      this.configuraciones = response as Configuracion;
       console.log(response);
       return this.configuraciones;
     }catch(error){

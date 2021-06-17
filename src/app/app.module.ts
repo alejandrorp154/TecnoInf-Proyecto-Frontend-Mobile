@@ -20,7 +20,7 @@ import { FormControl } from '@angular/forms';
 
 export function getBaseUrl() {
   //console.log(document.getElementsByTagName('base')[0].href);
-  return 'http://18.217.108.158:8080/pryectoBack-web/rest/';
+  return 'http://18.118.211.155:8080/pryectoBack-web/rest/';
 }
 
 @NgModule({

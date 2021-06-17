@@ -1,6 +1,7 @@
 export class Configuracion {
 
   constructor(
+    public idPersona: string,
     public idConfiguracion: number,
     public altaPublicacion: boolean,
     public altaContacto: boolean,
@@ -14,8 +15,7 @@ export class Configuracion {
     public desbloquearUsuario: boolean,
     public chatUsuario: boolean,
     public bajaEvento: boolean,
-    public modificacionEvento: boolean,
-    public idPersona: string
+    public modificacionEvento: boolean
 
   ){}
 
