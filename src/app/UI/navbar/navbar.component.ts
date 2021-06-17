@@ -31,7 +31,7 @@ export class NavbarComponent implements OnInit {
     tokenExpirationDate: '',
     userId: ''
   }
-  
+
   constructor(
     private listarUsuariosRegistradosService: ListarUsuariosRegistradosService,
     private authService: AuthService,
@@ -56,9 +56,6 @@ export class NavbarComponent implements OnInit {
     this.datoUsuario = JSON.parse(localStorage.getItem('_cap_authData'));
   }
 
-  test(){
-
-  }
 
   private _filter(value: string): Usuario[] {
     console.log(this.searchResult);
@@ -84,10 +81,6 @@ export class NavbarComponent implements OnInit {
     } else {
       this.searching = false;
     }
-  }
-
-  onLogout() {
-    this.authService.logout();
   }
 
   async getAllUsuariosRegistrados(){

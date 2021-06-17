@@ -23,14 +23,10 @@
           </ion-avatar>
         </ion-buttons>
         <ion-buttons slot="end">
-          <ion-avatar>
-            <img src="../../../assets/icon/caret-down-outline.svg" class="iconosPublicacion">
-          </ion-avatar>
+          <ion-menu-button class="ion-margin"></ion-menu-button>
         </ion-buttons>
-
       <ion-buttons>
         <ion-button slot="end">
-
         </ion-button>
       </ion-buttons>
     </ion-toolbar>
@@ -41,8 +37,7 @@
       <ion-item *ngFor="let usuario of searchResult | async">
         <div style="display: flex; justify-content: center;">
           <ion-avatar>
-            <!--<img [src]="usuario.imagenPerfil">-->
-            <img src="../../../assets/icon/1024px-User-avatar.svg.png">
+            <img [src]="usuario.imagenPerfil">
           </ion-avatar>
         </div>
         {{ usuario.nickname }}

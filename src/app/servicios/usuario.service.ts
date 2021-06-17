@@ -144,10 +144,8 @@ export class UsuarioService {
     });
   }
 
-  getContactos(idUsuario: string) {
-    /* ************** EDITAR GET ************** */
-    return this.getAllUsuarios();
-    /* ************** END EDITAR GET ************** */
+  getContactos(idUsuario: string): Promise<Usuario[]> {
+    return this.httpClient.get<Usuario[]>(this.baseUrl + 'visualizacion/obtenerAmigos/' + idUsuario).toPromise();
   }
 
   getLoggedUser(): Promise<Persona> {

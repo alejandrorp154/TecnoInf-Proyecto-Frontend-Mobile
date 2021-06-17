@@ -93,7 +93,7 @@ export class ChatPage implements OnInit {
       } catch (ex) { }
     });
 
-    this.friends = this.usuarioService.getContactos(this.currentUser.idPersona);
+    //this.friends = this.usuarioService.getContactos(this.currentUser.idPersona);
     console.log(this.friends);
 
     try{
