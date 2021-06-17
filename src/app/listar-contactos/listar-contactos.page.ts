@@ -16,17 +16,19 @@ export class ListarContactosPage implements OnInit {
   currentUser: Usuario;
   searchResult: BehaviorSubject<any[]> = new BehaviorSubject([]);
   searching: boolean = false;
-  usuarios: Usuario[];
+  contactos: Usuario[];
+  contactosAux: Usuario[];
   searchBar = new FormControl;
   constructor(private userService: UsuarioService, private authService: AuthService)
   {
-    this.usuarios = [];
+    this.contactos = [];
+    this.contactosAux = [];
   }
 
   ngOnInit() {
-    this.getLoguedUser();
+    this.getUserAndFriends().then(async res => this.getContactos());
     this.searchBar.setValue('');
-    this.searchResult.next(this.usuarios);
+    this.searchResult.next(this.contactos);
 
     this.searchBar.valueChanges
     .pipe(
@@ -41,7 +43,7 @@ export class ListarContactosPage implements OnInit {
       this.searching = true;
       const filterValue = value.toLocaleLowerCase();
 
-      return this.usuarios.filter(usuario => {
+      return this.contactos.filter(usuario => {
         if(usuario.nickname != null){
           return (
             usuario.nombre.toLocaleLowerCase().includes(filterValue) ||
@@ -63,14 +65,18 @@ export class ListarContactosPage implements OnInit {
     }
   }
 
-  async getLoguedUser()
+  async getUserAndFriends()
   {
     this.currentUser = await this.authService.getCurrentUser().toPromise();
   }
 
-  async getContactos()
+  async getContactos(evento?)
   {
-    this.usuarios = await this.userService.getContactos(this.currentUser.idPersona)
+    this.contactosAux = await this.userService.getContactos(this.currentUser.idPersona, 4, evento)
+    this.contactosAux.forEach(element => {
+      this.contactos.push(element)
+
+    });
   }
 
   onViewProfile(userID: string)
