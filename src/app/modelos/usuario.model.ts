@@ -17,3 +17,4 @@ export class Usuario {
     public medalla?: Medalla
   ){ }
 }
+

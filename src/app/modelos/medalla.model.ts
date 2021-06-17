@@ -1,11 +1,22 @@
-import { Usuario } from '../modelos/usuario.model';
+import { Usuario } from "../modelos/usuario.model";
 
 export class Medalla {
-  constructor (
-    public idMedalla: number,
-    public cantidadPuntos: number,
-    public logros: string,
-    public rango: string,
-    public usuario: Usuario
-  ){ }
+  idMedalla: number;
+  cantidadPuntos: number;
+  logros: string;
+  rango: rangos;
+  usuario: Usuario
+}
+export enum Logros {
+  Publicaciones
+}
+export enum rangos {
+	ironWolf,
+	bronzeWolf,
+	silverWolf,
+	goldWolf,
+	platinumWolf,
+	diamondWolf,
+	masterWolf,
+	alfaWolf
 }

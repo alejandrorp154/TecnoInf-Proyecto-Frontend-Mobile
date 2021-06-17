@@ -13,6 +13,7 @@ export class BuscarMapaComponent implements OnInit {
 
   mapa: Mapboxgl.map;
 
+
   constructor(public modalController: ModalController, private mapboxService: MapboxService) { }
 
   addresses: string [] = [];
@@ -35,12 +36,13 @@ export class BuscarMapaComponent implements OnInit {
   }
 
   onSelect(address: string){
-    //console.log(address);
     this.selectedAddress = address;
-    let featureItem = this.features.find(ft => ft.place_name == address);
+    var featureItem = this.features.find(ft => ft.place_name == address);
     this.addresses = [];
     this.features = [];
-    this.createMarker(featureItem.geometry.coordinates[0], featureItem.geometry.coordinates[1]);
+    //console.log(featureItem.context.find(pais => pais.id.includes("country")).text);
+    var pais = featureItem.context.find(pais => pais.id.includes("country")).text;
+    this.createMarker(featureItem.geometry.coordinates[0], featureItem.geometry.coordinates[1], pais);
   }
 
   buildMap(){
@@ -65,7 +67,7 @@ export class BuscarMapaComponent implements OnInit {
 
 }
 
-  createMarker(lng: number, lat: number) {
+  createMarker(lng: number, lat: number, pais: string) {
     //var element = document.createElement('div');
     // element.className = 'marker';
     // element.style.backgroundImage = 'url(https://placekitten.com/g/'+ Math.floor(Math.random() * (500 - 100 + 1)) + '/300/)';
@@ -81,7 +83,7 @@ export class BuscarMapaComponent implements OnInit {
       .addTo(this.mapa);
       //this.center(lng, lat);
       
-      this.dismiss(lng,lat);
+      this.dismiss(lng,lat,pais);
   }
 
   center(lng: number, lat: number){
@@ -91,9 +93,9 @@ export class BuscarMapaComponent implements OnInit {
     });
   }
 
-  dismiss(lng: number, lat: number) {
+  dismiss(lng: number, lat: number, pais: string) {
   
-    this.modalController.dismiss(lng+','+lat);
+    this.modalController.dismiss(lng+','+lat+','+pais);
   }
 
 }

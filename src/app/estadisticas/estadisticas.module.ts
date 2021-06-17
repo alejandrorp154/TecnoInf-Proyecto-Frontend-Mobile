@@ -8,15 +8,13 @@ import { IonicModule } from '@ionic/angular';
 import { EstadisticasPageRoutingModule } from './estadisticas-routing.module';
 
 import { EstadisticasPage } from './estadisticas.page';
-import { NavbarModule } from '../UI/navbar/navbar.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    EstadisticasPageRoutingModule,
-    NavbarModule
+    EstadisticasPageRoutingModule
   ],
   declarations: [EstadisticasPage]
 })

@@ -1,5 +1,5 @@
-
-  <ion-row class="wrapper">
+<div *ngFor="let publicacion of publicaciones.value">
+  <ion-row class="wrapper" *ngIf="publicacion.tipo.tipo != 'mapa'">
     <ion-col size="2">
       <ion-avatar>
         <ion-img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"></ion-img>
@@ -8,16 +8,25 @@
     <ion-col size="10">
       <ion-row class="tweet-info">
         <ion-col size="12">
-          <span class="name">Pepe Montaña</span>
-          <span class="handle">@pepeM</span>
-          <!-- <span class="handle">- {{ tweet.date*1000 | date: 'shortDate' }}</span> -->
+          <span class="name">{{this.usuario.value.nombre +" "+ this.usuario.value.apellido}}</span>
+          <br>
+          <span class="handle">@{{this.usuario.value.nickname}}</span>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col size="12">
-          <div><ion-label>Esta es una publicacion nueva de Pepe</ion-label></div>
-          
-          <!-- <img class="preview-img" src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"> -->
+          <div *ngIf="publicacion.tipo.tipo === 'texto'">
+            <ion-label>{{ publicacion.contenido }}</ion-label>
+          </div>
+          <div *ngIf="publicacion.tipo.tipo === 'foto'">
+            <img id="foto" src="{{publicacion.contenido}}">
+          </div>
+          <!-- <div *ngIf="publicacion.tipo.tipo === 'mapa'">
+            <app-pub-mapa-ee [publicacion] = "publicacion"></app-pub-mapa-ee>
+          </div> -->
+          <div *ngIf="publicacion.tipo.tipo === 'enlaceExterno'">
+            <app-pub-mapa-ee [publicacion] = "publicacion"></app-pub-mapa-ee>
+          </div>
         </ion-col>
       </ion-row>
       <ion-row class="ion-justify-content-start">
@@ -43,3 +52,8 @@
       </ion-row>
     </ion-col>
   </ion-row>
+</div>
+
+<!-- <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+  <ion-infinite-scroll-content></ion-infinite-scroll-content>
+</ion-infinite-scroll> -->
