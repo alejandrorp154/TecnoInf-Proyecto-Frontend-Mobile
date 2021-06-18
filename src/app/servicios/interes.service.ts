@@ -46,7 +46,7 @@ export class InteresService {
   subscribeInteres(idInteres: Number, userID: string)
   {
     const url = `${this.baseUrl}interes/suscribe/${userID}/${idInteres}`;
-    return this.httpClient.delete(url).toPromise();
+    return this.httpClient.post(url, {idPersona: userID, idInteres: idInteres}).toPromise();
   }
   unSubscribeInteres(idInteres: Number, userID: string)
   {

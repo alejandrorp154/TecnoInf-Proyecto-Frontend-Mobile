@@ -2,7 +2,3 @@
   min-height: 5px !important;
   height:0px !important;
 }
-
-@media screen and (min-width: 0px) and (max-width: 400px) {
-  .extraInfo { display: none; }  /* show it on small screens */
-}

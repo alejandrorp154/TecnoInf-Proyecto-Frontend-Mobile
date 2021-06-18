@@ -8,18 +8,13 @@
             <ion-card-title  class="ion-text-center">Intereses</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <ion-item-divider>
-              <ion-label>
-                Lista de intereses:
-              </ion-label>
-            </ion-item-divider>
             <ion-list>
-              <ion-item *ngFor="let inte of intereses" >
+              <ion-item *ngFor="let inte of intereses" class="ion-no-padding">
                 <ion-label> {{ inte.interes }} </ion-label>
-                <ion-button (click)="onSubscribirse(inte.idInteres)">
+                <ion-button (click)="onSubscribirse(inte.idInteres, inte)" *ngIf="!check(inte)">
                   <ion-icon name="heart-outline" slot="icon-only" ></ion-icon>
                 </ion-button>
-                <ion-button (click)="onDesSubscribirse(inte.idInteres)">
+                <ion-button (click)="onDesSubscribirse(inte.idInteres, inte)" color= "danger" *ngIf="check(inte)">
                   <ion-icon name="heart-dislike-outline" slot="icon-only" ></ion-icon>
                 </ion-button>
               </ion-item>

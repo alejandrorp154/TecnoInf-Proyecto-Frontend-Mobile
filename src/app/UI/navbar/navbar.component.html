@@ -19,7 +19,7 @@
         </ion-col>
 
         <ion-col size-xs="6" size-sm ="7" size-md="8" size-xl ="9" class="ion-no-padding">
-          <ion-searchbar  autocomplete="on" (click)="dontShow=false" placeholder="Buscar usuarios registrados" showCancelButton="never" cancelButtonText="Custom Cancel"></ion-searchbar>
+          <ion-searchbar  autocomplete="on" [formControl]="searchBar" (click)="dontShow=false" placeholder="Buscar usuarios registrados" showCancelButton="never" cancelButtonText="Custom Cancel"></ion-searchbar>
         </ion-col>
 
         <ion-col size-xs="5" size-sm ="4" size-md="3" size-xl ="2" class="ion-no-padding">
@@ -31,7 +31,7 @@
             </ion-buttons>
             <ion-buttons  [routerLink]="['../interes']" class="extraInfo">
               <ion-avatar class="center">
-                <img src="../../../assets/icon/notifications-outline.svg" class="iconosPublicacion">
+                  <ion-icon name="notifications-outline" style="min-width: 30px; min-height: 30px;"></ion-icon>
               </ion-avatar>
             </ion-buttons>
             <ion-buttons >
