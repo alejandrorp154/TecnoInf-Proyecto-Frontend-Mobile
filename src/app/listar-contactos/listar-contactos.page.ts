@@ -6,6 +6,7 @@ import { startWith, map } from 'rxjs/operators';
 import { UsuarioService } from '../servicios/usuario.service';
 import { AuthService } from '../servicios/auth.service';
 
+
 @Component({
   selector: 'app-listar-contactos',
   templateUrl: './listar-contactos.page.html',
@@ -61,6 +62,7 @@ export class ListarContactosPage implements OnInit {
       });
     } else {
       this.searching = false;
+      return this.contactos;
     }
   }
 
