@@ -1,3 +1,4 @@
+import { Contacto } from "./../modelos/contacto.model";
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { IonContent } from '@ionic/angular';
@@ -31,6 +32,7 @@ export class ChatPage implements OnInit {
   chatting = false;
   searching = false;
   friends: Persona[];
+  contactos: Contacto[];
   currentFriend: Persona;
   chatrooms: Chat[];
   currentChatroomId: string;
@@ -93,8 +95,9 @@ export class ChatPage implements OnInit {
       } catch (ex) { }
     });
 
-    //this.friends = this.usuarioService.getContactos(this.currentUser.idPersona);
-    console.log(this.friends);
+    this.contactos = await this.usuarioService.getContactosAsync(this.currentUser.idPersona);
+    console.log(this.contactos);
+    this.friends = this.getContactosPersona();
 
     try{
 
@@ -133,6 +136,8 @@ export class ChatPage implements OnInit {
       }
     } catch(ex) { console.log(ex); }
 
+
+
 /*
 
     this.searchBar.valueChanges
@@ -141,6 +146,16 @@ export class ChatPage implements OnInit {
       map(value => this._filter(value.toString()))
     ).subscribe(res => this.searchResult.next(res));
 */
+  }
+
+  getContactosPersona(){
+    let t= this;
+    let lista: Persona[] = [];
+    this.contactos.forEach(function(contacto){
+      let persona = t.usuarioService.getUsuario(contacto.idPersona);
+      lista.push(persona);
+    })
+    return lista;
   }
 
   chatWith(amigo: Persona) {
