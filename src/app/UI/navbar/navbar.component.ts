@@ -24,6 +24,7 @@ export class NavbarComponent implements OnInit {
   searchBar = new FormControl;
   searching: boolean = false;
   currentUser: Usuario;
+  userID: string;
   userFire: UserFire;
   @Output() userImage: string;
 
@@ -53,6 +54,7 @@ export class NavbarComponent implements OnInit {
   async getCurrentUser(){
     this.currentUser = await this.authService.getCurrentUser().toPromise();
     this.userImage = this.currentUser.imagenPerfil;
+    this.userID = this.currentUser.idPersona;
   }
 
   private _filter(value: string): Usuario[] {
