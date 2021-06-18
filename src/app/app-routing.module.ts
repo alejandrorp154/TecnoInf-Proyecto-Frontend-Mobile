@@ -81,10 +81,23 @@ const routes: Routes = [
   {
     path: 'recuperar-password',
     loadChildren: () => import('./recuperar-password/recuperar-password.module').then( m => m.RecuperarPasswordPageModule)
+  },
+  {
+    path: 'admin-page',
+    loadChildren: () => import('./admin-page/admin-page.module').then( m => m.AdminPagePageModule)
+  },
+  {
+    path: 'tab-medallas',
+    loadChildren: () => import('./tab-medallas/tab-medallas.module').then( m => m.TabMedallasPageModule)
+  },
+  {
+    path: 'tab-gestion-usuarios',
+    loadChildren: () => import('./tab-gestion-usuarios/tab-gestion-usuarios.module').then( m => m.TabGestionUsuariosPageModule)
+  },
+  {
+    path: 'visualizar-contactos',
+    loadChildren: () => import('./UI/visualizar-contactos/visualizar-contactos.module').then( m => m.VisualizarContactosPageModule)
   }
-
-
-
 ];
 
 @NgModule({
@@ -93,4 +106,6 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
+
 export class AppRoutingModule { }
+
