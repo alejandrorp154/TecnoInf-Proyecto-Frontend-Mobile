@@ -22,6 +22,6 @@ import { NavbarModule } from '../UI/navbar/navbar.module';
     PerfilPageRoutingModule,
     NavbarModule
   ],
-  declarations: [PerfilPage,NavbarComponent, FeedComponent, PubMapaEEComponent, MedallaComponent]
+  declarations: [PerfilPage, FeedComponent, PubMapaEEComponent, MedallaComponent]
 })
 export class PerfilPageModule {}
