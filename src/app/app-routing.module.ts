@@ -44,8 +44,8 @@ const routes: Routes = [
   },
   {
     path: 'estadisticas',
-    loadChildren: () => import('./estadisticas/estadisticas.module').then( m => m.EstadisticasPageModule)
-    // canLoad: [LoginGuard]
+    loadChildren: () => import('./estadisticas/estadisticas.module').then( m => m.EstadisticasPageModule),
+    canLoad: [LoginGuard]
   },
   {
     path: 'chat/:nickname',
@@ -54,7 +54,8 @@ const routes: Routes = [
   },
   {
     path: 'interes',
-    loadChildren: () => import('./interes/interes.module').then( m => m.InteresPageModule)
+    loadChildren: () => import('./interes/interes.module').then( m => m.InteresPageModule),
+    canLoad: [LoginGuard]
   },
   {
     path: 'eventos',
@@ -92,7 +93,13 @@ const routes: Routes = [
   {
     path: 'visualizar-contactos',
     loadChildren: () => import('./UI/visualizar-contactos/visualizar-contactos.module').then( m => m.VisualizarContactosPageModule)
+  },
+  {
+    path: 'recuperar-password',
+    loadChildren: () => import('./recuperar-password/recuperar-password.module').then( m => m.RecuperarPasswordPageModule)
   }
+
+
 ];
 
 @NgModule({
@@ -102,4 +109,3 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-
