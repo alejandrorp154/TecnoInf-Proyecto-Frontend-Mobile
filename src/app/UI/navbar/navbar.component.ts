@@ -25,6 +25,7 @@ export class NavbarComponent implements OnInit {
   searching: boolean = false;
   currentUser: Usuario;
   userFire: UserFire;
+  userID: string;
   @Output() userImage: string;
 
   constructor(private listarUsuariosRegistradosService: ListarUsuariosRegistradosService,
@@ -53,6 +54,7 @@ export class NavbarComponent implements OnInit {
   async getCurrentUser(){
     this.currentUser = await this.authService.getCurrentUser().toPromise();
     this.userImage = this.currentUser.imagenPerfil;
+    this.userID = this.currentUser.idPersona;
   }
 
   private _filter(value: string): Usuario[] {

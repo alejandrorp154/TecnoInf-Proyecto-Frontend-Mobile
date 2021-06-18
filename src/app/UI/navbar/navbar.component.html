@@ -12,7 +12,7 @@
           </ion-item>
         </ion-buttons>
        <ion-searchbar  class="listaUsuarios" autocomplete="on" (click)="dontShow=false" placeholder="Buscar usuarios registrados" slot="primary" showCancelButton="never" cancelButtonText="Custom Cancel"></ion-searchbar>
-        <ion-buttons slot="end" routerLink="/perfil/{{currentUser.idPersona}}">
+        <ion-buttons slot="end" routerLink="/perfil/{{userID}}">
           <ion-avatar style="display: flex; justify-content: center; align-items: center; ">
             <img style="height: 40px; width: 40px; margin:0px" [src]="userImage" class="iconosPublicacion">
           </ion-avatar>
