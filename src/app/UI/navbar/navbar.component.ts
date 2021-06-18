@@ -1,4 +1,4 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from 'src/app/servicios/auth.service';
 import { take } from 'rxjs/operators';
@@ -25,14 +25,15 @@ export class NavbarComponent implements OnInit {
   searching: boolean = false;
   currentUser: Usuario;
   userID: string;
-  userFire: UserFire;
+   userFire: UserFire;
   @Output() userImage: string;
 
-  constructor(private listarUsuariosRegistradosService: ListarUsuariosRegistradosService,
-     private authService: AuthService,
-     private alertCtrl: AlertController,
-     private router: Router,
-     private eliminarCuenta: EliminarCuentaService) {
+  constructor(
+    private listarUsuariosRegistradosService: ListarUsuariosRegistradosService,
+    private authService: AuthService,
+    private alertCtrl: AlertController,
+    private router: Router,
+    private eliminarCuenta: EliminarCuentaService) {
 
     this.usuarios = [];
   }
@@ -47,8 +48,7 @@ export class NavbarComponent implements OnInit {
       startWith(''),
       map(value => this._filter(value.toString()))
     ).subscribe(res => this.searchResult.next(res));
-
-    this.getCurrentUser();
+  this.getCurrentUser();
   }
 
   async getCurrentUser(){
