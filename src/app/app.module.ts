@@ -18,6 +18,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LogInterceptorService } from './servicios/log-intercepetor.service';
 import {DatePipe} from '@angular/common';
 import { FormControl } from '@angular/forms';
+import { IonicSelectableModule } from 'ionic-selectable';
 
 export function getBaseUrl() {
   //console.log(document.getElementsByTagName('base')[0].href);
@@ -30,7 +31,7 @@ export function getBaseUrl() {
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule, AngularFirestoreModule, AngularFireStorageModule,
-    FormsModule, ReactiveFormsModule, HttpClientModule, ReactiveFormsModule],
+    FormsModule, ReactiveFormsModule, HttpClientModule, ReactiveFormsModule, IonicSelectableModule],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] },

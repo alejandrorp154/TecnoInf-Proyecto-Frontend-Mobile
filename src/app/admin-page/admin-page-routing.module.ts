@@ -1,3 +1,4 @@
+import { MedallaComponent } from "./../UI/medalla/medalla.component";
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -32,7 +33,8 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: () => import('../tab-medallas/tab-medallas.module').then(a => a.TabMedallasPageModule)
+            //loadChildren: () => import('../UI/medalla/medalla.component').then(a => a.MedallaComponent),
+            // component: MedallaComponent
           }
         ]
       },

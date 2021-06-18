@@ -63,8 +63,6 @@ export class EstadisticasPage implements OnInit{
     let PCantidadUsuariosPorPais = this.estadisticaService.getTipoEstadisticaAsync('CantidadUsuariosPorPais');
 
     await Promise.all([PCantidadUsuariosPorPais, PCantidadUsuariosTotal, PUsuariosPorMedalla, PCantidadVisitasPorUsuario]).then((values) => {
-      console.log('CANTIDAD USUARIOS POR PAISES',values[3]);
-      console.log('CANTIDAD USUARIOS TOTAL',values[1]);
       this.CantidadusuariosPorPais = values[0];
       this.CantidadUsuariosTotal = values[1];
       this.UsuariosPorMedalla = values[2];
@@ -103,35 +101,27 @@ export class EstadisticasPage implements OnInit{
     this.UsuariosPorMedalla.forEach(function(lineaEstadistica) {
       switch (lineaEstadistica.nombreMedalla){
         case 'ironWolf':
-          console.log("LINEA ESTADISTICA",lineaEstadistica.nombreMedalla);
           t.countIronWolf += 1;
           break;
         case 'bronzeWolf':
-          console.log("LINEA ESTADISTICA",lineaEstadistica.nombreMedalla);
           t.countBronzeWolf += 1;
         break;
         case 'silverWolf':
-          console.log("LINEA ESTADISTICA",lineaEstadistica.nombreMedalla);
           t.countSilverWolf += 1;
           break;
         case 'goldWolf':
-          console.log("LINEA ESTADISTICA",lineaEstadistica.nombreMedalla);
           t.countGoldWolf += 1;
           break;
         case 'platinumWolf':
-          console.log("LINEA ESTADISTICA",lineaEstadistica.nombreMedalla);
           t.countPlatinumWolf += 1;
           break;
         case 'diamondWolf':
-          console.log("LINEA ESTADISTICA",lineaEstadistica.nombreMedalla);
           t.countDiamondWolf += 1;
           break;
         case 'masterWolf':
-          console.log("LINEA ESTADISTICA",lineaEstadistica.nombreMedalla);
           t.countMasterWolf += 1;
           break;
         case 'alphaWolf':
-          console.log("LINEA ESTADISTICA",lineaEstadistica.nombreMedalla);
           t.countAlfaWolf += 1;
           break;
         default:
@@ -261,13 +251,21 @@ export class EstadisticasPage implements OnInit{
     });
   }
 
+  generarRGB(){
+    const randomBetween = (min, max) => min + Math.floor(Math.random() * (max - min + 1));
+    const r = randomBetween(0, 255);
+    const g = randomBetween(0, 255);
+    const b = randomBetween(0, 255);
+    const rgb = `rgb(${r},${g},${b})`;
+  }
+
   doughnutChartMethod() {
     this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
       type: 'doughnut',
       data: {
         labels: this.getPaises().map(a => a.nombrePais), //Paises
         datasets: [{
-          label: '# of Votes',
+          label: '# de Usuarios',
           data: [this.getPaises().map(cant => cant.cantidadUsuariosRegistrados)],
           backgroundColor: [
             'rgba(255, 159, 64, 0.2)',

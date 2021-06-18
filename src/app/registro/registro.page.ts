@@ -11,6 +11,7 @@ import { Persona, Rol } from '../modelos/persona.model';
 import { Usuario } from '../modelos/usuario.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthResponseData } from '../modelos/AuthResponseData.interface';
+import { countries } from 'countries-list';
 
 @Component({
   selector: 'app-registro',
@@ -33,6 +34,8 @@ export class RegistroPage implements OnInit {
     nombre: 'defaultProfileImage',
     ext: 'png'
   }
+
+  paises = countries;
 
   constructor(
     @Inject('BASE_URL') private baseUrl: string,
