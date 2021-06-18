@@ -1,5 +1,5 @@
 import { UsuarioService } from './usuario.service';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { MedallaService } from './medalla.service';
 import { HttpClient } from '@angular/common/http';
 import { Estadistica } from '../modelos/estadistica.model';
@@ -9,11 +9,7 @@ import { Estadistica } from '../modelos/estadistica.model';
 })
 export class EstadisticasService {
 
-  constructor(private userService: UsuarioService, private httpClient: HttpClient) { }
-
-
-  private baseUrl = 'http://18.217.108.158:8080/pryectoBack-web/rest';
-
+  constructor(private userService: UsuarioService, private httpClient: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
 
   public async getTipoEstadisticaAsync(tipoEstadistica: string): Promise<Estadistica[]> {
     try {
