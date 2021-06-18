@@ -53,7 +53,12 @@ export class LoginPage implements OnInit {
             this.getUserID();
             this.isLoading = false;
             loadingEl.dismiss();
-            this.router.navigateByUrl('/home');
+            if(this.user.administrador){
+              this.router.navigateByUrl('/admin-page');
+            }
+            else{
+              this.router.navigateByUrl('/home');
+            }
           },
           errRes => {
             loadingEl.dismiss();

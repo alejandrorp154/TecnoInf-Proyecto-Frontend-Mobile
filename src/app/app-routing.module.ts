@@ -88,7 +88,13 @@ const routes: Routes = [
   {
     path: 'tab-gestion-usuarios',
     loadChildren: () => import('./tab-gestion-usuarios/tab-gestion-usuarios.module').then( m => m.TabGestionUsuariosPageModule)
+  },
+  {
+    path: 'visualizar-contactos',
+    loadChildren: () => import('./UI/visualizar-contactos/visualizar-contactos.module').then( m => m.VisualizarContactosPageModule)
   }
+
+
 ];
 
 @NgModule({
@@ -98,4 +104,3 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-
