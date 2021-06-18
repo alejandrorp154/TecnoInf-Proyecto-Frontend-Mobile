@@ -51,6 +51,11 @@ export class ModificarPerfilPage implements OnInit {
       this.usuarioPerfil.nombreImagen = this.imagen.nombre;
       this.usuarioPerfil.extensionImagen = this.imagen.ext;
     }
+    else {
+      this.usuarioPerfil.imagenPerfil = this.usuario.imagenPerfil;
+      this.usuarioPerfil.nombreImagen = this.usuario.nombreImagen;
+      this.usuarioPerfil.extensionImagen = this.usuario.extension;
+    }
     
     this.perfilServ.modificarPerfil(this.usuarioPerfil);
     this.tools.presentToast('El perfil fue modificado con exito', this.resultado).then(()=>this.router.navigate(['/home']))

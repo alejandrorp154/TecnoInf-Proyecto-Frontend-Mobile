@@ -20,10 +20,11 @@ export class PerfilPage implements OnInit {
   usuario: BehaviorSubject<Usuario> = new BehaviorSubject(undefined);
   medalla: BehaviorSubject<Medalla> = new BehaviorSubject(undefined);
 
-  constructor(private perfilServ: PerfilService, private router: ActivatedRoute) { }
+  constructor(private perfilServ: PerfilService, private router: ActivatedRoute) {
+    this.obtenerPerfil(this.router.snapshot.params.id);
+   }
 
   ngOnInit() {
-    this.obtenerPerfil(this.router.snapshot.params.id);
   }
 
   async obtenerPerfil(id: string){
