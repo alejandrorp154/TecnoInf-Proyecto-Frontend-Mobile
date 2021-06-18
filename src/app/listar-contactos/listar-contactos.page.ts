@@ -19,17 +19,17 @@ export class ListarContactosPage implements OnInit {
   contactos: Usuario[];
   contactosAux: Usuario[];
   searchBar = new FormControl;
+  filterTerm: string;
   constructor(private userService: UsuarioService, private authService: AuthService)
   {
-    this.contactos = [];
+    this.contactos = []
     this.contactosAux = [];
+    this.getUserAndFriends().then(async res => this.getContactos().then(res => this.searchResult.next(this.contactos)));
   }
 
   ngOnInit() {
-    this.getUserAndFriends().then(async res => this.getContactos());
-    this.searchBar.setValue('');
-    this.searchResult.next(this.contactos);
 
+    this.searchBar.setValue('');
     this.searchBar.valueChanges
     .pipe(
       startWith(''),
@@ -38,7 +38,7 @@ export class ListarContactosPage implements OnInit {
   }
 
   private _filter(value: string): Usuario[] {
-    console.log(this.searchResult);
+    console.log("alo?", this.searchResult);
     if(value) {
       this.searching = true;
       const filterValue = value.toLocaleLowerCase();
@@ -58,7 +58,6 @@ export class ListarContactosPage implements OnInit {
             usuario.direccion.toLocaleLowerCase().includes(filterValue)
             );
         }
-
       });
     } else {
       this.searching = false;

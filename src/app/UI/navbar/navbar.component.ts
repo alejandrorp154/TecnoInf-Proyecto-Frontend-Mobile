@@ -58,7 +58,6 @@ export class NavbarComponent implements OnInit {
 
 
   private _filter(value: string): Usuario[] {
-    console.log(this.searchResult);
     if(value) {
       this.searching = true;
       const filterValue = value.toLocaleLowerCase();
