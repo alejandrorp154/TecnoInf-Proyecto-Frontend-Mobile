@@ -24,12 +24,14 @@ export class NavbarComponent implements OnInit {
   searchBar = new FormControl;
   searching: boolean = false;
   currentUser: Usuario;
+  userFire: UserFire;
   @Output() userImage: string;
 
   constructor(private listarUsuariosRegistradosService: ListarUsuariosRegistradosService,
      private authService: AuthService,
      private alertCtrl: AlertController,
-     private router: Router) {
+     private router: Router,
+     private eliminarCuenta: EliminarCuentaService) {
 
     this.usuarios = [];
   }
@@ -46,6 +48,7 @@ export class NavbarComponent implements OnInit {
     ).subscribe(res => this.searchResult.next(res));
 
     this.getCurrentUser();
+  }
 
   async getCurrentUser(){
     this.currentUser = await this.authService.getCurrentUser().toPromise();
