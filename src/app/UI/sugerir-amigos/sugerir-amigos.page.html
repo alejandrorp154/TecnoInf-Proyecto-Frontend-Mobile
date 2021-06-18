@@ -26,8 +26,9 @@
                 </ion-button>
               </ion-item>
             </ion-list>
-            <ion-infinite-scroll threshold="100px" (ionInfinite)="getSugerirAmigos($event)">
+            <ion-infinite-scroll threshold="15%" (ionInfinite)="getSugerirAmigos($event)">
               <ion-infinite-scroll-content
+                id="null"
                 loadingSpinner="bubbles"
                 loadingText="Cargando más sugerencias...">
               </ion-infinite-scroll-content>

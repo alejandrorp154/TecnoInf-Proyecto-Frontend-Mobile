@@ -22,7 +22,12 @@ export class SugerirAmigosService {
         if(event)
         {
           event.target.complete();
-          this.loadedUsers += 10;
+          this.loadedUsers += size;
+          response.then( data => {
+            if (data.length == 0) {
+              event.target.disabled = true;
+            }
+          })
         }
 
         return response;

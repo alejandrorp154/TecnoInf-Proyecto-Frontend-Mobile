@@ -12,7 +12,7 @@ import { Usuario } from '../modelos/usuario.model';
 export class UsuarioService {
 
   readonly estados = {}
-
+  currentlyLoaded: number = 0;
 
   readonly httpOptions = {
     headers: new HttpHeaders({
@@ -144,8 +144,20 @@ export class UsuarioService {
     });
   }
 
-  getContactos(idUsuario: string): Promise<Usuario[]> {
-    return this.httpClient.get<Usuario[]>(this.baseUrl + 'visualizacion/obtenerAmigos/' + idUsuario).toPromise();
+  getContactos(idUsuario: string, size: number, event?): Promise<Usuario[]> {
+    let response = this.httpClient.get<Usuario[]>(this.baseUrl + `visualizacion/obtenerAmigos/${idUsuario}/${this.currentlyLoaded}/${size}`).toPromise();
+    if(this.currentlyLoaded === 0){ this.currentlyLoaded += size}
+    if(event)
+    {
+      event.target.complete();
+      this.currentlyLoaded += size;
+      response.then( data => {
+        if (data.length == 0) {
+          event.target.disabled = true;
+        }
+      })
+    }
+    return response;
   }
 
   getLoggedUser(): Promise<Persona> {
