@@ -88,7 +88,11 @@ const routes: Routes = [
   {
     path: 'tab-gestion-usuarios',
     loadChildren: () => import('./tab-gestion-usuarios/tab-gestion-usuarios.module').then( m => m.TabGestionUsuariosPageModule)
+  },  {
+    path: 'modificar-perfil',
+    loadChildren: () => import('./modificar-perfil/modificar-perfil.module').then( m => m.ModificarPerfilPageModule)
   }
+
 ];
 
 @NgModule({

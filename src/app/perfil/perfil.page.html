@@ -6,7 +6,8 @@
       <ion-col sizeMd="4" sizeSm="12" style="padding-right: 2rem;">
         <div>
           <ion-avatar class="avatar">
-            <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+            <!-- <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"> -->
+            <img [src]="perfil?.usuario.imagenPerfil">
           </ion-avatar>
         </div>
       </ion-col>
@@ -18,13 +19,13 @@
         <ion-label style="font: bold;">30 </ion-label>
         <ion-label>Contactos</ion-label>
         <br>
-        <ion-label>Pais: Uruguay</ion-label>
+        <ion-label>Pais: {{perfil?.usuario.pais}}</ion-label>
       </ion-col>
       <ion-col sizeMd="4">
         <app-medalla [medalla] = "medalla"></app-medalla>
       </ion-col>
       <ion-col sizeMd="2">
-        <ion-button color="dark" size="small" fill="clear">
+        <ion-button routerLink="/modificar-perfil" color="dark" size="small" fill="clear">
           Editar Perfil
           <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
         </ion-button>
