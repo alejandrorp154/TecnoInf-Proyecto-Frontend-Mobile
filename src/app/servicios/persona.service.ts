@@ -10,10 +10,12 @@ export class PersonaService {
 
   public getCurrentUser() {
     // ***********************
+    //esta en usuario service
   }
 
   public obtenerContactos(): Persona[] {
     //   ***********************
+    //esta en usuarioService
     return [];
   }
 }
