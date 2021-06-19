@@ -1,7 +1,7 @@
 .iconosPublicacion {
   height: 0.7cm;
   width: 0.7cm;
-  margin-top: 20px;
+
 }
 
 .listaUsuarios{
@@ -13,3 +13,22 @@
 .scroll{
   overflow-y: scroll;
 }
+.center
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+ion-buttons
+{
+  max-height: 56px;
+}
+
+@media screen and (min-width: 0px) and (max-width: 600px) {
+  .extraInfo { display: none; }  /* show it on small screens */
+}
+
+@media screen and (min-width: 0px) and (max-width: 1450px) {
+  .logo { display: none; }  /* show it on small screens */
+}
+

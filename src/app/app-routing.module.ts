@@ -90,6 +90,19 @@ const routes: Routes = [
     loadChildren: () => import('./tab-gestion-usuarios/tab-gestion-usuarios.module').then( m => m.TabGestionUsuariosPageModule)
   },
   {
+    path: 'listar-contactos',
+    loadChildren: () => import('./listar-contactos/listar-contactos.module').then( m => m.ListarContactosPageModule)
+  },
+  {
+    path: 'intereses-usuario-comun',
+    loadChildren: () => import('./intereses-usuario-comun/intereses-usuario-comun.module').then( m => m.InteresesUsuarioComunPageModule)
+  },
+  {
+    path: 'recuperar-password',
+    loadChildren: () => import('./recuperar-password/recuperar-password.module').then( m => m.RecuperarPasswordPageModule)
+  },
+  {
+
     path: 'visualizar-contactos',
     loadChildren: () => import('./UI/visualizar-contactos/visualizar-contactos.module').then( m => m.VisualizarContactosPageModule)
   },

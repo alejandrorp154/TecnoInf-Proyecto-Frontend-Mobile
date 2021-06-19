@@ -1,48 +1,54 @@
 
   <ion-header [translucent]="true">
-    <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-back-button  class="pointer" text=""></ion-back-button>
-        </ion-buttons>
-        <ion-buttons slot="end" (click)="onDeleteAccount()">
-          <ion-item>
-            <ion-avatar>
-              <img src="../../../assets/icon/Logo.png">
-            </ion-avatar>
-          </ion-item>
-        </ion-buttons>
-       <ion-searchbar  class="listaUsuarios" autocomplete="on" (click)="dontShow=false" placeholder="Buscar usuarios registrados" slot="primary" showCancelButton="never" cancelButtonText="Custom Cancel"></ion-searchbar>
-        <ion-buttons slot="end" routerLink="/perfil/{{datoUsuario.userId}}">
-          <ion-avatar>
-            <img src="../../../assets/icon/1024px-User-avatar.svg.png" class="iconosPublicacion">
-          </ion-avatar>
-        </ion-buttons>
-        <ion-buttons slot="end" [routerLink]="['../interes']">
-          <ion-avatar>
-            <img src="../../../assets/icon/notifications-outline.svg" class="iconosPublicacion">
-          </ion-avatar>
-        </ion-buttons>
-        <ion-buttons slot="end">
-          <ion-avatar>
-            <img src="../../../assets/icon/caret-down-outline.svg" class="iconosPublicacion">
-          </ion-avatar>
-        </ion-buttons>
+    <ion-toolbar style="max-height: 60px;">
+      <ion-row style="max-height: 60px;">
 
-      <ion-buttons>
-        <ion-button slot="end">
+        <ion-col size-xs="1" class="ion-no-padding">
+          <ion-row style="display: flex;" class="ion-justify-content-around">
+            <ion-buttons >
+              <ion-back-button  class="pointer" text=""></ion-back-button>
+            </ion-buttons>
+            <ion-buttons (click)="onDeleteAccount()" class="logo">
+              <ion-item lines="none">
+                <ion-avatar>
+                  <img src="../../../assets/icon/Logo.png">
+                </ion-avatar>
+              </ion-item>
+            </ion-buttons>
+          </ion-row>
+        </ion-col>
 
-        </ion-button>
-      </ion-buttons>
-    </ion-toolbar>
+        <ion-col size-xs="6" size-sm ="7" size-md="8" size-xl ="9" class="ion-no-padding">
+          <ion-searchbar  autocomplete="on" [formControl]="searchBar" (click)="dontShow=false" placeholder="Buscar usuarios registrados" showCancelButton="never" cancelButtonText="Custom Cancel"></ion-searchbar>
+        </ion-col>
+
+        <ion-col size-xs="5" size-sm ="4" size-md="3" size-xl ="2" class="ion-no-padding">
+          <ion-row style="display: flex;" class="ion-justify-content-around">
+            <ion-buttons routerLink="/perfil/{{userID}}">
+              <ion-avatar class="center">
+                <img style="height: 40px; width: 40px; margin:0px" [src]="userImage" class="iconosPublicacion">
+              </ion-avatar>
+            </ion-buttons>
+            <ion-buttons  [routerLink]="['../interes']" class="extraInfo">
+              <ion-avatar class="center">
+                  <ion-icon name="notifications-outline" style="min-width: 30px; min-height: 30px;"></ion-icon>
+              </ion-avatar>
+            </ion-buttons>
+            <ion-buttons >
+              <ion-menu-button></ion-menu-button>
+            </ion-buttons>
+          </ion-row>
+        </ion-col>
+
+      </ion-row>
+   </ion-toolbar>
   </ion-header>
-
   <ion-toolbar class="listaUsuarios scroll" *ngIf="searching">
     <ion-list >
       <ion-item *ngFor="let usuario of searchResult | async">
         <div style="display: flex; justify-content: center;">
           <ion-avatar>
-            <!--<img [src]="usuario.imagenPerfil">-->
-            <img src="../../../assets/icon/1024px-User-avatar.svg.png">
+            <img [src]="usuario.imagenPerfil">
           </ion-avatar>
         </div>
         {{ usuario.nickname }}

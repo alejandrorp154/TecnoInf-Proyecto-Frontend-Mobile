@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { InteresPageRoutingModule } from './interes-routing.module';
+import { InteresesUsuarioComunPageRoutingModule } from './intereses-usuario-comun-routing.module';
 
-import { InteresPage } from './interes.page';
+import { InteresesUsuarioComunPage } from './intereses-usuario-comun.page';
 import { NavbarModule } from '../UI/navbar/navbar.module';
 
 @NgModule({
@@ -14,8 +14,9 @@ import { NavbarModule } from '../UI/navbar/navbar.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    InteresPageRoutingModule
+    InteresesUsuarioComunPageRoutingModule,
+    NavbarModule
   ],
-  declarations: [InteresPage]
+  declarations: [InteresesUsuarioComunPage]
 })
-export class InteresPageModule {}
+export class InteresesUsuarioComunPageModule {}
