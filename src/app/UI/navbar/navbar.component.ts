@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from 'src/app/servicios/auth.service';
 import { take } from 'rxjs/operators';
@@ -23,21 +23,16 @@ export class NavbarComponent implements OnInit {
   searchResult: BehaviorSubject<any[]> = new BehaviorSubject([]);
   searchBar = new FormControl;
   searching: boolean = false;
+  currentUser: Usuario;
   userFire: UserFire;
+  userID: string;
+  @Output() userImage: string;
 
-   datoUsuario = {
-    email: '',
-    token: '',
-    tokenExpirationDate: '',
-    userId: ''
-  }
-  
-  constructor(
-    private listarUsuariosRegistradosService: ListarUsuariosRegistradosService,
-    private authService: AuthService,
-    private alertCtrl: AlertController,
-    private router: Router,
-    private eliminarCuenta: EliminarCuentaService) {
+  constructor(private listarUsuariosRegistradosService: ListarUsuariosRegistradosService,
+     private authService: AuthService,
+     private alertCtrl: AlertController,
+     private router: Router,
+     private eliminarCuenta: EliminarCuentaService) {
 
     this.usuarios = [];
   }
@@ -53,17 +48,19 @@ export class NavbarComponent implements OnInit {
       map(value => this._filter(value.toString()))
     ).subscribe(res => this.searchResult.next(res));
 
-    this.datoUsuario = JSON.parse(localStorage.getItem('_cap_authData'));
+    this.getCurrentUser();
   }
 
-  test(){
-
+  async getCurrentUser(){
+    this.currentUser = await this.authService.getCurrentUser().toPromise();
+    this.userImage = this.currentUser.imagenPerfil;
+    this.userID = this.currentUser.idPersona;
   }
 
   private _filter(value: string): Usuario[] {
-    console.log(this.searchResult);
     if(value) {
       this.searching = true;
+      console.log(this.searching)
       const filterValue = value.toLocaleLowerCase();
 
       return this.usuarios.filter(usuario => {
@@ -84,10 +81,6 @@ export class NavbarComponent implements OnInit {
     } else {
       this.searching = false;
     }
-  }
-
-  onLogout() {
-    this.authService.logout();
   }
 
   async getAllUsuariosRegistrados(){
