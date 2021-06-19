@@ -3,10 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
+import { ListarContactosPageRoutingModule } from './listar-contactos-routing.module';
 
-import { InteresPageRoutingModule } from './interes-routing.module';
-
-import { InteresPage } from './interes.page';
+import { ListarContactosPage } from './listar-contactos.page';
 import { NavbarModule } from '../UI/navbar/navbar.module';
 
 @NgModule({
@@ -14,8 +13,9 @@ import { NavbarModule } from '../UI/navbar/navbar.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    InteresPageRoutingModule
+    ListarContactosPageRoutingModule,
+    NavbarModule
   ],
-  declarations: [InteresPage]
+  declarations: [ListarContactosPage]
 })
-export class InteresPageModule {}
+export class ListarContactosPageModule {}

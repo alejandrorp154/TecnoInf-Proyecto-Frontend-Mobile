@@ -1,0 +1,27 @@
+<app-navbar></app-navbar>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-md="8" size-xs="12"  offset-md="2">
+        <ion-card>
+          <ion-card-header color=tertiary>
+            <ion-card-title  class="ion-text-center">Intereses</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list>
+              <ion-item *ngFor="let inte of intereses" class="ion-no-padding">
+                <ion-label> {{ inte.interes }} </ion-label>
+                <ion-button (click)="onSubscribirse(inte.idInteres, inte)" *ngIf="!check(inte)">
+                  <ion-icon name="heart-outline" slot="icon-only" ></ion-icon>
+                </ion-button>
+                <ion-button (click)="onDesSubscribirse(inte.idInteres, inte)" color= "danger" *ngIf="check(inte)">
+                  <ion-icon name="heart-dislike-outline" slot="icon-only" ></ion-icon>
+                </ion-button>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

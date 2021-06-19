@@ -1,3 +1,35 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-menu side="end" contentId="mainMenu">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title class="ion-text-center">
+          Travelpack
+        </ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+      <ion-list>
+        <ion-menu-toggle>
+          <ion-item lines="none" routerLink="./listar-contactos">
+            <ion-icon name="people-outline" slot="start"></ion-icon>
+            <ion-label>Tus contactos</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item lines="none" routerLink="./intereses-usuario-comun">
+            <ion-icon name="earth-outline" slot="start"></ion-icon>
+            <ion-label>Listar intereses</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item lines="none" (click)="onLogout()" button>
+            <ion-icon name="exit" slot="start"></ion-icon>
+            <ion-label>Cerrar sesión</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet id="mainMenu"></ion-router-outlet>
 </ion-app>

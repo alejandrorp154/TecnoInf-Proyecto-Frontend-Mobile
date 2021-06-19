@@ -12,4 +12,5 @@ export class PerfilService {
   obtenerPerfil (idPersona: string): Promise<Perfil>{
     return this.http.get<Perfil>(this.baseUrl + 'visualizacion/perfil/' + idPersona).toPromise();
   }
+
 }
