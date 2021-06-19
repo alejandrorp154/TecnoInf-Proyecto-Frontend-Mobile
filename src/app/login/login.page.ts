@@ -50,10 +50,20 @@ export class LoginPage implements OnInit {
         }
         authObs.subscribe(
           resData => {
-            this.getUserID();
+            this.getUserID().then( res =>
+              {
+                this.getCurrentUser().then(res =>{
+                  if(this.user.administrador){
+                    this.router.navigateByUrl('/admin-page');
+                  }
+                  else{
+                    this.router.navigateByUrl('/home');
+                  }
+                })
+              }
+            )
             this.isLoading = false;
             loadingEl.dismiss();
-            this.router.navigateByUrl('/home');
           },
           errRes => {
             loadingEl.dismiss();
@@ -95,7 +105,6 @@ export class LoginPage implements OnInit {
   async getUserID()
   {
     this.userFire = await this.authService.getCurrentUserFire().toPromise()
-    this.getCurrentUser();
   }
   async getCurrentUser()
   {
