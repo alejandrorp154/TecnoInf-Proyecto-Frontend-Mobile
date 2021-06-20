@@ -25,7 +25,7 @@ export class MapaComponent implements OnInit {
   @Input() currentLocation: boolean;
   @Input() marcarUbicacion: boolean;
   @Input() ubiCentral: Ubicacion;
-  @Input() ubicaciones: BehaviorSubject<Ubicacion[]>;
+  @Input() ubicaciones: BehaviorSubject<Ubicacion[]> = new BehaviorSubject([]);
 
   currentLat: number;
   currentLng: number;
@@ -44,6 +44,7 @@ export class MapaComponent implements OnInit {
   constructor(private authService: AuthService, private mapboxService: MapboxService, private geolocation: Geo) {
     this.currentLat = -34.8833;
     this.currentLng = -56.1667;
+    console.log(this.ubiCentral);
     this.lat.next(this.ubiCentral ? this.ubiCentral.latitud : -34.8833);
     this.lng.next(this.ubiCentral ? this.ubiCentral.longitud : -56.1667);
     this.marcadores = []
@@ -52,6 +53,7 @@ export class MapaComponent implements OnInit {
   async ngOnInit() {
     setTimeout(() => this.buildMap(), 200);
   }
+
 
   buildMap()
   {
@@ -85,8 +87,7 @@ export class MapaComponent implements OnInit {
         });
       }
 
-    }
-    )
+    });
 
     console.log(this.componente);
     //let position = await this.mapboxService.obtenerUbicacionActual();
@@ -108,41 +109,45 @@ export class MapaComponent implements OnInit {
     }
 
 
-  if(this.ubiCentral) { console.log(this.ubiCentral.latitud, this.ubiCentral.longitud); }
+    if(this.ubiCentral) {
+      console.log(this.ubiCentral.latitud, this.ubiCentral.longitud);
+      this.lat.next(this.ubiCentral.latitud);
+      this.lng.next(this.ubiCentral.longitud);
+      this.map.flyTo({ center: [this.lng.value, this.lat.value] });
+    }
 
-    this.marcador1 = new this.mapboxgl.Marker({scale: 0.5, anchor: 'bottom'})
-    .setLngLat([this.currentLng, this.currentLat])
-    .addTo(this.map);
-
-  if(this.marcarUbicacion) {
-    this.marcador2 = new this.mapboxgl.Marker({ color: 'black', rotation: 45, draggable: true, anchor: 'bottom-left' })
-      .setLngLat([this.lng.value, this.lat.value])
+      this.marcador1 = new this.mapboxgl.Marker({scale: 0.5, anchor: 'bottom'})
+      .setLngLat([this.currentLng, this.currentLat])
       .addTo(this.map);
-    console.log(this.marcador2);
 
-    this.marcador2.on('dragend', () => {
-      // console.log(this.marcador2.getLngLat());
-      this.ubiCentral = { idUbicacion: 0, latitud: this.marcador2.getLngLat().lat , longitud: this.marcador2.getLngLat().lng, fecha: new Date(), descripcion: '', idPersona: '', pais: ''};
-      this.ubicacion.emit({lat: this.ubiCentral.latitud, lng: this.ubiCentral.longitud});
-    });
+    if(this.marcarUbicacion) {
+      this.marcador2 = new this.mapboxgl.Marker({ color: 'black', rotation: 45, draggable: true, anchor: 'bottom-left' })
+        .setLngLat([this.lng.value, this.lat.value])
+        .addTo(this.map);
+      console.log(this.marcador2);
 
-    let geocoder = new MapboxGeocoder({
-      accessToken: this.mapboxgl.accessToken,
-      mapboxgl: this.mapboxgl
-    });
+      this.marcador2.on('dragend', () => {
+        // console.log(this.marcador2.getLngLat());
+        this.ubiCentral = { idUbicacion: 0, latitud: this.marcador2.getLngLat().lat , longitud: this.marcador2.getLngLat().lng, fecha: new Date(), descripcion: '', idPersona: '', pais: ''};
+        this.ubicacion.emit({latitud: this.ubiCentral.latitud, longitud: this.ubiCentral.longitud});
+      });
 
-    let $this = this;
+      let geocoder = new MapboxGeocoder({
+        accessToken: this.mapboxgl.accessToken,
+        mapboxgl: this.mapboxgl
+      });
 
-    geocoder.on('result', function(e) {
-      console.log(e.result.center);
-      geocoder.clear();
-      $this.marcador2.setLngLat(e.result.center);
-    });
+      let $this = this;
 
-    // Add the control to the map.
-    this.map.addControl(geocoder);
-  }
+      geocoder.on('result', function(e) {
+        console.log(e.result.center);
+        geocoder.clear();
+        $this.marcador2.setLngLat(e.result.center);
+      });
 
+      // Add the control to the map.
+      this.map.addControl(geocoder);
+    }
 
   }
 

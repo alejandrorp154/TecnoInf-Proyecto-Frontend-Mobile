@@ -11,7 +11,7 @@
             </ion-avatar>
           </ion-item>
         </ion-buttons>
-       <ion-searchbar  class="listaUsuarios" autocomplete="on" (click)="dontShow=false" placeholder="Buscar usuarios registrados" slot="primary" showCancelButton="never" cancelButtonText="Custom Cancel"></ion-searchbar>
+       <ion-searchbar  class="listaUsuarios" [formControl]="searchBar" autocomplete="on" (click)="dontShow=false" placeholder="Buscar usuarios registrados" slot="primary" showCancelButton="never" cancelButtonText="Custom Cancel"></ion-searchbar>
         <ion-buttons slot="end" routerLink="/perfil/{{datoUsuario.userId}}">
           <ion-avatar>
             <img src="../../../assets/icon/1024px-User-avatar.svg.png" class="iconosPublicacion">

@@ -108,7 +108,7 @@ export class AltaPublicacionComponent implements OnInit {
       this.ubicacion = new Ubicacion;
       this.ubicacion.descripcion = '';
       var fecha = new Date();
-      this.ubicacion.fecha = this.datePipe.transform(fecha,"yyyy-MM-dd")
+      this.ubicacion.fecha = fecha;//this.datePipe.transform(fecha,"yyyy-MM-dd")
       this.ubicacion.idPersona = this.usr.usuario.idPersona;
       this.ubicacion.latitud = this.lat;
       this.ubicacion.longitud = this.long;
