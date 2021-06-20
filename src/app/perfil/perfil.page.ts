@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { Medalla, Perfil, Publicacion, Usuario } from '../modelos/perfil';
 import { PerfilService } from '../servicios/perfil.service';
+import { Multimedia } from '../modelos/multimedia.model';
 
 @Component({
   selector: 'app-perfil',
@@ -17,6 +18,7 @@ export class PerfilPage implements OnInit {
   publicaciones: BehaviorSubject<Publicacion[]> = new BehaviorSubject([]);
   usuario: BehaviorSubject<Usuario> = new BehaviorSubject(undefined);
   medalla: BehaviorSubject<Medalla> = new BehaviorSubject(undefined);
+  galleria: BehaviorSubject<Multimedia[]> = new BehaviorSubject([]);
 
   constructor(private perfilServ: PerfilService, private router: ActivatedRoute) { }
 
@@ -31,6 +33,7 @@ export class PerfilPage implements OnInit {
     this.publicaciones.next(this.perfil.publicaciones.reverse());
     this.usuario.next(this.perfil.usuario);
     this.medalla.next(this.perfil.usuario.medalla);
+    this.galleria.next(this.perfil.galerias)
   }
 
 
