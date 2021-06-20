@@ -16,7 +16,7 @@ export class PerfilPage implements OnInit {
 
   publicaciones: BehaviorSubject<Publicacion[]> = new BehaviorSubject([]);
   usuario: BehaviorSubject<Usuario> = new BehaviorSubject(undefined);
-  medalla: BehaviorSubject<Medalla> = new BehaviorSubject(undefined);
+  medalla: BehaviorSubject<Medalla> = new BehaviorSubject(new Medalla());
 
   constructor(private perfilServ: PerfilService, private router: ActivatedRoute) { }
 
@@ -31,6 +31,7 @@ export class PerfilPage implements OnInit {
     this.publicaciones.next(this.perfil.publicaciones.reverse());
     this.usuario.next(this.perfil.usuario);
     this.medalla.next(this.perfil.usuario.medalla);
+
   }
 
 
