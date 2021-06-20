@@ -27,10 +27,19 @@ const routes: Routes = [
     loadChildren: () => import('./registro/registro.module').then( m => m.RegistroPageModule)
   },
   {
+    path: 'evento',
+    loadChildren: () => import('./alta-evento/alta-evento.module').then( m => m.AltaEventoPageModule),
+    canLoad: [LoginGuard]
+  },
+  {
     path: 'alta-evento',
     loadChildren: () => import('./alta-evento/alta-evento.module').then( m => m.AltaEventoPageModule),
     canLoad: [LoginGuard]
-
+  },
+  {
+    path: 'editar-evento',
+    loadChildren: () => import('./alta-evento/alta-evento.module').then( m => m.AltaEventoPageModule),
+    canLoad: [LoginGuard]
   },
   {
     path: 'baja-evento',
