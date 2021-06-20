@@ -19,6 +19,18 @@ export class PubicacionService {
   });
   }
 
+  modificarPublicacion(){
+
+  }
+
+  eliminarPublicacion(idPublicacion: string){
+    return this.httpClient.delete(this.baseUrl+"publicacionComentario/publicacion/"+idPublicacion).subscribe({
+      error: error => {
+          console.log(error);
+      }
+  });
+  }
+
   uploadImage(blobData, name, ext) {
     const formData = new FormData();
     formData.append('file', blobData, `myimage.${ext}`);
