@@ -49,6 +49,15 @@ const routes: Routes = [
         path: '',
         redirectTo: '/admin-page/estadisticas',
         pathMatch: 'full'
+      },
+      {
+        path: 'alta-administrador',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../alta-administrador/alta-administrador.module').then(a => a.AltaAdministradorPageModule)
+          }
+        ]
       }
     ]
   },

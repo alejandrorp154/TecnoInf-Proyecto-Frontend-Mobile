@@ -3,6 +3,9 @@ import { Usuario } from "src/app/modelos/usuario.model";
 import { UsuarioService } from "./../servicios/usuario.service";
 import { Component, OnInit } from '@angular/core';
 import { AlertController, IonItemSliding, IonList } from "@ionic/angular";
+import { AuthService } from "../servicios/auth.service";
+import { UserFire } from '../modelos/userFire.model';
+import { Observable } from "rxjs";
 
 @Component({
   selector: 'app-tab-gestion-usuarios',
@@ -15,8 +18,9 @@ export class TabGestionUsuariosPage implements OnInit {
   user: Usuario;
   showError: boolean;
   errorMessage: string;
+  userFire: UserFire;
 
-  constructor(private usuarioService: UsuarioService, private alertCtrl: AlertController) { }
+  constructor(private usuarioService: UsuarioService, private alertCtrl: AlertController, private authService: AuthService) { }
 
   ngOnInit() {
     this.getAllUsuarios();
@@ -88,5 +92,43 @@ export class TabGestionUsuariosPage implements OnInit {
     }catch(error){
       console.log(error);
     }
+  }
+
+  onBorrarCuentaPropia()
+  {
+    this.alertCtrl
+    .create({
+      header: 'Eliminar cuenta',
+      message: 'Esta a punto de borrar permanentemente su cuenta. ¿Seguro que desea continuar?',
+      buttons: [
+        {
+          text: 'Eliminar',
+          handler: async () => {
+            this.userFire = await this.authService.getCurrentUserFire().toPromise()
+                console.log(this.userFire)
+                  let obs: Observable<any>;
+                  obs = this.authService.deleteAccount(this.userFire.token);
+
+                  obs.subscribe(
+                    errorResponse => {
+                      //const code = errorResponse.error.error.message;
+                      console.log(errorResponse)
+                    }
+                  )
+                  this.usuarioService.deleteUsuarioAdmin(this.userFire.id)
+                  this.authService.logout();
+          },
+          cssClass: 'alrtDanger'
+        },
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancelar');
+          }
+        }
+      ]
+    })
+    .then(alertEl => alertEl.present());
   }
 }
