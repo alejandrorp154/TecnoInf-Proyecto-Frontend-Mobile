@@ -19,12 +19,17 @@ export class PubicacionService {
   });
   }
 
-  modificarPublicacion(){
-
+  modificarPublicacion(publicacion: Publicacion){
+    console.log(publicacion);
+    return this.httpClient.put(this.baseUrl+"publicacionComentario", publicacion).subscribe({
+      error: error => {
+          console.log(error);
+      }
+  });
   }
 
   eliminarPublicacion(idPublicacion: string){
-    return this.httpClient.delete(this.baseUrl+"publicacionComentario/publicacion/"+idPublicacion).subscribe({
+    this.httpClient.delete(this.baseUrl+"publicacionComentario/publicacion/"+idPublicacion).subscribe({
       error: error => {
           console.log(error);
       }

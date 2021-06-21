@@ -75,9 +75,14 @@ export class PopoverPublicacionesComponent implements OnInit {
           }
         }, {
           text: 'Ok',
-          handler: (alertData) => {
-            this.buscarPreview(alertData.linkExt, publicacion);
-            this.pubService.modificarPublicacion();
+          handler: async (alertData) => {
+            await this.buscarPreview(alertData.linkExt).then(()=>{
+              var prev = this.preview.title+'|*|'+this.preview.description+'|*|'+this.preview.image+'|*|'+this.preview.url;
+              publicacion.contenido = prev;
+            });
+            
+           console.log(publicacion);
+           this.pubService.modificarPublicacion(publicacion);
           }
         }
       ]
@@ -86,9 +91,10 @@ export class PopoverPublicacionesComponent implements OnInit {
     await alert.present();
   }
 
-  buscarPreview(url:string, publicacion: Publicacion){
-    this.linkPrevService.getPreview(url).subscribe((data: Preview) => {
-      publicacion.contenido = data.title+'|*|'+data.description+'|*|'+data.image+'|*|'+data.url;
+  async buscarPreview(url:string){
+    await this.linkPrevService.getPreview(url).toPromise().then((data: Preview) => {
+        this.preview = data;
+        console.log(this.preview);
     });
   }
 
@@ -115,7 +121,8 @@ export class PopoverPublicacionesComponent implements OnInit {
           text: 'Ok',
           handler: (alertData) => {
             console.log(alertData.texto);
-            //this.pubService.modificarPublicacion();
+            publicacion.contenido = alertData.texto;
+            this.pubService.modificarPublicacion(publicacion);
           }
         }
       ]
@@ -171,7 +178,7 @@ export class PopoverPublicacionesComponent implements OnInit {
             publicacion.nombre = this.imagen.nombre;
             publicacion.extension = this.imagen.ext;
             console.log(publicacion);
-            this.pubService.modificarPublicacion();
+            this.pubService.modificarPublicacion(publicacion);
           }
         }
       ]
