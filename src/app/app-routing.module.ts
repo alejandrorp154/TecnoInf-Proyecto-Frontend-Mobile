@@ -114,6 +114,10 @@ const routes: Routes = [
 
     path: 'visualizar-contactos',
     loadChildren: () => import('./UI/visualizar-contactos/visualizar-contactos.module').then( m => m.VisualizarContactosPageModule)
+  },
+  {
+    path: 'modificar-perfil',
+    loadChildren: () => import('./modificar-perfil/modificar-perfil.module').then( m => m.ModificarPerfilPageModule)
   }
 
 
