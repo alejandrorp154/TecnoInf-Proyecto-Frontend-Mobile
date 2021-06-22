@@ -1,4 +1,10 @@
 #mapa{
     width:100%;
-    min-height:1000px !important;
+    height: calc(100vh - 100px) !important;
 }
+
+.popover-arrow {
+    visibility: hidden;
+}
+
+.contact-popover .popover-content{ width: 800px; }

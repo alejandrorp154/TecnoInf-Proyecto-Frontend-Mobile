@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 import * as Mapboxgl from 'mapbox-gl';
 import { DomSanitizer } from '@angular/platform-browser';
 import { UbicacionService } from 'src/app/servicios/ubicacion.service';
-import { Ubicacion } from 'src/app/modelos/ubicacion';
+import { Ubicacion } from 'src/app/modelos/ubicacion.model';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -108,7 +108,7 @@ export class AltaPublicacionComponent implements OnInit {
       this.ubicacion = new Ubicacion;
       this.ubicacion.descripcion = '';
       var fecha = new Date();
-      this.ubicacion.fecha = this.datePipe.transform(fecha,"yyyy-MM-dd")
+      this.ubicacion.fecha = fecha;//this.datePipe.transform(fecha,"yyyy-MM-dd");
       this.ubicacion.idPersona = this.usr.usuario.idPersona;
       this.ubicacion.latitud = this.lat;
       this.ubicacion.longitud = this.long;

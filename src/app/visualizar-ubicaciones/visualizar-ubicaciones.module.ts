@@ -10,15 +10,21 @@ import { VisualizarUbicacionesPage } from './visualizar-ubicaciones.page';
 import { NavbarModule } from '../UI/navbar/navbar.module';
 import { MapaModule } from '../UI/mapa/mapa.module';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { PopoverUbicacionesComponent } from '../UI/popover-ubicaciones/popover-ubicaciones.component';
+import { PopoverModule } from '../UI/popover-ubicaciones/popover-ubicaciones.module';
 
 @NgModule({
+  entryComponents: [
+    PopoverUbicacionesComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     VisualizarUbicacionesPageRoutingModule,
     NavbarModule,
-    MapaModule
+    MapaModule,
+    PopoverModule
   ],
   declarations: [VisualizarUbicacionesPage],
   providers: [
