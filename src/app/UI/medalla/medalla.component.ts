@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Medalla, Usuario } from 'src/app/modelos/perfil';
+import { Medalla } from 'src/app/modelos/medalla.model';
 
 @Component({
   selector: 'app-medalla',

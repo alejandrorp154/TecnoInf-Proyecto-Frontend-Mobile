@@ -17,11 +17,10 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LogInterceptorService } from './servicios/log-intercepetor.service';
 import {DatePipe} from '@angular/common';
-import { FormControl } from '@angular/forms';
 
 export function getBaseUrl() {
   //console.log(document.getElementsByTagName('base')[0].href);
-  return 'http://3.134.98.109:8080/pryectoBack-web/rest/';
+  return 'http://18.221.125.169:8080/pryectoBack-web/rest/';
 }
 
 @NgModule({

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { Ubicacion } from '../modelos/ubicacion.model';
 import { AuthService } from './auth.service';
@@ -9,14 +9,13 @@ import { AuthService } from './auth.service';
 })
 export class VisualizarUbicacionesService {
 
-  private baseUrl = 'http://18.217.108.158:8080/pryectoBack-web/rest';
 
-  constructor(private authService: AuthService, private httpClient: HttpClient) {
+  constructor(private authService: AuthService, private httpClient: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
   }
 
   public getAllUbicacionesAsync(userID: string): Promise<Ubicacion[]> {
     try {
-      const url = `${this.baseUrl}/ubicacion/${userID}`;
+      const url = `${this.baseUrl}ubicacion/${userID}`;
       return this.httpClient.get<Ubicacion[]>(url).toPromise();
 
     } catch (error) {
