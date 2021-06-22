@@ -109,6 +109,7 @@ export class AltaPublicacionComponent implements OnInit {
       this.ubicacion = new Ubicacion;
       this.ubicacion.descripcion = '';
       var fecha = new Date();
+
       //this.ubicacion.fecha = this.datePipe.transform(fecha,"yyyy-MM-dd") //String se comenta porque el modelo esta con Date
       this.ubicacion.fecha = fecha;
       this.ubicacion.idPersona = this.usr.usuario.idPersona;

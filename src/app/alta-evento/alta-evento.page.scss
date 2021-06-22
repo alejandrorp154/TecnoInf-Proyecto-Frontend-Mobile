@@ -1,4 +1,4 @@
-ion-content > ion-grid, h1 {
+.main-grid, h1 {
   padding: 20px 20px 0 20px !important;
 }
 
@@ -45,4 +45,26 @@ ion-textarea, ion-textarea textarea{
 #mapa {
   width: 100%;
   min-height: 250px;
+}
+
+
+.fechas {
+  width: 100%;
+  text-align: center;
+
+  p {
+    background: lighten(#91c6b8, 15);
+    padding: 10px;
+  }
+}
+
+.unpaddingX, .unpaddingX-cols ion-col, ion-item {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+ion-item::part(native) {
+  //WRITE ALL YOUR CSS RULES HERE
+  padding-left: 0;
+  /** and lots more **/
 }
