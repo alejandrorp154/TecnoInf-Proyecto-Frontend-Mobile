@@ -21,7 +21,12 @@ export class PerfilPage implements OnInit {
   constructor(private perfilServ: PerfilService, private router: ActivatedRoute) { }
 
   ngOnInit() {
-    this.obtenerPerfil(this.router.snapshot.params.id);
+    this.router.paramMap.subscribe(
+      params => {
+          const id = params.get('id');
+          this.obtenerPerfil(id.toString());
+      }
+  );
   }
 
   async obtenerPerfil(id: string){
