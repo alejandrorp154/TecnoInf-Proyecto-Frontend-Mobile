@@ -27,10 +27,19 @@ const routes: Routes = [
     loadChildren: () => import('./registro/registro.module').then( m => m.RegistroPageModule)
   },
   {
+    path: 'evento',
+    loadChildren: () => import('./alta-evento/alta-evento.module').then( m => m.AltaEventoPageModule),
+    canLoad: [LoginGuard]
+  },
+  {
     path: 'alta-evento',
     loadChildren: () => import('./alta-evento/alta-evento.module').then( m => m.AltaEventoPageModule),
     canLoad: [LoginGuard]
-
+  },
+  {
+    path: 'editar-evento',
+    loadChildren: () => import('./alta-evento/alta-evento.module').then( m => m.AltaEventoPageModule),
+    canLoad: [LoginGuard]
   },
   {
     path: 'baja-evento',
@@ -97,13 +106,16 @@ const routes: Routes = [
     loadChildren: () => import('./recuperar-password/recuperar-password.module').then( m => m.RecuperarPasswordPageModule)
   },
   {
-
     path: 'visualizar-contactos',
     loadChildren: () => import('./UI/visualizar-contactos/visualizar-contactos.module').then( m => m.VisualizarContactosPageModule)
   },
   {
     path: 'tab-perfil-admin',
     loadChildren: () => import('./tab-perfil-admin/tab-perfil-admin.module').then( m => m.TabPerfilAdminPageModule)
+  },
+  {
+    path: 'modificar-perfil',
+    loadChildren: () => import('./modificar-perfil/modificar-perfil.module').then( m => m.ModificarPerfilPageModule)
   }
 
 

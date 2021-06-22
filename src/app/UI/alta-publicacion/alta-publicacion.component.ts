@@ -10,8 +10,9 @@ import { environment } from 'src/environments/environment';
 import * as Mapboxgl from 'mapbox-gl';
 import { DomSanitizer } from '@angular/platform-browser';
 import { UbicacionService } from 'src/app/servicios/ubicacion.service';
-import { Ubicacion } from 'src/app/modelos/ubicacion';
+
 import { DatePipe } from '@angular/common';
+import { Ubicacion } from 'src/app/modelos/ubicacion.model';
 
 @Component({
   selector: 'app-alta-publicacion',
@@ -108,7 +109,9 @@ export class AltaPublicacionComponent implements OnInit {
       this.ubicacion = new Ubicacion;
       this.ubicacion.descripcion = '';
       var fecha = new Date();
-      this.ubicacion.fecha = this.datePipe.transform(fecha,"yyyy-MM-dd")
+
+      //this.ubicacion.fecha = this.datePipe.transform(fecha,"yyyy-MM-dd") //String se comenta porque el modelo esta con Date
+      this.ubicacion.fecha = fecha;
       this.ubicacion.idPersona = this.usr.usuario.idPersona;
       this.ubicacion.latitud = this.lat;
       this.ubicacion.longitud = this.long;

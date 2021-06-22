@@ -10,9 +10,8 @@ import { Usuario } from '../modelos/usuario.model';
 import { Contacto, EstadosContactos } from "../modelos/contacto.model";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'any'
 })
-
 export class UsuarioService {
 
   readonly estados = {}
@@ -54,6 +53,16 @@ export class UsuarioService {
     }
   }
 
+  public getAllUsuariosRegistradosAsync(): Promise<Usuario[]> {
+    try {
+      const url = `${this.baseUrl}visualizacion/obtenerUsuarios/0/5000`;
+      return this.httpClient.get<Usuario[]>(url).toPromise();
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   getAllUsuarios(){
     return [...this.usuarios];
   }
@@ -62,6 +71,16 @@ export class UsuarioService {
     return {...this.usuarios.find(user => {
       return user.idPersona === idUsuario
     })};
+  }
+
+  deleteAcount(userID: string)
+  {
+    try {
+      const url = `${this.baseUrl}usuario/${userID}`;
+      return this.httpClient.delete(url).toPromise()
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   addUsuario(idPersona: string, email: string, nombre: string, apellido: string, nickname: string,
