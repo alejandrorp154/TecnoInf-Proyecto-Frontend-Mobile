@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
-import { Publicacion, Usuario } from 'src/app/modelos/perfil';
+import { Publicacion } from 'src/app/modelos/perfil';
+import { Usuario } from 'src/app/modelos/usuario.model';
 import { PopoverPublicacionesComponent } from '../popover-publicaciones/popover-publicaciones.component';
 
 @Component({
