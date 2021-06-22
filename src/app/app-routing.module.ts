@@ -69,11 +69,6 @@ const routes: Routes = [
     loadChildren: () => import('./alta-administrador/alta-administrador.module').then( m => m.AltaAdministradorPageModule)
   },
   {
-    path: 'mod-administrador',
-    loadChildren: () => import('./mod-administrador/mod-administrador.module').then( m => m.ModAdministradorPageModule),
-    canLoad: [LoginGuard]
-  },
-  {
     path: 'sugerir-amigos',
     loadChildren: () => import('./UI/sugerir-amigos/sugerir-amigos.module').then( m => m.SugerirAmigosPageModule)
   },
@@ -105,7 +100,12 @@ const routes: Routes = [
 
     path: 'visualizar-contactos',
     loadChildren: () => import('./UI/visualizar-contactos/visualizar-contactos.module').then( m => m.VisualizarContactosPageModule)
+  },
+  {
+    path: 'tab-perfil-admin',
+    loadChildren: () => import('./tab-perfil-admin/tab-perfil-admin.module').then( m => m.TabPerfilAdminPageModule)
   }
+
 
 
 ];

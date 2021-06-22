@@ -93,42 +93,4 @@ export class TabGestionUsuariosPage implements OnInit {
       console.log(error);
     }
   }
-
-  onBorrarCuentaPropia()
-  {
-    this.alertCtrl
-    .create({
-      header: 'Eliminar cuenta',
-      message: 'Esta a punto de borrar permanentemente su cuenta. ¿Seguro que desea continuar?',
-      buttons: [
-        {
-          text: 'Eliminar',
-          handler: async () => {
-            this.userFire = await this.authService.getCurrentUserFire().toPromise()
-                console.log(this.userFire)
-                  let obs: Observable<any>;
-                  obs = this.authService.deleteAccount(this.userFire.token);
-
-                  obs.subscribe(
-                    errorResponse => {
-                      //const code = errorResponse.error.error.message;
-                      console.log(errorResponse)
-                    }
-                  )
-                  this.usuarioService.deleteUsuarioAdmin(this.userFire.id)
-                  this.authService.logout();
-          },
-          cssClass: 'alrtDanger'
-        },
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancelar');
-          }
-        }
-      ]
-    })
-    .then(alertEl => alertEl.present());
-  }
 }

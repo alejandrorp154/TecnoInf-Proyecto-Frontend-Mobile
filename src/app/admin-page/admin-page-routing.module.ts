@@ -58,6 +58,15 @@ const routes: Routes = [
             loadChildren: () => import('../alta-administrador/alta-administrador.module').then(a => a.AltaAdministradorPageModule)
           }
         ]
+      },
+      {
+        path: 'tabPerfilAdminPage',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../tab-perfil-admin/tab-perfil-admin.module').then(a => a.TabPerfilAdminPageModule)
+          }
+        ]
       }
     ]
   },
