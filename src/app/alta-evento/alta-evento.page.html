@@ -1,16 +1,18 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" *ngIf="!visualizando">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button icon="chevron-back-outline" class="pointer" text=""></ion-back-button>
     </ion-buttons>
 
-    <ion-title>Alta Evento</ion-title>
+    <ion-title>{{ editando ? 'Editar' : 'Alta' }} Evento</ion-title>
   </ion-toolbar>
 </ion-header>
 
+<app-navbar *ngIf="visualizando"></app-navbar>
 
-<ion-content>
-  <ion-grid>
+
+<ion-content *ngIf="!visualizando">
+  <ion-grid class="main-grid">
     <ion-row>
       <ion-col size="4" size-md="2" size-xs="12">
         <ion-label>Nombre</ion-label>
@@ -21,19 +23,29 @@
     </ion-row>
     <ion-row>
       <ion-col size="4" size-md="2" size-xs="12">
-        <ion-label>Ubicación</ion-label>
-      </ion-col>
-      <ion-col id="mapa" size="8" size-md="5" size-lg="3" size-xs="12">
-        <app-mapa [componente]="'altaEvento'" [currentLocation]="true" [ubiCentral]="ubicacion" [marcarUbicacion]="true" (ubicacion)="marcarUbicacion($event)"></app-mapa>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="4" size-md="2" size-xs="12">
         <ion-label>Descripción</ion-label>
       </ion-col>
       <ion-col size="8" size-md="5" size-lg="3" size-xs="12">
         <ion-textarea rows="4" [(ngModel)]="evento.descripcion" placeholder="Descripción">
         </ion-textarea>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="4" size-md="2" size-xs="12">
+        <ion-label>Imagen</ion-label>
+      </ion-col>
+      <ion-col size="8" size-md="5" size-lg="3" size-xs="12">
+        <label for="fileInput" class="label-input cursor"><ion-icon name="camera-outline" slot="icon-only"></ion-icon></label>
+        <img [src]="imageSource" style="width: 100%; min-height: 100px;" *ngIf="evento.imagen">
+          <input type="file" id="fileInput" (change)="uploadFile($event)" class="ion-hide" accept="image/*"/>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="4" size-md="2" size-xs="12">
+        <ion-label>Ubicación</ion-label>
+      </ion-col>
+      <ion-col id="mapa" size="8" size-md="5" size-lg="3" size-xs="12">
+        <app-mapa [componente]="'altaEvento'" [currentLocation]="true" [ubiCentral]="ubicacion" [marcarUbicacion]="true" (ubicacion)="marcarUbicacion($event)"></app-mapa>
       </ion-col>
     </ion-row>
     <ion-row>
@@ -62,8 +74,29 @@
     </ion-row>
     <ion-row>
       <ion-col size="2"></ion-col>
-      <ion-col size="8">
+      <ion-col size="8" size-md="5" size-lg="3" size-xs="12">
         <ion-button expand="block" color="primary" [disabled]="!isValid()" (click)="submit()">Aceptar</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-content *ngIf="visualizando">
+  <ion-grid class="unpaddingX unpaddingX-cols">
+    <ion-row>
+      <ion-col size="12">
+        <img [src]="evento.imagen" *ngIf="evento.imagen" class="full-width main-image"/>
+      </ion-col>
+    </ion-row>
+    <ion-item>
+        <ion-title>{{ evento.nombre }}</ion-title>
+    </ion-item>
+    <ion-item>
+          <p>Del {{ evento.fechaInicio | date: 'dd-MM-yyyy'}} al {{ evento.fechaFin | date: 'dd-MM-yyyy' }}.</p>
+    </ion-item>
+    <ion-row>
+      <ion-col>
+        <p>{{ evento.descripcion }}</p>
       </ion-col>
     </ion-row>
   </ion-grid>

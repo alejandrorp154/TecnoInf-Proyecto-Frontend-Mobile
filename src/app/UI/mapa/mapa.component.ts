@@ -25,9 +25,9 @@ export class MapaComponent implements OnInit {
   @Input() currentLocation: boolean;
   @Input() marcarUbicacion: boolean;
   @Input() ubiCentral: Ubicacion;
-  @Input() ubicaciones: BehaviorSubject<Ubicacion[]>;
+  
+  @Input() ubicaciones: BehaviorSubject<Ubicacion[]> = new BehaviorSubject([]);
   @Input() ubicacionViajar:BehaviorSubject<Ubicacion>;
-
   currentLat: number;
   currentLng: number;
   lat: BehaviorSubject<number> = new BehaviorSubject(-34.8833);
@@ -45,6 +45,7 @@ export class MapaComponent implements OnInit {
   constructor(private authService: AuthService, private mapboxService: MapboxService, private geolocation: Geo) {
     this.currentLat = -34.8833;
     this.currentLng = -56.1667;
+    console.log(this.ubiCentral);
     this.lat.next(this.ubiCentral ? this.ubiCentral.latitud : -34.8833);
     this.lng.next(this.ubiCentral ? this.ubiCentral.longitud : -56.1667);
     this.marcadores = []
@@ -53,6 +54,7 @@ export class MapaComponent implements OnInit {
   async ngOnInit() {
     setTimeout(() => this.buildMap(), 200);
   }
+
 
   buildMap()
   {
@@ -70,6 +72,7 @@ export class MapaComponent implements OnInit {
         this.marcadores.forEach(marc => {
           marc.remove();
         });
+        
         if(this.ubicaciones.value && this.ubicaciones.value.length > 0) {
           let marker;
           this.ubicaciones.value.forEach(u => {
