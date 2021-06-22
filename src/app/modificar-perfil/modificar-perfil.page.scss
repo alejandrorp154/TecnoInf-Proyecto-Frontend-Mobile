@@ -1,0 +1,27 @@
+ion-grid{
+    height: 100%;
+}
+ion-row{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+ion-card-title{
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#foto
+{
+  border-radius: 50%;
+  width: 50%;
+  height: 50%;
+  margin-left: 25%;
+}
+#imageAdd
+{
+  margin-left: 22%;
+}

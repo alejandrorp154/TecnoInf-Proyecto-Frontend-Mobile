@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Publicacion, Usuario } from 'src/app/modelos/perfil';
+import { Publicacion } from 'src/app/modelos/perfil';
+import { Usuario } from 'src/app/modelos/usuario.model';
 
 @Component({
   selector: 'app-feed',
