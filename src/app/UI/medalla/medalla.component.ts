@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Medalla, Usuario } from 'src/app/modelos/perfil';
+import { Medalla } from 'src/app/modelos/medalla.model';
+
 
 @Component({
   selector: 'app-medalla',
@@ -24,7 +25,7 @@ export class MedallaComponent implements OnInit {
       {
         switch(med.rango)
         {
-          case "ironWolf":
+          case 0:
           {
             this.medallaUrl = "../../assets/img/Iron.png";
             this.progreso = (this.medalla.value.cantidadPuntos * 100) / 75
@@ -33,7 +34,7 @@ export class MedallaComponent implements OnInit {
             this.medallaName = "Iron Wolf";
             break;
           }
-          case "bronzeWolf":
+          case 1:
           {
             this.medallaUrl = "../../assets/img/Bronce.png";
             this.progreso = (this.medalla.value.cantidadPuntos * 100) / 150
@@ -42,7 +43,7 @@ export class MedallaComponent implements OnInit {
             this.medallaName = "Bronce Wolf";
             break;
           }
-          case "silverWolf":
+          case 2:
           {
             this.medallaUrl = "../../assets/img/Silver.png";
             this.progreso = (this.medalla.value.cantidadPuntos * 100) / 300
@@ -51,7 +52,7 @@ export class MedallaComponent implements OnInit {
             this.medallaName = "Silver Wolf";
             break;
           }
-          case "goldWolf":
+          case 3:
           {
             this.medallaUrl = "../../assets/img/Gold.png";
             this.progreso = (this.medalla.value.cantidadPuntos * 100) / 600
@@ -60,7 +61,7 @@ export class MedallaComponent implements OnInit {
             this.medallaName = "Gold Wolf";
             break;
           }
-          case "platinumWolf":
+          case 4:
           {
             this.medallaUrl = "../../assets/img/Platinum.png";
             this.progreso = (this.medalla.value.cantidadPuntos * 100) / 1200
@@ -69,7 +70,7 @@ export class MedallaComponent implements OnInit {
             this.medallaName = "Platinum Wolf";
             break;
           }
-          case "diamondWolf":
+          case 5:
           {
             this.medallaUrl = "../../assets/img/Diamond.png";
             this.progreso = (this.medalla.value.cantidadPuntos * 100) / 2400
@@ -78,7 +79,7 @@ export class MedallaComponent implements OnInit {
             this.medallaName = "Diamond Wolf";
             break;
           }
-          case "masterWolf":
+          case 6:
           {
             this.medallaUrl = "../../assets/img/Master.png";
             this.progreso = (this.medalla.value.cantidadPuntos * 100) / 4800
@@ -87,7 +88,7 @@ export class MedallaComponent implements OnInit {
             this.medallaName = "Master Wolf";
             break;
           }
-          case "alfaWolf":
+          case 7:
           {
             this.medallaUrl = "../../assets/img/Alfa.png";
             this.progreso = (this.medalla.value.cantidadPuntos * 100) / 10000
