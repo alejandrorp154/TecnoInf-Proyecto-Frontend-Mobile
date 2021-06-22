@@ -1,0 +1,27 @@
+<ion-list>
+  <ion-item>
+    <ion-buttons slot="start">
+      <ion-button *ngIf="Publicacion.tipo.tipo == 'texto'" (click)="modificarPublicacionTexto(Publicacion)">
+        <ion-icon slot="start" name="create-outline"></ion-icon>
+        Modificar
+      </ion-button>
+      <ion-button *ngIf="Publicacion.tipo.tipo == 'foto'" (click)="selectImageSource()">
+        <input type="file" #fileInput (change)="uploadFile($event, Publicacion)" hidden="true" accept="image/*"/>
+        <ion-icon slot="start" name="create-outline"></ion-icon>
+        Modificar
+      </ion-button>
+      <ion-button *ngIf="Publicacion.tipo.tipo == 'enlaceExterno'" (click)="modificarPublicacionURL(Publicacion)">
+        <ion-icon slot="start" name="create-outline"></ion-icon>
+        Modificar
+      </ion-button>
+    </ion-buttons>
+  </ion-item>
+  <ion-item>
+    <ion-buttons slot="start">
+      <ion-button (click)="borrarPublicacion(Publicacion.idPublicacion)">
+        <ion-icon slot="start" name="trash-outline"></ion-icon>
+        Eliminar
+      </ion-button>
+    </ion-buttons>
+  </ion-item>
+</ion-list>

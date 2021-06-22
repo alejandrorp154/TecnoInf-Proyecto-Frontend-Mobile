@@ -21,15 +21,20 @@ export class PerfilPage implements OnInit {
   medalla: BehaviorSubject<Medalla> = new BehaviorSubject(undefined);
 
   constructor(private perfilServ: PerfilService, private router: ActivatedRoute) {
-    this.obtenerPerfil(this.router.snapshot.params.id);
    }
 
   ngOnInit() {
+    this.router.paramMap.subscribe(
+      params => {
+          const id = params.get('id');
+          this.obtenerPerfil(id.toString());
+      }
+  );
   }
 
   async obtenerPerfil(id: string){
     this.perfil = await this.perfilServ.obtenerPerfil(id); //Usuario por id
-
+    this.perfilServ.usuarioDatos = this.perfil.usuario;
     this.publicaciones.next(this.perfil.publicaciones.reverse());
     this.usuario.next(this.perfil.usuario);
     this.medalla.next(this.perfil.usuario.medalla);
