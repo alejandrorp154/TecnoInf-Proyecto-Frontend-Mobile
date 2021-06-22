@@ -1,14 +1,15 @@
 <app-navbar></app-navbar>
 <ion-content>
-  <h1>Mis eventos</h1>
+  <h1 (click)="prueba()">Mis eventos</h1>
   <ion-item>
     <ion-icon slot="end" name="add-outline" class="pointer" [routerLink]="['/alta-evento']"></ion-icon>
   </ion-item>
 
   <ion-list #listaEventos>
-    <ion-item *ngFor="let evento of eventos">
-      <p>{{ evento.nombre }}</p>
-      <ion-icon slot="end" name="create-outline" class="pointer"></ion-icon>
+    <ion-item *ngFor="let evento of bsEventos.value">
+      <img [src]="evento.imagen" class="thumbnail" *ngIf="evento.imagen" (click)="ver(evento)">
+      <p (click)="ver(evento)">{{ evento.nombre }}</p>
+      <ion-icon slot="end" name="create-outline" class="pointer" (click)="editar(evento)"></ion-icon>
       <ion-icon slot="end" name="trash-outline" (click)="eliminarAlert(evento)" class="pointer"></ion-icon>
     </ion-item>
   </ion-list>

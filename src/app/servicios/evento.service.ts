@@ -10,6 +10,8 @@ import { ChatService } from './chat.service';
 })
 export class EventoService {
 
+  public eventoActual: Evento;
+
   constructor(private authService: AuthService, private chatService: ChatService, public http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
   }
 
@@ -61,9 +63,14 @@ export class EventoService {
     }).toPromise();*/
   }
 
-  elminarEvento(idEvento: number): Promise<boolean> {
+  modificarEvento(evento: Evento): Promise<Evento> {
+    return this.http.put<any>(this.baseUrl + 'evento', evento).toPromise();
+  }
+
+  async elminarEvento(idEvento: number): Promise<boolean> {
+    let userFire = await this.authService.getCurrentUserFire().toPromise();
     console.log('Ingresó a eliminarEvento(idEvento)', idEvento);
-    return this.http.delete<boolean>(this.baseUrl + 'evento' + idEvento).toPromise();
+    return this.http.delete<boolean>(this.baseUrl + 'evento/' + idEvento + '/' + userFire.id).toPromise();
   }
 
 }
