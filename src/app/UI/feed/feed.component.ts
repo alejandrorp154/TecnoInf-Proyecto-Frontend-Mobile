@@ -1,7 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Publicacion } from 'src/app/modelos/perfil';
+import { LikeDisLike, Reaccion } from 'src/app/modelos/publicacion.model';
 import { Usuario } from 'src/app/modelos/usuario.model';
+import { PubicacionService } from 'src/app/servicios/pubicacion.service';
 
 @Component({
   selector: 'app-feed',
@@ -13,13 +15,33 @@ export class FeedComponent implements OnInit {
   @Input() publicaciones: BehaviorSubject<Publicacion[]>;
   @Input() usuario: BehaviorSubject<Usuario>;
 
+  reaccion: Reaccion;
+
   //count: number = 0;
 
-  constructor() {
+  constructor(private pubService: PubicacionService) {
     //this.llenoFeed();
    }
 
   ngOnInit() {
+  }
+
+  like(publicacion: Publicacion){
+    publicacion.cantidadLikes =+ 1;
+    this.reaccion = new Reaccion;
+    this.reaccion.idPersona = this.usuario.value.idPersona;
+    this.reaccion.idPublicacion = publicacion.idPublicacion;
+    this.reaccion.reaccion = LikeDisLike.MeGusta;
+    this.pubService.reaccionar(this.reaccion);
+  }
+
+  dislike(publicacion: Publicacion){
+    publicacion.cantidadDislikes =+ 1;
+    this.reaccion = new Reaccion;
+    this.reaccion.idPersona = this.usuario.value.idPersona;
+    this.reaccion.idPublicacion = publicacion.idPublicacion;
+    this.reaccion.reaccion = LikeDisLike.NoMeGusta;
+    this.pubService.reaccionar(this.reaccion);
   }
 
   // async llenoFeed(){

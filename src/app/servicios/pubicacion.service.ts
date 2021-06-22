@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { ErrorHandler, Inject, Injectable } from '@angular/core';
-import { Publicacion } from '../modelos/publicacion.model';
+import { Publicacion, Reaccion } from '../modelos/publicacion.model';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +42,14 @@ export class PubicacionService {
     };
     //console.log(file)
     //return this.httpClient.post(`${this.url}/image`, formData);
+  }
+
+  reaccionar(reaccion: Reaccion){
+    return this.httpClient.post(this.baseUrl+"publicacionComentario/publicacion/reaccionar", reaccion).subscribe({
+      error: error => {
+          console.log(error);
+      }
+  });
   }
 
 }
