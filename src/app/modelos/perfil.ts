@@ -1,27 +1,10 @@
+import { Usuario } from "./usuario.model";
+
 export class Perfil {
     usuario: Usuario;
     intereses: [];
     galerias: [];
     publicaciones?: Publicacion[];
-}
-
-export class Usuario {
-    idPersona: string;
-    email: string;
-    nombre: string;
-    apellido: string;
-    nickname: string;
-    direccion: string;
-    celular: string;
-    medalla: Medalla;
-}
-
-export class Medalla {
-    idMedalla: number;
-    cantidadPuntos: number;
-    logros: string;
-    rango: string;
-    usuario: Usuario
 }
 
 export class Publicacion {
@@ -38,4 +21,18 @@ export class Publicacion {
     comentarioReacciones: [];
     evento: boolean;
     perfil: boolean;
+}
+
+export class UsuarioPerfil{
+    idPersona: string;
+    nickname: string;
+    nombre: string;
+    apellido: string;
+    celular: string;
+    direccion: string;
+    email: string;
+    pais: string;
+    imagenPerfil: string;
+    nombreImagen: string;
+    extensionImagen: string;
 }

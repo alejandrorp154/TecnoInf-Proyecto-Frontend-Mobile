@@ -32,6 +32,7 @@ export function getBaseUrl() {
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule, AngularFirestoreModule, AngularFireStorageModule,
     FormsModule, ReactiveFormsModule, HttpClientModule, ReactiveFormsModule, IonicSelectableModule],
+
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] },

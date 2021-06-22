@@ -38,6 +38,7 @@
     "ionic-selectable": "^4.9.0",
     "is-directory": "^0.3.1",
     "mapbox-gl": "^2.3.0",
+    "ng2-search-filter": "^0.5.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.1.0",
     "zone.js": "~0.10.2"

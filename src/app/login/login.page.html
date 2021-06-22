@@ -51,7 +51,9 @@
                     </ion-col>
                   </ion-row>
                   <ion-row>
-                    <ion-label>¿Olvidaste tu contraseña?</ion-label>
+                    <div [routerLink]="['../recuperar-password']">
+                      <ion-label id="hover">¿Olvidaste tu contraseña?</ion-label>
+                    </div>
                   </ion-row>
                 </ion-list>
               </ion-card-content>
