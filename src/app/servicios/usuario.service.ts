@@ -2,7 +2,6 @@ import { Multimedia } from "./../modelos/multimedia.model";
 import { idPersona } from "./../modelos/publicacion.model";
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Persona, Rol } from '../modelos/persona.model';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { UserFire } from '../modelos/userFire.model';
@@ -27,27 +26,27 @@ export class UsuarioService {
     })
   };
 
-  usuarios: Persona[];
+  usuarios: Usuario[];
   contactos: Contacto[];
 
   constructor(private httpClient: HttpClient, private authService: AuthService, @Inject('BASE_URL') private baseUrl: string) { }
 
    //public async getAllUsuariosAsync(offset: number, size: number): Promise<Usuario[]> {
-    public async getAllUsuariosAsync(): Promise<Persona[]> {
+    public async getAllUsuariosAsync(): Promise<Usuario[]> {
       try {
         const url = `${this.baseUrl}visualizacion/obtenerUsuarios/0/10`;
         let response = await this.httpClient.get(url).toPromise();
-        this.usuarios = response as Persona[];
-        return response as Persona[];
+        this.usuarios = response as Usuario[];
+        return response as Usuario[];
       } catch (error) {
         console.log(error);
       }
     }
 
-  public getAllUsuariosObs(): Observable<Persona[]> {
+  public getAllUsuariosObs(): Observable<Usuario[]> {
     try {
       const url = `${this.baseUrl}visualizacion/obtenerUsuarios/0/10`;
-      return this.httpClient.get<Persona[]>(url);
+      return this.httpClient.get<Usuario[]>(url);
     } catch (error) {
       console.log(error);
     }
@@ -100,7 +99,7 @@ export class UsuarioService {
       "nombreImagen": nombreImagen,
       "extensionImagen": extensionImagen
     }
-    return this.httpClient.post<Persona>(url, postData, this.httpOptions)
+    return this.httpClient.post<Usuario>(url, postData, this.httpOptions)
     .subscribe(data => {
       console.log(data['_body']);
      }, error => {
@@ -163,16 +162,16 @@ export class UsuarioService {
 
   }
 
-  getLoggedUser(): Promise<Persona> {
+  getLoggedUser(): Promise<Usuario> {
     return new Promise(async (resolve) => {
       let userFire = await this.authService.getCurrentUserFire().toPromise();
       resolve(this.getUsuario(userFire.id));
     });
   }
 
-  getUsuarioAsync(idPersona: string): Promise<Persona> {
+  getUsuarioAsync(idPersona: string): Promise<Usuario> {
     console.log(this.baseUrl + 'usuario/' + idPersona);
-    return this.httpClient.get<Persona>(this.baseUrl + 'usuario/' + idPersona).toPromise();
+    return this.httpClient.get<Usuario>(this.baseUrl + 'usuario/' + idPersona).toPromise();
   }
 
   async agregarContacto(idPersona1: string, idPersona2: string){

@@ -32,18 +32,8 @@ const routes: Routes = [
     canLoad: [LoginGuard]
   },
   {
-    path: 'alta-evento',
-    loadChildren: () => import('./alta-evento/alta-evento.module').then( m => m.AltaEventoPageModule),
-    canLoad: [LoginGuard]
-  },
-  {
-    path: 'editar-evento',
-    loadChildren: () => import('./alta-evento/alta-evento.module').then( m => m.AltaEventoPageModule),
-    canLoad: [LoginGuard]
-  },
-  {
-    path: 'baja-evento',
-    loadChildren: () => import('./baja-evento/baja-evento.module').then( m => m.BajaEventoPageModule),
+    path: 'eventos',
+    loadChildren: () => import('./eventos/eventos.module').then( m => m.EventosPageModule),
     canLoad: [LoginGuard]
   },
   {
@@ -64,10 +54,6 @@ const routes: Routes = [
   {
     path: 'interes',
     loadChildren: () => import('./interes/interes.module').then( m => m.InteresPageModule)
-  },
-  {
-    path: 'eventos',
-    loadChildren: () => import('./eventos/eventos.module').then( m => m.EventosPageModule)
   },
   {
     path: 'visualizar-ubicaciones',

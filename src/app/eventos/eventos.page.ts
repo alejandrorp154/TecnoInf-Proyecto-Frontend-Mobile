@@ -5,7 +5,7 @@ import { AlertController } from '@ionic/angular';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { estadosContactos } from '../modelos/estadosContactos.enum';
 import { Evento } from '../modelos/evento.model';
-import { Persona } from '../modelos/persona.model';
+import { Usuario } from '../modelos/usuario.model';
 import { AuthService } from '../servicios/auth.service';
 import { EventoService } from '../servicios/evento.service';
 import { Resultado, ToolsService } from '../servicios/tools.service';
@@ -18,7 +18,7 @@ import { UsuarioService } from '../servicios/usuario.service';
 })
 export class EventosPage implements OnInit {
 
-  loggedUser: Persona;
+  loggedUser: Usuario;
   eventos: Evento[];
   bsEventos: BehaviorSubject<Evento[]> = new BehaviorSubject([]);
   subscription: Subscription;
@@ -80,12 +80,12 @@ export class EventosPage implements OnInit {
 
   editar(evento: Evento) {
     this.eventoService.eventoActual = evento;
-    this.router.navigateByUrl('/editar-evento');
+    this.router.navigateByUrl('/evento/editar/' + evento.idEvento);
   }
 
   ver(evento: Evento) {
     this.eventoService.eventoActual = evento;
-    this.router.navigateByUrl('/evento');
+    this.router.navigateByUrl('/evento/' + evento.idEvento);
   }
 
   prueba() {

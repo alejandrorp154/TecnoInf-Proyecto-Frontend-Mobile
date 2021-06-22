@@ -17,7 +17,7 @@ export class EventoService {
 
   obtenerEvento(idEvento: number): Promise<Evento> {
     console.log('Ingresó a obtenerEvento(idEvento)');
-    return this.http.get<Evento>(this.baseUrl + 'evento' + idEvento).toPromise();
+    return this.http.get<Evento>(this.baseUrl + 'evento/obtenerEvento/' + idEvento).toPromise();
   }
 
   obtenerEventosXPersona(idPersona: string): Promise<Evento[]> {
