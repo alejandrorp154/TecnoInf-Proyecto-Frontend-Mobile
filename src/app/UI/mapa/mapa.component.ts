@@ -25,7 +25,7 @@ export class MapaComponent implements OnInit {
   @Input() buscador: boolean;
   @Input() ubiCentral: BehaviorSubject<Ubicacion> = new BehaviorSubject(new Ubicacion);
   @Input() ubicaciones: BehaviorSubject<Ubicacion[]> = new BehaviorSubject([]);
-
+  @Input() ubicacionViajar:BehaviorSubject<Ubicacion>;
   currentLat: number;
   currentLng: number;
   lat: BehaviorSubject<number> = new BehaviorSubject(-34.8833);
@@ -62,28 +62,35 @@ export class MapaComponent implements OnInit {
       zoom: 10
     });
 
-    this.ubicaciones.subscribe( res => {
-      if(this.ubicaciones.value && this.ubicaciones.value.length > 0) {
-        let marker;
-        this.ubicaciones.value.forEach(u => {
-          /*
-          var element = document.createElement('div');
-          element.className = 'marker';
-          element.style.backgroundImage = `${u.}`;
-          element.style.width = 50 + 'px';
-          element.style.height =50 + 'px';
-          element.style.backgroundSize = '100%';
-          marker = new mapboxgl.Marker(element)
-            .setLngLat([u.longitud, u.latitud])
-            .addTo(map);*/
-            marker = new this.mapboxgl.Marker({ color: 'orange', rotation: 45, draggable: false })
-            .setLngLat([u.longitud, u.latitud])
-            .addTo(this.map);
-          this.marcadores.push(marker);
+    if (this.ubicaciones && this.ubicaciones.value){
+      this.ubicaciones.subscribe( res => {
+        this.marcadores.forEach(marc => {
+          marc.remove();
         });
-      }
 
-    });
+        if(this.ubicaciones.value && this.ubicaciones.value.length > 0) {
+          let marker;
+          this.ubicaciones.value.forEach(u => {
+            /*
+            var element = document.createElement('div');
+            element.className = 'marker';
+            element.style.backgroundImage = `${u.}`;
+            element.style.width = 50 + 'px';
+            element.style.height =50 + 'px';
+            element.style.backgroundSize = '100%';
+            marker = new mapboxgl.Marker(element)
+              .setLngLat([u.longitud, u.latitud])
+              .addTo(map);*/
+              marker = new this.mapboxgl.Marker({ color: 'orange', rotation: 45, draggable: false })
+              .setLngLat([u.longitud, u.latitud])
+
+              .addTo(this.map);
+            this.marcadores.push(marker);
+          });
+        }
+      })
+    }
+
 
     //let position = await this.mapboxService.obtenerUbicacionActual();
     this.geolocation.getCurrentPosition().then((resp) => {
@@ -147,6 +154,16 @@ export class MapaComponent implements OnInit {
         this.map.addControl(geocoder);
       }
     }
+
+  if(this.ubicacionViajar && this.ubicacionViajar.value){
+    this.ubicacionViajar.subscribe(res => {
+      if(res.longitud && res.latitud){
+        this.map.flyTo({
+          center: [res.longitud, res.latitud]
+          });
+      };
+      });
+  }
 
   }
 
