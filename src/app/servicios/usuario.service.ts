@@ -115,9 +115,8 @@ export class UsuarioService {
   }
 
   async bloquearUsuario(idUsuario: string){
-    let json = {"idPersona": idUsuario};
     const url = `${this.baseUrl}usuario/bloquearUsuario/${idUsuario}`;
-    this.httpClient.put<Usuario>(url, json, this.httpOptions)
+    this.httpClient.put<Usuario>(url, null)
     .subscribe(data => {
       console.log(data['_body']);
      }, error => {
@@ -125,9 +124,8 @@ export class UsuarioService {
     });
   }
   async desbloquearUsuario(idUsuario: string){
-    let json = {"idPersona": idUsuario};
     const url = `${this.baseUrl}usuario/desbloquearUsuario/${idUsuario}`;
-    this.httpClient.put<Usuario>(url, json, this.httpOptions)
+    this.httpClient.put<Usuario>(url, null)
     .subscribe(data => {
       console.log(data['_body']);
      }, error => {
@@ -176,12 +174,8 @@ export class UsuarioService {
   }
 
   async agregarContacto(idPersona1: string, idPersona2: string){
-    let json = {
-      "idPersona": idPersona1,
-      "idPersona2": idPersona2
-    };
-    const url = `${this.baseUrl}usuario/agregarContacto/${idPersona1}/${idPersona2}`;
-    this.httpClient.put<Usuario>(url, json, this.httpOptions)
+    const url = `${this.baseUrl}usuario/solicitudContacto/${idPersona1}/${idPersona2}`;
+    this.httpClient.put<Usuario>(url, null)
     .subscribe(data => {
       console.log(data['_body']);
      }, error => {

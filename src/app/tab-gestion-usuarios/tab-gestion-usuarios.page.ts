@@ -11,7 +11,7 @@ import { AlertController, IonItemSliding, IonList } from "@ionic/angular";
 })
 export class TabGestionUsuariosPage implements OnInit {
 
-  usuarios: Persona[];
+  usuarios: Usuario[];
   user: Usuario;
   showError: boolean;
   errorMessage: string;
@@ -26,7 +26,7 @@ export class TabGestionUsuariosPage implements OnInit {
   }
 
   async getAllUsuarios(){
-    this.usuarios = await this.usuarioService.getAllUsuariosAsync();
+    this.usuarios = await this.usuarioService.getAllUsuariosRegistradosAsync();
   }
 
   onBloquearUsuario(idPersona: string, slidingUser: IonItemSliding){
