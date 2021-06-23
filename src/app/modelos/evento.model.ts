@@ -21,6 +21,18 @@ export class Evento {
   solicitud: estadosContactos;
 
 
-  integrantes?: Usuario[];
+  invitados?: Invitado[];
   publicaciones?: Publicacion[];
+}
+
+export interface Invitado {
+  idPersona: string;
+  nickname: string;
+  nombre: string;
+  apellido: string;
+  imagenPerfil: string;
+  nombreImagen: string;
+  extensionImagen: string;
+  estadoContactos: string;
+  owner: boolean;
 }

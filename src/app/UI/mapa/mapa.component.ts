@@ -23,7 +23,7 @@ export class MapaComponent implements OnInit {
   @Input() marcarUbicacion: boolean;
   @Input() draggable: boolean;
   @Input() buscador: boolean;
-  @Input() ubiCentral: BehaviorSubject<Ubicacion> = new BehaviorSubject(new Ubicacion);
+  @Input() ubiCentral: BehaviorSubject<Ubicacion>;
   @Input() ubicaciones: BehaviorSubject<Ubicacion[]> = new BehaviorSubject([]);
   @Input() ubicacionViajar:BehaviorSubject<Ubicacion>;
   currentLat: number;
@@ -46,7 +46,7 @@ export class MapaComponent implements OnInit {
     this.marcadores = []
    }
 
-  async ngOnInit() {
+  ngOnInit() {
     setTimeout(() => this.buildMap(), 200);
   }
 
@@ -111,18 +111,10 @@ export class MapaComponent implements OnInit {
     }
 
 
-    if(this.ubiCentral.value && this.ubiCentral.value.latitud) {
-      this.ubiCentral.subscribe(res => {
-        console.log(res.latitud, res.longitud);
-        this.lat.next(res.latitud);
-        this.lng.next(res.longitud);
-        this.map.flyTo({ center: [this.lng.value, this.lat.value] });
-      });
-    }
 
-      this.marcador1 = new this.mapboxgl.Marker({scale: 0.5, anchor: 'bottom'})
-      .setLngLat([this.currentLng, this.currentLat])
-      .addTo(this.map);
+    this.marcador1 = new this.mapboxgl.Marker({scale: 0.5, anchor: 'bottom'})
+    .setLngLat([this.currentLng, this.currentLat])
+    .addTo(this.map);
 
     if(this.marcarUbicacion) {
       this.marcador2 = new this.mapboxgl.Marker({ color: 'black', rotation: 45, draggable: this.draggable, anchor: 'bottom-left' })
@@ -134,6 +126,17 @@ export class MapaComponent implements OnInit {
         // console.log(this.marcador2.getLngLat());
         this.ubiCentral.next({ idUbicacion: 0, latitud: this.marcador2.getLngLat().lat , longitud: this.marcador2.getLngLat().lng, fecha: new Date(), descripcion: '', idPersona: '', pais: ''});
         this.ubicacion.emit({latitud: this.ubiCentral.value.latitud, longitud: this.ubiCentral.value.longitud});
+      });
+
+      console.log('se suscribirá al ubiCentral');
+      this.ubiCentral.subscribe(res => {
+        if(res.latitud && res.longitud) {
+          console.log(res.latitud, res.longitud);
+          this.lat.next(res.latitud);
+          this.lng.next(res.longitud);
+          this.marcador2.setLngLat([this.lng.value, this.lat.value]);
+          this.map.flyTo({ center: [this.lng.value, this.lat.value] });
+        }
       });
 
       let geocoder = new MapboxGeocoder({

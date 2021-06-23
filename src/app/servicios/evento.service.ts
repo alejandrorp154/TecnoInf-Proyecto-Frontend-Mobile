@@ -15,9 +15,30 @@ export class EventoService {
   constructor(private authService: AuthService, private chatService: ChatService, public http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
   }
 
-  obtenerEvento(idEvento: number): Promise<Evento> {
+  async obtenerEvento(idEvento: number): Promise<Evento> {
     console.log('Ingresó a obtenerEvento(idEvento)');
-    return this.http.get<Evento>(this.baseUrl + 'evento/obtenerEvento/' + idEvento).toPromise();
+    let res = await this.http.get<Evento>(this.baseUrl + 'evento/obtenerEvento/' + idEvento).toPromise();
+    let evento: Evento = {
+      idEvento: res.idEvento,
+      nombre: res.nombre,
+      ubicacion: res.ubicacion,
+      descripcion: res.descripcion,
+      fechaInicio: res.fechaInicio,
+      fechaFin: res.fechaFin,
+      estado: res.estado,
+      idPersona: res.idPersona,
+      nombreImagen: res.nombreImagen,
+      imagen: res.imagen,
+      extension: res.extension,
+      idChat: res.idChat,
+      // facilita la comparación con idPersona
+      owner: res.owner,
+      solicitud: res.solicitud,
+
+
+      invitados: res.invitados
+    }
+    return new Promise((resolve) => resolve(evento));
   }
 
   obtenerEventosXPersona(idPersona: string): Promise<Evento[]> {
@@ -64,7 +85,21 @@ export class EventoService {
   }
 
   modificarEvento(evento: Evento): Promise<Evento> {
-    return this.http.put<any>(this.baseUrl + 'evento', evento).toPromise();
+    return this.http.put<any>(this.baseUrl + 'evento', <Evento>{
+      idEvento: evento.idEvento,
+      nombre: evento.nombre,
+      ubicacion: evento.ubicacion,
+      descripcion: evento.descripcion,
+      fechaInicio: evento.fechaInicio,
+      fechaFin: evento.fechaFin,
+      estado: evento.estado,
+      idPersona: evento.idPersona,
+      nombreImagen: evento.nombreImagen,
+      imagen: evento.imagen,
+      extension: evento.extension,
+      idChat: evento.idChat,
+      owner: evento.owner
+    }).toPromise();
   }
 
   async elminarEvento(idEvento: number): Promise<boolean> {

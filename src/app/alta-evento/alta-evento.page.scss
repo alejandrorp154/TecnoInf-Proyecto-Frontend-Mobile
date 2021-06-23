@@ -47,14 +47,15 @@ ion-textarea, ion-textarea textarea{
   min-height: 250px;
 }
 
+.fechas-item {
 
-.fechas {
-  width: 100%;
-  text-align: center;
 
-  p {
-    background: lighten(#91c6b8, 15);
-    padding: 10px;
+  .fechas {
+    width: 100%;
+    text-align: center;
+    font-size: 0.7em;
+    margin-top: 5px;
+    margin-bottom: 5px;
   }
 }
 
@@ -66,5 +67,17 @@ ion-textarea, ion-textarea textarea{
 ion-item::part(native) {
   //WRITE ALL YOUR CSS RULES HERE
   padding-left: 0;
+
   /** and lots more **/
+}
+
+.custom-tabs {
+
+  ion-col {
+    text-align: center;
+
+    ion-label {
+      font-size: 0.7em;
+    }
+  }
 }
