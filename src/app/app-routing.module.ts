@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes, CanLoad } from '@angular/router';
 import { LoginGuard } from './login/login.guard';
+import { ConfiguracionNotificacionesPageModule } from './UI/configuracion-notificaciones/configuracion-notificaciones.module';
 
 const routes: Routes = [
   {
@@ -116,7 +117,12 @@ const routes: Routes = [
   {
     path: 'modificar-perfil',
     loadChildren: () => import('./modificar-perfil/modificar-perfil.module').then( m => m.ModificarPerfilPageModule)
+  },
+  {
+    path: 'configuracion-notificaciones',
+    loadChildren: () => import('./UI/configuracion-notificaciones/configuracion-notificaciones.module').then( m => m.ConfiguracionNotificacionesPageModule)
   }
+
 
 
 
