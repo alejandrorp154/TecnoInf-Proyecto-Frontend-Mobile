@@ -118,6 +118,10 @@ const routes: Routes = [
   {
     path: 'modificar-perfil',
     loadChildren: () => import('./modificar-perfil/modificar-perfil.module').then( m => m.ModificarPerfilPageModule)
+  },
+  {
+    path: 'configuracion-notificaciones',
+    loadChildren: () => import('./UI/configuracion-notificaciones/configuracion-notificaciones.module').then(c => c.ConfiguracionNotificacionesPageModule)
   }
 
 

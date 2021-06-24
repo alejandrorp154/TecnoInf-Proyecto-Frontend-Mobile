@@ -42,6 +42,7 @@ export class EstadisticasPage implements OnInit{
   CantidadusuariosPorPais: any[];
   Usuarios: Usuario[];
   rangosM: rangos;
+  coloR = [];
 
 
 
@@ -73,9 +74,9 @@ export class EstadisticasPage implements OnInit{
   ionViewDidEnter() {
     setTimeout(() => {
       this.createBarChart();
-    this.doughnutChartMethod();
-    this.lineChartMethod();
-    this.BarCanvasMethod();
+      this.doughnutChartMethod();
+      this.lineChartMethod();
+      this.BarCanvasMethod();
     }, 100);
 
   }
@@ -251,36 +252,35 @@ export class EstadisticasPage implements OnInit{
     });
   }
 
-  generarRGB(){
-    const randomBetween = (min, max) => min + Math.floor(Math.random() * (max - min + 1));
-    const r = randomBetween(0, 255);
-    const g = randomBetween(0, 255);
-    const b = randomBetween(0, 255);
-    const rgb = `rgb(${r},${g},${b})`;
+
+  dynamicColors() {
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    return "rgb(" + r + "," + g + "," + b + ")";
   }
 
+
   doughnutChartMethod() {
+    this.getPaises().map(a => a.nombrePais).forEach(pais => {
+
+      this.coloR.push(this.dynamicColors());
+    })
     this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
       type: 'doughnut',
       data: {
         labels: this.getPaises().map(a => a.nombrePais), //Paises
         datasets: [{
           label: '# de Usuarios',
-          data: [this.getPaises().map(cant => cant.cantidadUsuariosRegistrados)],
-          backgroundColor: [
-            'rgba(255, 159, 64, 0.2)',
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)'
-          ],
-          hoverBackgroundColor: [
+          data: this.getPaises().map(cant => cant.cantidadUsuariosRegistrados),
+          backgroundColor: this.coloR
+          /*hoverBackgroundColor: [
             '#FFCE56',
             '#FF6384',
             '#36A2EB',
             '#FFCE56',
             '#FF6384'
-          ]
+          ]*/
         }]
       }
     });

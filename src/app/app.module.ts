@@ -22,7 +22,7 @@ import { IonicSelectableModule } from 'ionic-selectable';
 
 export function getBaseUrl() {
   //console.log(document.getElementsByTagName('base')[0].href);
-  return 'http://18.221.125.169:8080/pryectoBack-web/rest/';
+  return 'http://3.22.223.226:8080/pryectoBack-web/rest/';
 }
 
 @NgModule({
