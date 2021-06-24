@@ -102,6 +102,12 @@ export class EventoService {
     }).toPromise();
   }
 
+  async dejarEvento(idEvento:number)
+  {
+    let userFire = await this.authService.getCurrentUserFire().toPromise();
+    this.http.delete<boolean>(this.baseUrl + `evento/dejar/${idEvento}/${userFire.id}`).toPromise();
+  }
+
   async elminarEvento(idEvento: number): Promise<boolean> {
     let userFire = await this.authService.getCurrentUserFire().toPromise();
     console.log('Ingresó a eliminarEvento(idEvento)', idEvento);

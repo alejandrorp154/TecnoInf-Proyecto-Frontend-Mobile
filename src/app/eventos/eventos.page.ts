@@ -52,23 +52,44 @@ export class EventosPage implements OnInit {
   }
 
   ngOnDestroy() {
+    console.log('salio');
     this.subscription.unsubscribe();
   }
 
-  eliminarAlert(evento: Evento) {
+  eliminarAlert(evento: Evento, isDelete:boolean) {
+    let message
+    let bttnText
+    if(isDelete)
+    {
+      message = '¿Estas seguro que deseas eliminar este evento?'
+      bttnText = 'Borrar'
+    }
+    else
+    {
+      message = '¿Estas seguro que deseas salir de este evento?'
+      bttnText = 'Salir'
+    }
+
     this.alertController
       .create({
         header: '¿Estas seguro?',
-        message: '¿Estas seguro que deseas eliminar este evento?',
+        message: message,
         buttons: [
           {
             text: 'Cancelar',
             role: 'cancel'
           },
           {
-            text: 'Borrar',
+            text: bttnText,
             handler: () => {
-              this.eliminar(evento.idEvento);
+              if(isDelete)
+              {
+                this.eliminar(evento.idEvento);
+              }
+              else
+              {
+                this.salirEvento(evento.idEvento);
+              }
             }
           }
         ]
@@ -105,6 +126,11 @@ export class EventosPage implements OnInit {
     }).catch(error => {
       this.toolsService.presentToast('Surgió un error al eliminar el evento', Resultado.Error);
     });
+  }
+
+  salirEvento(idEvento: number)
+  {
+    this.eventoService.dejarEvento(idEvento)
   }
 
 }

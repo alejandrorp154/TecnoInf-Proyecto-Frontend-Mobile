@@ -1,13 +1,14 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { Evento } from '../modelos/evento.model';
 import { Preview } from '../modelos/preview';
 import { Ubicacion } from '../modelos/ubicacion.model';
 import { EventoService } from '../servicios/evento.service';
 import { Resultado, ToolsService } from '../servicios/tools.service';
+import { Usuario } from '../modelos/usuario.model';
 
 @Component({
   selector: 'app-alta-evento',
@@ -27,6 +28,7 @@ export class AltaEventoPage implements OnInit {
   longitud: number;
   editando: boolean;
   creando: boolean;
+  currentUser: Usuario;
 
   tipo: string = 'texto';
   preview: Preview = new Preview();
