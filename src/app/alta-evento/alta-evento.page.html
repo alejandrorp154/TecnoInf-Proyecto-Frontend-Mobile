@@ -105,12 +105,13 @@
       <ion-col size="4" (click)="toggleTab('mapa')"><ion-icon name="map-outline" size="large"></ion-icon><br><ion-label>Mapa</ion-label></ion-col>
     </ion-row>
     <ion-row *ngIf="activeTab=='participantes'">
-      <ion-col *ngIf="!evento.invitados || evento.invitados.length == 0">
+      <ion-col *ngIf="!participantes.value || participantes.value.length == 0">
         <span>No hay participantes en el evento</span>
       </ion-col>
-      <ion-col *ngIf="evento.invitados && evento.invitados.length > 0">
-        <span class="lstParticipantes pointer" *ngFor="let invitado of evento.invitados" >
+      <ion-col *ngIf="participantes.value && participantes.value.length > 0">
+        <span class="lstParticipantes pointer" *ngFor="let invitado of participantes.value" >
           <img [src]="invitado.imagenPerfil" class="thumbnail" /> {{ invitado.nombre }} {{ invitado.apellido }}
+          <ion-icon name="person-remove-outline" button (click)="removerIntegrante(participante)"></ion-icon>
         </span>
       </ion-col>
     </ion-row>
