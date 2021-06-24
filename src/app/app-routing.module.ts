@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes, CanLoad } from '@angular/router';
 import { LoginGuard } from './login/login.guard';
+import { ConfiguracionNotificacionesPageModule } from './UI/configuracion-notificaciones/configuracion-notificaciones.module';
 
 const routes: Routes = [
   {
@@ -78,11 +79,6 @@ const routes: Routes = [
     loadChildren: () => import('./alta-administrador/alta-administrador.module').then( m => m.AltaAdministradorPageModule)
   },
   {
-    path: 'mod-administrador',
-    loadChildren: () => import('./mod-administrador/mod-administrador.module').then( m => m.ModAdministradorPageModule),
-    canLoad: [LoginGuard]
-  },
-  {
     path: 'sugerir-amigos',
     loadChildren: () => import('./UI/sugerir-amigos/sugerir-amigos.module').then( m => m.SugerirAmigosPageModule)
   },
@@ -111,9 +107,12 @@ const routes: Routes = [
     loadChildren: () => import('./recuperar-password/recuperar-password.module').then( m => m.RecuperarPasswordPageModule)
   },
   {
-
     path: 'visualizar-contactos',
     loadChildren: () => import('./UI/visualizar-contactos/visualizar-contactos.module').then( m => m.VisualizarContactosPageModule)
+  },
+  {
+    path: 'tab-perfil-admin',
+    loadChildren: () => import('./tab-perfil-admin/tab-perfil-admin.module').then( m => m.TabPerfilAdminPageModule)
   },
   {
     path: 'modificar-perfil',
@@ -123,6 +122,8 @@ const routes: Routes = [
     path: 'configuracion-notificaciones',
     loadChildren: () => import('./UI/configuracion-notificaciones/configuracion-notificaciones.module').then(c => c.ConfiguracionNotificacionesPageModule)
   }
+
+
 
 
 ];

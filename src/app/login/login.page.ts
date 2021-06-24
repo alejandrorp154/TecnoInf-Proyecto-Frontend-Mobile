@@ -56,8 +56,13 @@ export class LoginPage implements OnInit {
                   if(this.user.administrador){
                     this.router.navigateByUrl('/admin-page');
                   }
-                  else{
+                  else if(!this.user.bloqueado){
                     this.router.navigateByUrl('/home');
+                  }
+                  else
+                  {
+                    let message = 'Su cuenta se encuentra suspendida indefinidamente.'
+                    this.showAlert(message)
                   }
                 })
               }
