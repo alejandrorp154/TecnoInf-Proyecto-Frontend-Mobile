@@ -31,6 +31,8 @@ export class AltaEventoPage implements OnInit {
   tipo: string = 'texto';
   preview: Preview = new Preview();
 
+  activeTab: string;
+
   imageSource;
   imagen = {
     base64: '',
@@ -45,6 +47,7 @@ export class AltaEventoPage implements OnInit {
       this.evento.nombre = '';
       this.latitud = -34.8833;
       this.longitud = -58.1667;
+      this.activeTab = 'publicaciones';
    }
 
   async ngOnInit() {
@@ -149,6 +152,10 @@ export class AltaEventoPage implements OnInit {
      this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(`${base64[0]}, ${base64[1]}`);
      console.log(this.imageSource);
     };
+  }
+
+  toggleTab(tabName: string) {
+    this.activeTab = tabName;
   }
 
   isValid(): boolean {

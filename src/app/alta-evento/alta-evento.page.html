@@ -100,23 +100,34 @@
       </ion-col>
     </ion-row>
     <ion-row class="custom-tabs">
-      <ion-col size="4" (click)="toogleTabs('publicaciones')"><ion-icon name="happy-outline" size="large" color="blue"></ion-icon><br><ion-label>Publicaciones</ion-label></ion-col>
-      <ion-col size="4" (click)="toogleTabs('publicaciones')"><ion-icon name="people-outline" size="large"></ion-icon><br><ion-label>Participantes</ion-label></ion-col>
-      <ion-col size="4" (click)="toogleTabs('publicaciones')"><ion-icon name="map-outline" size="large"></ion-icon><br><ion-label>Mapa</ion-label></ion-col>
+      <ion-col size="4" (click)="toggleTab('publicaciones')"><ion-icon name="happy-outline" size="large" color="blue"></ion-icon><br><ion-label>Publicaciones</ion-label></ion-col>
+      <ion-col size="4" (click)="toggleTab('participantes')"><ion-icon name="people-outline" size="large"></ion-icon><br><ion-label>Participantes</ion-label></ion-col>
+      <ion-col size="4" (click)="toggleTab('mapa')"><ion-icon name="map-outline" size="large"></ion-icon><br><ion-label>Mapa</ion-label></ion-col>
     </ion-row>
-    <ion-row>
-      <ion-col *ngIf="!evento.participantes || evento.participantes.length == 0">
+    <ion-row *ngIf="activeTab=='participantes'">
+      <ion-col *ngIf="!evento.invitados || evento.invitados.length == 0">
         <span>No hay participantes en el evento</span>
       </ion-col>
-      <ion-col *ngIf="evento.participantes && evento.participantes.length > 0">
-        <span class="lstParticipantes pointer" *ngFor="let participante of evento.participantes" >
-          <img [src]="participante.imagenPerfil" /> {{ participante.nombre }} {{ participante.apellido }}
+      <ion-col *ngIf="evento.invitados && evento.invitados.length > 0">
+        <span class="lstParticipantes pointer" *ngFor="let invitado of evento.invitados" >
+          <img [src]="invitado.imagenPerfil" class="thumbnail" /> {{ invitado.nombre }} {{ invitado.apellido }}
         </span>
       </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row *ngIf="activeTab=='mapa'">
       <ion-col id="mapa">
         <app-mapa [currentLocation]="true" [ubiCentral]="ubicacion" [marcarUbicacion]="true" [draggable]="false" [buscador]="false" (ubicacion)="marcarUbicacion($event)"></app-mapa>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="activeTab=='publicaciones'">
+      <ion-col *ngIf="!evento.publicaciones || evento.publicaciones.length == 0">
+        <span>No hay publicaciones en el evento</span>
+      </ion-col>
+      <ion-col *ngIf="evento.publicaciones && evento.publicaciones.length > 0">
+        <span class="lstParticipantes pointer" *ngFor="let publicaciones of evento.publicaciones" >
+          <img [src]="publicaciones.imagen" class="thumbnail" /> {{ publicaciones.title }} {{ publicaciones.descripcion }}
+        </span>
       </ion-col>
     </ion-row>
   </ion-grid>
