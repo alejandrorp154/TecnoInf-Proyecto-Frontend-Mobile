@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Evento } from '../modelos/evento.model';
 import { AuthService } from './auth.service';
 import { ChatService } from './chat.service';
+import { idPersona } from '../modelos/publicacion.model';
 
 @Injectable({
   providedIn: 'root'
@@ -51,6 +52,11 @@ export class EventoService {
     ]));*/
     // return this.http.get<Evento[]>(this.baseUrl + 'eventos/' + idPersona).toPromise();
     return this.http.get<Evento[]>(this.baseUrl + 'evento/obtenerEventos/' + idPersona + '/0/10').toPromise();
+  }
+
+  removerParticipante(idPersona: string, idEvento:number)
+  {
+    return this.http.delete<boolean>(this.baseUrl + `evento/removerUsuario/${idEvento}/${idPersona}`).toPromise();
   }
 
   async crearEvento(evento: Evento): Promise<Evento> {

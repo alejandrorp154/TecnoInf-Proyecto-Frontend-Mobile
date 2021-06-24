@@ -105,12 +105,13 @@
       <ion-col size="3" (click)="toogleTabs('publicaciones')"><ion-icon name="map-outline" size="large"></ion-icon><br><ion-label>Mapa</ion-label></ion-col>
     </ion-row>
     <ion-row>
-      <ion-col *ngIf="!evento.participantes || evento.participantes.length == 0">
+      <ion-col *ngIf="participantes || participantes.value.length == 0">
         <span>No hay participantes en el evento</span>
       </ion-col>
-      <ion-col *ngIf="evento.participantes && evento.participantes.length > 0">
-        <span class="lstParticipantes pointer" *ngFor="let participante of evento.participantes" >
+      <ion-col *ngIf="participantes.value && participantes.value.length > 0">
+        <span class="lstParticipantes pointer" *ngFor="let participante of participantes | async" >
           <img [src]="participante.imagenPerfil" /> {{ participante.nombre }} {{ participante.apellido }}
+          <ion-icon name="person-remove-outline" button (click)="removerIntegrante(participante)"></ion-icon>
         </span>
       </ion-col>
     </ion-row>

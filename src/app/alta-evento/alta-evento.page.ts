@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { Evento } from '../modelos/evento.model';
+import { Evento, Invitado } from '../modelos/evento.model';
 import { Preview } from '../modelos/preview';
 import { Ubicacion } from '../modelos/ubicacion.model';
 import { EventoService } from '../servicios/evento.service';
@@ -24,6 +24,7 @@ export class AltaEventoPage implements OnInit {
   fin: String = new Date().toISOString();
   today: Date;
   ubicacion: BehaviorSubject<Ubicacion> = new BehaviorSubject(new Ubicacion());
+  participantes: BehaviorSubject<Invitado[]> = new BehaviorSubject([]);
   latitud: number;
   longitud: number;
   editando: boolean;
@@ -63,6 +64,7 @@ export class AltaEventoPage implements OnInit {
         });
 
         this.evento = await this.eventoService.obtenerEvento(idEvento);
+        this.participantes.next(this.evento.invitados);
         console.log(this.evento);
         this.latitud = this.evento.ubicacion.latitud;
         this.longitud = this.evento.ubicacion.longitud;
@@ -159,6 +161,15 @@ export class AltaEventoPage implements OnInit {
 
   goBack() {
     this.location.back();
+  }
+
+  removerIntegrante(participante: Invitado)
+  {
+    this.eventoService.removerParticipante(participante.idPersona, this.evento.idEvento)
+    let index = this.participantes.value.findIndex(x => x.idPersona == participante.idPersona)
+    if (index > -1) {
+      this.participantes.value.splice(index, 1);
+    }
   }
 
 }
