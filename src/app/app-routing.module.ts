@@ -78,11 +78,6 @@ const routes: Routes = [
     loadChildren: () => import('./alta-administrador/alta-administrador.module').then( m => m.AltaAdministradorPageModule)
   },
   {
-    path: 'mod-administrador',
-    loadChildren: () => import('./mod-administrador/mod-administrador.module').then( m => m.ModAdministradorPageModule),
-    canLoad: [LoginGuard]
-  },
-  {
     path: 'sugerir-amigos',
     loadChildren: () => import('./UI/sugerir-amigos/sugerir-amigos.module').then( m => m.SugerirAmigosPageModule)
   },
@@ -120,9 +115,18 @@ const routes: Routes = [
     loadChildren: () => import('./modificar-perfil/modificar-perfil.module').then( m => m.ModificarPerfilPageModule)
   },
   {
+    path: 'tab-perfil-admin',
+    loadChildren: () => import('./tab-perfil-admin/tab-perfil-admin.module').then( m => m.TabPerfilAdminPageModule)
+  },
+  {
+    path: 'configuracion-notificaciones',
+    loadChildren: () => import('./UI/configuracion-notificaciones/configuracion-notificaciones.module').then( m => m.ConfiguracionNotificacionesPageModule)
+  },
+  {
     path: 'galeria/:id',
     loadChildren: () => import('./galeria/galeria.module').then( m => m.GaleriaPageModule)
-  },  {
+  },
+  {
     path: 'galeria-modal',
     loadChildren: () => import('./galeria-modal/galeria-modal.module').then( m => m.GaleriaModalPageModule)
   }
