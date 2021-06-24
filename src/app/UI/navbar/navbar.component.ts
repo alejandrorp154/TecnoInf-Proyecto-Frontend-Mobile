@@ -1,15 +1,12 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from 'src/app/servicios/auth.service';
-import { take } from 'rxjs/operators';
-import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ListarUsuariosRegistradosService } from 'src/app/servicios/listar-usuarios-registrados.service';
 import { Usuario } from 'src/app/modelos/usuario.model';
 import { FormControl } from '@angular/forms';
-import { finalize, map, startWith, tap } from 'rxjs/operators';
-import { EliminarCuentaService } from 'src/app/servicios/eliminar-cuenta.service';
+import { map, startWith } from 'rxjs/operators';
 import { UserFire } from '../../modelos/userFire.model';
+import { UsuarioService } from 'src/app/servicios/usuario.service';
 
 @Component({
   selector: 'app-navbar',
@@ -28,11 +25,9 @@ export class NavbarComponent implements OnInit {
   userID: string;
   @Output() userImage: string;
 
-  constructor(private listarUsuariosRegistradosService: ListarUsuariosRegistradosService,
+  constructor(private usuarioService: UsuarioService,
      private authService: AuthService,
-     private alertCtrl: AlertController,
-     private router: Router,
-     private eliminarCuenta: EliminarCuentaService) {
+     private alertCtrl: AlertController) {
 
     this.usuarios = [];
   }
@@ -84,7 +79,7 @@ export class NavbarComponent implements OnInit {
   }
 
   async getAllUsuariosRegistrados(){
-    this.usuarios = await this.listarUsuariosRegistradosService.getAllUsuariosRegistradosAsync();
+    this.usuarios = await this.usuarioService.getAllUsuariosRegistradosAsync();
   }
 
   onDeleteAccount()
@@ -108,7 +103,7 @@ export class NavbarComponent implements OnInit {
                       console.log(code)
                     }
                   )
-                  this.eliminarCuenta.deleteAcount(this.userFire.id)
+                  this.usuarioService.deleteAcount(this.userFire.id)
                   this.authService.logout();
           },
           cssClass: 'alrtDanger'

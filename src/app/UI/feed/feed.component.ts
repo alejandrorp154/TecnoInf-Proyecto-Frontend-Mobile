@@ -1,9 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { PopoverController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { Publicacion } from 'src/app/modelos/perfil';
 import { LikeDisLike, Reaccion } from 'src/app/modelos/publicacion.model';
 import { Usuario } from 'src/app/modelos/usuario.model';
 import { PubicacionService } from 'src/app/servicios/pubicacion.service';
+import { PopoverPublicacionesComponent } from '../popover-publicaciones/popover-publicaciones.component';
 
 @Component({
   selector: 'app-feed',
@@ -19,7 +21,7 @@ export class FeedComponent implements OnInit {
 
   //count: number = 0;
 
-  constructor(private pubService: PubicacionService) {
+  constructor(private pubService: PubicacionService, public popoverController: PopoverController) {
     //this.llenoFeed();
    }
 
@@ -42,6 +44,20 @@ export class FeedComponent implements OnInit {
     this.reaccion.idPublicacion = publicacion.idPublicacion;
     this.reaccion.reaccion = LikeDisLike.NoMeGusta;
     this.pubService.reaccionar(this.reaccion);
+  }
+  
+  async presentPopover(ev: any, publicacion: Publicacion) {
+    const popover = await this.popoverController.create({
+      component: PopoverPublicacionesComponent,
+      componentProps: {Publicacion:  publicacion},
+      event: ev,
+      translucent: false,
+      mode: 'ios'
+    });
+    await popover.present();
+
+    const { role } = await popover.onDidDismiss();
+    console.log('onDidDismiss resolved with role', role);
   }
 
   // async llenoFeed(){

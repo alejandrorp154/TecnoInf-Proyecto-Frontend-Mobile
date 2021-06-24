@@ -12,7 +12,7 @@ import { AuthResponseData } from '../modelos/AuthResponseData.interface';
 
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'any'
 })
 export class AuthService {
   private _userFire = new BehaviorSubject<UserFire>(null);
