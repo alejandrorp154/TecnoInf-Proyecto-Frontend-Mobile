@@ -171,7 +171,6 @@ export class UsuarioService {
   }
 
   getUsuarioAsync(idPersona: string): Promise<Persona> {
-    console.log(this.baseUrl + 'usuario/' + idPersona);
     return this.httpClient.get<Persona>(this.baseUrl + 'usuario/' + idPersona).toPromise();
   }
 

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Perfil, UsuarioPerfil } from '../modelos/perfil';
 import { Usuario } from '../modelos/usuario.model';
+import { Publicacion } from 'src/app/modelos/perfil';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +38,10 @@ export class PerfilService {
           console.log(error);
       }
   });
+  }
+
+  obtenerPublicaciones(idUsuario: string, size: number, offsize: number): Promise<Publicacion[]>{
+    return this.http.get<Publicacion[]>(this.baseUrl + 'publicacionComentario/' + idUsuario+'/' + offsize+'/'+size).toPromise();
   }
   
 }
