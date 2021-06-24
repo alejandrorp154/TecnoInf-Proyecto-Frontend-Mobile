@@ -114,6 +114,12 @@ export class UsuarioService {
     })
   }
 
+  deleteUsuarioAdmin(idUsuario:string)
+  {
+    const url = `${this.baseUrl}usuario/bajaAdmin/${idUsuario}`;
+    this.httpClient.delete(url);
+  }
+
   async bloquearUsuario(idUsuario: string){
     let json = {"idPersona": idUsuario};
     const url = `${this.baseUrl}usuario/bloquearUsuario/${idUsuario}`;

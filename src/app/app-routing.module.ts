@@ -120,15 +120,25 @@ const routes: Routes = [
     loadChildren: () => import('./modificar-perfil/modificar-perfil.module').then( m => m.ModificarPerfilPageModule)
   },
   {
+    path: 'tab-perfil-admin',
+    loadChildren: () => import('./tab-perfil-admin/tab-perfil-admin.module').then( m => m.TabPerfilAdminPageModule)
+  },
+  {
+    path: 'modificar-perfil',
+    loadChildren: () => import('./modificar-perfil/modificar-perfil.module').then( m => m.ModificarPerfilPageModule)
+  },
+  {
+    path: 'configuracion-notificaciones',
+    loadChildren: () => import('./UI/configuracion-notificaciones/configuracion-notificaciones.module').then( m => m.ConfiguracionNotificacionesPageModule)
+  },
+  {
     path: 'galeria/:id',
     loadChildren: () => import('./galeria/galeria.module').then( m => m.GaleriaPageModule)
-  },  {
+  },
+  {
     path: 'galeria-modal',
     loadChildren: () => import('./galeria-modal/galeria-modal.module').then( m => m.GaleriaModalPageModule)
   }
-
-
-
 
 ];
 
@@ -138,4 +148,3 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
