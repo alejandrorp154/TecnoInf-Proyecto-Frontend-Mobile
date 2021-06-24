@@ -118,7 +118,16 @@ const routes: Routes = [
   {
     path: 'modificar-perfil',
     loadChildren: () => import('./modificar-perfil/modificar-perfil.module').then( m => m.ModificarPerfilPageModule)
+  },
+  {
+    path: 'galeria/:id',
+    loadChildren: () => import('./galeria/galeria.module').then( m => m.GaleriaPageModule)
+  },  {
+    path: 'galeria-modal',
+    loadChildren: () => import('./galeria-modal/galeria-modal.module').then( m => m.GaleriaModalPageModule)
   }
+
+
 
 
 ];
