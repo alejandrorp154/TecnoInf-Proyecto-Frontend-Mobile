@@ -131,9 +131,6 @@ const routes: Routes = [
     loadChildren: () => import('./galeria-modal/galeria-modal.module').then( m => m.GaleriaModalPageModule)
   }
 
-
-
-
 ];
 
 @NgModule({
