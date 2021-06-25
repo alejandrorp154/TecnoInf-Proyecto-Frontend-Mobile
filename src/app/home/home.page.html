@@ -8,19 +8,22 @@
         <app-alta-publicacion></app-alta-publicacion>
       </ion-col>
       <ion-col size="3">
-        <ion-row>
-          <ion-col size-sm="8">
-            <ion-label>Sugerencias</ion-label>
-          </ion-col>
-          <ion-col>
-            <ion-label class="underline" [routerLink]="['/sugerir-amigos']">Ver todas</ion-label>
-          </ion-col>
-        </ion-row>
-        <ion-item lines ="none" style="float:left; padding: 5px;" *ngFor="let amigo of amigos">
-          <ion-avatar routerLink="/perfil/{{amigo.idPersona}}">
-            <img [src]="amigo.imagenPerfil">
-          </ion-avatar>
-        </ion-item>
+        <ion-card style="background:white">
+          <ion-row>
+          
+            <ion-col size-sm="8">
+              <ion-label>Sugerencias</ion-label>
+            </ion-col>
+            <ion-col>
+              <ion-label class="underline" [routerLink]="['/sugerir-amigos']">Ver todas</ion-label>
+            </ion-col>          
+          </ion-row>
+          <ion-item lines ="none" style="float:left; padding: 5px;" *ngFor="let amigo of amigos">
+            <ion-avatar routerLink="/perfil/{{amigo.idPersona}}">
+              <img [src]="amigo.imagenPerfil">
+            </ion-avatar>
+          </ion-item>
+        </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>
