@@ -29,7 +29,7 @@ export class TabGestionUsuariosPage implements OnInit {
   }
 
   async getAllUsuarios(){
-    this.usuarios = await this.usuarioService.getAllUsuariosAsync();
+    this.usuarios = await this.usuarioService.getAllUsuariosRegistradosAsync();
   }
 
   onBloquearUsuario(idPersona: string, slidingUser: IonItemSliding){

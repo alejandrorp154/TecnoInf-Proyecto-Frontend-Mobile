@@ -1,0 +1,43 @@
+<app-navbar></app-navbar>
+<ion-content>
+<ion-grid>
+  <ion-row>
+    <ion-col size-sm="6" offset-sm="3">
+      <ion-card>
+        <ion-card-header color=tertiary>
+          <ion-card-title  class="ion-text-center">Solicitudes Pendientes</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div >
+            <ion-item color="danger" (click)="showError=false" [hidden]="showError===false" >
+              <ion-label > {{ errorMessage }} </ion-label>
+              <ion-button color="light" float="left" fill="clear" >
+                <ion-icon color="light" float="left"  name="close" slot="icon-only" ></ion-icon>
+              </ion-button>
+            </ion-item>
+          </div>
+          <ion-item-divider>
+            <ion-label>
+              Lista de Solicitudes:
+            </ion-label>
+          </ion-item-divider>
+          <ion-list>
+            <ion-item *ngFor="let sol of solicitudes" >
+              <ion-avatar>
+                <ion-img src="{{sol.imagenPerfil}}"></ion-img>
+              </ion-avatar>
+              <ion-label> {{ sol.nombre }}  {{sol.apellido}}</ion-label>
+              <ion-button (click)="onAceptar(sol.idPersona)">
+                <ion-icon name="checkmark-circle-outline" slot="icon-only"></ion-icon>
+              </ion-button>
+              <ion-button (click)="onRechazar(sol.idPersona)">
+                <ion-icon name="close-circle-outline" slot="icon-only"></ion-icon>
+              </ion-button>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+</ion-content>

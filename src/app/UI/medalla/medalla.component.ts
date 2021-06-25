@@ -114,6 +114,7 @@ export class MedallaComponent implements OnInit {
           this.puntosActuales = 0;
           this.medallaName = "Noob Wolf";
         }
+
       }
     )
 
