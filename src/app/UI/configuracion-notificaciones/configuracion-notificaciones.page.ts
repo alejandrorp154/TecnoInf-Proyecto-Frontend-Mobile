@@ -6,7 +6,6 @@ import { UsuarioService } from "./../../servicios/usuario.service";
 import { ConfiguracionesService } from "./../../servicios/configuraciones.service";
 import { Component, OnInit } from '@angular/core';
 import { Configuracion } from "src/app/modelos/configuracion.model";
-import { Persona } from "src/app/modelos/persona.model";
 
 @Component({
   selector: 'app-configuracion-notificaciones',

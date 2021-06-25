@@ -23,6 +23,6 @@ import { PopoverPublicacionesComponent } from '../UI/popover-publicaciones/popov
     PerfilPageRoutingModule,
     NavbarModule
   ],
-  declarations: [PerfilPage, FeedComponent, PubMapaEEComponent, MedallaComponent, PopoverPublicacionesComponent]
+  declarations: [PerfilPage, FeedComponent, MedallaComponent, PopoverPublicacionesComponent, PubMapaEEComponent]
 })
 export class PerfilPageModule {}

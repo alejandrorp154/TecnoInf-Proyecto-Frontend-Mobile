@@ -19,13 +19,11 @@ declare var require: any;
 
 export class MapaComponent implements OnInit {
 
-
-  @Input() componente: string;
-
   @Input() currentLocation: boolean;
   @Input() marcarUbicacion: boolean;
-  @Input() ubiCentral: Ubicacion;
-  
+  @Input() draggable: boolean;
+  @Input() buscador: boolean;
+  @Input() ubiCentral: BehaviorSubject<Ubicacion>;
   @Input() ubicaciones: BehaviorSubject<Ubicacion[]> = new BehaviorSubject([]);
   @Input() ubicacionViajar:BehaviorSubject<Ubicacion>;
   currentLat: number;
@@ -45,13 +43,10 @@ export class MapaComponent implements OnInit {
   constructor(private authService: AuthService, private mapboxService: MapboxService, private geolocation: Geo) {
     this.currentLat = -34.8833;
     this.currentLng = -56.1667;
-    console.log(this.ubiCentral);
-    this.lat.next(this.ubiCentral ? this.ubiCentral.latitud : -34.8833);
-    this.lng.next(this.ubiCentral ? this.ubiCentral.longitud : -56.1667);
     this.marcadores = []
    }
 
-  async ngOnInit() {
+  ngOnInit() {
     setTimeout(() => this.buildMap(), 200);
   }
 
@@ -72,7 +67,7 @@ export class MapaComponent implements OnInit {
         this.marcadores.forEach(marc => {
           marc.remove();
         });
-        
+
         if(this.ubicaciones.value && this.ubicaciones.value.length > 0) {
           let marker;
           this.ubicaciones.value.forEach(u => {
@@ -88,16 +83,15 @@ export class MapaComponent implements OnInit {
               .addTo(map);*/
               marker = new this.mapboxgl.Marker({ color: 'orange', rotation: 45, draggable: false })
               .setLngLat([u.longitud, u.latitud])
-              
+
               .addTo(this.map);
             this.marcadores.push(marker);
           });
         }
       })
     }
-    
 
-    console.log(this.componente);
+
     //let position = await this.mapboxService.obtenerUbicacionActual();
     this.geolocation.getCurrentPosition().then((resp) => {
       this.currentLat = resp.coords.latitude
@@ -112,32 +106,37 @@ export class MapaComponent implements OnInit {
       this.lat.next(this.currentLat);
       this.lng.next(this.currentLng);
     } else {
-      this.lat.next(this.ubiCentral.latitud);
-      this.lng.next(this.ubiCentral.longitud);
+      this.lat.next(this.ubiCentral.value.latitud);
+      this.lng.next(this.ubiCentral.value.longitud);
     }
 
 
-    if(this.ubiCentral) {
-      console.log(this.ubiCentral.latitud, this.ubiCentral.longitud);
-      this.lat.next(this.ubiCentral.latitud);
-      this.lng.next(this.ubiCentral.longitud);
-      this.map.flyTo({ center: [this.lng.value, this.lat.value] });
-    }
 
-      this.marcador1 = new this.mapboxgl.Marker({scale: 0.5, anchor: 'bottom'})
-      .setLngLat([this.currentLng, this.currentLat])
-      .addTo(this.map);
+    this.marcador1 = new this.mapboxgl.Marker({scale: 0.5, anchor: 'bottom'})
+    .setLngLat([this.currentLng, this.currentLat])
+    .addTo(this.map);
 
     if(this.marcarUbicacion) {
-      this.marcador2 = new this.mapboxgl.Marker({ color: 'black', rotation: 45, draggable: true, anchor: 'bottom-left' })
+      this.marcador2 = new this.mapboxgl.Marker({ color: 'black', rotation: 45, draggable: this.draggable, anchor: 'bottom-left' })
         .setLngLat([this.lng.value, this.lat.value])
         .addTo(this.map);
       console.log(this.marcador2);
 
       this.marcador2.on('dragend', () => {
         // console.log(this.marcador2.getLngLat());
-        this.ubiCentral = { idUbicacion: 0, latitud: this.marcador2.getLngLat().lat , longitud: this.marcador2.getLngLat().lng, fecha: new Date(), descripcion: '', idPersona: '', pais: ''};
-        this.ubicacion.emit({latitud: this.ubiCentral.latitud, longitud: this.ubiCentral.longitud});
+        this.ubiCentral.next({ idUbicacion: 0, latitud: this.marcador2.getLngLat().lat , longitud: this.marcador2.getLngLat().lng, fecha: new Date(), descripcion: '', idPersona: '', pais: ''});
+        this.ubicacion.emit({latitud: this.ubiCentral.value.latitud, longitud: this.ubiCentral.value.longitud});
+      });
+
+      console.log('se suscribirá al ubiCentral');
+      this.ubiCentral.subscribe(res => {
+        if(res.latitud && res.longitud) {
+          console.log(res.latitud, res.longitud);
+          this.lat.next(res.latitud);
+          this.lng.next(res.longitud);
+          this.marcador2.setLngLat([this.lng.value, this.lat.value]);
+          this.map.flyTo({ center: [this.lng.value, this.lat.value] });
+        }
       });
 
       let geocoder = new MapboxGeocoder({
@@ -145,16 +144,18 @@ export class MapaComponent implements OnInit {
         mapboxgl: this.mapboxgl
       });
 
-      let $this = this;
+      if(this.buscador) {
+        let $this = this;
 
-      geocoder.on('result', function(e) {
-        console.log(e.result.center);
-        geocoder.clear();
-        $this.marcador2.setLngLat(e.result.center);
-      });
+        geocoder.on('result', function(e) {
+          console.log(e.result.center);
+          geocoder.clear();
+          $this.marcador2.setLngLat(e.result.center);
+        });
 
-      // Add the control to the map.
-      this.map.addControl(geocoder);
+        // Add the control to the map.
+        this.map.addControl(geocoder);
+      }
     }
 
   if(this.ubicacionViajar && this.ubicacionViajar.value){
@@ -166,7 +167,7 @@ export class MapaComponent implements OnInit {
       };
       });
   }
-    
+
   }
 
 

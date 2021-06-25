@@ -8,7 +8,7 @@ import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChatService } from 'src/app/servicios/chat.service';
-import { Persona, Rol } from '../modelos/persona.model';
+import { Usuario } from '../modelos/usuario.model';
 import { Chat } from '../modelos/chat.model';
 import { imgFile } from '../modelos/mensaje.model';
 import { UsuarioService } from '../servicios/usuario.service';
@@ -27,13 +27,13 @@ export class ChatPage implements OnInit {
   newMsg = '';
   mediaUrl = '';
   //searchBar = new FormControl;
-  currentUser: Persona;
+  currentUser: Usuario;
 
   chatting = false;
   searching = false;
-  friends: Persona[];
+  friends: Usuario[];
   contactos: Contacto[];
-  currentFriend: Persona;
+  currentFriend: Usuario;
   chatrooms: Chat[];
   currentChatroomId: string;
 
@@ -150,7 +150,7 @@ export class ChatPage implements OnInit {
 
   getContactosPersona(){
     let t= this;
-    let lista: Persona[] = [];
+    let lista: Usuario[] = [];
     this.contactos.forEach(function(contacto){
       let persona = t.usuarioService.getUsuario(contacto.idPersona);
       lista.push(persona);
@@ -158,7 +158,7 @@ export class ChatPage implements OnInit {
     return lista;
   }
 
-  chatWith(amigo: Persona) {
+  chatWith(amigo: Usuario) {
     console.log(amigo);
     if (this.chatrooms && this.chatrooms.some(c => c.uids == [this.currentUser.idPersona, amigo.idPersona])) {
       this.router.navigateByUrl('/chat/' + this.chatrooms.find(c => c.uids == [this.currentUser.idPersona, amigo.idPersona]));
@@ -192,7 +192,7 @@ export class ChatPage implements OnInit {
     });
   }
 
-  private _filter(value: string): Persona[] {
+  private _filter(value: string): Usuario[] {
     console.log(this.chatrooms);
     if(value) {
       this.searching = true;
