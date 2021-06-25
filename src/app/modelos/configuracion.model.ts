@@ -15,7 +15,8 @@ export class Configuracion {
     public desbloquearUsuario: boolean,
     public chatUsuario: boolean,
     public bajaEvento: boolean,
-    public modificacionEvento: boolean
+    public modificacionEvento: boolean,
+    public isEmailNotification: boolean
 
   ){}
 

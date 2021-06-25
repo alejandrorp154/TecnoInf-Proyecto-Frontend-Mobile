@@ -40,7 +40,7 @@ export class ConfiguracionNotificacionesPage implements OnInit {
   }
 
   async getConfiguracionesPUSH(idPersona: string){
-    this.configuracionesPush = await this.configuracionService.getConfiguraciones(idPersona);
+    this.configuracionesPush = await this.configuracionService.getConfiguracionesPUSH(idPersona);
     this.configuracionAMostrarPush = this.configuraciones;
   }
 
@@ -49,8 +49,8 @@ export class ConfiguracionNotificacionesPage implements OnInit {
     this.configuraciones[configKey] = !configValue;
   }
 
-  checkedChangedPUSH(configKey: any, configValue: any){
-    this.configuraciones[configKey] = !configValue;
+  checkedChangedPUSH(configKeyP: any, configValueP: any){
+    this.configuracionesPush[configKeyP] = !configValueP;
   }
 
   onAplicar(){

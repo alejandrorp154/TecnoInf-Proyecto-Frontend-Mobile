@@ -37,6 +37,7 @@ export class ConfiguracionesService {
 	      "chatUsuario" : config.chatUsuario,
 	      "bajaEvento" : config.bajaEvento,
 	      "modificacionEvento" : config.modificacionEvento,
+        "isEmailNotification": true,
         "idPersona" : config.idPersona,
       }
       const url = `${this.baseUrl}configSistema`;
@@ -65,9 +66,10 @@ export class ConfiguracionesService {
 	      "chatUsuario" : config.chatUsuario,
 	      "bajaEvento" : config.bajaEvento,
 	      "modificacionEvento" : config.modificacionEvento,
+        "isEmailNotification": false,
         "idPersona" : config.idPersona,
       }
-      const url = `${this.baseUrl}configSistema`;
+      const url = `${this.baseUrl}configSistema/push`;
       console.log('CONFIG EN SERVICE', config);
       let response = this.httpClient.put<Configuracion>(url, postData);
       console.log('RESPONSE',response.toPromise());
@@ -90,7 +92,7 @@ export class ConfiguracionesService {
 
   async getConfiguracionesPUSH(idPersona: string){
     try{
-      const url = `${this.baseUrl}configSistema/${idPersona}`;
+      const url = `${this.baseUrl}configSistema/push/${idPersona}`;
       let response = await this.httpClient.get(url).toPromise();
       this.configuraciones = response as Configuracion;
       console.log(response);
