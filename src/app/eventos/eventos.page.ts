@@ -28,9 +28,10 @@ export class EventosPage implements OnInit {
 
       this.subscription = this.router.events.subscribe((event) => {
         if (event instanceof NavigationEnd) {
-          console.log(event, event.urlAfterRedirects);
-          if (event.urlAfterRedirects['url'] == '/eventos')
+          console.log(event);
+          if (event.urlAfterRedirects == '/eventos'){
             this.ngOnInit();
+          }
         }
       });
 
@@ -50,6 +51,7 @@ export class EventosPage implements OnInit {
     this.bsEventos.next(this.eventos);
     console.log(this.eventos);
   }
+
 
   ngOnDestroy() {
     console.log('salio');
