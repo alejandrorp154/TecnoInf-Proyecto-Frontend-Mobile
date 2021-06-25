@@ -27,7 +27,7 @@
           </ion-col>
         </ion-row>
         <ion-item lines ="none" style="float:left; padding: 5px;" *ngFor="let amigo of amigos">
-          <ion-avatar>
+          <ion-avatar routerLink="/perfil/{{amigo.idPersona}}">
             <img [src]="amigo.imagenPerfil">
           </ion-avatar>
         </ion-item>

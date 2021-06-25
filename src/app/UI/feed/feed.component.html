@@ -4,19 +4,19 @@
       <ion-col class="edit-publicacion" size="1">
         <ion-icon class="edit-publicacion-icon" (click)="presentPopover( $event, publicacion )" name="ellipsis-horizontal-circle-outline"></ion-icon>
       </ion-col>
-      <ion-col size="5"> 
+      <ion-col size="5">
         <table style="width:100%">
           <tr>
           <td style="width:8%">
             <ion-avatar class="user-avatar">
-              <ion-img size="2" src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"></ion-img>          
-            </ion-avatar>     
+              <ion-img size="2" [src]="usuario.value.imagenPerfil"></ion-img>
+            </ion-avatar>
           </td>
           <td>
             <span class="name">{{this.usuario.value.nombre +" "+ this.usuario.value.apellido}}</span>
             <br>
-            <span class="handle">@{{this.usuario.value.nickname}}</span>  
-          </td>              
+            <span class="handle">@{{this.usuario.value.nickname}}</span>
+          </td>
           </tr>
         </table>
       </ion-col>
@@ -50,7 +50,7 @@
             <ion-button class="reacciones" fill="clear" (click)="dislike(publicacion)" size="small">
               <ion-icon class="reaccion-icon" name="thumbs-down-outline" *ngIf="publicacion.cantidadDislikes+1" slot="start"></ion-icon>
               <!-- <ion-icon name="thumbs-down" *ngIf="!dislike" slot="start"></ion-icon> -->
-              {{publicacion.cantidadDislikes}} 
+              {{publicacion.cantidadDislikes}}
             </ion-button>
           </ion-col>
           <ion-col class="reaccion-col">

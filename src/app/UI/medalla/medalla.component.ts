@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Medalla } from 'src/app/modelos/medalla.model';
+import { Medalla, rangos } from 'src/app/modelos/medalla.model';
 
 
 @Component({
@@ -23,10 +23,10 @@ export class MedallaComponent implements OnInit {
 
     this.medalla.subscribe( med =>
       {
-        if (med != null) {
-          switch(med.rango)
+        if (med) {
+          switch(med.rango.toString())
           {
-            case 0:
+            case 'ironWolf':
             {
               this.medallaUrl = "../../assets/img/Iron.png";
               this.progreso = (this.medalla.value.cantidadPuntos * 100) / 75
@@ -35,7 +35,7 @@ export class MedallaComponent implements OnInit {
               this.medallaName = "Iron Wolf";
               break;
             }
-            case 1:
+            case 'bronzeWolf':
             {
               this.medallaUrl = "../../assets/img/Bronce.png";
               this.progreso = (this.medalla.value.cantidadPuntos * 100) / 150
@@ -44,7 +44,7 @@ export class MedallaComponent implements OnInit {
               this.medallaName = "Bronce Wolf";
               break;
             }
-            case 2:
+            case 'silverWolf':
             {
               this.medallaUrl = "../../assets/img/Silver.png";
               this.progreso = (this.medalla.value.cantidadPuntos * 100) / 300
@@ -53,7 +53,7 @@ export class MedallaComponent implements OnInit {
               this.medallaName = "Silver Wolf";
               break;
             }
-            case 3:
+            case 'goldWolf':
             {
               this.medallaUrl = "../../assets/img/Gold.png";
               this.progreso = (this.medalla.value.cantidadPuntos * 100) / 600
@@ -62,7 +62,7 @@ export class MedallaComponent implements OnInit {
               this.medallaName = "Gold Wolf";
               break;
             }
-            case 4:
+            case 'platinumWolf':
             {
               this.medallaUrl = "../../assets/img/Platinum.png";
               this.progreso = (this.medalla.value.cantidadPuntos * 100) / 1200
@@ -71,7 +71,7 @@ export class MedallaComponent implements OnInit {
               this.medallaName = "Platinum Wolf";
               break;
             }
-            case 5:
+            case 'diamondWolf':
             {
               this.medallaUrl = "../../assets/img/Diamond.png";
               this.progreso = (this.medalla.value.cantidadPuntos * 100) / 2400
@@ -80,7 +80,7 @@ export class MedallaComponent implements OnInit {
               this.medallaName = "Diamond Wolf";
               break;
             }
-            case 6:
+            case 'masterWolf':
             {
               this.medallaUrl = "../../assets/img/Master.png";
               this.progreso = (this.medalla.value.cantidadPuntos * 100) / 4800
@@ -89,7 +89,7 @@ export class MedallaComponent implements OnInit {
               this.medallaName = "Master Wolf";
               break;
             }
-            case 7:
+            case 'alfaWolf':
             {
               this.medallaUrl = "../../assets/img/Alfa.png";
               this.progreso = (this.medalla.value.cantidadPuntos * 100) / 10000
@@ -101,10 +101,10 @@ export class MedallaComponent implements OnInit {
             default:
             {
               this.medallaUrl = "../../assets/img/Null.png";
-              this.progreso = 0 / 0
-              this.puntosTotales = 0;
-              this.puntosActuales = 0;
-              this.medallaName = "Noob Wolf";
+              this.progreso = (this.medalla.value.cantidadPuntos * 100) / 1
+              this.puntosTotales = 1;
+              this.puntosActuales = this.medalla.value.cantidadPuntos;
+              this.medallaName = "New Wolf";
             }
           }
         } else {
