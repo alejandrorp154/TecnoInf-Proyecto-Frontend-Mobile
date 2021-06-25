@@ -40,17 +40,36 @@ export class PerfilPage implements OnInit {
     ) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.router.paramMap.subscribe(
       params => {
-          const id = params.get('id');
-          this.obtenerPerfil(id.toString());
-          this.idPerfil = id;
+        const id = params.get('id');
+        this.obtenerPerfil(id.toString());
+        this.idPerfil = id;
       }
-  );
+      );
+        this.userFire = await this.authService.getCurrentUserFire().toPromise();
+        this.esContacto(this.idPerfil);
+        if(!this.EsMiPerfil && this.esContacto(this.idPerfil)){
+          this.textoBoton = "ELIMINAR CONTACTO";
+        }
+
   }
 
-  async noEsMiPerfil(){
+  async esContacto(perfil: string){
+    let t = this;
+    let lista = await this.usuarioService.getContactos(this.userFire.id, 10, null);
+    console.log(lista);
+    lista.forEach(function (a) {
+      if(a.idPersona === perfil){
+        t.textoBoton = "ELIMINAR CONTACTO";
+        return true;
+      }
+    })
+    return false;
+  }
+
+  async EsMiPerfil(){
     this.userFire = await this.authService.getCurrentUserFire().toPromise();
     console.log(this.userFire.id);
     this.esMiPerfil = this.userFire.id === this.idPerfil;
@@ -59,13 +78,14 @@ export class PerfilPage implements OnInit {
   }
 
   agregarContacto(){
+
     this.usuarioService.agregarContacto(this.userFire.id, this.idPerfil)
     this.textoBoton = 'PENDIENTE';
 
   }
 
   async obtenerPerfil(id: string){
-    await this.noEsMiPerfil();
+    await this.EsMiPerfil();
     this.perfil = await this.perfilServ.obtenerPerfil(id); //Usuario por id
     this.perfilServ.usuarioDatos = this.perfil.usuario;
     this.publicaciones.next(this.perfil.publicaciones.reverse());
