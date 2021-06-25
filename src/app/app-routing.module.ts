@@ -16,7 +16,7 @@ const routes: Routes = [
   {
     path: 'perfil/:id',
     loadChildren: () => import('./perfil/perfil.module').then( m => m.PerfilPageModule),
-    canLoad: [LoginGuard]
+    //canLoad: [LoginGuard]
   },
   {
     path: 'login',

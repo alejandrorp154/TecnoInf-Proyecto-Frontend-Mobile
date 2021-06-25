@@ -1,57 +1,51 @@
 <app-navbar></app-navbar>
 
 <ion-content>
-  <ion-grid>
-    <ion-row>
-      <ion-col sizeMd="4" sizeSm="12" style="padding-right: 2rem;">
-        <div>
-          <ion-avatar class="avatar">
-            <img [src]="perfil?.usuario.imagenPerfil">
-          </ion-avatar>
-        </div>
-      </ion-col>
-      <ion-col sizeMd="2">
-        <ion-label>{{perfil?.usuario.nombre+' '+ perfil?.usuario.apellido}}</ion-label>
-        <br>
-        <ion-label style="color: var(--ion-color-medium);">@{{perfil?.usuario.nickname}}</ion-label>
-        <br>
-        <ion-label style="font: bold;">30 </ion-label>
-        <ion-label>Contactos</ion-label>
-        <br>
-        <ion-label>Pais: {{perfil?.usuario.pais}}</ion-label>
-      </ion-col>
-      <ion-col sizeMd="4">
-        <app-medalla [medalla] = "medalla"></app-medalla>
-      </ion-col>
-      <ion-col sizeMd="2">
-        <ion-button routerLink="/modificar-perfil" color="dark" size="small" fill="clear">
-          Editar Perfil
-          <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <div>
+    <ion-card class="card-profile">
+      <ion-grid>
+        <ion-row>
+          <ion-col sizeMd="3" sizeSm="12" style="padding-right: 2rem;">
+            <div>
+              <ion-avatar class="avatar">
+                <img [src]="perfil?.usuario.imagenPerfil">
+              </ion-avatar>
+            </div>
+          </ion-col>
+          <ion-col class="user-info" sizeMd="3">
+            <ion-label>{{perfil?.usuario.nombre+' '+ perfil?.usuario.apellido}}</ion-label>
+            <br>
+            <ion-label style="color: var(--ion-color-medium);">@{{perfil?.usuario.nickname}}</ion-label>
+            <br>
+            <ion-label style="font: bold;">30 </ion-label>
+            <ion-label>Contactos</ion-label>
+            <br>
+            <ion-label>Pais: {{perfil?.usuario.pais}}</ion-label>
+          </ion-col>
+          <ion-col sizeMd="4">
+            <app-medalla [medalla] = "medalla"></app-medalla>
+          </ion-col>
+          <ion-col sizeMd="2">
+            <ion-button class="edit-button" routerLink="/modificar-perfil" color="dark" size="small" fill="clear">
+              Editar
+              <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card>
 
-
-  <div class="ion-padding">
-    <span class="section-title">Galeria</span>
-    <ion-slides>
-      <ion-slide>
-        <img *ngFor = "let img of galleria | async" class="galeria"  [src]="img.contenido">
-      </ion-slide>
-    </ion-slides>
-  </div>
-
-  <h1>Publicaciones</h1>
-
-  <ion-grid fixed>
-    <ion-row>
-      <ion-col offset-md="4" sizeMd="4" sizeSm="12"><app-feed
-        [publicaciones] = "publicaciones"
-        [usuario] = "usuario"
-        ></app-feed>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+    <div class="publicaciones">
+      <ion-grid class="grid" fixed>
+        <ion-row>
+          <ion-col offset-md="0" sizeMd="12" sizeSm="12"><app-feed
+            [publicaciones] = "publicaciones"
+            [usuario] = "usuario"
+            ></app-feed>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+</div>
 
 </ion-content>
