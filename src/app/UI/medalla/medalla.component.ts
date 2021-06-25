@@ -23,80 +23,96 @@ export class MedallaComponent implements OnInit {
 
     this.medalla.subscribe( med =>
       {
-        switch(med.rango)
-        {
-          case 0:
+        if (med != null) {
+          switch(med.rango)
           {
-            this.medallaUrl = "../../assets/img/Iron.png";
-            this.progreso = (this.medalla.value.cantidadPuntos * 100) / 75
-            this.puntosTotales = 75;
-            this.puntosActuales = this.medalla.value.cantidadPuntos;
-            this.medallaName = "Iron Wolf";
-            break;
+            case 0:
+            {
+              this.medallaUrl = "../../assets/img/Iron.png";
+              this.progreso = (this.medalla.value.cantidadPuntos * 100) / 75
+              this.puntosTotales = 75;
+              this.puntosActuales = this.medalla.value.cantidadPuntos;
+              this.medallaName = "Iron Wolf";
+              break;
+            }
+            case 1:
+            {
+              this.medallaUrl = "../../assets/img/Bronce.png";
+              this.progreso = (this.medalla.value.cantidadPuntos * 100) / 150
+              this.puntosTotales = 150;
+              this.puntosActuales = this.medalla.value.cantidadPuntos;
+              this.medallaName = "Bronce Wolf";
+              break;
+            }
+            case 2:
+            {
+              this.medallaUrl = "../../assets/img/Silver.png";
+              this.progreso = (this.medalla.value.cantidadPuntos * 100) / 300
+              this.puntosTotales = 300;
+              this.puntosActuales = this.medalla.value.cantidadPuntos;
+              this.medallaName = "Silver Wolf";
+              break;
+            }
+            case 3:
+            {
+              this.medallaUrl = "../../assets/img/Gold.png";
+              this.progreso = (this.medalla.value.cantidadPuntos * 100) / 600
+              this.puntosTotales = 600;
+              this.puntosActuales = this.medalla.value.cantidadPuntos;
+              this.medallaName = "Gold Wolf";
+              break;
+            }
+            case 4:
+            {
+              this.medallaUrl = "../../assets/img/Platinum.png";
+              this.progreso = (this.medalla.value.cantidadPuntos * 100) / 1200
+              this.puntosTotales = 1200;
+              this.puntosActuales = this.medalla.value.cantidadPuntos;
+              this.medallaName = "Platinum Wolf";
+              break;
+            }
+            case 5:
+            {
+              this.medallaUrl = "../../assets/img/Diamond.png";
+              this.progreso = (this.medalla.value.cantidadPuntos * 100) / 2400
+              this.puntosTotales = 2400;
+              this.puntosActuales = this.medalla.value.cantidadPuntos;
+              this.medallaName = "Diamond Wolf";
+              break;
+            }
+            case 6:
+            {
+              this.medallaUrl = "../../assets/img/Master.png";
+              this.progreso = (this.medalla.value.cantidadPuntos * 100) / 4800
+              this.puntosTotales = 4800;
+              this.puntosActuales = this.medalla.value.cantidadPuntos;
+              this.medallaName = "Master Wolf";
+              break;
+            }
+            case 7:
+            {
+              this.medallaUrl = "../../assets/img/Alfa.png";
+              this.progreso = (this.medalla.value.cantidadPuntos * 100) / 10000
+              this.puntosTotales = 10000;
+              this.puntosActuales = this.medalla.value.cantidadPuntos;
+              this.medallaName = "Alfa Wolf";
+              break;
+            }
+            default:
+            {
+              this.medallaUrl = "../../assets/img/Null.png";
+              this.progreso = 0 / 0
+              this.puntosTotales = 0;
+              this.puntosActuales = 0;
+              this.medallaName = "Noob Wolf";
+            }
           }
-          case 1:
-          {
-            this.medallaUrl = "../../assets/img/Bronce.png";
-            this.progreso = (this.medalla.value.cantidadPuntos * 100) / 150
-            this.puntosTotales = 150;
-            this.puntosActuales = this.medalla.value.cantidadPuntos;
-            this.medallaName = "Bronce Wolf";
-            break;
-          }
-          case 2:
-          {
-            this.medallaUrl = "../../assets/img/Silver.png";
-            this.progreso = (this.medalla.value.cantidadPuntos * 100) / 300
-            this.puntosTotales = 300;
-            this.puntosActuales = this.medalla.value.cantidadPuntos;
-            this.medallaName = "Silver Wolf";
-            break;
-          }
-          case 3:
-          {
-            this.medallaUrl = "../../assets/img/Gold.png";
-            this.progreso = (this.medalla.value.cantidadPuntos * 100) / 600
-            this.puntosTotales = 600;
-            this.puntosActuales = this.medalla.value.cantidadPuntos;
-            this.medallaName = "Gold Wolf";
-            break;
-          }
-          case 4:
-          {
-            this.medallaUrl = "../../assets/img/Platinum.png";
-            this.progreso = (this.medalla.value.cantidadPuntos * 100) / 1200
-            this.puntosTotales = 1200;
-            this.puntosActuales = this.medalla.value.cantidadPuntos;
-            this.medallaName = "Platinum Wolf";
-            break;
-          }
-          case 5:
-          {
-            this.medallaUrl = "../../assets/img/Diamond.png";
-            this.progreso = (this.medalla.value.cantidadPuntos * 100) / 2400
-            this.puntosTotales = 2400;
-            this.puntosActuales = this.medalla.value.cantidadPuntos;
-            this.medallaName = "Diamond Wolf";
-            break;
-          }
-          case 6:
-          {
-            this.medallaUrl = "../../assets/img/Master.png";
-            this.progreso = (this.medalla.value.cantidadPuntos * 100) / 4800
-            this.puntosTotales = 4800;
-            this.puntosActuales = this.medalla.value.cantidadPuntos;
-            this.medallaName = "Master Wolf";
-            break;
-          }
-          case 7:
-          {
-            this.medallaUrl = "../../assets/img/Alfa.png";
-            this.progreso = (this.medalla.value.cantidadPuntos * 100) / 10000
-            this.puntosTotales = 10000;
-            this.puntosActuales = this.medalla.value.cantidadPuntos;
-            this.medallaName = "Alfa Wolf";
-            break;
-          }
+        } else {
+          this.medallaUrl = "../../assets/img/Null.png";
+          this.progreso = 0;
+          this.puntosTotales = 75;
+          this.puntosActuales = 0;
+          this.medallaName = "Noob Wolf";
         }
       }
     )
