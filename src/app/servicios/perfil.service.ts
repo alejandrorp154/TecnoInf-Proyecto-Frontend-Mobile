@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Perfil, UsuarioPerfil } from '../modelos/perfil';
 import { Usuario } from '../modelos/usuario.model';
 
@@ -30,7 +31,6 @@ export class PerfilService {
     return this.http.get<Perfil>(this.baseUrl + 'visualizacion/perfil/' + idPersona).toPromise();
   }
 
-
   modificarPerfil (usuario: UsuarioPerfil){
     return this.http.put(this.baseUrl+"usuario/editarPerfil", usuario).subscribe({
       error: error => {
@@ -38,5 +38,5 @@ export class PerfilService {
       }
   });
   }
-  
+
 }

@@ -17,10 +17,12 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LogInterceptorService } from './servicios/log-intercepetor.service';
 import {DatePipe} from '@angular/common';
+import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 
 export function getBaseUrl() {
   //console.log(document.getElementsByTagName('base')[0].href);
-  return 'http://18.118.25.190:8080/pryectoBack-web/rest/';
+  return 'http://18.223.33.89:8080/pryectoBack-web/rest/';
+
 }
 
 @NgModule({
@@ -34,7 +36,7 @@ export function getBaseUrl() {
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] },
     { provide: HTTP_INTERCEPTORS, useClass: LogInterceptorService, multi: true },
-    DatePipe
+    DatePipe, PhotoViewer
   ],
   bootstrap: [AppComponent],
 })
