@@ -16,16 +16,16 @@
                 </ion-col>
               </ion-row>
 
-              <ion-row style="height: 25vh;">
+              <ion-row style="height: 30vh;">
                 <ion-col size-xs="12" size-md="4">
                   <ion-row>
-                    <ion-col size="12" style="display: flex; justify-content: center; align-items:flex-start;">
-                      <ion-card-header *ngIf="imageSource === undefined">
-                        <img style="width: 115px; height: 115px; background-size:contain;" id="foto" src="../../assets/img/defaultProfileImage.png">
-                      </ion-card-header>
-                      <ion-card-header *ngIf="!(imageSource === undefined)">
-                        <img style="width: 120px; height: 120px; background-size:contain;" id="foto" [src]="imageSource">
-                      </ion-card-header>
+                    <ion-col size="12" style="display: flex; justify-content: center;">
+                      <div *ngIf="imageSource === undefined" style="display: flex; align-items: center;">
+                        <img id="foto" src="../../assets/img/defaultProfileImage.png">
+                      </div>
+                      <div *ngIf="!(imageSource === undefined)">
+                        <img id="foto" [src]="imageSource">
+                      </div>
                     </ion-col>
                   </ion-row>
 
