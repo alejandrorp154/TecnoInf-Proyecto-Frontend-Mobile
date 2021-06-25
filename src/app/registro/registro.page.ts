@@ -14,11 +14,19 @@ import { AuthResponseData } from '../modelos/AuthResponseData.interface';
 import { countries } from 'countries-list';
 import { IniciarSesionService } from '../servicios/iniciar-sesion.service';
 
+class Port {
+  public id: number;
+  public name: string;
+}
+
+
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.page.html',
   styleUrls: ['./registro.page.scss'],
 })
+
+
 export class RegistroPage implements OnInit {
 
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
@@ -36,7 +44,8 @@ export class RegistroPage implements OnInit {
     ext: 'png'
   }
 
-  paises = countries;
+  paises: string[] = [];
+  pais;
 
   constructor(
     @Inject('BASE_URL') private baseUrl: string,
@@ -48,7 +57,10 @@ export class RegistroPage implements OnInit {
     private alertController: AlertController,
     private sanitizer: DomSanitizer,
     private plt: Platform,
-    private inicio: IniciarSesionService) { }
+    private inicio: IniciarSesionService) {
+      Object.values(countries).forEach(c => this.paises.push(c.name));
+      console.log(this.paises);
+    }
 
   ngOnInit() {}
 

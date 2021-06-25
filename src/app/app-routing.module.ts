@@ -7,7 +7,6 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
-    canLoad: [LoginGuard]
   },
   {
     path: '',
@@ -17,7 +16,6 @@ const routes: Routes = [
   {
     path: 'perfil/:id',
     loadChildren: () => import('./perfil/perfil.module').then( m => m.PerfilPageModule),
-    canLoad: [LoginGuard]
   },
   {
     path: 'login',

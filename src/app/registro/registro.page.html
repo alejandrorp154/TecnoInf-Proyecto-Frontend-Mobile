@@ -86,15 +86,8 @@
                   <ion-label position="floating">Pais</ion-label>
                   <!-- <ion-input type="text" ngModel name="pais" #txtPais></ion-input>-->
                   <ion-select>
-                    <ion-select-option *ngFor="let p of paises | keyvalue">{{p.value.name}}</ion-select-option>
+                    <ion-select-option *ngFor="let p of paises | keyvalue">{{p.value}}</ion-select-option>
                   </ion-select>
-                  <!-- <ionic-selectable
-                    [(ngModel)]="pais"
-                    [items]="paises"
-                    itemValueField="pais.name"
-                    itemTextField="pais.name"
-                    [canSearch]="true">
-                  </ionic-selectable> -->
                 </ion-item>
                 <ion-item>
                   <!-- <ion-input type="password" placeholder="Contraseña" #txtPass></ion-input> -->

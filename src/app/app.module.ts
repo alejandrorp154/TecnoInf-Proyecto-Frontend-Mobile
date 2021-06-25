@@ -17,12 +17,11 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LogInterceptorService } from './servicios/log-intercepetor.service';
 import {DatePipe} from '@angular/common';
-import { FormControl } from '@angular/forms';
-import { IonicSelectableModule } from 'ionic-selectable';
+
 
 export function getBaseUrl() {
   //console.log(document.getElementsByTagName('base')[0].href);
-  return 'http://3.22.223.226:8080/pryectoBack-web/rest/';
+  return 'http://3.141.168.105:8080/pryectoBack-web/rest/';
 }
 
 @NgModule({
@@ -31,7 +30,7 @@ export function getBaseUrl() {
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule, AngularFirestoreModule, AngularFireStorageModule,
-    FormsModule, ReactiveFormsModule, HttpClientModule, ReactiveFormsModule, IonicSelectableModule],
+    FormsModule, ReactiveFormsModule, HttpClientModule, ReactiveFormsModule],
 
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

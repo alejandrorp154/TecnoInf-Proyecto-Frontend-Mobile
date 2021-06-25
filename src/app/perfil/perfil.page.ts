@@ -1,3 +1,6 @@
+import { UserFire } from "./../modelos/userFire.model";
+import { AuthService } from "src/app/servicios/auth.service";
+import { UsuarioService } from "src/app/servicios/usuario.service";
 import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -22,7 +25,19 @@ export class PerfilPage implements OnInit {
   medalla: BehaviorSubject<Medalla> = new BehaviorSubject(undefined);
   galleria: BehaviorSubject<Multimedia[]> = new BehaviorSubject([]);
 
-  constructor(private perfilServ: PerfilService, private router: ActivatedRoute) {
+  userFire: UserFire;
+  idPerfil;
+
+  esMiPerfil: boolean;
+
+  textoBoton = 'AGREGAR CONTACTO';
+
+  constructor(
+    private perfilServ: PerfilService,
+    private router: ActivatedRoute,
+    private authService: AuthService,
+    private usuarioService: UsuarioService
+    ) {
    }
 
   ngOnInit() {
@@ -30,11 +45,27 @@ export class PerfilPage implements OnInit {
       params => {
           const id = params.get('id');
           this.obtenerPerfil(id.toString());
+          this.idPerfil = id;
       }
   );
   }
 
+  async noEsMiPerfil(){
+    this.userFire = await this.authService.getCurrentUserFire().toPromise();
+    console.log(this.userFire.id);
+    this.esMiPerfil = this.userFire.id === this.idPerfil;
+    console.log(this.esMiPerfil);
+    return this.esMiPerfil;
+  }
+
+  agregarContacto(){
+    this.usuarioService.agregarContacto(this.userFire.id, this.idPerfil)
+    this.textoBoton = 'PENDIENTE';
+
+  }
+
   async obtenerPerfil(id: string){
+    await this.noEsMiPerfil();
     this.perfil = await this.perfilServ.obtenerPerfil(id); //Usuario por id
     this.perfilServ.usuarioDatos = this.perfil.usuario;
     this.publicaciones.next(this.perfil.publicaciones.reverse());

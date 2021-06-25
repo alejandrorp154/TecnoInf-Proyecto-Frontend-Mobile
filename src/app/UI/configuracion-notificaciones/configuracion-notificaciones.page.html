@@ -2,10 +2,10 @@
 
   <ion-grid>
     <ion-row>
-      <ion-col size-sm="6" size-xs="12"  offset-sm="3">
+      <ion-col size-sm="6" size-xs="12" >
         <ion-card>
           <ion-card-header color=tertiary>
-            <ion-card-title  class="ion-text-center">Configuracion de Notificaciones</ion-card-title>
+            <ion-card-title  class="ion-text-center">Configuracion de Notificaciones EMAIL</ion-card-title>
           </ion-card-header>
           <ion-card-content>
             <ion-item-divider>
@@ -14,7 +14,30 @@
               </ion-label>
             </ion-item-divider>
             <ion-list *ngFor="let config of configuracionAMostrar | keyvalue">
-              <ion-item>
+              <ion-item *ngIf="config.key !== 'idPersona' && config.key !== 'idConfiguracion' ">
+                <ion-label> {{ config.key }} </ion-label>
+                <ion-checkbox place-right checked={{config.value}} (click)="checkedChanged(config.key, config.value)"></ion-checkbox>
+              </ion-item>
+            </ion-list>
+            <ion-item>
+              <ion-button slot="end" (click)="onAplicar()">APLICAR</ion-button>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size-sm="6" size-xs="12" >
+        <ion-card>
+          <ion-card-header color=tertiary>
+            <ion-card-title  class="ion-text-center">Configuracion de Notificaciones PUSH</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-item-divider>
+              <ion-label>
+                Lista de configuraciones:
+              </ion-label>
+            </ion-item-divider>
+            <ion-list *ngFor="let config of configuracionAMostrar | keyvalue">
+              <ion-item *ngIf="config.key !== 'idPersona' && config.key !== 'idConfiguracion'">
                 <ion-label> {{ config.key }} </ion-label>
                 <ion-checkbox place-right checked={{config.value}} (click)="checkedChanged(config.key, config.value)"></ion-checkbox>
               </ion-item>

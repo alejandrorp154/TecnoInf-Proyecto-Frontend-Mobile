@@ -16,7 +16,8 @@ import { IonicSelectableModule } from 'ionic-selectable';
     FormsModule,
     IonicModule,
     RegistroPageRoutingModule,
-    RouterModule
+    RouterModule,
+    IonicSelectableModule
   ],
   declarations: [RegistroPage]
 })
