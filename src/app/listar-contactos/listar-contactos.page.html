@@ -23,7 +23,7 @@
                           </div>
                           <ion-label text-wrap>{{ contacto.nickname }} <br> {{ contacto.nombre }} {{ contacto.apellido }}<br> {{ contacto.email }} <br> {{ contacto.direccion }}</ion-label>
                           <div>
-                            <ion-button style="justify-self: end;" (click)="onViewProfile(contacto.idPersona)">
+                            <ion-button style="justify-self: end;" routerLink="/perfil/{{contacto.idPersona}}">
                               <ion-icon name="person-outline" slot="icon-only" ></ion-icon>
                             </ion-button>
                           </div>

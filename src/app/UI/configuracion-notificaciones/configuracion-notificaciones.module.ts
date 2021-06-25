@@ -1,3 +1,4 @@
+import { NavbarModule } from "./../navbar/navbar.module";
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -13,7 +14,8 @@ import { ConfiguracionNotificacionesPage } from './configuracion-notificaciones.
     CommonModule,
     FormsModule,
     IonicModule,
-    ConfiguracionNotificacionesPageRoutingModule
+    ConfiguracionNotificacionesPageRoutingModule,
+    NavbarModule
   ],
   declarations: [ConfiguracionNotificacionesPage]
 })

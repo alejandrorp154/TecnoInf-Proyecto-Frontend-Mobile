@@ -15,7 +15,6 @@ export class EstadisticasService {
     try {
       const url = `${this.baseUrl}visualizacion/estadistica/${tipoEstadistica}`;
       let response = await this.httpClient.get(url).toPromise();
-      console.log(response);
       return response as Estadistica[];
     } catch (error) {
       console.log(error);
