@@ -85,8 +85,8 @@
                   <!-- <ion-input type="text" placeholder="Nickname" #txtNickname></ion-input> -->
                   <ion-label position="floating">Pais</ion-label>
                   <!-- <ion-input type="text" ngModel name="pais" #txtPais></ion-input>-->
-                  <ion-select>
-                    <ion-select-option *ngFor="let p of paises | keyvalue">{{p.value}}</ion-select-option>
+                  <ion-select #selPais>
+                    <ion-select-option *ngFor="let p of paises | keyvalue" value="{{p.value}}">{{p.value}}</ion-select-option>
                   </ion-select>
                 </ion-item>
                 <ion-item>
