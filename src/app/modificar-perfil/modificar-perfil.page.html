@@ -6,12 +6,14 @@
       <ion-row>
         <ion-col size-xs="12" size-md="10" offset-md="1">
           <ion-card style="background-color:white">
-            <ion-card-content>  
-              <ion-row> 
+            <ion-card-content>
+              <ion-row>
                 <ion-col size-xs="12" size-md="4">
-                 <ion-card-header>
-                  <img id="foto" [src]="imageSource">
-                </ion-card-header>
+                  <ion-col size="12" style="display: flex; justify-content: center;">
+                    <div style="display: flex; align-items: center;">
+                      <img id="foto" [src]="imageSource">
+                    </div>
+                  </ion-col>
                 <ion-avatar id="imageAdd">
                   <input type="file" #fileInput (change)="uploadFile($event)" hidden="true" accept="image/*"/>
                   <!-- Imagen -->
@@ -20,6 +22,7 @@
                   </ion-button>
                 </ion-avatar>
                 </ion-col>
+
               </ion-row>
               <ion-list class="form-input">
                 <ion-item>
@@ -30,7 +33,7 @@
                 <ion-label position="floating">Apellido</ion-label>
                 <ion-input [(ngModel)]="usuario.apellido" type="text" ngModel name="apellido" #txtApellido></ion-input>
                 </ion-item>
-                <ion-item> 
+                <ion-item>
                   <ion-label position="floating">Nickname</ion-label>
                   <ion-input [(ngModel)]="usuario.nickname" type="text" ngModel name="nickname" #txtNickname></ion-input>
                 </ion-item>
@@ -49,11 +52,11 @@
                   <ion-label position="floating">Direccion</ion-label>
                   <ion-input [(ngModel)]="usuario.direccion" type="text" ngModel name="direccion" #txtDireccion></ion-input>
                 </ion-item>
-                <ion-item> 
+                <ion-item>
                   <ion-label position="floating">Celular</ion-label>
                   <ion-input [(ngModel)]="usuario.celular" type="text" ngModel name="celular" #txtCelular></ion-input>
                 </ion-item>
-                <ion-item> 
+                <ion-item>
                   <ion-label position="floating">Pais</ion-label>
                   <ion-input [(ngModel)]="usuario.pais" type="text" ngModel name="pais" #txtPais></ion-input>
                 </ion-item>
