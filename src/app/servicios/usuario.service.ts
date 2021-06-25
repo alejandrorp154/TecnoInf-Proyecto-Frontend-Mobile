@@ -176,8 +176,8 @@ export class UsuarioService {
   }
 
 
-  getUsuarioAsync(idPersona: string): Promise<Persona> {
-    return this.httpClient.get<Persona>(this.baseUrl + 'usuario/' + idPersona).toPromise();
+  getUsuarioAsync(idPersona: string): Promise<Usuario> {
+    return this.httpClient.get<Usuario>(this.baseUrl + 'usuario/' + idPersona).toPromise();
   }
 
   async agregarContacto(idPersona1: string, idPersona2: string){

@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonInfiniteScroll } from '@ionic/angular';
 import { Publicacion, PublicacionPerfilUsuario } from 'src/app/modelos/perfil';
-import { Persona } from 'src/app/modelos/persona.model';
 import { PerfilService } from 'src/app/servicios/perfil.service';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 
@@ -23,7 +22,6 @@ export class FeedHomeComponent implements OnInit {
 
   publicacionesAux: PublicacionPerfilUsuario[];
   publicaciones: PublicacionPerfilUsuario[];
-  usuarios: Persona[] = new Array<Persona>();
   size: number = 10;
   offsize: number = 0;
 
