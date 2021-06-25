@@ -98,14 +98,6 @@ export class MedallaComponent implements OnInit {
               this.medallaName = "Alfa Wolf";
               break;
             }
-            default:
-            {
-              this.medallaUrl = "../../assets/img/Null.png";
-              this.progreso = 0 / 0
-              this.puntosTotales = 0;
-              this.puntosActuales = 0;
-              this.medallaName = "Noob Wolf";
-            }
           }
         } else {
           this.medallaUrl = "../../assets/img/Null.png";
@@ -114,6 +106,7 @@ export class MedallaComponent implements OnInit {
           this.puntosActuales = 0;
           this.medallaName = "Noob Wolf";
         }
+
       }
     )
 
