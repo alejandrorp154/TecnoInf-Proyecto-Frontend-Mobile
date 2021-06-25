@@ -1,4 +1,3 @@
-import { Persona } from "./../modelos/persona.model";
 import { Usuario } from "src/app/modelos/usuario.model";
 import { UsuarioService } from "./../servicios/usuario.service";
 import { Component, OnInit } from '@angular/core';

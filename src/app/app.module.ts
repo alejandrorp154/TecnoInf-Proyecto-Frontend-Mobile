@@ -36,7 +36,7 @@ export function getBaseUrl() {
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] },
     { provide: HTTP_INTERCEPTORS, useClass: LogInterceptorService, multi: true },
-    DatePipe
+    // DatePipe, PhotoViewer
   ],
   bootstrap: [AppComponent],
 })

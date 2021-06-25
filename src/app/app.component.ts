@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { of, Subscription } from 'rxjs';
 import { take, tap, switchMap } from 'rxjs/operators';
+import { Usuario } from './modelos/usuario.model';
 import { AuthService } from './servicios/auth.service';
 
 @Component({
@@ -12,9 +13,12 @@ import { AuthService } from './servicios/auth.service';
 export class AppComponent implements OnInit, OnDestroy{
   private authSub: Subscription;
   private previousAuthState = false;
+  userApp: Usuario;
 
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {
+  this.userApp = new Usuario("","", "","", "","","","", "","", "")
+  }
 
   ngOnInit()
   {
@@ -35,5 +39,11 @@ export class AppComponent implements OnInit, OnDestroy{
   onLogout()
   {
     this.authService.logout();
+  }
+
+  async goToGallery()
+  {
+    this.userApp = await this.authService.getCurrentUser().toPromise();
+    this.router.navigateByUrl(`/galeria/${this.userApp.idPersona}`)
   }
 }

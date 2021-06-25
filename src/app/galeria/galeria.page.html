@@ -1,0 +1,22 @@
+<ion-content>
+  <ion-card>
+    <ion-card-header color=tertiary style="display: flex; align-content: center; align-items: center;">
+      <ion-buttons style="float: left; align-self: center;">
+        <ion-back-button  class="pointer" text=""></ion-back-button>
+      </ion-buttons>
+      <ion-card-title style="text-align: center; flex-grow: 1; flex-direction: row; margin-top: 0px; vertical-align: middle; display: inline-block; line-height: normal;">Galeria de {{usuario.value.nombre}} {{usuario.value.apellido}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col *ngFor = "let img of galeria | async" size="3">
+              <img class="galeria" [src]="img.contenido" (click)="openPreview(img)">
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      <div style="min-height: 200px; display: flex; align-items: center; justify-content: center; margin-left: 46px;">
+        <h2 class="sinImagenes" *ngIf="galeria.value.length == 0">No hay imagenes en esta galeria</h2>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

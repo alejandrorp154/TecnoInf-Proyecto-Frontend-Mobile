@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
 import { AuthService} from '../servicios/auth.service';
 import { take } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { Persona, Rol } from '../modelos/persona.model';
 import { Usuario } from '../modelos/usuario.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthResponseData } from '../modelos/AuthResponseData.interface';

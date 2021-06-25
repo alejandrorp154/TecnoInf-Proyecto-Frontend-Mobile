@@ -33,26 +33,17 @@
     </ion-row>
   </ion-grid>
 
-
-  <div class="ion-padding">
-    <span class="section-title">Galeria</span>
-    <ion-slides>
-      <ion-slide>
-        <img *ngFor = "let img of galleria | async" class="galeria"  [src]="img.contenido">
-      </ion-slide>
-    </ion-slides>
-  </div>
-
-  <h1>Publicaciones</h1>
-
-  <ion-grid fixed>
-    <ion-row>
-      <ion-col offset-md="4" sizeMd="4" sizeSm="12"><app-feed
-        [publicaciones] = "publicaciones"
-        [usuario] = "usuario"
-        ></app-feed>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+    <div class="publicaciones">
+      <ion-grid class="grid" fixed>
+        <ion-row>
+          <ion-col offset-md="0" sizeMd="12" sizeSm="12"><app-feed
+            [publicaciones] = "publicaciones"
+            [usuario] = "usuario"
+            ></app-feed>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+</div>
 
 </ion-content>

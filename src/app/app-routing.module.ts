@@ -40,11 +40,11 @@ const routes: Routes = [
     loadChildren: () => import('./alta-evento/alta-evento.module').then( m => m.AltaEventoPageModule),
     canLoad: [LoginGuard]
   },
-  {
-    path: 'baja-evento',
-    loadChildren: () => import('./baja-evento/baja-evento.module').then( m => m.BajaEventoPageModule),
-    canLoad: [LoginGuard]
-  },
+  // {
+  //   path: 'baja-evento',
+  //   loadChildren: () => import('./baja-evento/baja-evento.module').then( m => m.BajaEventoPageModule),
+  //   canLoad: [LoginGuard]
+  // },
   {
     path: 'chat',
     loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule),
@@ -119,9 +119,18 @@ const routes: Routes = [
   {
     path: 'configuracion-notificaciones',
     loadChildren: () => import('./UI/configuracion-notificaciones/configuracion-notificaciones.module').then(c => c.ConfiguracionNotificacionesPageModule)
-  },  {
+  },
+  {
     path: 'solicitudes-pendientes',
     loadChildren: () => import('./UI/solicitudes-pendientes/solicitudes-pendientes.module').then( m => m.SolicitudesPendientesPageModule)
+  },
+  {
+    path: 'galeria/:id',
+    loadChildren: () => import('./galeria/galeria.module').then( m => m.GaleriaPageModule)
+  },
+  {
+    path: 'galeria-modal',
+    loadChildren: () => import('./galeria-modal/galeria-modal.module').then( m => m.GaleriaModalPageModule)
   }
 
 

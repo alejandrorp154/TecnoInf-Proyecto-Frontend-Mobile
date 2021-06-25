@@ -7,7 +7,19 @@ const routes: Routes = [
   {
     path: '',
     component: AltaEventoPage
-  }
+  },
+  {
+    path: ':idEvento',
+    component: AltaEventoPage
+  },
+  {
+    path: 'alta',
+    component: AltaEventoPage
+  },
+  {
+    path: 'editar/:idEvento',
+    component: AltaEventoPage
+  },
 ];
 
 @NgModule({

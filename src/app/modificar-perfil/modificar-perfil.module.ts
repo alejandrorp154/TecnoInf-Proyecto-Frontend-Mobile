@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { ModificarPerfilPageRoutingModule } from './modificar-perfil-routing.module';
 
 import { ModificarPerfilPage } from './modificar-perfil.page';
+import { NavbarComponent } from '../UI/navbar/navbar.component';
 
 @NgModule({
   imports: [
