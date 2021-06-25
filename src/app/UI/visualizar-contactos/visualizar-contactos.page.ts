@@ -1,7 +1,6 @@
 import { Usuario } from "./../../modelos/usuario.model";
 import { IonItemSliding } from "@ionic/angular";
 import { Contacto } from "./../../modelos/contacto.model";
-import { Persona } from "./../../modelos/persona.model";
 import { UserFire } from "./../../modelos/userFire.model";
 import { UsuarioService } from "./../../servicios/usuario.service";
 import { Component, OnInit } from '@angular/core';
@@ -13,10 +12,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VisualizarContactosPage implements OnInit {
 
-  LoggedUser: Persona;
+  LoggedUser: Usuario;
 
   contactos: Contacto[];
-  contactosPersona: Persona[];
+  contactosPersona: Usuario[];
 
   constructor(private usuarioService: UsuarioService) { }
 
@@ -40,7 +39,7 @@ export class VisualizarContactosPage implements OnInit {
 
   getContactosPersona(){
     let t= this;
-    let lista: Persona[] = [];
+    let lista: Usuario[] = [];
     this.contactos.forEach(function(contacto){
       let persona = t.usuarioService.getUsuario(contacto.idPersona);
       lista.push(persona);

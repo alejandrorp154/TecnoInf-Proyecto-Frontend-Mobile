@@ -9,7 +9,7 @@ import { Chat } from '../modelos/chat.model';
 import { AuthService } from './auth.service';
 import { UserFire } from '../modelos/userFire.model';
 import { UsuarioService } from './usuario.service';
-import { Persona } from '../modelos/persona.model';
+import { Usuario } from '../modelos/usuario.model';
 
 @Injectable({
   providedIn: 'root'
@@ -69,7 +69,7 @@ export class ChatService {
   }
 
   private getUsers() {
-    return this.usuarioService.getAllUsuariosObs() as Observable<Persona[]>;
+    return this.usuarioService.getAllUsuariosObs() as Observable<Usuario[]>;
   }
 
   private getUser(uid: string) {
