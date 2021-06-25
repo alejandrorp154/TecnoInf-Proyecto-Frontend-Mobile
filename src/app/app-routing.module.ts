@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes, CanLoad } from '@angular/router';
 import { LoginGuard } from './login/login.guard';
-import { ConfiguracionNotificacionesPageModule } from './UI/configuracion-notificaciones/configuracion-notificaciones.module';
 
 const routes: Routes = [
   {
@@ -107,24 +106,30 @@ const routes: Routes = [
     loadChildren: () => import('./recuperar-password/recuperar-password.module').then( m => m.RecuperarPasswordPageModule)
   },
   {
+
     path: 'visualizar-contactos',
     loadChildren: () => import('./UI/visualizar-contactos/visualizar-contactos.module').then( m => m.VisualizarContactosPageModule)
-  },
-  {
-    path: 'tab-perfil-admin',
-    loadChildren: () => import('./tab-perfil-admin/tab-perfil-admin.module').then( m => m.TabPerfilAdminPageModule)
   },
   {
     path: 'modificar-perfil',
     loadChildren: () => import('./modificar-perfil/modificar-perfil.module').then( m => m.ModificarPerfilPageModule)
   },
   {
+    path: 'tab-perfil-admin',
+    loadChildren: () => import('./tab-perfil-admin/tab-perfil-admin.module').then( m => m.TabPerfilAdminPageModule)
+  },
+  {
     path: 'configuracion-notificaciones',
     loadChildren: () => import('./UI/configuracion-notificaciones/configuracion-notificaciones.module').then( m => m.ConfiguracionNotificacionesPageModule)
+  },
+  {
+    path: 'galeria/:id',
+    loadChildren: () => import('./galeria/galeria.module').then( m => m.GaleriaPageModule)
+  },
+  {
+    path: 'galeria-modal',
+    loadChildren: () => import('./galeria-modal/galeria-modal.module').then( m => m.GaleriaModalPageModule)
   }
-
-
-
 
 ];
 
