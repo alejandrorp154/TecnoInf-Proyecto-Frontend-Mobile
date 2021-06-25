@@ -10,6 +10,7 @@ import { HttpClient } from '@angular/common/http';
 import { Usuario } from '../modelos/usuario.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthResponseData } from '../modelos/AuthResponseData.interface';
+import { IniciarSesionService } from '../servicios/iniciar-sesion.service';
 
 @Component({
   selector: 'app-registro',
@@ -42,7 +43,8 @@ export class RegistroPage implements OnInit {
     private httpClient: HttpClient,
     private alertController: AlertController,
     private sanitizer: DomSanitizer,
-    private plt: Platform) { }
+    private plt: Platform,
+    private inicio: IniciarSesionService) { }
 
   ngOnInit() {}
 
@@ -61,7 +63,7 @@ export class RegistroPage implements OnInit {
         authObs.subscribe(
           resData => {
             this.callBackend();
-
+            this.inicio.storeUserData(this.user);
             this.isLoading = false;
             loadingEl.dismiss();
             this.router.navigateByUrl('/home');

@@ -26,3 +26,10 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 @import "./app.scss";
+
+.transparent-modal
+{
+   .modal-wrapper{
+      --background: rgba(44,39,45,0.2);
+   }
+}

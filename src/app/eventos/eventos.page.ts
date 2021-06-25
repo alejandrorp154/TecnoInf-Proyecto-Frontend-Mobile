@@ -121,7 +121,7 @@ export class EventosPage implements OnInit {
       console.log(res);
       console.log(this.eventos.findIndex(e => e.idEvento == idEvento));
       console.log(this.eventos);
-      this.eventos.splice(this.eventos.findIndex(e => e.idEvento == idEvento));
+      this.eventos.splice(this.eventos.findIndex(e => e.idEvento == idEvento),1);
       console.log(this.eventos);
       this.bsEventos.next(this.eventos);
       this.toolsService.presentToast('El evento se eliminó correctamente', Resultado.Ok);
