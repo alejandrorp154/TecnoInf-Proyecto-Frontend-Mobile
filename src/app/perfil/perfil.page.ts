@@ -38,7 +38,7 @@ export class PerfilPage implements OnInit {
     private authService: AuthService,
     private usuarioService: UsuarioService
     ) {
-   }
+  }
 
   ngOnInit() {
     this.router.paramMap.subscribe(

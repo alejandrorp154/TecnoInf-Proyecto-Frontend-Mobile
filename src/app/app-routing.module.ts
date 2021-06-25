@@ -119,7 +119,11 @@ const routes: Routes = [
   {
     path: 'configuracion-notificaciones',
     loadChildren: () => import('./UI/configuracion-notificaciones/configuracion-notificaciones.module').then(c => c.ConfiguracionNotificacionesPageModule)
+  },  {
+    path: 'solicitudes-pendientes',
+    loadChildren: () => import('./UI/solicitudes-pendientes/solicitudes-pendientes.module').then( m => m.SolicitudesPendientesPageModule)
   }
+
 
 
 

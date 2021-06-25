@@ -167,6 +167,15 @@ export class UsuarioService {
 
   }
 
+  public getSolicitudesPendientes(idPersona): Promise<Usuario[]>{
+    try{
+      const url = `${this.baseUrl}visualizacion/solicitudPendiente/${idPersona}/0/10`;
+      return this.httpClient.get<Usuario[]>(url).toPromise();
+    }catch(error){
+      console.log(error);
+    }
+  }
+
   getLoggedUser(): Promise<Persona> {
     return new Promise(async (resolve) => {
       let userFire = await this.authService.getCurrentUserFire().toPromise();
@@ -180,8 +189,8 @@ export class UsuarioService {
   }
 
   async agregarContacto(idPersona1: string, idPersona2: string){
-    const url = `${this.baseUrl}usuario/solicitudContacto/${idPersona1}/${idPersona2}`;
-    this.httpClient.put<Usuario>(url, null)
+    const url = `${this.baseUrl}usuario/agregarContacto/${idPersona1}/${idPersona2}`;
+    this.httpClient.post<Usuario>(url, null)
     .subscribe(data => {
       console.log(data['_body']);
      }, error => {
@@ -191,12 +200,12 @@ export class UsuarioService {
 
   async respuestaContacto(idPersona: string, idPersonaContacto: string, estado: EstadosContactos){
     let json = {
-      "idPersona" : idPersona,
-      "contactoIdPersona" : idPersonaContacto,
-      "estadoContactos" : estado
+      "idPersona" : idPersonaContacto,
+      "contactoIdPersona" : idPersona,
+      "estadoContactos" : EstadosContactos[estado]
     };
     const url = `${this.baseUrl}usuario/respuestaContacto`;
-    let response = this.httpClient.post<Contacto>(url, json).toPromise().catch(error => console.log(error));
+    let response = this.httpClient.put<Contacto>(url, json).toPromise().catch(error => console.log(error));
     return response;
   }
 
@@ -207,6 +216,7 @@ export class UsuarioService {
       "extension" : mult.extension,
       "idPersona" : mult.idPersona
     };
+    console.log(json);
     const url = `${this.baseUrl}usuario/subirFoto`;
     let response = this.httpClient.post<Multimedia>(url, json).toPromise().catch(error => console.log(error));
     return response;
