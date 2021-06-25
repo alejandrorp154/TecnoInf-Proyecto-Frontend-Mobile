@@ -10,7 +10,60 @@
   }
 
   .avatar {
-    margin-left: auto; 
+    margin-left: 25%;
     height: 150px;
     width: 150px;
+    --border-radius: 80px;
+    border: 1px solid black;
     }
+
+  .card-profile{
+    width: 50%;
+    margin-left: 25%;
+    background-color: white;
+  }
+
+  .user-info{
+    font-size: 20px;
+    margin-top: 25px;
+  }
+
+  .publicaciones{
+    width: 50%;
+    margin-left: 25%;
+  }
+  
+
+  .grid{
+    margin-right: 0px;
+    margin-left: 0px;
+    width: 100%;
+  }
+
+  .edit-button{
+    margin-left: 15%;
+    text-align: end;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+  }
+
+  @media(max-width: 500px){
+    .publicaciones{
+      width: 100%;
+      margin-left: 0;
+    }
+
+    .card-profile{
+      width: 100%;
+      margin-left: 0;
+    }
+
+    .profile{
+      background-size: auto;
+    }
+
+    .avatar {
+      margin-left: 0px; 
+      }
+  }

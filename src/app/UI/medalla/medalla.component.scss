@@ -1,0 +1,22 @@
+.medalla-component{
+    margin-right: 5rem
+}
+
+.imagen {
+    height: 75px;
+    width: 75px; 
+    display: block; 
+    margin-left: auto; 
+    margin-right: auto;
+}
+
+.medalla-name{
+    text-align:center; 
+    font-family: monospace;
+}
+
+@media(max-width: 500px){
+    .medalla-component{
+        margin-right: 0px;
+    }
+}

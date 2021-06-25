@@ -12,6 +12,10 @@
     font-size: 20px;
     line-height: 26px;
   }
+
+  .user-avatar{
+    margin-left: 15px;
+  }
   
   #container p {
     font-size: 16px;
@@ -22,6 +26,36 @@
     margin: 0;
   }
   
+  .user-nickname{
+    margin-left: 15px;
+  }
+  
+  .edit-publicacion{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    text-align: end;
+  }
+
+  .reaccion-container{
+    border-top:1px solid #85aecc;
+    text-align: center;
+    margin-top:10px;
+  }
+
+  .reaccion-col{
+    margin-top:10px;
+
+  }
+
+  .contenido-publicacion{
+    margin: 10px;
+  }
+
+  .reacciones{
+    text-align: center;
+  }
+
   #container a {
     text-decoration: none;
   }
@@ -30,8 +64,13 @@
     font-size: 0.9em;
   }
   
+  .reaccion-icon{
+    height: 50px;
+    width: 25px;
+  }
+  
   .name {
-    font-weight: 600;
+    font-weight: 600;   
   }
   
   .handle {
@@ -40,7 +79,7 @@
   }
   
   .wrapper {
-    border-bottom: 1px solid var(--ion-color-light);
+    //border-bottom: 1px solid var(--ion-color-light);    
   }
   
   .highlight {
@@ -50,4 +89,39 @@
   .preview-img {
     border: 1px solid var(--ion-color-light);
     border-radius: 10px;
+  }
+
+  .card{
+    background: white;
+    min-width: 100%;
+    margin-left: 0px;
+    position:relative;
+  }
+
+  .edit-publicacion-icon{
+    min-width: 25px;
+    min-height: 25px;
+  }
+
+  @media(max-width:500px){
+    .card{
+      margin-left:0;
+    }
+
+    .edit-button{
+      bottom: 0;
+      margin-right: 5px;      
+    }
+
+    .edit-publicacion{
+      margin-right: 12px;
+    }
+
+    .name{
+      margin-left: 15px;
+    }
+
+    .handle{
+      margin-left: 15px;
+    }
   }

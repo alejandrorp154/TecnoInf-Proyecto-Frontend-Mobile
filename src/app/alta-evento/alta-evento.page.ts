@@ -1,12 +1,14 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
-import { Evento } from '../modelos/evento.model';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
+import { Evento, Invitado } from '../modelos/evento.model';
 import { Preview } from '../modelos/preview';
 import { Ubicacion } from '../modelos/ubicacion.model';
 import { EventoService } from '../servicios/evento.service';
 import { Resultado, ToolsService } from '../servicios/tools.service';
+import { Usuario } from '../modelos/usuario.model';
 
 @Component({
   selector: 'app-alta-evento',
@@ -21,14 +23,18 @@ export class AltaEventoPage implements OnInit {
   inicio: String = new Date().toISOString();
   fin: String = new Date().toISOString();
   today: Date;
-  ubicacion: any;
+  ubicacion: BehaviorSubject<Ubicacion> = new BehaviorSubject(new Ubicacion());
+  participantes: BehaviorSubject<Invitado[]> = new BehaviorSubject([]);
   latitud: number;
   longitud: number;
   editando: boolean;
-  visualizando: boolean;
+  creando: boolean;
+  currentUser: Usuario;
 
   tipo: string = 'texto';
   preview: Preview = new Preview();
+
+  activeTab: string;
 
   imageSource;
   imagen = {
@@ -44,30 +50,42 @@ export class AltaEventoPage implements OnInit {
       this.evento.nombre = '';
       this.latitud = -34.8833;
       this.longitud = -58.1667;
+      this.activeTab = 'publicaciones';
    }
 
-  ngOnInit() {
+  async ngOnInit() {
 
     console.log(this._Activatedroute.snapshot['_routerState'].url);
-    this.editando = this._Activatedroute.snapshot['_routerState'].url == '/editar-evento';
-    this.visualizando = this._Activatedroute.snapshot['_routerState'].url == '/evento';
+    this.editando = this._Activatedroute.snapshot['_routerState'].url.toString().includes('/evento/editar');
+    this.creando = this._Activatedroute.snapshot['_routerState'].url == '/evento/alta';
+    console.log(this.editando);
+    if(!this.creando) {
+      let idEvento: number;
+      try {
+        this._Activatedroute.paramMap.subscribe(params => {
+          idEvento = parseInt(params.get('idEvento'));
+        });
 
-    if (this.editando || this.visualizando) {
-      if (this.eventoService.eventoActual) {
-        this.evento = this.eventoService.eventoActual;
+        this.evento = await this.eventoService.obtenerEvento(idEvento);
+        this.participantes.next(this.evento.invitados);
+        console.log(this.evento);
         this.latitud = this.evento.ubicacion.latitud;
         this.longitud = this.evento.ubicacion.longitud;
-        this.ubicacion = this.evento.ubicacion;
+        this.ubicacion.next(this.evento.ubicacion);
         this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(this.evento.imagen);
+        this.evento.fechaInicio = new Date(this.evento.fechaInicio);
+        this.evento.fechaFin = new Date(this.evento.fechaFin);
         this.inicio = this.evento.fechaInicio.toISOString();
         this.fin = this.evento.fechaFin.toISOString();
-        console.log(this.ubicacion);
-        console.log(this.visualizando, this.evento);
-      } else {
+      } catch(err) {
         this.toolsService.presentToast('Surgió un error obteniendo el evento.', Resultado.Error);
-        this.goBack();
+        console.log(err);
+        //this.goBack();
       }
+
     }
+
+    console.log(this.evento);
 
     this.today = new Date();
     console.log(this.today);
@@ -140,12 +158,25 @@ export class AltaEventoPage implements OnInit {
     };
   }
 
+  toggleTab(tabName: string) {
+    this.activeTab = tabName;
+  }
+
   isValid(): boolean {
     return this.inicio && this.fin && this.evento.ubicacion && this.evento.nombre != '' && this.evento.descripcion != '';
   }
 
   goBack() {
     this.location.back();
+  }
+
+  removerIntegrante(participante: Invitado)
+  {
+    this.eventoService.removerParticipante(participante.idPersona, this.evento.idEvento)
+    let index = this.participantes.value.findIndex(x => x.idPersona == participante.idPersona)
+    if (index > -1) {
+      this.participantes.value.splice(index, 1);
+    }
   }
 
 }
