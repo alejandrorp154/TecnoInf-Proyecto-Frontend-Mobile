@@ -21,6 +21,8 @@ export class Publicacion {
     comentarioReacciones: [];
     evento: boolean;
     perfil: boolean;
+    cantidadLikes: number;
+    cantidadDislikes: number;
 }
 
 export class UsuarioPerfil{

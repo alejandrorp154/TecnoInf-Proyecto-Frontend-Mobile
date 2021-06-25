@@ -32,7 +32,6 @@ export class PerfilService {
     return this.http.get<Perfil>(this.baseUrl + 'visualizacion/perfil/' + idPersona).toPromise();
   }
 
-
   modificarPerfil (usuario: UsuarioPerfil){
     return this.http.put(this.baseUrl+"usuario/editarPerfil", usuario).subscribe({
       error: error => {

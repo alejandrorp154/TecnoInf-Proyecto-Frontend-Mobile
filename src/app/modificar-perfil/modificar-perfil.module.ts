@@ -8,14 +8,16 @@ import { ModificarPerfilPageRoutingModule } from './modificar-perfil-routing.mod
 
 import { ModificarPerfilPage } from './modificar-perfil.page';
 import { NavbarComponent } from '../UI/navbar/navbar.component';
+import { NavbarModule } from '../UI/navbar/navbar.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ModificarPerfilPageRoutingModule
+    ModificarPerfilPageRoutingModule,
+    NavbarModule
   ],
-  declarations: [ModificarPerfilPage, NavbarComponent]
+  declarations: [ModificarPerfilPage]
 })
 export class ModificarPerfilPageModule {}
