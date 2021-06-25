@@ -22,6 +22,7 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 export function getBaseUrl() {
   //console.log(document.getElementsByTagName('base')[0].href);
   return 'http://18.223.33.89:8080/pryectoBack-web/rest/';
+
 }
 
 @NgModule({

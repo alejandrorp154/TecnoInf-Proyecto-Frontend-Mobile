@@ -34,16 +34,18 @@
       </ion-row>
       <ion-row class="ion-justify-content-start">
         <ion-col>
-          <ion-button fill="clear" size="small">
-            <ion-icon name="thumbs-up-outline" slot="start"></ion-icon>
+          <ion-button fill="clear" size="small" (click)="like(publicacion)">
+            <ion-icon name="thumbs-up-outline" *ngIf="publicacion.cantidadLikes+1" slot="start"></ion-icon>
+            <!-- <ion-icon name="thumbs-up" *ngIf="!like" slot="start"></ion-icon> -->
             <!-- <ion-icon name="heart-outline" slot="start"></ion-icon> -->
-            30
+            {{publicacion.cantidadLikes}}
           </ion-button>
         </ion-col>
         <ion-col>
-          <ion-button fill="clear" size="small">
-            <ion-icon name="thumbs-down-outline" slot="start"></ion-icon>
-            2 
+          <ion-button fill="clear" (click)="dislike(publicacion)" size="small">
+            <ion-icon name="thumbs-down-outline" *ngIf="publicacion.cantidadDislikes+1" slot="start"></ion-icon>
+            <!-- <ion-icon name="thumbs-down" *ngIf="!dislike" slot="start"></ion-icon> -->
+            {{publicacion.cantidadDislikes}} 
           </ion-button>
         </ion-col>
         <ion-col>

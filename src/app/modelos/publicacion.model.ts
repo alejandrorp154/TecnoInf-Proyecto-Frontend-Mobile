@@ -28,3 +28,14 @@ export class usuario {
 export class idPersona {
   public idPersona: string;
 }
+
+export class Reaccion {
+  idPublicacion: number;
+  reaccion: LikeDisLike; 
+  idPersona: string; 
+}
+
+export enum LikeDisLike {
+  MeGusta = 'MeGusta',
+  NoMeGusta = 'NoMeGusta',
+}

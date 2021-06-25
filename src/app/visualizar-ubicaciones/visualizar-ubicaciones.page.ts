@@ -17,10 +17,7 @@ import { UbicacionService } from '../servicios/ubicacion.service';
 export class VisualizarUbicacionesPage implements OnInit {
 
   public ubicaciones:BehaviorSubject<Ubicacion[]> = new BehaviorSubject<Ubicacion[]>([]);
-  public user = {
-    id:"Sl1VBX4uJ7Wr2mOtQJIL4ZpO2or1",
-    nickname: "tiagomendaro"
-  };
+  public id: string = "FDVpym0yZadqj4vp3lH4oWrPkBg1";
 
   //@Input() id;
   //@Input() nickname;
@@ -37,7 +34,7 @@ export class VisualizarUbicacionesPage implements OnInit {
   }
 
   async getAllUbicaciones(){
-    await this.ubicacionesService.getAllUbicacionesAsync(this.user.id).then( res =>
+    await this.ubicacionesService.getAllUbicacionesAsync(this.id).then( res =>
       {
         this.ubicaciones.next(res);
       }
