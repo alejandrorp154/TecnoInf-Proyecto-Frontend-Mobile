@@ -69,7 +69,7 @@ const routes: Routes = [
     loadChildren: () => import('./eventos/eventos.module').then( m => m.EventosPageModule)
   },
   {
-    path: 'visualizar-ubicaciones',
+    path: 'visualizar-ubicaciones/:id',
     loadChildren: () => import('./visualizar-ubicaciones/visualizar-ubicaciones.module').then( m => m.VisualizarUbicacionesPageModule)
   },
   {
