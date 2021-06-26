@@ -1,0 +1,70 @@
+
+<ion-content>
+  <ion-card *ngIf="boolEsTexto">   
+    <ion-label >{{ publicacionObs.value.contenido }}</ion-label>
+  </ion-card>
+  
+  <ion-card *ngIf="boolEsFoto">
+    <img id="foto" src="{{publicacion.contenido}}">
+  </ion-card>
+  
+  <ion-card *ngIf="boolEsEnlace">
+    <ion-card-header>
+      <ion-card-title [innerHtml]="preview.title"></ion-card-title>
+      <img [src]="preview.image">
+    </ion-card-header>
+    <ion-card-content [innerHtml]="preview.description"></ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="boolEsTexto || boolEsFoto || boolEsEnlace">
+    <ion-button (click)="reaccionarAPublicacion('MeGusta')" fill="clear" size="small">
+      <ion-icon name="thumbs-up-outline" slot="start"></ion-icon>
+        {{publicacionObs.value.cantidadLikes}}
+    </ion-button>
+      
+      <ion-button (click)="reaccionarAPublicacion('NoMeGusta')" fill="clear" size="small">
+          <ion-icon name="thumbs-down-outline" slot="start"></ion-icon>
+          {{publicacionObs.value.cantidadDislikes}}
+      </ion-button>
+      
+      <ion-button (click)="aniadirComentarioAPublicacion()" fill="clear" color="medium" size="small">
+          <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
+          {{publicacionObs.value.cantidadComentarios}}
+      </ion-button>
+  </ion-card>
+
+  <ion-card *ngIf="boolVerComentarios">
+    <ion-card-header >Comentarios:</ion-card-header>
+    <ion-list >
+      <ion-item *ngFor="let comentario of comentariosReaccionesObs | async" >
+        <ion-label text-wrap *ngIf="comentario.idComentarioPadre === null"> {{ comentario.contenido }} </ion-label>
+        <ion-label text-wrap style="padding-left: 8%;" *ngIf="comentario.idComentarioPadre !== null"> {{ comentario.contenido }} </ion-label>
+       
+        <ion-button (click)="reaccionarComentario(comentario, 'MeGusta')" fill="clear" size="small">
+          <ion-icon name="thumbs-up-outline" slot="start"></ion-icon>
+          {{comentario.cantidadLikes}}
+        </ion-button>
+          
+        <ion-button (click)="reaccionarComentario(comentario, 'NoMeGusta')" fill="clear" size="small">
+            <ion-icon name="thumbs-down-outline" slot="start"></ion-icon>
+            {{comentario.cantidadDislikes}}
+        </ion-button>
+        
+        <ion-button (click)="aniadirComentarioAComentario(comentario)" fill="clear" color="medium" size="small" *ngIf="comentario.idComentarioPadre === null">
+            <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
+            {{comentario.comentariosHijos.length}}
+        </ion-button>
+
+        <ion-button (click)="modificarComentario(comentario)" *ngIf="comentario.idPersona === userId"  fill="clear" color="medium" size="small">
+          <ion-icon name="create" slot="start"></ion-icon>
+        </ion-button> 
+
+        <ion-button (click)="eliminarComentario(comentario.idComentario)" *ngIf="comentario.idPersona === userId" fill="clear" color="medium" size="small">
+          <ion-icon name="trash" slot="start"></ion-icon>
+        </ion-button> 
+
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
+</ion-content>
