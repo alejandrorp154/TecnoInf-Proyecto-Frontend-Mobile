@@ -20,7 +20,6 @@ export class PubicacionService {
   }
 
   modificarPublicacion(publicacion: Publicacion){
-    console.log(publicacion);
     return this.httpClient.put(this.baseUrl+"publicacionComentario", publicacion).subscribe({
       error: error => {
           console.log(error);
@@ -35,6 +34,7 @@ export class PubicacionService {
       }
   });
   }
+
 
   uploadImage(blobData, name, ext) {
     const formData = new FormData();

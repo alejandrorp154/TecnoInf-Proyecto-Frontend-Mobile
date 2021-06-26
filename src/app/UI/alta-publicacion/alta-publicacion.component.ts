@@ -1,3 +1,4 @@
+import { UsuarioService } from "src/app/servicios/usuario.service";
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActionSheetController, AlertController, ModalController, Platform } from '@ionic/angular';
 import { Preview } from 'src/app/modelos/preview';
@@ -13,6 +14,7 @@ import { UbicacionService } from 'src/app/servicios/ubicacion.service';
 
 import { DatePipe } from '@angular/common';
 import { Ubicacion } from 'src/app/modelos/ubicacion.model';
+import { Multimedia } from "src/app/modelos/multimedia.model";
 
 @Component({
   selector: 'app-alta-publicacion',
@@ -27,7 +29,7 @@ export class AltaPublicacionComponent implements OnInit {
      public modalController: ModalController, private pubService: PubicacionService,
      private plt: Platform, private actionSheetCtrl: ActionSheetController,
      private sanitizer: DomSanitizer, private ubiService: UbicacionService,
-     private datePipe: DatePipe) { }
+     private datePipe: DatePipe, private userService: UsuarioService ) { }
 
   preview: Preview = new Preview;
 
@@ -100,6 +102,7 @@ export class AltaPublicacionComponent implements OnInit {
       this.publicacion = new Publicacion(this.tipoPub,this.imagen.base64,this.imagen.nombre,this.imagen.ext,this.usr);
       console.log(this.publicacion);
       this.pubService.altaPublicacion(this.publicacion);
+      this.userService.subirFoto(new Multimedia(this.imagen.base64, this.imagen.nombre, this.imagen.ext, this.idPer.idPersona))
     }
     else{
       this.tipoPub.tipo = TipoPublicacionEnum.mapa;

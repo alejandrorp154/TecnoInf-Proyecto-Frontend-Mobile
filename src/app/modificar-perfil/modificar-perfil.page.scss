@@ -17,9 +17,14 @@ ion-card-title{
 #foto
 {
   border-radius: 50%;
-  width: 50%;
-  height: 50%;
-  margin-left: 25%;
+  flex-grow: 1;
+  flex-direction: row;
+  background-size: cover;
+  max-width: 170px;
+  max-height: 170px;
+  min-width: 170px;
+  min-height: 170px;
+  object-fit: cover;
 }
 #imageAdd
 {
