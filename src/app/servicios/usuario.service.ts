@@ -155,9 +155,10 @@ export class UsuarioService {
     }
     return response;
   }
+
   public async getContactosAsync(idPersona: string) {
     try{
-      const url = `${this.baseUrl}usuario/obtenerAmigos/${idPersona}/10/10`;
+      const url = this.baseUrl + 'visualizacion/obtenerAmigos/' + idPersona +'/10/10';
       let response = await this.httpClient.get(url).toPromise();
       this.contactos = response as Contacto[];
       return response as Contacto[];
@@ -166,6 +167,11 @@ export class UsuarioService {
       console.log(error)
     }
 
+  }
+
+  public getAmigosAsync(idPersona: string): Promise<Usuario[]> {
+    console.log(this.baseUrl + 'visualizacion/obtenerAmigos/' + idPersona +'/0/100');
+    return this.httpClient.get<Usuario[]>(this.baseUrl + 'visualizacion/obtenerAmigos/' + idPersona +'/0/100').toPromise();
   }
 
   getLoggedUser(): Promise<Usuario> {

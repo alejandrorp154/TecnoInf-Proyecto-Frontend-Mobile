@@ -28,13 +28,17 @@
   </ion-list>
 
   <ion-list *ngIf="!chatting && !searching">
-    <ion-item *ngFor="let chatroom of chatrooms" (click)="goChatroom(chatroom)" class="pointer">
-      <div class="circle chat-thumbnail">
+    <ion-item>
+      <ion-searchbar [formControl]="searchBar"></ion-searchbar>
+    </ion-item>
+    <ion-item *ngFor="let chatroom of chatrooms" class="pointer">
+      <div class="circle chat-thumbnail" (click)="goChatroom(chatroom)">
         <img src="{{getFriendImage(chatroom)}}" />
       </div>
-      <div class="nombre-amigo">
+      <div class="nombre-amigo" (click)="goChatroom(chatroom)">
         <p>{{ getChatroomName(chatroom) }}</p>
       </div>
+      <ion-icon slot="end" name="trash-outline" (click)="eliminarAlert(chatroom)" size="small" class="pointer"></ion-icon>
     </ion-item>
     <ion-item *ngIf="chatrooms && chatrooms.length == 0">
       Nada por aquí, busca algún amigo para iniciar una conversación.

@@ -1,7 +1,7 @@
 import { Contacto } from "./../modelos/contacto.model";
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { IonContent } from '@ionic/angular';
+import { AlertController, IonContent } from '@ionic/angular';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, map, startWith, tap } from 'rxjs/operators';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
@@ -13,6 +13,7 @@ import { Chat } from '../modelos/chat.model';
 import { imgFile } from '../modelos/mensaje.model';
 import { UsuarioService } from '../servicios/usuario.service';
 import { AuthService } from '../servicios/auth.service';
+import { Resultado, ToolsService } from "../servicios/tools.service";
 
 @Component({
   selector: 'app-chat',
@@ -36,6 +37,7 @@ export class ChatPage implements OnInit {
   currentFriend: Usuario;
   chatrooms: Chat[];
   currentChatroomId: string;
+  searchBar = new FormControl;
 
   nickname = '';
   searchResult: BehaviorSubject<any[]> = new BehaviorSubject([]);
@@ -67,14 +69,16 @@ export class ChatPage implements OnInit {
   private filesCollection: AngularFirestoreCollection<imgFile>;
 
   constructor(private chatService: ChatService, private usuarioService: UsuarioService, private authService: AuthService,
-    private afs: AngularFirestore, private afStorage: AngularFireStorage, private router: Router, private _Activatedroute: ActivatedRoute) {
+    private alertController: AlertController, private toolsService: ToolsService, private afs: AngularFirestore,
+    private afStorage: AngularFireStorage, private router: Router, private _Activatedroute: ActivatedRoute) {
 
-    this.isFileUploading = false;
-    this.isFileUploaded = false;
+      this.isFileUploading = false;
+      this.isFileUploaded = false;
 
-    // Define uploaded files collection
-    this.filesCollection = afs.collection<imgFile>('imagesCollection');
-    this.files = this.filesCollection.valueChanges();
+      // Define uploaded files collection
+      this.filesCollection = afs.collection<imgFile>('imagesCollection');
+      this.files = this.filesCollection.valueChanges();
+      this.contactos = [];
    }
 
   async ngOnInit() {
@@ -95,9 +99,9 @@ export class ChatPage implements OnInit {
       } catch (ex) { }
     });
 
-    this.contactos = await this.usuarioService.getContactosAsync(this.currentUser.idPersona);
-    console.log(this.contactos);
-    this.friends = this.getContactosPersona();
+    this.friends = await this.usuarioService.getAmigosAsync(this.currentUser.idPersona);
+    console.log(this.friends);
+    //this.friends = this.getContactosPersona();
 
     try{
 
@@ -138,23 +142,25 @@ export class ChatPage implements OnInit {
 
 
 
-/*
+
 
     this.searchBar.valueChanges
     .pipe(
       startWith(''),
       map(value => this._filter(value.toString()))
     ).subscribe(res => this.searchResult.next(res));
-*/
+
   }
 
   getContactosPersona(){
     let t= this;
     let lista: Usuario[] = [];
-    this.contactos.forEach(function(contacto){
-      let persona = t.usuarioService.getUsuario(contacto.idPersona);
-      lista.push(persona);
-    })
+    if(this.contactos) {
+      this.contactos.forEach(function(contacto){
+        let persona = t.usuarioService.getUsuario(contacto.idPersona);
+        lista.push(persona);
+      })
+    }
     return lista;
   }
 
@@ -272,5 +278,51 @@ console.log('está subiendo el archivo');
         console.log(err);
       });
   }
+
+
+  eliminarAlert(chat: Chat) {
+    console.log(chat);
+    let message
+    let bttnText
+    message = '¿Estas seguro que deseas eliminar este evento?'
+    bttnText = 'Borrar'
+    this.alertController
+      .create({
+        header: '¿Estas seguro?',
+        message: message,
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel'
+          },
+          {
+            text: bttnText,
+            handler: () => {
+              this.eliminar(chat.idChat);
+            }
+          }
+        ]
+      })
+      .then(alertEl => {
+        alertEl.present();
+      });
+  }
+
+
+  async eliminar(idChat: string) {
+    console.log(idChat);
+    await this.chatService.eliminar(idChat).then(res => {
+      console.log(res);
+      console.log(this.chatrooms.findIndex(e => e.idChat == idChat));
+      console.log(this.chatrooms);
+      this.chatrooms.splice(this.chatrooms.findIndex(e => e.idChat == idChat),1);
+      console.log(this.chatrooms);
+      this.searchResult.next(this.chatrooms);
+      this.toolsService.presentToast('El chat se eliminó correctamente', Resultado.Ok);
+    }).catch(error => {
+      this.toolsService.presentToast('Surgió un error al eliminar el chat', Resultado.Error);
+    });
+  }
+
 
 }

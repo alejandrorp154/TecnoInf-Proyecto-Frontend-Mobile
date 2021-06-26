@@ -7,6 +7,7 @@ import { estadosContactos } from '../modelos/estadosContactos.enum';
 import { Evento } from '../modelos/evento.model';
 import { Usuario } from '../modelos/usuario.model';
 import { AuthService } from '../servicios/auth.service';
+import { ChatService } from '../servicios/chat.service';
 import { EventoService } from '../servicios/evento.service';
 import { Resultado, ToolsService } from '../servicios/tools.service';
 import { UsuarioService } from '../servicios/usuario.service';
@@ -23,8 +24,8 @@ export class EventosPage implements OnInit {
   bsEventos: BehaviorSubject<Evento[]> = new BehaviorSubject([]);
   subscription: Subscription;
 
-  constructor(private eventoService: EventoService, private usuarioService: UsuarioService, private authService: AuthService,
-    private toolsService: ToolsService,private alertController: AlertController, private router: Router, private location: Location) {
+  constructor(private eventoService: EventoService, private usuarioService: UsuarioService, private authService: AuthService, private chatService: ChatService,
+    private toolsService: ToolsService, private alertController: AlertController, private router: Router, private location: Location) {
 
       this.subscription = this.router.events.subscribe((event) => {
         if (event instanceof NavigationEnd) {
@@ -86,7 +87,7 @@ export class EventosPage implements OnInit {
             handler: () => {
               if(isDelete)
               {
-                this.eliminar(evento.idEvento);
+                this.eliminar(evento);
               }
               else
               {
@@ -116,12 +117,13 @@ export class EventosPage implements OnInit {
   }
 
 
-  async eliminar(idEvento: number) {
-    await this.eventoService.elminarEvento(idEvento).then(res => {
+  async eliminar(evento: Evento) {
+    await this.eventoService.elminarEvento(evento.idEvento).then(res => {
+      this.chatService.eliminar(evento.idChat);
       console.log(res);
-      console.log(this.eventos.findIndex(e => e.idEvento == idEvento));
+      console.log(this.eventos.findIndex(e => e.idEvento == evento.idEvento));
       console.log(this.eventos);
-      this.eventos.splice(this.eventos.findIndex(e => e.idEvento == idEvento),1);
+      this.eventos.splice(this.eventos.findIndex(e => e.idEvento == evento.idEvento),1);
       console.log(this.eventos);
       this.bsEventos.next(this.eventos);
       this.toolsService.presentToast('El evento se eliminó correctamente', Resultado.Ok);

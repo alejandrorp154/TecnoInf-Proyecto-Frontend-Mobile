@@ -49,12 +49,25 @@ export class ChatService {
     return new Promise(resolve => resolve(idChat));
   }
 
+  async eliminar(idChat: string): Promise<boolean> {
+    console.log(idChat);
+    let res: boolean;
+    await this.afs.collection('chats').doc(idChat).delete().then(function(docRef) {
+      console.log("Se eliminó el chat: " + idChat);
+      res = true;
+    }).catch(function(error) {
+        console.error("Error eliminando el chat en Firebase: ", error);
+        res = false;
+    });
+    return new Promise(resolve => resolve(res));
+  }
+
   obtenerMensajes(chatId: string) {
     let users = [];
     return this.getUsers().pipe(
       switchMap(res => {
         users = res;
-        return this.afs.collection('mensajes', ref => ref.where('chat', '==', chatId)
+        return this.afs.collection('mensajes', ref => ref.where('idChat', '==', chatId)
           .orderBy('fecha')).valueChanges({ idField: 'idMensaje' }) as Observable<Mensaje[]>;
       }),
       map(mensajes => {
