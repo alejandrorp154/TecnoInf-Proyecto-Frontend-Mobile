@@ -119,7 +119,8 @@ const routes: Routes = [
   {
     path: 'comentarios-publicacion/:id',
     loadChildren: () => import('./comentarios-publicacion/comentarios-publicacion.module').then( m => m.ComentariosPublicacionPageModule)
-
+  },
+  {  
     path: 'configuracion-notificaciones',
     loadChildren: () => import('./UI/configuracion-notificaciones/configuracion-notificaciones.module').then(c => c.ConfiguracionNotificacionesPageModule)
   },
