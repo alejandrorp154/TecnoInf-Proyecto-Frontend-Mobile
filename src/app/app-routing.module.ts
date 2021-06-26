@@ -56,7 +56,7 @@ const routes: Routes = [
     loadChildren: () => import('./interes/interes.module').then( m => m.InteresPageModule)
   },
   {
-    path: 'visualizar-ubicaciones',
+    path: 'visualizar-ubicaciones/:id',
     loadChildren: () => import('./visualizar-ubicaciones/visualizar-ubicaciones.module').then( m => m.VisualizarUbicacionesPageModule)
   },
   {

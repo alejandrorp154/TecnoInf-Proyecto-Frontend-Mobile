@@ -8,6 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 import { AlertController, ModalController, PopoverController } from '@ionic/angular';
 import { PopoverUbicacionesComponent } from '../UI/popover-ubicaciones/popover-ubicaciones.component';
 import { UbicacionService } from '../servicios/ubicacion.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-visualizar-ubicaciones',
@@ -17,7 +18,7 @@ import { UbicacionService } from '../servicios/ubicacion.service';
 export class VisualizarUbicacionesPage implements OnInit {
 
   public ubicaciones:BehaviorSubject<Ubicacion[]> = new BehaviorSubject<Ubicacion[]>([]);
-  public id: string = "FDVpym0yZadqj4vp3lH4oWrPkBg1";
+  public id: string;
 
   //@Input() id;
   //@Input() nickname;
@@ -26,14 +27,25 @@ export class VisualizarUbicacionesPage implements OnInit {
   editando: boolean;
   ubicacion: Ubicacion;
 
-  constructor(private ubicacionService: UbicacionService, public modalController: ModalController,public popoverController: PopoverController, private alertCtrl: AlertController, private authService: AuthService, private ubicacionesService: VisualizarUbicacionesService) {
+  constructor(private ubicacionService: UbicacionService, public modalController: ModalController,
+    public popoverController: PopoverController, private alertCtrl: AlertController, 
+    private authService: AuthService, private ubicacionesService: VisualizarUbicacionesService
+    , private router: ActivatedRoute) {
   }
 
   async ngOnInit() {
-    await this.getAllUbicaciones();
+    this.router.paramMap.subscribe(
+      params => {
+          const idPar = params.get('id');
+          this.id = idPar;
+          this.getAllUbicaciones();
+      }
+  );
+    
   }
 
   async getAllUbicaciones(){
+    console.log(this.id);
     await this.ubicacionesService.getAllUbicacionesAsync(this.id).then( res =>
       {
         this.ubicaciones.next(res);
