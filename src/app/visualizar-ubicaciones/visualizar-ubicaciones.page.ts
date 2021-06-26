@@ -18,7 +18,7 @@ export class VisualizarUbicacionesPage implements OnInit {
 
   public ubicaciones:BehaviorSubject<Ubicacion[]> = new BehaviorSubject<Ubicacion[]>([]);
   public user = {
-    id:"Sl1VBX4uJ7Wr2mOtQJIL4ZpO2or1",
+    id:"FDVpym0yZadqj4vp3lH4oWrPkBg",
     nickname: "tiagomendaro"
   };
 

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { ErrorHandler, Inject, Injectable } from '@angular/core';
 import { Publicacion } from '../modelos/publicacion.model';
+import { Publicacion as p } from '../modelos/perfil';
 
 @Injectable({
   providedIn: 'root'
@@ -59,6 +60,11 @@ export class PubicacionService {
     };
     //console.log(file)
     //return this.httpClient.post(`${this.url}/image`, formData);
+  }
+
+  obtenerPublicacionPorId(id: string): Promise<p>{
+      const url = `${this.baseUrl}publicacionComentario/${id}`;
+      return this.httpClient.get<p>(url).toPromise();
   }
 
 }

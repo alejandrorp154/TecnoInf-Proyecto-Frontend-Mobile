@@ -11,13 +11,8 @@ export class InteresService {
   constructor(public httpClient: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
 
   public getAllInteresesAsync(): Promise<Interes[]> {
-    try {
-      const url = `${this.baseUrl}interes/0/5000`;
-      return this.httpClient.get<Interes[]>(url).toPromise();
-
-    } catch (error) {
-      console.log(error);
-    }
+    const url = `${this.baseUrl}interes/0/5000`;
+    return this.httpClient.get<Interes[]>(url).toPromise();
   }
 
   addInteres(interes: string): Promise<Interes> {

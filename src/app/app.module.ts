@@ -20,7 +20,7 @@ import {DatePipe} from '@angular/common';
 
 export function getBaseUrl() {
   //console.log(document.getElementsByTagName('base')[0].href);
-  return 'http://18.221.125.169:8080/pryectoBack-web/rest/';
+  return 'http://18.216.70.96:8080/pryectoBack-web/rest/';
 }
 
 @NgModule({

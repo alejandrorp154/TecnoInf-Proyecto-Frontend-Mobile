@@ -118,7 +118,12 @@ const routes: Routes = [
   {
     path: 'modificar-perfil',
     loadChildren: () => import('./modificar-perfil/modificar-perfil.module').then( m => m.ModificarPerfilPageModule)
+  },
+  {
+    path: 'comentarios-publicacion/:id',
+    loadChildren: () => import('./comentarios-publicacion/comentarios-publicacion.module').then( m => m.ComentariosPublicacionPageModule)
   }
+
 
 
 ];
