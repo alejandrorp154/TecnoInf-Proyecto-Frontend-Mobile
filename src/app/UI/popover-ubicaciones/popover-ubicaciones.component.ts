@@ -11,15 +11,11 @@ import { VisualizarUbicacionesService } from 'src/app/servicios/visualizar-ubica
 })
 export class PopoverUbicacionesComponent implements OnInit {
 
-  public user = {
-    id:"Sl1VBX4uJ7Wr2mOtQJIL4ZpO2or1",
-    nickname: "tiagomendaro"
-  };
   items: Ubicacion[];
   @Input() ubicaciones;
   noItems: boolean;
 
-  constructor(private ubicacionesService: VisualizarUbicacionesService,  private popoverCtrl: PopoverController) {
+  constructor(private popoverCtrl: PopoverController) {
     this.noItems = false;
   }
 

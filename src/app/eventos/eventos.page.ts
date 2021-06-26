@@ -5,7 +5,7 @@ import { AlertController } from '@ionic/angular';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { estadosContactos } from '../modelos/estadosContactos.enum';
 import { Evento } from '../modelos/evento.model';
-import { Persona } from '../modelos/persona.model';
+import { Usuario } from '../modelos/usuario.model';
 import { AuthService } from '../servicios/auth.service';
 import { EventoService } from '../servicios/evento.service';
 import { Resultado, ToolsService } from '../servicios/tools.service';
@@ -18,7 +18,7 @@ import { UsuarioService } from '../servicios/usuario.service';
 })
 export class EventosPage implements OnInit {
 
-  loggedUser: Persona;
+  loggedUser: Usuario;
   eventos: Evento[];
   bsEventos: BehaviorSubject<Evento[]> = new BehaviorSubject([]);
   subscription: Subscription;
@@ -28,9 +28,10 @@ export class EventosPage implements OnInit {
 
       this.subscription = this.router.events.subscribe((event) => {
         if (event instanceof NavigationEnd) {
-          console.log(event, event.urlAfterRedirects);
-          if (event.urlAfterRedirects['url'] == '/eventos')
+          console.log(event);
+          if (event.urlAfterRedirects == '/eventos'){
             this.ngOnInit();
+          }
         }
       });
 
@@ -51,24 +52,46 @@ export class EventosPage implements OnInit {
     console.log(this.eventos);
   }
 
+
   ngOnDestroy() {
+    console.log('salio');
     this.subscription.unsubscribe();
   }
 
-  eliminarAlert(evento: Evento) {
+  eliminarAlert(evento: Evento, isDelete:boolean) {
+    let message
+    let bttnText
+    if(isDelete)
+    {
+      message = '¿Estas seguro que deseas eliminar este evento?'
+      bttnText = 'Borrar'
+    }
+    else
+    {
+      message = '¿Estas seguro que deseas salir de este evento?'
+      bttnText = 'Salir'
+    }
+
     this.alertController
       .create({
         header: '¿Estas seguro?',
-        message: '¿Estas seguro que deseas eliminar este evento?',
+        message: message,
         buttons: [
           {
             text: 'Cancelar',
             role: 'cancel'
           },
           {
-            text: 'Borrar',
+            text: bttnText,
             handler: () => {
-              this.eliminar(evento.idEvento);
+              if(isDelete)
+              {
+                this.eliminar(evento.idEvento);
+              }
+              else
+              {
+                this.salirEvento(evento.idEvento);
+              }
             }
           }
         ]
@@ -80,12 +103,12 @@ export class EventosPage implements OnInit {
 
   editar(evento: Evento) {
     this.eventoService.eventoActual = evento;
-    this.router.navigateByUrl('/editar-evento');
+    this.router.navigateByUrl('/evento/editar/' + evento.idEvento);
   }
 
   ver(evento: Evento) {
     this.eventoService.eventoActual = evento;
-    this.router.navigateByUrl('/evento');
+    this.router.navigateByUrl('/evento/' + evento.idEvento);
   }
 
   prueba() {
@@ -98,13 +121,18 @@ export class EventosPage implements OnInit {
       console.log(res);
       console.log(this.eventos.findIndex(e => e.idEvento == idEvento));
       console.log(this.eventos);
-      this.eventos.splice(this.eventos.findIndex(e => e.idEvento == idEvento));
+      this.eventos.splice(this.eventos.findIndex(e => e.idEvento == idEvento),1);
       console.log(this.eventos);
       this.bsEventos.next(this.eventos);
       this.toolsService.presentToast('El evento se eliminó correctamente', Resultado.Ok);
     }).catch(error => {
       this.toolsService.presentToast('Surgió un error al eliminar el evento', Resultado.Error);
     });
+  }
+
+  salirEvento(idEvento: number)
+  {
+    this.eventoService.dejarEvento(idEvento)
   }
 
 }

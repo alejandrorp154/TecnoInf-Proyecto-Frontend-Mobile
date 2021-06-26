@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { ModAdministradorPage } from './mod-administrador.page';
+import { FeedHomeComponent } from './feed-home.component';
 
-describe('ModAdministradorPage', () => {
-  let component: ModAdministradorPage;
-  let fixture: ComponentFixture<ModAdministradorPage>;
+describe('FeedHomeComponent', () => {
+  let component: FeedHomeComponent;
+  let fixture: ComponentFixture<FeedHomeComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ModAdministradorPage ],
+      declarations: [ FeedHomeComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ModAdministradorPage);
+    fixture = TestBed.createComponent(FeedHomeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

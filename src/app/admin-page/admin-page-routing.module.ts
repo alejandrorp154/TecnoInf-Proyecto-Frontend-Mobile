@@ -1,3 +1,4 @@
+import { MedallaComponent } from "./../UI/medalla/medalla.component";
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -32,7 +33,8 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: () => import('../tab-medallas/tab-medallas.module').then(a => a.TabMedallasPageModule)
+            //loadChildren: () => import('../UI/medalla/medalla.component').then(a => a.MedallaComponent),
+            // component: MedallaComponent
           }
         ]
       },
@@ -49,6 +51,24 @@ const routes: Routes = [
         path: '',
         redirectTo: '/admin-page/estadisticas',
         pathMatch: 'full'
+      },
+      {
+        path: 'alta-administrador',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../alta-administrador/alta-administrador.module').then(a => a.AltaAdministradorPageModule)
+          }
+        ]
+      },
+      {
+        path: 'tabPerfilAdminPage',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../tab-perfil-admin/tab-perfil-admin.module').then(a => a.TabPerfilAdminPageModule)
+          }
+        ]
       }
     ]
   },

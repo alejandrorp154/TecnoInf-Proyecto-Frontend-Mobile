@@ -1,9 +1,10 @@
+import { Router } from "@angular/router";
 import { Component, OnInit, Output } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from 'src/app/servicios/auth.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Usuario } from 'src/app/modelos/usuario.model';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup , Validators , FormControl } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
 import { UserFire } from '../../modelos/userFire.model';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
@@ -25,9 +26,13 @@ export class NavbarComponent implements OnInit {
   userID: string;
   @Output() userImage: string;
 
+  clickedUser;
+
   constructor(private usuarioService: UsuarioService,
      private authService: AuthService,
-     private alertCtrl: AlertController) {
+     private alertCtrl: AlertController,
+     private router: Router
+     ) {
 
     this.usuarios = [];
   }
@@ -118,5 +123,11 @@ export class NavbarComponent implements OnInit {
       ]
     })
     .then(alertEl => alertEl.present());
+  }
+
+  irAPerfil(id: any){
+    console.log(id);
+    this.clickedUser = id;
+    this.router.navigateByUrl('perfil/'+id);
   }
 }

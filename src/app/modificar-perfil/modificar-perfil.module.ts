@@ -1,3 +1,4 @@
+import { NavbarModule } from "./../UI/navbar/navbar.module";
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -14,8 +15,9 @@ import { NavbarComponent } from '../UI/navbar/navbar.component';
     CommonModule,
     FormsModule,
     IonicModule,
-    ModificarPerfilPageRoutingModule
+    ModificarPerfilPageRoutingModule,
+    NavbarModule
   ],
-  declarations: [ModificarPerfilPage, NavbarComponent]
+  declarations: [ModificarPerfilPage]
 })
 export class ModificarPerfilPageModule {}

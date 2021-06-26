@@ -1,8 +1,10 @@
-import { Persona } from "./../modelos/persona.model";
 import { Usuario } from "src/app/modelos/usuario.model";
 import { UsuarioService } from "./../servicios/usuario.service";
 import { Component, OnInit } from '@angular/core';
 import { AlertController, IonItemSliding, IonList } from "@ionic/angular";
+import { AuthService } from "../servicios/auth.service";
+import { UserFire } from '../modelos/userFire.model';
+import { Observable } from "rxjs";
 
 @Component({
   selector: 'app-tab-gestion-usuarios',
@@ -11,12 +13,13 @@ import { AlertController, IonItemSliding, IonList } from "@ionic/angular";
 })
 export class TabGestionUsuariosPage implements OnInit {
 
-  usuarios: Persona[];
+  usuarios: Usuario[];
   user: Usuario;
   showError: boolean;
   errorMessage: string;
+  userFire: UserFire;
 
-  constructor(private usuarioService: UsuarioService, private alertCtrl: AlertController) { }
+  constructor(private usuarioService: UsuarioService, private alertCtrl: AlertController, private authService: AuthService) { }
 
   ngOnInit() {
     this.getAllUsuarios();
@@ -26,7 +29,7 @@ export class TabGestionUsuariosPage implements OnInit {
   }
 
   async getAllUsuarios(){
-    this.usuarios = await this.usuarioService.getAllUsuariosAsync();
+    this.usuarios = await this.usuarioService.getAllUsuariosRegistradosAsync();
   }
 
   onBloquearUsuario(idPersona: string, slidingUser: IonItemSliding){

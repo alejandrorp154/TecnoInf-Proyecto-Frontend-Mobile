@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { ErrorHandler, Inject, Injectable } from '@angular/core';
-import { Publicacion } from '../modelos/publicacion.model';
+
 import { Publicacion as p } from '../modelos/perfil';
+import { Publicacion, Reaccion } from '../modelos/publicacion.model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +23,6 @@ export class PubicacionService {
   }
 
   modificarPublicacion(publicacion: Publicacion){
-    console.log(publicacion);
     return this.httpClient.put(this.baseUrl+"publicacionComentario", publicacion).subscribe({
       error: error => {
           console.log(error);
@@ -36,6 +37,7 @@ export class PubicacionService {
       }
   });
   }
+
 
   uploadImage(blobData, name, ext) {
     const formData = new FormData();
@@ -65,6 +67,15 @@ export class PubicacionService {
   obtenerPublicacionPorId(id: string): Promise<p>{
       const url = `${this.baseUrl}publicacionComentario/${id}`;
       return this.httpClient.get<p>(url).toPromise();
+  }
+  
+  reaccionar(reaccion: Reaccion){
+    return this.httpClient.post(this.baseUrl+"publicacionComentario/publicacion/reaccionar", reaccion).subscribe({
+      error: error => {
+          console.log(error);
+      }
+  });
+
   }
 
 }

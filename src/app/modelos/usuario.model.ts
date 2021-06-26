@@ -14,7 +14,8 @@ export class Usuario {
     public nombreImagen: string,
     public extension: string,
     public administrador?: boolean,
-    public medalla?: Medalla
+    public medalla?: Medalla,
+    public bloqueado?: boolean
   ){ }
 }
 

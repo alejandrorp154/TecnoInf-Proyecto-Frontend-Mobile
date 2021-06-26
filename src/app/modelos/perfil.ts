@@ -21,6 +21,8 @@ export class Publicacion {
     comentarioReacciones: [];
     evento: boolean;
     perfil: boolean;
+    cantidadLikes: number;
+    cantidadDislikes: number;
 }
 
 export class UsuarioPerfil{
@@ -35,4 +37,28 @@ export class UsuarioPerfil{
     imagenPerfil: string;
     nombreImagen: string;
     extensionImagen: string;
+}
+
+export class PublicacionPerfilUsuario {
+    idPublicacion: number;
+    contenido: string;
+    fecha: Date;
+    tipo: {
+        idPublicacion: Number;
+        tipo: string;
+    };
+    extension: string;
+    nombre: string;
+    comentarioReacciones: [];
+    evento: boolean;
+    perfil: boolean;
+    cantidadLikes: number;
+    cantidadDislikes: number;
+    cantidadComentarios: number;
+    idPersona: string;
+    email: string;
+    nickname: string;
+    imagenPerfil: string;
+    extensionImagenPerfil: string;
+    nombreImagenPerfil: string;
 }

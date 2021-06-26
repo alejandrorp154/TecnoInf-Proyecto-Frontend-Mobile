@@ -1,19 +1,13 @@
 <ion-content>
   <ion-grid>
-      <ion-card-header color=tertiary>
-        <ion-toolbar color=tertiary>
-          <ion-buttons slot="start">
-            <ion-button  name="contact" slot="icon-only" (click)="presentPopover($event)">
-              <ion-icon name="list-outline"></ion-icon>
-            </ion-button>
-          </ion-buttons>
-          <ion-card-title  class="ion-text-center">Ubicaciones de {{user.nickname}}</ion-card-title>
-        </ion-toolbar>
-      </ion-card-header>
+    <ion-card-header color=tertiary>
+      <ion-button  name="contact"  (click)="presentPopover($event)">
+        <ion-icon name="list-outline"></ion-icon>
+      </ion-button>  
+    </ion-card-header>
     <ion-row id="mapa">
         <app-mapa id="mapa" *ngIf="!editando" [ubicacionViajar]="ubicacionClickeada" [currentLocation]="true" [ubicaciones]="ubicaciones" [marcarUbicacion]="false"></app-mapa>
         <app-mapa id="mapa" *ngIf="editando" [currentLocation]="true" [marcarUbicacion]="true" [ubiCentral]="ubicacion" (ubicacion)="marcarUbicacion($event)" ></app-mapa>
-    
       </ion-row>
 </ion-grid>
 

@@ -1,59 +1,67 @@
-<div *ngFor="let publicacion of publicaciones.value">
+<div class="publicacion-wrapper" *ngFor="let publicacion of publicaciones.value">
   <ion-row class="wrapper" *ngIf="publicacion.tipo.tipo != 'mapa'">
-    <ion-col size="2">
-      <ion-avatar>
-        <ion-img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"></ion-img>
-      </ion-avatar>
-    </ion-col>
-    <ion-col size="10">
-      <ion-row class="tweet-info">
-        <ion-col size="10">
-          <span class="name">{{this.usuario.value.nombre +" "+ this.usuario.value.apellido}}</span>
-          <br>
-          <span class="handle">@{{this.usuario.value.nickname}}</span>
-        </ion-col>
-        <ion-col size="2">
-          <ion-icon (click)="presentPopover( $event, publicacion )" name="ellipsis-horizontal-circle-outline"></ion-icon>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="12">
-          <div *ngIf="publicacion.tipo.tipo === 'texto'">
-            <ion-label>{{ publicacion.contenido }}</ion-label>
-          </div>
-          <div *ngIf="publicacion.tipo.tipo === 'foto'">
-            <img id="foto" src="{{publicacion.contenido}}">
-          </div>
-          <!-- <div *ngIf="publicacion.tipo.tipo === 'mapa'">
-            <app-pub-mapa-ee [publicacion] = "publicacion"></app-pub-mapa-ee>
-          </div> -->
-          <div *ngIf="publicacion.tipo.tipo === 'enlaceExterno'">
-            <app-pub-mapa-ee [publicacion] = "publicacion"></app-pub-mapa-ee>
-          </div>
-        </ion-col>
-      </ion-row>
-      <ion-row class="ion-justify-content-start">
-        <ion-col>
-          <ion-button fill="clear" size="small">
-            <ion-icon name="thumbs-up-outline" slot="start"></ion-icon>
-            <!-- <ion-icon name="heart-outline" slot="start"></ion-icon> -->
-            30
-          </ion-button>
-        </ion-col>
-        <ion-col>
-          <ion-button fill="clear" size="small">
-            <ion-icon name="thumbs-down-outline" slot="start"></ion-icon>
-            2 
-          </ion-button>
-        </ion-col>
-        <ion-col>
-          <ion-button fill="clear" color="medium" size="small">
-            <ion-icon routerLink="/comentarios-publicacion/{{publicacion.idPublicacion}}" name="chatbubble-outline" slot="start"></ion-icon>
-            12
-          </ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-col>
+    <ion-card class="card">
+      <ion-col class="edit-publicacion" size="1">
+        <ion-icon class="edit-publicacion-icon" (click)="presentPopover( $event, publicacion )" name="ellipsis-horizontal-circle-outline"></ion-icon>
+      </ion-col>
+      <ion-col size="5">
+        <table style="width:100%">
+          <tr>
+          <td style="width:8%">
+            <ion-avatar class="user-avatar">
+              <ion-img size="2" [src]="usuario.value.imagenPerfil"></ion-img>
+            </ion-avatar>
+          </td>
+          <td>
+            <span class="name">{{this.usuario.value.nombre +" "+ this.usuario.value.apellido}}</span>
+            <br>
+            <span class="handle">@{{this.usuario.value.nickname}}</span>
+          </td>
+          </tr>
+        </table>
+      </ion-col>
+      <ion-col  size="6">
+        <ion-row>
+          <ion-col size="12">
+            <div class="contenido-publicacion" *ngIf="publicacion.tipo.tipo === 'texto'">
+              <ion-label>{{ publicacion.contenido }}</ion-label>
+            </div>
+            <div *ngIf="publicacion.tipo.tipo === 'foto'">
+              <img id="foto" src="{{publicacion.contenido}}">
+            </div>
+            <!-- <div *ngIf="publicacion.tipo.tipo === 'mapa'">
+              <app-pub-mapa-ee [publicacion] = "publicacion"></app-pub-mapa-ee>
+            </div> -->
+            <div *ngIf="publicacion.tipo.tipo === 'enlaceExterno'">
+              <app-pub-mapa-ee [publicacion] = "publicacion"></app-pub-mapa-ee>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-start reaccion-container">
+          <ion-col class="reaccion-col">
+            <ion-button class="reacciones" fill="clear" size="small" (click)="like(publicacion)">
+              <ion-icon class="reaccion-icon" name="thumbs-up-outline" *ngIf="publicacion.cantidadLikes+1" slot="start"></ion-icon>
+              <!-- <ion-icon name="thumbs-up" *ngIf="!like" slot="start"></ion-icon> -->
+              <!-- <ion-icon name="heart-outline" slot="start"></ion-icon> -->
+              {{publicacion.cantidadLikes}}
+            </ion-button>
+          </ion-col>
+          <ion-col class="reaccion-col">
+            <ion-button class="reacciones" fill="clear" (click)="dislike(publicacion)" size="small">
+              <ion-icon class="reaccion-icon" name="thumbs-down-outline" *ngIf="publicacion.cantidadDislikes+1" slot="start"></ion-icon>
+              <!-- <ion-icon name="thumbs-down" *ngIf="!dislike" slot="start"></ion-icon> -->
+              {{publicacion.cantidadDislikes}}
+            </ion-button>
+          </ion-col>
+          <ion-col class="reaccion-col">
+            <ion-button class="reacciones" fill="clear" color="medium" size="small">
+              <ion-icon class="reaccion-icon" name="chatbubble-outline" slot="start"></ion-icon>
+              12
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-card>
   </ion-row>
 </div>
 

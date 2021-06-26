@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes, CanLoad } from '@angular/router';
 import { LoginGuard } from './login/login.guard';
+import { ConfiguracionNotificacionesPageModule } from './UI/configuracion-notificaciones/configuracion-notificaciones.module';
 
 const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
-    canLoad: [LoginGuard]
   },
   {
     path: '',
@@ -16,7 +16,6 @@ const routes: Routes = [
   {
     path: 'perfil/:id',
     loadChildren: () => import('./perfil/perfil.module').then( m => m.PerfilPageModule),
-    canLoad: [LoginGuard]
   },
   {
     path: 'login',
@@ -41,11 +40,11 @@ const routes: Routes = [
     loadChildren: () => import('./alta-evento/alta-evento.module').then( m => m.AltaEventoPageModule),
     canLoad: [LoginGuard]
   },
-  {
-    path: 'baja-evento',
-    loadChildren: () => import('./baja-evento/baja-evento.module').then( m => m.BajaEventoPageModule),
-    canLoad: [LoginGuard]
-  },
+  // {
+  //   path: 'baja-evento',
+  //   loadChildren: () => import('./baja-evento/baja-evento.module').then( m => m.BajaEventoPageModule),
+  //   canLoad: [LoginGuard]
+  // },
   {
     path: 'chat',
     loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule),
@@ -78,11 +77,6 @@ const routes: Routes = [
     loadChildren: () => import('./alta-administrador/alta-administrador.module').then( m => m.AltaAdministradorPageModule)
   },
   {
-    path: 'mod-administrador',
-    loadChildren: () => import('./mod-administrador/mod-administrador.module').then( m => m.ModAdministradorPageModule),
-    canLoad: [LoginGuard]
-  },
-  {
     path: 'sugerir-amigos',
     loadChildren: () => import('./UI/sugerir-amigos/sugerir-amigos.module').then( m => m.SugerirAmigosPageModule)
   },
@@ -111,9 +105,12 @@ const routes: Routes = [
     loadChildren: () => import('./recuperar-password/recuperar-password.module').then( m => m.RecuperarPasswordPageModule)
   },
   {
-
     path: 'visualizar-contactos',
     loadChildren: () => import('./UI/visualizar-contactos/visualizar-contactos.module').then( m => m.VisualizarContactosPageModule)
+  },
+  {
+    path: 'tab-perfil-admin',
+    loadChildren: () => import('./tab-perfil-admin/tab-perfil-admin.module').then( m => m.TabPerfilAdminPageModule)
   },
   {
     path: 'modificar-perfil',
@@ -122,6 +119,22 @@ const routes: Routes = [
   {
     path: 'comentarios-publicacion/:id',
     loadChildren: () => import('./comentarios-publicacion/comentarios-publicacion.module').then( m => m.ComentariosPublicacionPageModule)
+
+    path: 'configuracion-notificaciones',
+    loadChildren: () => import('./UI/configuracion-notificaciones/configuracion-notificaciones.module').then(c => c.ConfiguracionNotificacionesPageModule)
+  },
+  {
+    path: 'solicitudes-pendientes',
+    loadChildren: () => import('./UI/solicitudes-pendientes/solicitudes-pendientes.module').then( m => m.SolicitudesPendientesPageModule)
+  },
+  {
+    path: 'galeria/:id',
+    loadChildren: () => import('./galeria/galeria.module').then( m => m.GaleriaPageModule)
+  },
+  {
+    path: 'galeria-modal',
+    loadChildren: () => import('./galeria-modal/galeria-modal.module').then( m => m.GaleriaModalPageModule)
+
   }
 
 

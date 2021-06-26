@@ -17,3 +17,16 @@ ion-card-title{
 {
   cursor: pointer;
 }
+.background
+{
+  background-image: "../../assets/img/login.jpg";
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.test
+{
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-basis: auto;
+}

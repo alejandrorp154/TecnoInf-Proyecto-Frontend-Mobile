@@ -1,25 +1,35 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { LoadingController, AlertController, Platform } from '@ionic/angular';
+import { LoadingController, AlertController, Platform, IonSelectOption, IonSelect } from '@ionic/angular';
 import { Observable } from 'rxjs';
 
 import { AuthService} from '../servicios/auth.service';
 import { take } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { Persona, Rol } from '../modelos/persona.model';
 import { Usuario } from '../modelos/usuario.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthResponseData } from '../modelos/AuthResponseData.interface';
+import { countries } from 'countries-list';
+import { IniciarSesionService } from '../servicios/iniciar-sesion.service';
+
+class Port {
+  public id: number;
+  public name: string;
+}
+
 
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.page.html',
   styleUrls: ['./registro.page.scss'],
 })
+
+
 export class RegistroPage implements OnInit {
 
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
+  @ViewChild('selPais') theSelectObject: IonSelect;
 
   isLoading = false;
   isLogin = false;
@@ -34,6 +44,9 @@ export class RegistroPage implements OnInit {
     ext: 'png'
   }
 
+  paises: string[] = [];
+  pais;
+
   constructor(
     @Inject('BASE_URL') private baseUrl: string,
     private authService: AuthService,
@@ -43,7 +56,10 @@ export class RegistroPage implements OnInit {
     private httpClient: HttpClient,
     private alertController: AlertController,
     private sanitizer: DomSanitizer,
-    private plt: Platform) { }
+    private plt: Platform,
+    private inicio: IniciarSesionService) {
+      Object.values(countries).forEach(c => this.paises.push(c.name));
+    }
 
   ngOnInit() {}
 
@@ -62,7 +78,7 @@ export class RegistroPage implements OnInit {
         authObs.subscribe(
           resData => {
             this.callBackend();
-
+            this.inicio.storeUserData(this.user);
             this.isLoading = false;
             loadingEl.dismiss();
             this.router.navigateByUrl('/home');
@@ -84,13 +100,17 @@ export class RegistroPage implements OnInit {
       });
   }
 
+
   onSubmit(form: NgForm) {
     if (!form.valid) {
       return;
     }
+    const pais = String(this.theSelectObject.value);
+
+
 
     this.user = new Usuario("", form.value.nickname, form.value.nombre, form.value.apellido, form.value.celular, form.value.direccion,
-    form.value.email, form.value.pais ,this.imagen.base64,this.imagen.nombre,this.imagen.ext);
+    form.value.email, pais ,this.imagen.base64,this.imagen.nombre,this.imagen.ext);
 
     //this.user = {idPersona: "", nickname: form.value.nickname, nombre: form.value.nombre, apellido: form.value.apellido,
       //celular: form.value.celular, email: form.value.email}

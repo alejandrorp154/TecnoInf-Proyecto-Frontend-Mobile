@@ -20,11 +20,11 @@ export class PubMapaEEComponent implements OnInit {
   mapa: Mapboxgl.map;
 
   ngOnInit() {
-    if (this.publicacion.tipo.tipo == 'mapa') {
-      var cord: string[];
-      cord = this.publicacion.contenido.split(',');
-      setTimeout(() => this.buildMap(parseFloat(cord[0]),parseFloat(cord[1])), 5);
-    }
+    // if (this.publicacion.tipo.tipo == 'mapa') {
+    //   var cord: string[];
+    //   cord = this.publicacion.contenido.split(',');
+    //   setTimeout(() => this.buildMap(parseFloat(cord[0]),parseFloat(cord[1])), 5);
+    // }
     if (this.publicacion.tipo.tipo == 'enlaceExterno') {
       var prev: string[];
       prev = this.publicacion.contenido.split('|*|');
@@ -35,21 +35,21 @@ export class PubMapaEEComponent implements OnInit {
     }
   }
 
-  buildMap(lng: number, lat: number){
-    Mapboxgl.accessToken = environment.mapboxKey;
-    this.mapa = new Mapboxgl.Map({
-      container: 'mapa-mapbox', // container id
-      style: 'mapbox://styles/mapbox/streets-v11',
-      center: [lng, lat], // starting position
-      zoom: 12, // starting zoom
-    });
+  // buildMap(lng: number, lat: number){
+  //   Mapboxgl.accessToken = environment.mapboxKey;
+  //   this.mapa = new Mapboxgl.Map({
+  //     container: 'mapa-mapbox', // container id
+  //     style: 'mapbox://styles/mapbox/streets-v11',
+  //     center: [lng, lat], // starting position
+  //     zoom: 12, // starting zoom
+  //   });
 
-    const marker = new Mapboxgl.Marker({
-      color: "#000000",
-      draggable: false
-    })
-      .setLngLat([lng, lat])
-      .addTo(this.mapa);
-  }
+  //   const marker = new Mapboxgl.Marker({
+  //     color: "#000000",
+  //     draggable: false
+  //   })
+  //     .setLngLat([lng, lat])
+  //     .addTo(this.mapa);
+  // }
 
 }

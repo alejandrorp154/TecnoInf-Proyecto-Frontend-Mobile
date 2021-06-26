@@ -2,7 +2,6 @@ import { Multimedia } from "./../modelos/multimedia.model";
 import { idPersona } from "./../modelos/publicacion.model";
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Persona, Rol } from '../modelos/persona.model';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { UserFire } from '../modelos/userFire.model';
@@ -27,27 +26,27 @@ export class UsuarioService {
     })
   };
 
-  usuarios: Persona[];
+  usuarios: Usuario[];
   contactos: Contacto[];
 
   constructor(private httpClient: HttpClient, private authService: AuthService, @Inject('BASE_URL') private baseUrl: string) { }
 
    //public async getAllUsuariosAsync(offset: number, size: number): Promise<Usuario[]> {
-    public async getAllUsuariosAsync(): Promise<Persona[]> {
+    public async getAllUsuariosAsync(): Promise<Usuario[]> {
       try {
         const url = `${this.baseUrl}visualizacion/obtenerUsuarios/0/10`;
         let response = await this.httpClient.get(url).toPromise();
-        this.usuarios = response as Persona[];
-        return response as Persona[];
+        this.usuarios = response as Usuario[];
+        return response as Usuario[];
       } catch (error) {
         console.log(error);
       }
     }
 
-  public getAllUsuariosObs(): Observable<Persona[]> {
+  public getAllUsuariosObs(): Observable<Usuario[]> {
     try {
       const url = `${this.baseUrl}visualizacion/obtenerUsuarios/0/10`;
-      return this.httpClient.get<Persona[]>(url);
+      return this.httpClient.get<Usuario[]>(url);
     } catch (error) {
       console.log(error);
     }
@@ -100,7 +99,7 @@ export class UsuarioService {
       "nombreImagen": nombreImagen,
       "extensionImagen": extensionImagen
     }
-    return this.httpClient.post<Persona>(url, postData, this.httpOptions)
+    return this.httpClient.post<Usuario>(url, postData, this.httpOptions)
     .subscribe(data => {
       console.log(data['_body']);
      }, error => {
@@ -114,10 +113,15 @@ export class UsuarioService {
     })
   }
 
+  deleteUsuarioAdmin(idUsuario:string)
+  {
+    const url = `${this.baseUrl}usuario/bajaAdmin/${idUsuario}`;
+    this.httpClient.delete(url);
+  }
+
   async bloquearUsuario(idUsuario: string){
-    let json = {"idPersona": idUsuario};
     const url = `${this.baseUrl}usuario/bloquearUsuario/${idUsuario}`;
-    this.httpClient.put<Usuario>(url, json, this.httpOptions)
+    this.httpClient.put<Usuario>(url, null)
     .subscribe(data => {
       console.log(data['_body']);
      }, error => {
@@ -125,9 +129,8 @@ export class UsuarioService {
     });
   }
   async desbloquearUsuario(idUsuario: string){
-    let json = {"idPersona": idUsuario};
     const url = `${this.baseUrl}usuario/desbloquearUsuario/${idUsuario}`;
-    this.httpClient.put<Usuario>(url, json, this.httpOptions)
+    this.httpClient.put<Usuario>(url, null)
     .subscribe(data => {
       console.log(data['_body']);
      }, error => {
@@ -163,25 +166,30 @@ export class UsuarioService {
 
   }
 
-  getLoggedUser(): Promise<Persona> {
+  public getSolicitudesPendientes(idPersona): Promise<Usuario[]>{
+    try{
+      const url = `${this.baseUrl}visualizacion/solicitudPendiente/${idPersona}/0/10`;
+      return this.httpClient.get<Usuario[]>(url).toPromise();
+    }catch(error){
+      console.log(error);
+    }
+  }
+
+  getLoggedUser(): Promise<Usuario> {
     return new Promise(async (resolve) => {
       let userFire = await this.authService.getCurrentUserFire().toPromise();
       resolve(this.getUsuario(userFire.id));
     });
   }
 
-  getUsuarioAsync(idPersona: string): Promise<Persona> {
-    console.log(this.baseUrl + 'usuario/' + idPersona);
-    return this.httpClient.get<Persona>(this.baseUrl + 'usuario/' + idPersona).toPromise();
+
+  getUsuarioAsync(idPersona: string): Promise<Usuario> {
+    return this.httpClient.get<Usuario>(this.baseUrl + 'usuario/' + idPersona).toPromise();
   }
 
   async agregarContacto(idPersona1: string, idPersona2: string){
-    let json = {
-      "idPersona": idPersona1,
-      "idPersona2": idPersona2
-    };
     const url = `${this.baseUrl}usuario/agregarContacto/${idPersona1}/${idPersona2}`;
-    this.httpClient.put<Usuario>(url, json, this.httpOptions)
+    this.httpClient.post<Usuario>(url, null)
     .subscribe(data => {
       console.log(data['_body']);
      }, error => {
@@ -191,12 +199,12 @@ export class UsuarioService {
 
   async respuestaContacto(idPersona: string, idPersonaContacto: string, estado: EstadosContactos){
     let json = {
-      "idPersona" : idPersona,
-      "contactoIdPersona" : idPersonaContacto,
-      "estadoContactos" : estado
+      "idPersona" : idPersonaContacto,
+      "contactoIdPersona" : idPersona,
+      "estadoContactos" : EstadosContactos[estado]
     };
     const url = `${this.baseUrl}usuario/respuestaContacto`;
-    let response = this.httpClient.post<Contacto>(url, json).toPromise().catch(error => console.log(error));
+    let response = this.httpClient.put<Contacto>(url, json).toPromise().catch(error => console.log(error));
     return response;
   }
 
@@ -207,6 +215,7 @@ export class UsuarioService {
       "extension" : mult.extension,
       "idPersona" : mult.idPersona
     };
+    console.log(json);
     const url = `${this.baseUrl}usuario/subirFoto`;
     let response = this.httpClient.post<Multimedia>(url, json).toPromise().catch(error => console.log(error));
     return response;
