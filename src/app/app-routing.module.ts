@@ -69,7 +69,7 @@ const routes: Routes = [
     loadChildren: () => import('./eventos/eventos.module').then( m => m.EventosPageModule)
   },
   {
-    path: 'visualizar-ubicaciones',
+    path: 'visualizar-ubicaciones/:id',
     loadChildren: () => import('./visualizar-ubicaciones/visualizar-ubicaciones.module').then( m => m.VisualizarUbicacionesPageModule)
   },
   {
@@ -117,6 +117,10 @@ const routes: Routes = [
     loadChildren: () => import('./modificar-perfil/modificar-perfil.module').then( m => m.ModificarPerfilPageModule)
   },
   {
+    path: 'comentarios-publicacion/:id',
+    loadChildren: () => import('./comentarios-publicacion/comentarios-publicacion.module').then( m => m.ComentariosPublicacionPageModule)
+  },
+  {  
     path: 'configuracion-notificaciones',
     loadChildren: () => import('./UI/configuracion-notificaciones/configuracion-notificaciones.module').then(c => c.ConfiguracionNotificacionesPageModule)
   },
@@ -131,9 +135,8 @@ const routes: Routes = [
   {
     path: 'galeria-modal',
     loadChildren: () => import('./galeria-modal/galeria-modal.module').then( m => m.GaleriaModalPageModule)
+
   }
-
-
 
 
 

@@ -35,7 +35,11 @@
         </ion-row>
       </ion-grid>
     </ion-card>
-
+    <ion-buttons>
+      <ion-button fill="solid" color="primary" routerLink="/visualizar-ubicaciones/{{perfil?.usuario.idPersona}}">
+        Vizualizar Mis Ubicaciones
+      </ion-button>
+    </ion-buttons>
     <div class="publicaciones">
       <ion-grid class="grid" fixed>
         <ion-row>
@@ -48,3 +52,4 @@
       </ion-grid>
     </div>
 </div>
+</ion-content>
