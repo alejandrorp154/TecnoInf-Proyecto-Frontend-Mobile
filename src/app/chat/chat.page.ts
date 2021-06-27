@@ -14,6 +14,7 @@ import { imgFile } from '../modelos/mensaje.model';
 import { UsuarioService } from '../servicios/usuario.service';
 import { AuthService } from '../servicios/auth.service';
 import { Resultado, ToolsService } from "../servicios/tools.service";
+import { EventoService } from "../servicios/evento.service";
 
 @Component({
   selector: 'app-chat',
@@ -69,7 +70,7 @@ export class ChatPage implements OnInit {
   private filesCollection: AngularFirestoreCollection<imgFile>;
 
   constructor(private chatService: ChatService, private usuarioService: UsuarioService, private authService: AuthService,
-    private alertController: AlertController, private toolsService: ToolsService, private afs: AngularFirestore,
+    private alertController: AlertController, private toolsService: ToolsService, private afs: AngularFirestore, private eventoService: EventoService,
     private afStorage: AngularFireStorage, private router: Router, private _Activatedroute: ActivatedRoute) {
 
       this.isFileUploading = false;
@@ -182,8 +183,19 @@ export class ChatPage implements OnInit {
     this.router.navigateByUrl('/chat/' + chatroom.idChat);
   }
 
-  getFriendImage(chatroom: Chat) {
-      return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8WPcgKdDDPzz76xNKr9pKb_xmWJznpOjs1w&usqp=CAU';
+  async getFriendImage(chatroom: Chat) {
+    if(chatroom.uids.length != 2) {
+      let str = '';
+      await this.eventoService.getImageByIdChat(this.currentUser.idPersona, chatroom.idChat).then(res => str = res);
+      return str != '' ? str : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8WPcgKdDDPzz76xNKr9pKb_xmWJznpOjs1w&usqp=CAU';
+    } else {
+      try {
+        return this.friends.find(f => chatroom.uids.find(u => u != this.currentUser.idPersona) == f.idPersona).imagenPerfil;
+      } catch(err) {
+        console.log(err);
+        return '../../assets/img/defaultProfileImage.png';
+      }
+    }
   }
 
   getChatroomName(chatroom: Chat) {

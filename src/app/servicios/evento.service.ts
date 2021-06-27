@@ -108,6 +108,19 @@ export class EventoService {
     }).toPromise();
   }
 
+  async getImageByIdChat(idPersona: string, idChat: string): Promise<string> {
+    let evs = await this.obtenerEventosXPersona(idPersona);
+    if (evs && evs.length > 0) {
+      try {
+        return new Promise(resolve => resolve(evs.find(e => e.idChat == idChat).imagen));
+      } catch {
+        return new Promise(resolve => resolve(''));
+      }
+    } else {
+      return new Promise(resolve => resolve(''));
+    }
+  }
+
   async dejarEvento(idEvento:number)
   {
     let userFire = await this.authService.getCurrentUserFire().toPromise();
