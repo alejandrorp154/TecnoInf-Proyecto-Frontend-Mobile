@@ -54,9 +54,9 @@
             </ion-button>
           </ion-col>
           <ion-col class="reaccion-col">
-            <ion-button class="reacciones" fill="clear" color="medium" size="small">
+            <ion-button routerLink="/comentarios-publicacion/{{publicacion.idPublicacion}}" class="reacciones" fill="clear" size="small">
               <ion-icon class="reaccion-icon" name="chatbubble-outline" slot="start"></ion-icon>
-              12
+              {{publicacion.cantidadComentarios}}
             </ion-button>
           </ion-col>
         </ion-row>
