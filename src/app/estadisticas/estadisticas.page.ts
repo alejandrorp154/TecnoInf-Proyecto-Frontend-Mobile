@@ -42,6 +42,7 @@ export class EstadisticasPage implements OnInit{
   CantidadusuariosPorPais: any[];
   Usuarios: Usuario[];
   rangosM: rangos;
+  coloR = [];
 
 
 
@@ -63,8 +64,6 @@ export class EstadisticasPage implements OnInit{
     let PCantidadUsuariosPorPais = this.estadisticaService.getTipoEstadisticaAsync('CantidadUsuariosPorPais');
 
     await Promise.all([PCantidadUsuariosPorPais, PCantidadUsuariosTotal, PUsuariosPorMedalla, PCantidadVisitasPorUsuario]).then((values) => {
-      console.log('CANTIDAD USUARIOS POR PAISES',values[3]);
-      console.log('CANTIDAD USUARIOS TOTAL',values[1]);
       this.CantidadusuariosPorPais = values[0];
       this.CantidadUsuariosTotal = values[1];
       this.UsuariosPorMedalla = values[2];
@@ -75,9 +74,9 @@ export class EstadisticasPage implements OnInit{
   ionViewDidEnter() {
     setTimeout(() => {
       this.createBarChart();
-    this.doughnutChartMethod();
-    this.lineChartMethod();
-    this.BarCanvasMethod();
+      this.doughnutChartMethod();
+      this.lineChartMethod();
+      this.BarCanvasMethod();
     }, 100);
 
   }
@@ -103,35 +102,27 @@ export class EstadisticasPage implements OnInit{
     this.UsuariosPorMedalla.forEach(function(lineaEstadistica) {
       switch (lineaEstadistica.nombreMedalla){
         case 'ironWolf':
-          console.log("LINEA ESTADISTICA",lineaEstadistica.nombreMedalla);
           t.countIronWolf += 1;
           break;
         case 'bronzeWolf':
-          console.log("LINEA ESTADISTICA",lineaEstadistica.nombreMedalla);
           t.countBronzeWolf += 1;
         break;
         case 'silverWolf':
-          console.log("LINEA ESTADISTICA",lineaEstadistica.nombreMedalla);
           t.countSilverWolf += 1;
           break;
         case 'goldWolf':
-          console.log("LINEA ESTADISTICA",lineaEstadistica.nombreMedalla);
           t.countGoldWolf += 1;
           break;
         case 'platinumWolf':
-          console.log("LINEA ESTADISTICA",lineaEstadistica.nombreMedalla);
           t.countPlatinumWolf += 1;
           break;
         case 'diamondWolf':
-          console.log("LINEA ESTADISTICA",lineaEstadistica.nombreMedalla);
           t.countDiamondWolf += 1;
           break;
         case 'masterWolf':
-          console.log("LINEA ESTADISTICA",lineaEstadistica.nombreMedalla);
           t.countMasterWolf += 1;
           break;
         case 'alphaWolf':
-          console.log("LINEA ESTADISTICA",lineaEstadistica.nombreMedalla);
           t.countAlfaWolf += 1;
           break;
         default:
@@ -261,28 +252,35 @@ export class EstadisticasPage implements OnInit{
     });
   }
 
+
+  dynamicColors() {
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    return "rgb(" + r + "," + g + "," + b + ")";
+  }
+
+
   doughnutChartMethod() {
+    this.getPaises().map(a => a.nombrePais).forEach(pais => {
+
+      this.coloR.push(this.dynamicColors());
+    })
     this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
       type: 'doughnut',
       data: {
         labels: this.getPaises().map(a => a.nombrePais), //Paises
         datasets: [{
-          label: '# of Votes',
-          data: [this.getPaises().map(cant => cant.cantidadUsuariosRegistrados)],
-          backgroundColor: [
-            'rgba(255, 159, 64, 0.2)',
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)'
-          ],
-          hoverBackgroundColor: [
+          label: '# de Usuarios',
+          data: this.getPaises().map(cant => cant.cantidadUsuariosRegistrados),
+          backgroundColor: this.coloR
+          /*hoverBackgroundColor: [
             '#FFCE56',
             '#FF6384',
             '#36A2EB',
             '#FFCE56',
             '#FF6384'
-          ]
+          ]*/
         }]
       }
     });

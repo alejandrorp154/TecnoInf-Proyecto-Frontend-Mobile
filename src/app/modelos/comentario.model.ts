@@ -7,7 +7,26 @@ export class Comentario {
   idComentarioPadre: string;
 }
 
+export class comentarioReacciones {
+  idComentario: string;
+  contenido: string;
+  fecha: Date;
+  idPublicacion: number;
+  idComentarioPadre: string;
+  idPersona: string;
+  comentariosHijos: comentarioReacciones[];
+  cantidadLikes: number;
+  cantidadDislikes: number;
+  document: document;
+}
 
+export class document{
+  idPublicacion: number;
+  idComentarioPadre: string;
+  idPersona: string;
+  contenido: string;
+  fecha: Date;
+}
 /*
 
 {
@@ -18,5 +37,25 @@ export class Comentario {
     "idPersona": 1,
     "idComentarioPadre":"60b2a6ca83ea7a7211e52a01"           
 }
+
+  comentarioReacciones": [
+        {
+            "idComentario": "60d52b8a37c8f162ee9aa6fe",
+            "contenido": "Contenido de prueba 13 comentario padre de un padre",
+            "fecha": 1583798400000,
+            "idPublicacion": 0,
+            "idComentarioPadre": null,
+            "idPersona": "Q9EMeqRYP8MtvueQTAXrW2jaPR83",
+            "comentariosHijos": [],
+            "cantidadLikes": 0,
+            "cantidadDislikes": 0,
+            "document": {
+                "idPublicacion": 0,
+                "idComentarioPadre": null,
+                "idPersona": "Q9EMeqRYP8MtvueQTAXrW2jaPR83",
+                "contenido": "Contenido de prueba 13 comentario padre de un padre",
+                "fecha": 1583798400000
+            }
+        },
 
 */

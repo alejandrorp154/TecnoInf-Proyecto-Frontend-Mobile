@@ -35,11 +35,24 @@
           </ion-item>
         </ion-menu-toggle>
         <ion-menu-toggle>
+          <ion-item lines="none" routerLink="./configuracion-notificaciones">
+            <ion-icon name="notifications-circle-outline" slot="start"></ion-icon>
+            <ion-label>Configurar Notificaciones</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item lines="none" routerLink="./solicitudes-pendientes">
+            <ion-icon name="mail-unread-outline" slot="start"></ion-icon>
+            <ion-label>Ver Solicitudes</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
           <ion-item lines="none" (click)="onLogout()" button>
             <ion-icon name="exit" slot="start"></ion-icon>
             <ion-label>Cerrar sesión</ion-label>
           </ion-item>
         </ion-menu-toggle>
+
       </ion-list>
     </ion-content>
   </ion-menu>

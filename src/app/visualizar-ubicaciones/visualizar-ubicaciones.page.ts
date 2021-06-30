@@ -28,7 +28,7 @@ export class VisualizarUbicacionesPage implements OnInit {
   ubicacion: Ubicacion;
 
   constructor(private ubicacionService: UbicacionService, public modalController: ModalController,
-    public popoverController: PopoverController, private alertCtrl: AlertController, 
+    public popoverController: PopoverController, private alertCtrl: AlertController,
     private authService: AuthService, private ubicacionesService: VisualizarUbicacionesService
     , private router: ActivatedRoute) {
   }
@@ -41,7 +41,6 @@ export class VisualizarUbicacionesPage implements OnInit {
           this.getAllUbicaciones();
       }
   );
-    
   }
 
   async getAllUbicaciones(){
@@ -80,7 +79,7 @@ export class VisualizarUbicacionesPage implements OnInit {
       });
   }
 
-  
+
 
   async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
@@ -99,34 +98,34 @@ export class VisualizarUbicacionesPage implements OnInit {
         this.ubicacionClickeada.next(data.value);
         return;
       }
-  
+
       if(data.clicked === "Borrar"){
         this.onDeleteUbicacion(data.value.idUbicacion);
         this.ubicaciones.next(this.ubicaciones.value.splice(this.ubicaciones.value.findIndex(data.value.idUbicacion), 1));
         return;
       }
-  
+
       if(data.clicked === "Modificar"){
         this.ubicacion = data.value;
         this.editando = true;
         return;
       }
     } catch (error){}
-      
-    
+
+
   }
-  
+
   marcarUbicacion(ubicacion: Ubicacion) {
   const nuevaUbicacion = this.ubicacion;
   nuevaUbicacion.latitud = ubicacion.latitud;
   nuevaUbicacion.longitud = ubicacion.longitud;
-  
+
     this.alertModificarUbicacion(nuevaUbicacion).then((result) => {
       this.editando = false;
     });
   }
 
-  
+
   alertModificarUbicacion(ubicacion: Ubicacion):Promise<boolean> {
     return new Promise((resolve, reject) => {
       const ctl = this.alertCtrl;
@@ -144,10 +143,10 @@ export class VisualizarUbicacionesPage implements OnInit {
           {
             text: 'Modificar',
             handler: () => {
-            ctl.dismiss().then(async() => { 
+            ctl.dismiss().then(async() => {
               console.log("tiene:", ubicacion);
               await this.ubicacionService.modificarUbicacion(ubicacion);
-              await this.getAllUbicaciones(); 
+              await this.getAllUbicaciones();
               resolve(false);
             });
             return false;

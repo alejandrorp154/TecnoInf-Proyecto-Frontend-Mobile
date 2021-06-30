@@ -99,8 +99,20 @@ export class InteresPage implements OnInit {
 
 
   async onCreateInteres() {
+
+    var txt = document.getElementById('input-reason').textContent;
+    console.log('TXT',txt);
+    console.log(this.interes.interes);
+    if(txt === '' || txt === null){
+      console.log('ESTA VACIO O NULL');
+      console.log(this.interes.interes);
+      this.errorMessage = "Debe ingresar un nombre.";
+      this.showError = true;
+      return;
+    };
+
     var interesExiste = this.intereses.find(inte => {
-        return inte.interes === this.interes.interes
+      return inte.interes === this.interes.interes
     });
 
     if(interesExiste){

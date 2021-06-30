@@ -1,3 +1,4 @@
+import { UsuarioService } from "src/app/servicios/usuario.service";
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Usuario } from '../modelos/usuario.model';
@@ -14,11 +15,12 @@ export class HomePage implements OnInit {
   userFire: UserFire;
   public amigos: Usuario[]
 
-  constructor(private router: Router, private authService: AuthService, private sugerirAmigos: SugerirAmigosService) {}
+  constructor(private router: Router, private authService: AuthService, private sugerirAmigos: SugerirAmigosService, private userService: UsuarioService) {}
 
   async ngOnInit() {
     setTimeout(() => this.delayCall(), 5);
   }
+
 
   async delayCall()
   {
@@ -35,5 +37,9 @@ export class HomePage implements OnInit {
   {
     this.router.navigateByUrl('/sugerir-amigos');
 
+  }
+
+  ionViewDidEnter(){
+   this.userService.getSolicitudesPendientes(this.userFire.id);
   }
 }

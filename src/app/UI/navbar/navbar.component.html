@@ -8,7 +8,7 @@
             <ion-buttons >
               <ion-back-button  class="pointer" text=""></ion-back-button>
             </ion-buttons>
-            <ion-buttons (click)="onDeleteAccount()" class="logo">
+            <ion-buttons  routerLink = "/home" class="logo">
               <ion-item lines="none">
                 <ion-avatar>
                   <img src="../../../assets/icon/Logo.png">
@@ -19,7 +19,7 @@
         </ion-col>
 
         <ion-col size-xs="6" size-sm ="7" size-md="8" size-xl ="9" class="ion-no-padding">
-          <ion-searchbar autocomplete="on"  (click)="dontShow=false" placeholder="Buscar usuarios registrados" showCancelButton="never" cancelButtonText="Custom Cancel" ></ion-searchbar>
+          <ion-searchbar autocomplete="on" (click)="dontShow=false" [formControl]="searchBar" placeholder="Buscar usuarios registrados" showCancelButton="never" cancelButtonText="Custom Cancel" style="padding-top: 7px;"></ion-searchbar>
         </ion-col>
 
         <ion-col size-xs="5" size-sm ="4" size-md="3" size-xl ="2" class="ion-no-padding">
@@ -45,8 +45,8 @@
   </ion-header>
   <ion-toolbar class="listaUsuarios scroll" *ngIf="searching">
     <ion-list >
-      <ion-item *ngFor="let usuario of searchResult | async">
-        <div style="display: flex; justify-content: center;">
+      <ion-item *ngFor="let usuario of searchResult | async" >
+        <div style="display: flex; justify-content: center;" routerLink="/perfil/{{usuario.idPersona}}">
           <ion-avatar>
             <img [src]="usuario.imagenPerfil">
           </ion-avatar>
