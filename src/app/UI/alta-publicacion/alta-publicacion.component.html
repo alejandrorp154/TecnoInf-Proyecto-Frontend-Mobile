@@ -7,7 +7,7 @@
     <ion-card-header>
       <ion-icon (click)="cancelar()" name="close"></ion-icon>
       <ion-card-title [innerHtml]="preview.title"></ion-card-title>
-      <img [src]="preview.image">
+      <img style="max-height: 5rem;" [src]="preview.image">
     </ion-card-header>
     <ion-card-content [innerHtml]="preview.description"></ion-card-content>
   </ion-card>
@@ -17,7 +17,7 @@
 <ion-card *ngIf="tipo === 'foto'">
   <ion-icon (click)="cancelar()" name="close"></ion-icon>
   <ion-card-header>
-    <img id="foto" [src]="imageSource">
+    <img style="max-height: 10rem; max-width: 10rem;" id="foto" [src]="imageSource">
   </ion-card-header>
 </ion-card>
 
