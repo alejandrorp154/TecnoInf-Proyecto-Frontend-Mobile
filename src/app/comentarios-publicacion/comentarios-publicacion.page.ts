@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, PopoverController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { count } from 'rxjs/operators';
 import { Comentario, comentarioReacciones } from '../modelos/comentario.model';
@@ -10,6 +12,7 @@ import { Preview } from '../modelos/preview';
 import { TipoPublicacion } from '../modelos/publicacion.model';
 import { ComentariosService } from '../servicios/comentarios.service';
 import { PubicacionService } from '../servicios/pubicacion.service';
+import { PopoverComentarioComponent } from '../UI/popover-comentario/popover-comentario.component';
 
 @Component({
   selector: 'app-comentarios-publicacion',
@@ -32,8 +35,13 @@ export class ComentariosPublicacionPage implements OnInit {
   boolVerComentarios: boolean = false;
   userId;
 
+  public comentarioForm = new FormGroup({
+    comentario: new FormControl()
+  });
 
-  constructor(private alertCtrl: AlertController, private comentariosService: ComentariosService, private publicacionService: PubicacionService, private router: ActivatedRoute) {}
+  constructor(private alertCtrl: AlertController, private comentariosService: ComentariosService, 
+    private publicacionService: PubicacionService, private router: ActivatedRoute,
+    public popoverController: PopoverController) {}
 
   ngOnInit() {
     this.router.paramMap.subscribe(
@@ -42,8 +50,6 @@ export class ComentariosPublicacionPage implements OnInit {
           this.getPublicacion(id.toString());
       }
     );
-    //var user = JSON.parse(localStorage.getItem('_cap_currentUser'));
-    //this.userId = user.idPersona;
   }
 
 
@@ -53,8 +59,7 @@ export class ComentariosPublicacionPage implements OnInit {
     this.tempComentarios = this.publicacionObs.value.comentarioReacciones;
     
     this.tempComentariosActual = [];
-
-
+    
     this.tempComentarios.forEach(comentario => {
       this.tempComentariosActual.push(comentario);
       if(comentario.comentariosHijos){
@@ -66,15 +71,15 @@ export class ComentariosPublicacionPage implements OnInit {
     this.comentariosReaccionesObs.next(this.tempComentariosActual);
 
     this.boolVerComentarios = true;
-    if(this.publicacionObs.value.tipo.tipo = "texto"){
+    if(this.publicacionObs.value.tipo.tipo == "texto"){
       this.boolEsTexto = true;
       return;
     }
-    if(this.publicacionObs.value.tipo.tipo = "foto"){
+    if(this.publicacionObs.value.tipo.tipo == "foto"){
       this.boolEsEnlace = true;
       return;
     }
-    if(this.publicacionObs.value.tipo.tipo = "enlaceExterno"){
+    if(this.publicacionObs.value.tipo.tipo == "enlaceExterno"){
       var prev: string[];
       prev = this.publicacionObs.value.contenido.split('|*|');
       this.preview.title = prev[0];
@@ -127,103 +132,30 @@ export class ComentariosPublicacionPage implements OnInit {
   }
 
   aniadirComentarioAPublicacion(){
-    this.alertCtrl.create({
-      header: 'Añadir comentario',
-      inputs: [
-        {
-          name: 'comentarioNuevo',
-          placeholder: 'Comentario'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Añadir',
-          handler: async data => {
-            if (data.comentarioNuevo !== '') {
-              const newComentario = new Comentario;
-              newComentario.contenido = data.comentarioNuevo;
-              newComentario.fecha = new Date();
-              newComentario.idPublicacion = this.publicacionObs.value.idPublicacion;
-              newComentario.idPersona = this.userId;
-              newComentario.idComentarioPadre = null;
-              await this.comentariosService.addComentario(newComentario);
-              this.getPublicacion(this.publicacionObs.value.idPublicacion);           
-            } else {
-              return;
-            }
-          }
-        }
-      ]
-    }).then(alertElement => {
-      alertElement.present();
+    console.log(this.comentarioForm.value.comentario);
+    const newComentario = new Comentario;
+    newComentario.contenido = this.comentarioForm.value.comentario;
+    newComentario.fecha = new Date();
+    newComentario.idPublicacion = this.publicacionObs.value.idPublicacion;
+    newComentario.idPersona = this.userId;
+    newComentario.idComentarioPadre = null;
+    console.log(newComentario);
+    this.comentariosService.addComentario(newComentario);
+    //this.getPublicacion(this.publicacionObs.value.idPublicacion);
+  }  
+
+  async presentPopover(ev: any, comentario: comentarioReacciones) {
+    const popover = await this.popoverController.create({
+      component: PopoverComentarioComponent,
+      componentProps: {Comentario:  comentario},
+      event: ev,
+      translucent: false,
+      mode: 'ios'
     });
-  }
+    await popover.present();
 
-  modificarComentario(comentario: comentarioReacciones){
-    this.alertCtrl.create({
-      header: 'Modificar comentario',
-      inputs: [
-        {
-          name: 'comentarioNuevo',
-          placeholder: 'Comentario'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Modificar',
-          handler: async data => {
-            if (data.comentarioNuevo !== '') {
-              comentario.contenido = data.comentarioNuevo;
-              await this.comentariosService.modificarComentario(comentario);
-              this.getPublicacion(this.publicacionObs.value.idPublicacion);           
-            } else {
-              return;
-            }
-          }
-        }
-      ]
-    }).then(alertElement => {
-      alertElement.present();
-    });
-  }
-
-
-  eliminarComentario(idComentario: string){
-    this.alertCtrl
-      .create({
-        header: '¿Estas seguro?',
-        message: '¿Estas seguro que deseas eliminar este comentario?',
-        buttons: [
-          {
-            text: 'Cancelar',
-            role: 'cancel'
-          },
-          {
-            text: 'Borrar',
-            handler: async () => {
-              await this.comentariosService.deleteComentario(idComentario);
-              this.getPublicacion(this.publicacionObs.value.idPublicacion);    
-            }
-          }
-        ]
-      })
-      .then(alertEl => {
-        alertEl.present();
-      });
+    const { role } = await popover.onDidDismiss();
+    console.log('onDidDismiss resolved with role', role);
   }
 
 
@@ -234,6 +166,11 @@ export class ComentariosPublicacionPage implements OnInit {
     newReaccion.reaccion = reaccion;
     await this.comentariosService.addComentarioReaccion(newReaccion);
     this.getPublicacion(this.publicacionObs.value.idPublicacion); 
+    if (newReaccion.reaccion == 'MeGusta') {
+      comentario.cantidadLikes =+ 1;
+    } else {
+      comentario.cantidadDislikes =+ 1;
+    }
   }
 
   async reaccionarAPublicacion(reaccion: string){
@@ -242,9 +179,13 @@ export class ComentariosPublicacionPage implements OnInit {
     newReaccion.idPersona= this.userId;
     newReaccion.reaccion = reaccion;
     await this.comentariosService.addPublicacionReaccion(newReaccion);
-    this.getPublicacion(this.publicacionObs.value.idPublicacion); 
+    if (newReaccion.reaccion == 'MeGusta') {
+      this.publicacionObs.value.cantidadLikes =+ 1;
+    } else {
+      this.publicacionObs.value.cantidadDislikes =+ 1;
+    }
+    
+    //this.getPublicacion(this.publicacionObs.value.idPublicacion); 
   }
-
-  
 
 }
