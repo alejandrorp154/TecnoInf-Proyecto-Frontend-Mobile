@@ -41,7 +41,6 @@ export class VisualizarUbicacionesPage implements OnInit {
           this.getAllUbicaciones();
       }
   );
-
   }
 
   async getAllUbicaciones(){
