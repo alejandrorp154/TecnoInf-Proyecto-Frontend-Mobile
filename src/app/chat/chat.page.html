@@ -5,13 +5,13 @@
   <ion-grid *ngIf="chatting">
     <ion-row *ngFor="let message of messages | async">
       <ion-col size="9" class="message"
-        [offset]="message.myMsg ? 3 : 0"
-        [ngClass]="{ 'my-message': message.myMsg, 'other-message': !message.myMsg }">
-        <b>{{ message.fromName }}</b><br>
-        <span>{{ message.msg }}
+        [offset]="message.miMsj ? 3 : 0"
+        [ngClass]="{ 'my-message': message.miMsj, 'other-message': !message.miMsj }">
+        <b>{{ message.nombreDe }}</b><br>
+        <span>{{ message.contenido }}
         </span>
-        <ion-img *ngIf="message.mediaUrl != ''" src="{{message.mediaUrl}}"></ion-img>
-        <div class="time ion-text-right"><br>{{ message.createdAt?.toMillis() | date:'short' }}</div>
+        <ion-img *ngIf="message.path != ''" src="{{message.path}}"></ion-img>
+        <div class="time ion-text-right"><br>{{ message.fecha?.toMillis() | date:'short' }}</div>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -27,7 +27,7 @@
     </ion-item>
   </ion-list>
 
-  <ion-list *ngIf="!chatting && !searching">
+  <ion-list *ngIf="!chatting">
     <ion-item>
       <ion-searchbar [formControl]="searchBar"></ion-searchbar>
     </ion-item>

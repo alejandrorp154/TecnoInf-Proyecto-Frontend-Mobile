@@ -23,7 +23,7 @@
               <img id="foto" src="{{publicacion.contenido}}">
             </div>
             <div *ngIf="publicacion.tipo.tipo === 'enlaceExterno'">
-              <app-pub-ee [publicacion]="publicacion"></app-pub-ee>
+              <app-pub-ee [publicacion]="getPublicacionPerfil(publicacion)"></app-pub-ee>
             </div>
           </ion-col>
         </ion-row>

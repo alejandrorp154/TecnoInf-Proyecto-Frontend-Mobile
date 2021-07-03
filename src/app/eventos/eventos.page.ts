@@ -44,12 +44,12 @@ export class EventosPage implements OnInit {
     console.log('entró');
     let userFire = await this.authService.getCurrentUserFire().toPromise();
     console.log(userFire);
-    //this.loggedUser = await this.usuarioService.getUsuario(userFire.id);
+    this.loggedUser = await this.authService.getCurrentUser().toPromise();
     this.eventos = await this.eventoService.obtenerEventosXPersona(userFire.id);
     this.eventos.forEach(e => {e.fechaInicio = new Date(e.fechaInicio); e.fechaFin = new Date(e.fechaFin)});
     console.log(this.eventos);
     this.eventos.sort((a,b) => a.fechaInicio.getTime() - b.fechaInicio.getTime());
-    this.bsEventos.next(this.eventos);
+    this.bsEventos.next(this.eventos.filter(e => e['estadoSolicitud'] != 'cancelada'));
     console.log(this.eventos);
   }
 
@@ -114,6 +114,16 @@ export class EventosPage implements OnInit {
 
   prueba() {
     console.log(this.location.getState());
+  }
+
+  responderSolicitud(evento: Evento, respuesta: string) {
+    this.eventoService.responderSolicitud(this.loggedUser.idPersona, evento.idEvento, respuesta)
+      .then(res => {
+        evento['estadoSolicitud'] = respuesta;
+        this.toolsService.presentToast('Se guardaron los cambios correctamente', Resultado.Ok);
+        this.bsEventos.next(this.eventos.filter(e => e['estadoSolicitud'] != 'cancelada'));
+      })
+      .catch(ex => { console.log(ex); this.toolsService.presentToast('Surgió un error al guardar los cambios', Resultado.Error); });
   }
 
 

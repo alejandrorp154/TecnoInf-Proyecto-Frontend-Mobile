@@ -23,11 +23,12 @@ export class ChatService {
 
   // Chat functionality
 
-  addChatMessage(msj, path, idChat) {
+  addChatMessage(msj, path, idChat, nombreDe) {
     return this.afs.collection('mensajes').add({
       contenido: msj,
       path: path,
       de: this.currentUser.id,
+      nombreDe: nombreDe,
       idChat: idChat,
       fecha: firebase.firestore.FieldValue.serverTimestamp()
     });
@@ -63,12 +64,17 @@ export class ChatService {
   }
 
   obtenerMensajes(chatId: string) {
+    console.log('obtenerMensajes chatId = ' + chatId);
     let users = [];
+    (this.afs.collection('mensajes', ref => ref.where('idChat', '==', chatId)
+          .orderBy('fecha')).valueChanges({ idField: 'id' }) as Observable<Mensaje[]>).subscribe(res =>
+            console.log(res));
     return this.getUsers().pipe(
       switchMap(res => {
         users = res;
+        console.log(users);
         return this.afs.collection('mensajes', ref => ref.where('idChat', '==', chatId)
-          .orderBy('fecha')).valueChanges({ idField: 'idMensaje' }) as Observable<Mensaje[]>;
+          .orderBy('fecha')).valueChanges({ idField: 'id' }) as Observable<Mensaje[]>;
       }),
       map(mensajes => {
         // Get the real name for each user
@@ -76,12 +82,14 @@ export class ChatService {
           m.nombreDe = this.getUserForMsg(m.de, users);
           m.miMsj = this.currentUser.id === m.de;
         }
+        console.log(mensajes);
         return mensajes
       })
     )
   }
 
   private getUsers() {
+    this.usuarioService.getAllUsuariosObs().subscribe(res => console.log(res));
     return this.usuarioService.getAllUsuariosObs() as Observable<Usuario[]>;
   }
 
@@ -89,10 +97,11 @@ export class ChatService {
     return this.usuarioService.getUsuario(uid);
   }
 
-  private getUserForMsg(msgFromId, users: UserFire[]): string {
-    for (let usr of users) {
-      if (usr.id == msgFromId) {
-        return usr.email;
+  private getUserForMsg(msgFromId, users: UserFire[]): string {console.log(msgFromId);
+    for (let usr of users) {console.log(usr, usr['idPersona']);
+      if (usr['idPersona'] == msgFromId) {
+        console.log('entró');
+        return usr['nombre'] + ' ' + usr['apellido'];
       }
     }
     return 'Deleted';

@@ -10,11 +10,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ChatService } from 'src/app/servicios/chat.service';
 import { Usuario } from '../modelos/usuario.model';
 import { Chat } from '../modelos/chat.model';
-import { imgFile } from '../modelos/mensaje.model';
+import { Mensaje, imgFile } from '../modelos/mensaje.model';
 import { UsuarioService } from '../servicios/usuario.service';
 import { AuthService } from '../servicios/auth.service';
 import { Resultado, ToolsService } from "../servicios/tools.service";
 import { EventoService } from "../servicios/evento.service";
+import { Evento } from "../modelos/evento.model";
 
 @Component({
   selector: 'app-chat',
@@ -34,6 +35,7 @@ export class ChatPage implements OnInit {
   chatting = false;
   searching = false;
   friends: Usuario[];
+  eventos: Evento[];
   contactos: Contacto[];
   currentFriend: Usuario;
   chatrooms: Chat[];
@@ -80,22 +82,22 @@ export class ChatPage implements OnInit {
       this.filesCollection = afs.collection<imgFile>('imagesCollection');
       this.files = this.filesCollection.valueChanges();
       this.contactos = [];
+      this.eventos = [];
    }
 
   async ngOnInit() {
     //this.searchBar.setValue('');
     let userFire = await this.authService.getCurrentUserFire().toPromise();
     console.log(userFire);
+    this.eventoService.obtenerEventosXPersona(userFire.id).then(res => this.eventos = res);
     this.currentUser = await this.usuarioService.getUsuarioAsync(userFire.id);
     console.log(this.currentUser);
-    /*/ *********************************************************************
-    this.currentUser = {idPersona: 'WnVrwbfSYjYULq1uCQ0pUOZhBH13', nickname: 'michel', nombre: 'Michel',
-      apellido: 'Jackson', celular: '099999999', email: 'mj@mail.com', rol: Rol.Turista};
-    // *********************************************************************/
+
     this._Activatedroute.paramMap.subscribe(params => {
       try{
         console.log(params);
         this.nickname = params.get('nickname');
+        this.currentChatroomId = params.get('idChat');
         console.log(this.nickname);
       } catch (ex) { }
     });
@@ -103,46 +105,46 @@ export class ChatPage implements OnInit {
     this.friends = await this.usuarioService.getAmigosAsync(this.currentUser.idPersona);
     console.log(this.friends);
     //this.friends = this.getContactosPersona();
+    if((!this.nickname || this.nickname == '') && (!this.currentChatroomId || this.currentChatroomId == '')) {
+      try{
+        this.chatService.obtenerMisChats().subscribe(res => {
+          console.log(res);
+          this.chatrooms = res;
+          console.log(this.chatrooms);
+        });
 
-    try{
-
-      this.chatService.obtenerMisChats().subscribe(res => {
-        console.log(res);
-        this.chatrooms = res;
-        console.log(this.chatrooms);
-      });
-      if (!this.nickname || this.nickname == '') {
         this.searchResult.next(this.friends);
+      } catch(ex) { console.log(ex); }
 
+    } else if (this.currentChatroomId != '') {
+      this.chatting = true;
+      this.searching = false;
+      this.messages = this.chatService.obtenerMensajes(this.currentChatroomId);
+    } else {
+      this.chatting = true;
+      if (this.friends.some(f => f.nickname === this.nickname)) {
+        this.currentFriend = this.friends.find(f => f.nickname === this.nickname);
       } else {
-        this.chatting = true;
-        if (this.friends.some(f => f.nickname === this.nickname)) {
-          this.currentFriend = this.friends.find(f => f.nickname === this.nickname);
-        } else {
-          this.currentChatroomId = this.nickname;
-        }
-
-        console.log(this.currentFriend);
-        if (this.currentFriend) {
-          if (this.chatrooms && this.chatrooms.some(c => c.uids == [this.currentUser.idPersona, this.currentFriend.idPersona])) {
-            this.messages = this.chatService.obtenerMensajes(this.chatrooms.find(c => c.uids == [this.currentUser.idPersona, this.currentFriend.idPersona]).idChat);
-          } else {
-            /*this.chatService.createChatroom([this.currentUser.uid, this.currentFriend.uid]).then(res => {
-              this.currentChatroomId = res.id;
-              console.log('Chatroom creado: ' ,res.id);
-            });*/
-            this.messages = new Observable((observer) => observer.next([]));
-          }
-        } else {
-          this.messages = this.chatService.obtenerMensajes(this.currentChatroomId);
-          let cchrom = this.chatrooms.find(c => c.idChat === this.currentChatroomId);
-          this.currentFriend = this.friends.find(f => f.idPersona === cchrom.uids.find(g => g != this.currentUser.idPersona));
-        }
+        this.currentChatroomId = this.nickname;
       }
-    } catch(ex) { console.log(ex); }
 
-
-
+      console.log(this.currentFriend);
+      if (this.currentFriend) {
+        if (this.chatrooms && this.chatrooms.some(c => c.uids == [this.currentUser.idPersona, this.currentFriend.idPersona])) {
+          this.messages = this.chatService.obtenerMensajes(this.chatrooms.find(c => c.uids == [this.currentUser.idPersona, this.currentFriend.idPersona]).idChat);
+        } else {
+          this.chatService.crearChat([this.currentUser.idPersona, this.currentFriend.idPersona], this.currentFriend.nombre + ' ' + this.currentFriend.apellido).then(res => {
+            this.currentChatroomId = res;
+            console.log('Chatroom creado: ' ,res);
+          });
+          this.messages = new Observable((observer) => observer.next([]));
+        }
+      } else {
+        this.messages = this.chatService.obtenerMensajes(this.currentChatroomId);
+        let cchrom = this.chatrooms.find(c => c.idChat === this.currentChatroomId);
+        this.currentFriend = this.friends.find(f => f.idPersona === cchrom.uids.find(g => g != this.currentUser.idPersona));
+      }
+    }
 
 
     this.searchBar.valueChanges
@@ -180,17 +182,20 @@ export class ChatPage implements OnInit {
 
   goChatroom(chatroom: Chat) {
     console.log(chatroom);
-    this.router.navigateByUrl('/chat/' + chatroom.idChat);
+    this.router.navigateByUrl('/chat/' + chatroom['id']);
   }
 
-  async getFriendImage(chatroom: Chat) {
+  getFriendImage(chatroom: Chat) {
     if(chatroom.uids.length != 2) {
-      let str = '';
-      await this.eventoService.getImageByIdChat(this.currentUser.idPersona, chatroom.idChat).then(res => str = res);
+      console.log('la cantidad de integrantes del chat es distinta de 2');
+      let str = this.getImageByIdChat(chatroom.idChat);
       return str != '' ? str : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8WPcgKdDDPzz76xNKr9pKb_xmWJznpOjs1w&usqp=CAU';
     } else {
       try {
-        return this.friends.find(f => chatroom.uids.find(u => u != this.currentUser.idPersona) == f.idPersona).imagenPerfil;
+        console.log('la cantidad de integrantes del chat es 2', this.friends);
+        console.log(this.friends.find(f => chatroom.uids.find(u => u != this.currentUser.idPersona) == f.idPersona));
+        return this.friends.find(f => chatroom.uids.find(u => u != this.currentUser.idPersona) == f.idPersona) ?
+          this.friends.find(f => chatroom.uids.find(u => u != this.currentUser.idPersona) == f.idPersona).imagenPerfil : '';
       } catch(err) {
         console.log(err);
         return '../../assets/img/defaultProfileImage.png';
@@ -199,11 +204,32 @@ export class ChatPage implements OnInit {
   }
 
   getChatroomName(chatroom: Chat) {
+    if(chatroom.uids.length == 2) {
+      try {
+        let pers = this.friends.find(f => f.idPersona == chatroom.uids.find(u => u != this.currentUser.idPersona));
+        let nombre = pers.nombre + ' ' + pers.apellido;
+        console.log(nombre);
+        return nombre;
+      } catch (ex) { console.log(ex); }
+    }else {
       return chatroom.nombre;
+    }
+  }
+
+  getImageByIdChat(idChat: string): string {
+    console.log(this.eventos);
+    if (this.eventos && this.eventos.length > 0) {
+      try {
+        return this.eventos.find(e => e.idChat == idChat).imagen;
+      } catch {
+        return '';
+      }
+    } else { return ''; }
   }
 
   enviarMessage() {
-    this.chatService.addChatMessage(this.newMsg, this.mediaUrl, this.currentChatroomId).then(() => {
+    console.log(this.newMsg, this.mediaUrl, this.currentChatroomId);
+    this.chatService.addChatMessage(this.newMsg, this.mediaUrl, this.currentChatroomId, this.currentUser.nombre + ' ' + this.currentUser.apellido).then(() => {
       this.newMsg = '';
       this.mediaUrl = '';
       this.content.scrollToBottom();

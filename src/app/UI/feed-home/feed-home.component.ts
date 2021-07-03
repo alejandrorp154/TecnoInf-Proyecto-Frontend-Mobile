@@ -41,4 +41,24 @@ export class FeedHomeComponent implements OnInit {
 
   }
 
+  getPublicacionPerfil(ppu: PublicacionPerfilUsuario): Publicacion {
+    return {
+      idPublicacion: ppu.idPublicacion,
+      contenido: ppu.contenido,
+      fecha: ppu.fecha,
+      tipo: {
+          idPublicacion: ppu.tipo.idPublicacion,
+          tipo: ppu.tipo.tipo,
+      },
+      idPersona: ppu.idPersona,
+      extension: ppu.extension,
+      nombre: ppu.nombre,
+      comentarioReacciones: ppu.comentarioReacciones,
+      evento: ppu.evento,
+      perfil: ppu.perfil,
+      cantidadLikes: ppu.cantidadLikes,
+      cantidadDislikes: ppu.cantidadDislikes
+    };
+  }
+
 }

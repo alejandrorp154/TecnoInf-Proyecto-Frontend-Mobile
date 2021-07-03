@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Preview } from 'src/app/modelos/preview';
-import { Publicacion } from 'src/app/modelos/publicacion.model';
+import { Publicacion } from 'src/app/modelos/perfil';
 
 @Component({
   selector: 'app-pub-ee',
