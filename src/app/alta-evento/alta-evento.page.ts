@@ -81,7 +81,7 @@ export class AltaEventoPage implements OnInit {
         this.evento = await this.eventoService.obtenerEvento(idEvento);
         this.evento.invitados.forEach(ii => this.invitados.push(Object.assign({}, ii)));
         //this.invitados = Object.assign(this.evento.invitados);
-        this.participantes.next(this.evento.invitados);
+        this.participantes.next(this.evento.owner ? this.evento.invitados : this.evento.invitados.filter(i => i.estadoContactos == 'aceptada'));
         console.log(this.evento);
         this.latitud = this.evento.ubicacion.latitud;
         this.longitud = this.evento.ubicacion.longitud;
@@ -128,14 +128,14 @@ export class AltaEventoPage implements OnInit {
       estadoContactos: 'pendiente',
       owner: this.currentUser.idPersona == inv.idPersona
     });
-    this.participantes.next(this.invitados);
+    this.participantes.next(this.evento.owner ? this.invitados : this.invitados.filter(i => i.estadoContactos == 'aceptada'));
     this.searchBar.setValue('');
 
   }
 
   removerInvitado(inv: Usuario) {
     this.invitados.splice(this.invitados.findIndex(i => i.idPersona == inv.idPersona), 1);
-    this.participantes.next(this.invitados);
+    this.participantes.next(this.evento.owner ? this.invitados : this.invitados.filter(i => i.estadoContactos == 'aceptada'));
   }
 
   marcarUbicacion(ubicacion: Ubicacion) {
