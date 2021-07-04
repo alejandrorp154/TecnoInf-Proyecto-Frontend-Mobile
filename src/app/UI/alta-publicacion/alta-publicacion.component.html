@@ -13,6 +13,11 @@
   </ion-card>
 <!-- MAPA -->
 <div id="mapa-mapbox" *ngIf="tipo === 'mapa'"></div>
+<ion-item *ngIf="tipo === 'mapa'">
+  <ion-label position="floating">Descripcion de la ubicacion</ion-label>
+<ion-input [(ngModel)]="texto.textoPub" placeholder="Ingrese una descripcion"></ion-input>
+</ion-item>
+
 <!-- IMAGEN -->
 <ion-card *ngIf="tipo === 'foto'">
   <ion-icon (click)="cancelar()" name="close"></ion-icon>
