@@ -1,7 +1,6 @@
 <app-navbar></app-navbar>
 <ion-content>
   <ion-grid>
-    <ion-card class="card-profile">
       <ion-row>
         <ion-col size-sm="6" size-xs="12" >
           <ion-card class="card-profile">
@@ -17,7 +16,7 @@
               <ion-list *ngFor="let config of configuracionAMostrar | keyvalue">
                 <ion-item *ngIf="config.key !== 'idPersona' && config.key !== 'idConfiguracion' ">
                   <ion-label> {{ config.key }} </ion-label>
-                  <ion-checkbox place-right checked={{config.value}} (click)="checkedChanged(config.key, config.value)"></ion-checkbox>
+                  <ion-checkbox place-right checked={{config.value}} (ionChange)="checkedChanged(config.key, config.value)"></ion-checkbox>
                 </ion-item>
               </ion-list>
             </ion-card-content>
@@ -34,10 +33,10 @@
                   Lista de configuraciones:
                 </ion-label>
               </ion-item-divider>
-              <ion-list *ngFor="let config of configuracionAMostrarPush | keyvalue">
-                <ion-item *ngIf="config.key !== 'idPersona' && config.key !== 'idConfiguracion'">
-                  <ion-label> {{ config.key }} </ion-label>
-                  <ion-checkbox place-right checked={{config.value}} (click)="checkedChangedPUSH(config.key, config.value)"></ion-checkbox>
+              <ion-list *ngFor="let config1 of configuracionAMostrarPush | keyvalue">
+                <ion-item *ngIf="config1.key !== 'idPersona' && config1.key !== 'idConfiguracion'">
+                  <ion-label> {{ config1.key }} </ion-label>
+                  <ion-checkbox place-right checked={{config1.value}} (ionChange)="checkedChangedPUSH(config1.key, config1.value)"></ion-checkbox>
                 </ion-item>
               </ion-list>
 
@@ -48,6 +47,5 @@
       <ion-item>
         <ion-button slot="end" (click)="onAplicar()">APLICAR</ion-button>
       </ion-item>
-    </ion-card>
   </ion-grid>
 </ion-content>

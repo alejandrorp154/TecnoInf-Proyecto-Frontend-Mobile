@@ -41,15 +41,17 @@ export class ConfiguracionNotificacionesPage implements OnInit {
 
   async getConfiguracionesPUSH(idPersona: string){
     this.configuracionesPush = await this.configuracionService.getConfiguracionesPUSH(idPersona);
-    this.configuracionAMostrarPush = this.configuraciones;
+    this.configuracionAMostrarPush = this.configuracionesPush;
   }
 
 
   checkedChanged(configKey: any, configValue: any){
+    console.log('EMAIL');
     this.configuraciones[configKey] = !configValue;
   }
 
   checkedChangedPUSH(configKeyP: any, configValueP: any){
+    console.log('PUSH');
     this.configuracionesPush[configKeyP] = !configValueP;
   }
 

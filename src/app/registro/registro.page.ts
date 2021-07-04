@@ -13,11 +13,6 @@ import { AuthResponseData } from '../modelos/AuthResponseData.interface';
 import { countries } from 'countries-list';
 import { IniciarSesionService } from '../servicios/iniciar-sesion.service';
 
-class Port {
-  public id: number;
-  public name: string;
-}
-
 
 @Component({
   selector: 'app-registro',
@@ -59,6 +54,7 @@ export class RegistroPage implements OnInit {
     private plt: Platform,
     private inicio: IniciarSesionService) {
       Object.values(countries).forEach(c => this.paises.push(c.name));
+      this.paises.sort();
     }
 
   ngOnInit() {}
