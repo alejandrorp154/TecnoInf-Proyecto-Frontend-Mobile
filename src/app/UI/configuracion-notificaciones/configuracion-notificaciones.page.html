@@ -3,16 +3,11 @@
   <ion-grid>
     <ion-row>
       <ion-col size-sm="6" size-xs="12" >
-        <ion-card>
-          <ion-card-header color=tertiary>
-            <ion-card-title  class="ion-text-center">Configuracion de Notificaciones EMAIL</ion-card-title>
+        <ion-card style="background: white">
+          <ion-card-header color=tertiary style="background:#022833">
+            <ion-card-title  class="ion-text-center">Configuracion de Notificaciones por Email</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <ion-item-divider>
-              <ion-label>
-                Lista de configuraciones:
-              </ion-label>
-            </ion-item-divider>
             <ion-list *ngFor="let config of configuracionAMostrar | keyvalue">
               <ion-item *ngIf="config.key !== 'idPersona' && config.key !== 'idConfiguracion' ">
                 <ion-label> {{ config.key }} </ion-label>
@@ -26,16 +21,11 @@
         </ion-card>
       </ion-col>
       <ion-col size-sm="6" size-xs="12" >
-        <ion-card>
-          <ion-card-header color=tertiary>
-            <ion-card-title  class="ion-text-center">Configuracion de Notificaciones PUSH</ion-card-title>
+        <ion-card style="background: white">
+          <ion-card-header color=tertiary style="background:#022833">
+            <ion-card-title  class="ion-text-center">Configuracion de Notificaciones Mobile</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <ion-item-divider>
-              <ion-label>
-                Lista de configuraciones:
-              </ion-label>
-            </ion-item-divider>
             <ion-list *ngFor="let config of configuracionAMostrar | keyvalue">
               <ion-item *ngIf="config.key !== 'idPersona' && config.key !== 'idConfiguracion'">
                 <ion-label> {{ config.key }} </ion-label>

@@ -3,8 +3,8 @@
 <ion-grid>
   <ion-row>
     <ion-col size-sm="6" offset-sm="3">
-      <ion-card>
-        <ion-card-header color=tertiary>
+      <ion-card style="background: white">
+        <ion-card-header color=tertiary style="background:#022833">
           <ion-card-title  class="ion-text-center">Solicitudes Pendientes</ion-card-title>
         </ion-card-header>
         <ion-card-content>
@@ -16,11 +16,6 @@
               </ion-button>
             </ion-item>
           </div>
-          <ion-item-divider>
-            <ion-label>
-              Lista de Solicitudes:
-            </ion-label>
-          </ion-item-divider>
           <ion-list>
             <ion-item *ngFor="let sol of solicitudes" >
               <ion-avatar>
