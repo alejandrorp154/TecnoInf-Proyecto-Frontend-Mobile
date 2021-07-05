@@ -5,14 +5,14 @@
     <ion-card class="card-profile">
       <ion-grid>
         <ion-row>
-          <ion-col sizeMd="3" sizeSm="12" style="padding-right: 2rem;">
+          <ion-col sizeLg="3" sizeMd="6" size="6" style="padding-right: 2rem;">
             <div>
               <ion-avatar class="avatar">
                 <img [src]="perfil?.usuario.imagenPerfil">
               </ion-avatar>
             </div>
           </ion-col>
-          <ion-col class="user-info" sizeMd="3">
+          <ion-col class="user-info" sizeLg="3" sizeMd="6" sizeSm="6" size="6">
             <ion-label>{{perfil?.usuario.nombre+' '+ perfil?.usuario.apellido}}</ion-label>
             <br>
             <ion-label style="color: var(--ion-color-medium);">@{{perfil?.usuario.nickname}}</ion-label>
@@ -22,24 +22,23 @@
             <br>
             <ion-label>Pais: {{perfil?.usuario.pais}}</ion-label>
           </ion-col>
-          <ion-col sizeMd="4">
+          <ion-col sizeLg="3" sizeMd="6" sizeSm="6" size="6">
             <app-medalla [medalla] = "medalla"></app-medalla>
           </ion-col>
           <ion-button *ngIf="!esMiPerfil" (click)="agregarContacto()">{{textoBoton}}</ion-button>
-          <ion-col sizeMd="2">
+          <ion-col sizeLg="3" sizeMd="2" sizeSm="6" size="6">
             <ion-button class="edit-button" routerLink="/modificar-perfil" color="dark" size="small" fill="clear" *ngIf="esMiPerfil">
               Editar
               <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
+            </ion-button>
+            <ion-button class="mis-ubicaciones-button" color="dark" size="small" fill="clear" routerLink="/visualizar-ubicaciones/{{perfil?.usuario.idPersona}}">
+              <ion-icon slot="icon-only" name="earth-outline"></ion-icon>
+              Ubicaciones
             </ion-button>
           </ion-col>
         </ion-row>
       </ion-grid>
     </ion-card>
-    <ion-buttons>
-      <ion-button fill="solid" color="primary" routerLink="/visualizar-ubicaciones/{{perfil?.usuario.idPersona}}">
-        Vizualizar Mis Ubicaciones
-      </ion-button>
-    </ion-buttons>
     <div class="publicaciones">
       <ion-grid class="grid" fixed>
         <ion-row>

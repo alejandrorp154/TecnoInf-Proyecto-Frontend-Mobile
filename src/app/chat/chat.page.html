@@ -57,7 +57,7 @@
   <!-- File upload progress bar -->
   <div *ngIf="isFileUploading && percentageVal | async as percentage">
     <!-- Progreso: {{ percentage | number }}% -->
-    <ion-progress-bar value="{{ percentage / 100 }}"></ion-progress-bar>
+    <ion-progress-bar type="indeterminate" value="{{ percentage / 100 }}"></ion-progress-bar>
   </div>
 
   <div *ngIf="isFileUploading && trackSnapshot | async as snap">

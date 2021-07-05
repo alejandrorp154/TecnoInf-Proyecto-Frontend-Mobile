@@ -3,8 +3,8 @@
 <!-- PUBLICACION -->
 
 <ion-content>
-  <ion-card class="card" *ngIf="boolEsTexto">
-    <ion-label>{{ publicacionObs.value.contenido }}</ion-label>
+  <ion-card class="card-text" *ngIf="boolEsTexto">
+    <ion-label class="inner-text texto">{{ publicacionObs.value.contenido }}</ion-label>
   </ion-card>
 
   <ion-card class="card" *ngIf="boolEsFoto">
@@ -19,7 +19,7 @@
     <ion-card-content [innerHtml]="preview.description"></ion-card-content>
   </ion-card>
 
-  <ion-card class="card" *ngIf="boolEsTexto || boolEsFoto || boolEsEnlace">
+  <ion-card class="card reacciones" *ngIf="boolEsTexto || boolEsFoto || boolEsEnlace">
     <ion-button (click)="reaccionarAPublicacion('MeGusta')" fill="clear" size="small">
       <ion-icon name="thumbs-up-outline" slot="start"></ion-icon>
       {{publicacionObs.value.cantidadLikes}}
@@ -48,13 +48,13 @@
 
   <!-- COMENTARIOS  -->
   <ion-card class="card" *ngIf="boolVerComentarios">
-    <ion-card-header>Comentarios:</ion-card-header>
+    <ion-card-header class="header">Mis Comentarios</ion-card-header>
     <ion-list>
       <ion-item *ngFor="let comentario of comentariosReaccionesObs | async">
         <ion-grid fixed>
           <ion-row>
             <ion-col size="10">
-              <ion-label text-wrap *ngIf="comentario.idComentarioPadre === null"> {{ comentario.contenido }}
+              <ion-label class="texto" text-wrap *ngIf="comentario.idComentarioPadre === null"> {{ comentario.contenido }}
               </ion-label>
               <ion-label text-wrap style="padding-left: 8%;" *ngIf="comentario.idComentarioPadre !== null"> {{
                 comentario.contenido }} </ion-label>
