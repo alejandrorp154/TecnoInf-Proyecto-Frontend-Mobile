@@ -1,10 +1,11 @@
+<app-navbar></app-navbar>
 <ion-content>
   <ion-card style="background:white">
     <ion-card-header color=tertiary style="display: flex; align-content: center; align-items: center;background:#022833">
       <ion-buttons style="float: left; align-self: center;">
         <ion-back-button  class="pointer" text=""></ion-back-button>
       </ion-buttons>
-      <ion-card-title style="text-align: center; flex-grow: 1; flex-direction: row; margin-top: 0px; vertical-align: middle; display: inline-block; line-height: normal;">Galeria de {{usuario.value.nombre}} {{usuario.value.apellido}}</ion-card-title>
+      <ion-card-title class="header">Galeria de {{usuario.value.nombre}} {{usuario.value.apellido}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
         <ion-grid>
