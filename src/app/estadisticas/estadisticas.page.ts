@@ -77,7 +77,7 @@ export class EstadisticasPage implements OnInit{
       this.doughnutChartMethod();
       this.lineChartMethod();
       this.BarCanvasMethod();
-    }, 100);
+    }, 300);
 
   }
 

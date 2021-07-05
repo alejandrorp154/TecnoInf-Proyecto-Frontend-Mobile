@@ -22,12 +22,10 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 
 export function getBaseUrl() {
   if (environment.production) {
-    return 'https://18.216.202.22:8443/pryectoBack-web/rest/';
+    return 'http://18.222.198.110:8080/pryectoBack-web/rest/';
   } else {
-    return 'http://18.216.202.22:8080/pryectoBack-web/rest/';
+    return 'http://18.222.198.110:8080/pryectoBack-web/rest/';
   }
-  //console.log(document.getElementsByTagName('base')[0].href);
-  return 'http://18.216.202.22:8080/pryectoBack-web/rest/';
 
 }
 

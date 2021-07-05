@@ -100,10 +100,8 @@ export class InteresPage implements OnInit {
 
   async onCreateInteres() {
 
-    var txt = document.getElementById('input-reason').textContent;
-    console.log('TXT',txt);
     console.log(this.interes.interes);
-    if(txt === '' || txt === null){
+    if(this.interes.interes == "" || this.interes.interes == null || this.interes.interes == "undefined"){
       console.log('ESTA VACIO O NULL');
       console.log(this.interes.interes);
       this.errorMessage = "Debe ingresar un nombre.";
