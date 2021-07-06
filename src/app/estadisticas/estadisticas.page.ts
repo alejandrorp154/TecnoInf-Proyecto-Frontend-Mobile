@@ -22,14 +22,14 @@ export class EstadisticasPage implements OnInit{
   @ViewChild("barCanvas") barCanvas: ElementRef;
 
 
-  countIronWolf: number;
-  countBronzeWolf: number;
-  countSilverWolf: number;
-  countGoldWolf: number;
-  countPlatinumWolf: number;
-  countDiamondWolf: number;
-  countMasterWolf: number;
-  countAlfaWolf: number;
+  countIronWolf: number = 0;
+  countBronzeWolf: number = 0;
+  countSilverWolf: number = 0;
+  countGoldWolf: number = 0;
+  countPlatinumWolf: number = 0;
+  countDiamondWolf: number = 0;
+  countMasterWolf: number = 0;
+  countAlfaWolf: number = 0;
 
   barCanvas2: Chart;
 
@@ -44,17 +44,8 @@ export class EstadisticasPage implements OnInit{
   rangosM: rangos;
   coloR = [];
 
-
-
   constructor(private usuarioService: UsuarioService, private estadisticaService: EstadisticasService, private medallaService: MedallaService) {
-    this.countIronWolf = 0;
-    this.countBronzeWolf = 0;
-    this.countSilverWolf = 0;
-    this.countGoldWolf = 0;
-    this.countPlatinumWolf = 0;
-    this.countDiamondWolf = 0;
-    this.countMasterWolf = 0;
-    this.countAlfaWolf = 0;
+
   }
 
   async ngOnInit(){
@@ -102,28 +93,28 @@ export class EstadisticasPage implements OnInit{
     this.UsuariosPorMedalla.forEach(function(lineaEstadistica) {
       switch (lineaEstadistica.nombreMedalla){
         case 'ironWolf':
-          t.countIronWolf += 1;
+          t.countIronWolf ++;
           break;
         case 'bronzeWolf':
-          t.countBronzeWolf += 1;
+          t.countBronzeWolf ++;
         break;
         case 'silverWolf':
-          t.countSilverWolf += 1;
+          t.countSilverWolf ++;
           break;
         case 'goldWolf':
-          t.countGoldWolf += 1;
+          t.countGoldWolf ++;
           break;
         case 'platinumWolf':
-          t.countPlatinumWolf += 1;
+          t.countPlatinumWolf ++;
           break;
         case 'diamondWolf':
-          t.countDiamondWolf += 1;
+          t.countDiamondWolf ++;
           break;
         case 'masterWolf':
-          t.countMasterWolf += 1;
+          t.countMasterWolf ++;
           break;
         case 'alphaWolf':
-          t.countAlfaWolf += 1;
+          t.countAlfaWolf ++;
           break;
         default:
         break;
@@ -158,7 +149,6 @@ export class EstadisticasPage implements OnInit{
   }
 
   lineChartMethod() {
-    this.getmedallasOcurrences();
     let t = this;
     this.lineCanvas = new Chart(this.lineCanvas.nativeElement, {
       type: 'line',

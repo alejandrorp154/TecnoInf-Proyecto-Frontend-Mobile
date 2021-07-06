@@ -120,22 +120,15 @@ export class UsuarioService {
   }
 
   async bloquearUsuario(idUsuario: string){
-    const url = `${this.baseUrl}usuario/bloquearUsuario/${idUsuario}`;
-    this.httpClient.put<Usuario>(url, null)
-    .subscribe(data => {
-      console.log(data['_body']);
-     }, error => {
-      console.log(error);
-    });
+    const url = `${this.baseUrl}usuario/${idUsuario}`;
+    let response = this.httpClient.put<Usuario>(url, null).toPromise().catch(error => console.log(error));
+    return response;
   }
   async desbloquearUsuario(idUsuario: string){
-    const url = `${this.baseUrl}usuario/desbloquearUsuario/${idUsuario}`;
-    this.httpClient.put<Usuario>(url, null)
-    .subscribe(data => {
-      console.log(data['_body']);
-     }, error => {
-      console.log(error);
-    });
+    const url = `${this.baseUrl}usuario/${idUsuario}`;
+    let response = this.httpClient.put<Usuario>(url, null).toPromise().catch(error => console.log(error));
+    console.log(response);
+    return response;
   }
 
   getContactos(idUsuario: string, size: number, event?): Promise<Usuario[]> {
