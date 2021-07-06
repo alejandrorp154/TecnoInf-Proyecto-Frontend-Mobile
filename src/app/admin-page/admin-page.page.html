@@ -1,7 +1,7 @@
 <!-- <app-navbar></app-navbar> -->
 <ion-content>
   <ion-tabs>
-    <ion-tab-bar slot="top">
+    <ion-tab-bar slot="top" class="tabsClass">
       <ion-tab-button tab="estadisticas">
         <ion-icon name="stats-chart-outline"></ion-icon>
         <ion-label>Estadisticas</ion-label>
@@ -30,6 +30,11 @@
       <ion-tab-button tab="tabRegistrarAdministrador">
         <ion-icon name="person-add-outline"></ion-icon>
         <ion-label>Registrar Administrador</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="salir" (click)="onLogout()">
+        <ion-icon name="log-out-outline"></ion-icon>
+        <ion-label>Salir</ion-label>
       </ion-tab-button>
     </ion-tab-bar>
   </ion-tabs>
