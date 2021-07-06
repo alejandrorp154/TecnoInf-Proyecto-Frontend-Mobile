@@ -10,9 +10,11 @@
       <ion-item *ngFor="let evento of bsEventos.value">
         <img [src]="evento.imagen" class="thumbnail" *ngIf="evento.imagen" (click)="ver(evento)">
         <p (click)="ver(evento)" class="fullwidth">{{ evento.nombre }}</p>
-        <ion-icon slot="end" name="create-outline" class="pointer" (click)="editar(evento)"></ion-icon>
+        <ion-icon slot="end" *ngIf="evento.estadoSolicitud == 'pendiente'" name="checkmark-outline" class="pointer" (click)="responderSolicitud(evento, 'aceptada')"></ion-icon>
+        <ion-icon slot="end" *ngIf="evento.estadoSolicitud == 'pendiente'" name="close-outline" class="pointer" (click)="responderSolicitud(evento, 'cancelada')"></ion-icon>
+        <ion-icon slot="end" *ngIf="evento.owner" name="create-outline" class="pointer" (click)="editar(evento)"></ion-icon>
         <ion-icon slot="end" *ngIf="evento.owner" name="trash-outline" (click)="eliminarAlert(evento, true)" class="pointer"></ion-icon>
-        <ion-icon slot="end" *ngIf="!evento.owner" name="exit-outline" (click)="eliminarAlert(evento, false)" class="pointer"></ion-icon>
+        <ion-icon slot="end" *ngIf="!evento.owner && evento.estadoSolicitud == 'aceptada'" name="exit-outline" (click)="eliminarAlert(evento, false)" class="pointer"></ion-icon>
       </ion-item>
     </ion-list>
   </ion-card>

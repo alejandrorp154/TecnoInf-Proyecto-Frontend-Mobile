@@ -9,6 +9,10 @@ import { Ubicacion } from '../modelos/ubicacion.model';
 import { EventoService } from '../servicios/evento.service';
 import { Resultado, ToolsService } from '../servicios/tools.service';
 import { Usuario } from '../modelos/usuario.model';
+import { FormControl } from '@angular/forms';
+import { UsuarioService } from '../servicios/usuario.service';
+import { map, startWith } from 'rxjs/operators';
+import { AuthService } from '../servicios/auth.service';
 
 @Component({
   selector: 'app-alta-evento',
@@ -25,6 +29,7 @@ export class AltaEventoPage implements OnInit {
   today: Date;
   ubicacion: BehaviorSubject<Ubicacion> = new BehaviorSubject(new Ubicacion());
   participantes: BehaviorSubject<Invitado[]> = new BehaviorSubject([]);
+  invitados: Invitado[];
   latitud: number;
   longitud: number;
   editando: boolean;
@@ -35,6 +40,11 @@ export class AltaEventoPage implements OnInit {
   preview: Preview = new Preview();
 
   activeTab: string;
+  searching: boolean;
+  searchBar = new FormControl;
+
+  friends: Usuario[];
+  searchResult: BehaviorSubject<any[]> = new BehaviorSubject([]);
 
   imageSource;
   imagen = {
@@ -43,18 +53,20 @@ export class AltaEventoPage implements OnInit {
     ext: ''
   }
 
-  constructor(private eventoService: EventoService, private toolsService: ToolsService, private sanitizer: DomSanitizer,
-    private _Activatedroute: ActivatedRoute, private location: Location) {
+  constructor(private eventoService: EventoService, private usuarioService: UsuarioService, private toolsService: ToolsService,
+    private authService: AuthService,
+    private sanitizer: DomSanitizer, private _Activatedroute: ActivatedRoute, private location: Location) {
       this.evento = new Evento();
       this.evento.descripcion = '';
       this.evento.nombre = '';
       this.latitud = -34.8833;
       this.longitud = -58.1667;
       this.activeTab = 'publicaciones';
+      this.invitados = [];
    }
 
   async ngOnInit() {
-
+    this.currentUser = await this.authService.getCurrentUser().toPromise();
     console.log(this._Activatedroute.snapshot['_routerState'].url);
     this.editando = this._Activatedroute.snapshot['_routerState'].url.toString().includes('/evento/editar');
     this.creando = this._Activatedroute.snapshot['_routerState'].url == '/evento/alta';
@@ -67,7 +79,9 @@ export class AltaEventoPage implements OnInit {
         });
 
         this.evento = await this.eventoService.obtenerEvento(idEvento);
-        this.participantes.next(this.evento.invitados);
+        this.evento.invitados.forEach(ii => this.invitados.push(Object.assign({}, ii)));
+        //this.invitados = Object.assign(this.evento.invitados);
+        this.participantes.next(this.evento.owner ? this.evento.invitados : this.evento.invitados.filter(i => i.estadoContactos == 'aceptada'));
         console.log(this.evento);
         this.latitud = this.evento.ubicacion.latitud;
         this.longitud = this.evento.ubicacion.longitud;
@@ -84,11 +98,44 @@ export class AltaEventoPage implements OnInit {
       }
 
     }
+    if (this.creando || this.editando) {
+
+      this.friends = await this.usuarioService.getAmigosAsync(this.currentUser.idPersona);
+
+      this.searchBar.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value.toString()))
+      ).subscribe(res => this.searchResult.next(res));
+
+    }
 
     console.log(this.evento);
 
     this.today = new Date();
     console.log(this.today);
+  }
+
+  agregarInvitado(inv: Usuario) {
+    this.invitados.push({
+      idPersona: inv.idPersona,
+      nickname: inv.nickname,
+      nombre: inv.nombre,
+      apellido: inv.apellido,
+      imagenPerfil: inv.imagenPerfil,
+      nombreImagen: inv.nombreImagen,
+      extensionImagen: inv.extension,
+      estadoContactos: 'pendiente',
+      owner: this.currentUser.idPersona == inv.idPersona
+    });
+    this.participantes.next(this.evento.owner ? this.invitados : this.invitados.filter(i => i.estadoContactos == 'aceptada'));
+    this.searchBar.setValue('');
+
+  }
+
+  removerInvitado(inv: Usuario) {
+    this.invitados.splice(this.invitados.findIndex(i => i.idPersona == inv.idPersona), 1);
+    this.participantes.next(this.evento.owner ? this.invitados : this.invitados.filter(i => i.estadoContactos == 'aceptada'));
   }
 
   marcarUbicacion(ubicacion: Ubicacion) {
@@ -110,16 +157,19 @@ export class AltaEventoPage implements OnInit {
   }
 
   async submit() {
+
     console.log('Submit!');
     console.log(this.latitud, this.longitud);
-    this.evento.fechaInicio = new Date(this.inicio.toString());
-    this.evento.fechaFin = new Date(this.fin.toString());
-    this.evento.idPersona = '';
-    this.evento.idChat = '';
-    this.evento.estado = 1;
+
     //evento.idEvento = 0;
 
     if (!this.editando) {
+      this.evento.fechaInicio = new Date(this.inicio.toString());
+      this.evento.fechaFin = new Date(this.fin.toString());
+      this.evento.idPersona = '';
+      this.evento.idChat = '';
+      this.evento.estado = 1;
+      this.evento.invitados = Object.assign(this.invitados);
       await this.eventoService.crearEvento(this.evento).then(res => {
         this.evento.idEvento = res.idEvento;
         this.evento.idChat = res.idChat;
@@ -129,13 +179,33 @@ export class AltaEventoPage implements OnInit {
         this.toolsService.presentToast('Surgió un error al crear el evento', Resultado.Error);
       });
     } else {
-      await this.eventoService.modificarEvento(this.evento).then(res => {
+      console.log(this.evento);
+      console.log(this.invitados.map(i => i.idPersona));
+      await this.eventoService.modificarEvento(this.evento, this.invitados.map(i => i.idPersona)).then(res => {
         this.toolsService.presentToast('El evento se modificó correctamente', Resultado.Ok);
       }).catch(error => {
         this.toolsService.presentToast('Surgió un error al modificar el evento', Resultado.Error);
       });
     }
     this.goBack();
+  }
+
+  private _filter(value: string): Usuario[] {
+    console.log(this.friends);
+    if(value) {
+      this.searching = true;
+      const filterValue = value.toLocaleLowerCase();
+
+      return this.friends.filter(amigo => {
+        if(amigo.apellido) {
+          return (amigo.nombre.toLocaleLowerCase().includes(filterValue) || amigo.apellido.toLocaleLowerCase().includes(filterValue));
+        } else {
+          return amigo.nombre.toLocaleLowerCase().includes(value.toLocaleLowerCase());
+        }
+      });
+    } else {
+      this.searching = false;
+    }
   }
 
   uploadFile(event) {

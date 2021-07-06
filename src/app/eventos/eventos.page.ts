@@ -7,6 +7,7 @@ import { estadosContactos } from '../modelos/estadosContactos.enum';
 import { Evento } from '../modelos/evento.model';
 import { Usuario } from '../modelos/usuario.model';
 import { AuthService } from '../servicios/auth.service';
+import { ChatService } from '../servicios/chat.service';
 import { EventoService } from '../servicios/evento.service';
 import { Resultado, ToolsService } from '../servicios/tools.service';
 import { UsuarioService } from '../servicios/usuario.service';
@@ -23,8 +24,8 @@ export class EventosPage implements OnInit {
   bsEventos: BehaviorSubject<Evento[]> = new BehaviorSubject([]);
   subscription: Subscription;
 
-  constructor(private eventoService: EventoService, private usuarioService: UsuarioService, private authService: AuthService,
-    private toolsService: ToolsService,private alertController: AlertController, private router: Router, private location: Location) {
+  constructor(private eventoService: EventoService, private usuarioService: UsuarioService, private authService: AuthService, private chatService: ChatService,
+    private toolsService: ToolsService, private alertController: AlertController, private router: Router, private location: Location) {
 
       this.subscription = this.router.events.subscribe((event) => {
         if (event instanceof NavigationEnd) {
@@ -43,12 +44,12 @@ export class EventosPage implements OnInit {
     console.log('entró');
     let userFire = await this.authService.getCurrentUserFire().toPromise();
     console.log(userFire);
-    //this.loggedUser = await this.usuarioService.getUsuario(userFire.id);
+    this.loggedUser = await this.authService.getCurrentUser().toPromise();
     this.eventos = await this.eventoService.obtenerEventosXPersona(userFire.id);
     this.eventos.forEach(e => {e.fechaInicio = new Date(e.fechaInicio); e.fechaFin = new Date(e.fechaFin)});
     console.log(this.eventos);
     this.eventos.sort((a,b) => a.fechaInicio.getTime() - b.fechaInicio.getTime());
-    this.bsEventos.next(this.eventos);
+    this.bsEventos.next(this.eventos.filter(e => e['estadoSolicitud'] != 'cancelada'));
     console.log(this.eventos);
   }
 
@@ -86,7 +87,7 @@ export class EventosPage implements OnInit {
             handler: () => {
               if(isDelete)
               {
-                this.eliminar(evento.idEvento);
+                this.eliminar(evento);
               }
               else
               {
@@ -115,13 +116,24 @@ export class EventosPage implements OnInit {
     console.log(this.location.getState());
   }
 
+  responderSolicitud(evento: Evento, respuesta: string) {
+    this.eventoService.responderSolicitud(this.loggedUser.idPersona, evento.idEvento, respuesta)
+      .then(res => {
+        evento['estadoSolicitud'] = respuesta;
+        this.toolsService.presentToast('Se guardaron los cambios correctamente', Resultado.Ok);
+        this.bsEventos.next(this.eventos.filter(e => e['estadoSolicitud'] != 'cancelada'));
+      })
+      .catch(ex => { console.log(ex); this.toolsService.presentToast('Surgió un error al guardar los cambios', Resultado.Error); });
+  }
 
-  async eliminar(idEvento: number) {
-    await this.eventoService.elminarEvento(idEvento).then(res => {
+
+  async eliminar(evento: Evento) {
+    await this.eventoService.elminarEvento(evento.idEvento).then(res => {
+      this.chatService.eliminar(evento.idChat);
       console.log(res);
-      console.log(this.eventos.findIndex(e => e.idEvento == idEvento));
+      console.log(this.eventos.findIndex(e => e.idEvento == evento.idEvento));
       console.log(this.eventos);
-      this.eventos.splice(this.eventos.findIndex(e => e.idEvento == idEvento),1);
+      this.eventos.splice(this.eventos.findIndex(e => e.idEvento == evento.idEvento),1);
       console.log(this.eventos);
       this.bsEventos.next(this.eventos);
       this.toolsService.presentToast('El evento se eliminó correctamente', Resultado.Ok);

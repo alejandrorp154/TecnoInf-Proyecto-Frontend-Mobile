@@ -74,6 +74,32 @@
         </ion-col>
       </ion-row>
       <ion-row>
+        <ion-col size="4" size-md="2" size-xs="12">
+          <ion-label>Invitados</ion-label>
+        </ion-col>
+        <ion-col size="8" size-md="5" size-lg="3" size-xs="12">
+          <ion-searchbar [formControl]="searchBar"></ion-searchbar>
+        </ion-col>
+        <ion-list #listItems *ngIf="searching">
+          <ion-item *ngFor="let friend of searchResult | async" (click)="agregarInvitado(friend)" class="pointer">
+            <div class="circle">
+              <img src="{{friend.imgurl}}"/>
+            </div>
+            <div class="nombre-amigo">
+              <p>{{friend.nombre}} {{friend.apellido}}</p>
+            </div>
+          </ion-item>
+        </ion-list>
+      </ion-row>
+      <ion-row>
+        <ion-col *ngIf="participantes.value && participantes.value.length > 0">
+          <ion-item class="lstParticipantes pointer" *ngFor="let invitado of participantes.value" >
+            <img [src]="invitado.imagenPerfil" class="thumbnail ml-2" /> {{ invitado.nombre }} {{ invitado.apellido }}
+            <ion-icon name="person-remove-outline" *ngIf="!invitado.owner" button (click)="removerInvitado(invitado)"></ion-icon>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
         <ion-col size="2"></ion-col>
         <ion-col size="8" size-md="5" size-lg="3" size-xs="12">
           <ion-button expand="block" color="primary" [disabled]="!isValid()" (click)="submit()">Aceptar</ion-button>
@@ -101,20 +127,20 @@
         <p>{{ evento.descripcion }}</p>
       </ion-col>
     </ion-row>
-    <ion-row class="custom-tabs">
-      <ion-col size="4" (click)="toggleTab('publicaciones')"><ion-icon name="happy-outline" size="large" color="blue"></ion-icon><br><ion-label>Publicaciones</ion-label></ion-col>
-      <ion-col size="4" (click)="toggleTab('participantes')"><ion-icon name="people-outline" size="large"></ion-icon><br><ion-label>Participantes</ion-label></ion-col>
-      <ion-col size="4" (click)="toggleTab('mapa')"><ion-icon name="map-outline" size="large"></ion-icon><br><ion-label>Mapa</ion-label></ion-col>
-    </ion-row>
+    <ion-item class="custom-tabs">
+      <ion-col size="4" (click)="toggleTab('publicaciones')"><ion-icon name="happy-outline" size="medium" color="blue"></ion-icon><br><ion-label>Publicaciones</ion-label></ion-col>
+      <ion-col size="4" (click)="toggleTab('participantes')"><ion-icon name="people-outline" size="medium"></ion-icon><br><ion-label>Participantes</ion-label></ion-col>
+      <ion-col size="4" (click)="toggleTab('mapa')"><ion-icon name="map-outline" size="medium"></ion-icon><br><ion-label>Mapa</ion-label></ion-col>
+    </ion-item>
     <ion-row *ngIf="activeTab=='participantes'">
       <ion-col *ngIf="!participantes.value || participantes.value.length == 0">
         <span>No hay participantes en el evento</span>
       </ion-col>
       <ion-col *ngIf="participantes.value && participantes.value.length > 0">
-        <span class="lstParticipantes pointer" *ngFor="let invitado of participantes.value" >
-          <img [src]="invitado.imagenPerfil" class="thumbnail" /> {{ invitado.nombre }} {{ invitado.apellido }}
-          <ion-icon name="person-remove-outline" button (click)="removerIntegrante(participante)"></ion-icon>
-        </span>
+        <ion-item class="lstParticipantes pointer" *ngFor="let invitado of participantes.value" >
+          <img [src]="invitado.imagenPerfil" class="thumbnail ml-2" /> {{ invitado.nombre }} {{ invitado.apellido }}
+          <ion-icon name="person-remove-outline" *ngIf="editando || creando" button (click)="removerIntegrante(invitado)"></ion-icon>
+        </ion-item>
       </ion-col>
     </ion-row>
     <ion-row *ngIf="activeTab=='mapa'">
@@ -128,9 +154,9 @@
         <span>No hay publicaciones en el evento</span>
       </ion-col>
       <ion-col *ngIf="evento.publicaciones && evento.publicaciones.length > 0">
-        <span class="lstParticipantes pointer" *ngFor="let publicaciones of evento.publicaciones" >
-          <img [src]="publicaciones.imagen" class="thumbnail" /> {{ publicaciones.title }} {{ publicaciones.descripcion }}
-        </span>
+        <ion-item class="lstParticipantes pointer" *ngFor="let publicacion of evento.publicaciones" >
+          <!-- <img [src]="publicacion.imagen" class="thumbnail" /> --> {{ publicacion.nombre }} {{ publicacion.contenido }}
+        </ion-item>
       </ion-col>
     </ion-row>
   </ion-grid>

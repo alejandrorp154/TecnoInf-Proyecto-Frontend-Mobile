@@ -56,11 +56,6 @@ const routes: Routes = [
     // canLoad: [LoginGuard]
   },
   {
-    path: 'chat/:nickname',
-    loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule),
-    canLoad: [LoginGuard]
-  },
-  {
     path: 'interes',
     loadChildren: () => import('./interes/interes.module').then( m => m.InteresPageModule)
   },
@@ -120,7 +115,7 @@ const routes: Routes = [
     path: 'comentarios-publicacion/:id',
     loadChildren: () => import('./comentarios-publicacion/comentarios-publicacion.module').then( m => m.ComentariosPublicacionPageModule)
   },
-  {  
+  {
     path: 'configuracion-notificaciones',
     loadChildren: () => import('./UI/configuracion-notificaciones/configuracion-notificaciones.module').then(c => c.ConfiguracionNotificacionesPageModule)
   },
