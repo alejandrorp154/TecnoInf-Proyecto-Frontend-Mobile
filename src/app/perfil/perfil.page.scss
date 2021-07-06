@@ -41,14 +41,17 @@
   }
 
   .edit-button{
-    margin-left: 15%;
     text-align: end;
     width: 100%;
+    margin-left: -30%;
     position: absolute;
-    bottom: 0;
   }
 
-  @media(max-width: 500px){
+  .mis-ubicaciones-button{        
+    margin-top: 15%;
+  }
+
+  @media(max-width: 700px){
     .publicaciones{
       width: 100%;
       margin-left: 0;
@@ -61,6 +64,17 @@
 
     .profile{
       background-size: auto;
+    }
+
+    .mis-ubicaciones-button{
+      margin-top: 20%;
+      font-size: 20px;
+      margin-left: -25%;
+    }
+
+    .edit-button{
+      margin-top: 0%;
+      font-size: 20px;
     }
 
     .avatar {
