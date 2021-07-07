@@ -15,6 +15,7 @@ import { UbicacionService } from 'src/app/servicios/ubicacion.service';
 import { DatePipe } from '@angular/common';
 import { Ubicacion } from 'src/app/modelos/ubicacion.model';
 import { Multimedia } from "src/app/modelos/multimedia.model";
+import { Resultado, ToolsService } from "src/app/servicios/tools.service";
 
 @Component({
   selector: 'app-alta-publicacion',
@@ -29,7 +30,8 @@ export class AltaPublicacionComponent implements OnInit {
      public modalController: ModalController, private pubService: PubicacionService,
      private plt: Platform, private actionSheetCtrl: ActionSheetController,
      private sanitizer: DomSanitizer, private ubiService: UbicacionService,
-     private datePipe: DatePipe, private userService: UsuarioService ) { }
+     private datePipe: DatePipe, private userService: UsuarioService,
+     private tools: ToolsService ) { }
 
   preview: Preview = new Preview;
 
@@ -58,6 +60,7 @@ export class AltaPublicacionComponent implements OnInit {
     userId: ''
   }
 
+  resultado: Resultado;
 
   public usr: usuario;
   public idPer: idPersona;
@@ -87,6 +90,7 @@ export class AltaPublicacionComponent implements OnInit {
       console.log(this.publicacion);
       this.pubService.altaPublicacion(this.publicacion);
       this.texto.textoPub = '';
+      this.tools.presentToast('La publicacion fue creada con exito', this.resultado);
     }
     else if(this.tipo=='enlaceExterno'){
       this.tipoPub.tipo = TipoPublicacionEnum.enlaceExterno;
@@ -95,6 +99,7 @@ export class AltaPublicacionComponent implements OnInit {
       this.publicacion = new Publicacion(this.tipoPub,prev,'','',this.usr);
       console.log(this.publicacion);
       this.pubService.altaPublicacion(this.publicacion);
+      this.tools.presentToast('La publicacion fue creada con exito', this.resultado);
     }
     else if(this.tipo=='foto'){
       console.log(this.imagen);
@@ -103,6 +108,7 @@ export class AltaPublicacionComponent implements OnInit {
       console.log(this.publicacion);
       this.pubService.altaPublicacion(this.publicacion);
       this.userService.subirFoto(new Multimedia(this.imagen.base64, this.imagen.nombre, this.imagen.ext, this.idPer.idPersona))
+      this.tools.presentToast('La publicacion fue creada con exito', this.resultado);
     }
     else{
       this.tipoPub.tipo = TipoPublicacionEnum.mapa;
@@ -110,7 +116,7 @@ export class AltaPublicacionComponent implements OnInit {
       this.pubService.altaPublicacion(this.publicacion);
       //Alta Ubicacion
       this.ubicacion = new Ubicacion;
-      this.ubicacion.descripcion = '';
+      this.ubicacion.descripcion = this.texto.textoPub;
       var fecha = new Date();
 
       //this.ubicacion.fecha = this.datePipe.transform(fecha,"yyyy-MM-dd") //String se comenta porque el modelo esta con Date
@@ -121,6 +127,8 @@ export class AltaPublicacionComponent implements OnInit {
       this.ubicacion.pais = this.pais;
       console.log(this.ubicacion);
       this.ubiService.altaUbicacion(this.ubicacion);
+      this.texto.textoPub = '';
+      this.tools.presentToast('La publicacion fue creada con exito', this.resultado);
     }
     this.cancelar();//Vuelve a tipo texto
   }
@@ -191,7 +199,7 @@ export class AltaPublicacionComponent implements OnInit {
       container: 'mapa-mapbox', // container id
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [lng, lat], // starting position
-      zoom: 12, // starting zoom
+      zoom: 15, // starting zoom
     });
 
     const marker = new Mapboxgl.Marker({
@@ -200,6 +208,7 @@ export class AltaPublicacionComponent implements OnInit {
     })
       .setLngLat([lng, lat])
       .addTo(this.mapa);
+
   }
 
 
@@ -217,7 +226,7 @@ export class AltaPublicacionComponent implements OnInit {
           this.long = parseFloat(cord[0]);
           this.lat = parseFloat(cord[1]);
           this.pais = cord[2];
-          setTimeout(() => this.buildMap(parseFloat(cord[0]),parseFloat(cord[1])), 5);
+          setTimeout(() => this.buildMap(parseFloat(cord[0]),parseFloat(cord[1])), 10);
           this.tipo = 'mapa';
         }
     });

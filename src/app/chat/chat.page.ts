@@ -1,7 +1,7 @@
 import { Contacto } from "./../modelos/contacto.model";
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { IonContent } from '@ionic/angular';
+import { AlertController, IonContent } from '@ionic/angular';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, map, startWith, tap } from 'rxjs/operators';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
@@ -10,9 +10,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ChatService } from 'src/app/servicios/chat.service';
 import { Usuario } from '../modelos/usuario.model';
 import { Chat } from '../modelos/chat.model';
-import { imgFile } from '../modelos/mensaje.model';
+import { Mensaje, imgFile } from '../modelos/mensaje.model';
 import { UsuarioService } from '../servicios/usuario.service';
 import { AuthService } from '../servicios/auth.service';
+import { Resultado, ToolsService } from "../servicios/tools.service";
+import { EventoService } from "../servicios/evento.service";
+import { Evento } from "../modelos/evento.model";
 
 @Component({
   selector: 'app-chat',
@@ -32,10 +35,12 @@ export class ChatPage implements OnInit {
   chatting = false;
   searching = false;
   friends: Usuario[];
+  eventos: Evento[];
   contactos: Contacto[];
   currentFriend: Usuario;
   chatrooms: Chat[];
   currentChatroomId: string;
+  searchBar = new FormControl;
 
   nickname = '';
   searchResult: BehaviorSubject<any[]> = new BehaviorSubject([]);
@@ -67,94 +72,98 @@ export class ChatPage implements OnInit {
   private filesCollection: AngularFirestoreCollection<imgFile>;
 
   constructor(private chatService: ChatService, private usuarioService: UsuarioService, private authService: AuthService,
-    private afs: AngularFirestore, private afStorage: AngularFireStorage, private router: Router, private _Activatedroute: ActivatedRoute) {
+    private alertController: AlertController, private toolsService: ToolsService, private afs: AngularFirestore, private eventoService: EventoService,
+    private afStorage: AngularFireStorage, private router: Router, private _Activatedroute: ActivatedRoute) {
 
-    this.isFileUploading = false;
-    this.isFileUploaded = false;
+      this.isFileUploading = false;
+      this.isFileUploaded = false;
 
-    // Define uploaded files collection
-    this.filesCollection = afs.collection<imgFile>('imagesCollection');
-    this.files = this.filesCollection.valueChanges();
+      // Define uploaded files collection
+      this.filesCollection = afs.collection<imgFile>('imagesCollection');
+      this.files = this.filesCollection.valueChanges();
+      this.contactos = [];
+      this.eventos = [];
    }
 
   async ngOnInit() {
     //this.searchBar.setValue('');
     let userFire = await this.authService.getCurrentUserFire().toPromise();
     console.log(userFire);
+    this.eventoService.obtenerEventosXPersona(userFire.id).then(res => this.eventos = res);
     this.currentUser = await this.usuarioService.getUsuarioAsync(userFire.id);
     console.log(this.currentUser);
-    /*/ *********************************************************************
-    this.currentUser = {idPersona: 'WnVrwbfSYjYULq1uCQ0pUOZhBH13', nickname: 'michel', nombre: 'Michel',
-      apellido: 'Jackson', celular: '099999999', email: 'mj@mail.com', rol: Rol.Turista};
-    // *********************************************************************/
+
     this._Activatedroute.paramMap.subscribe(params => {
       try{
         console.log(params);
         this.nickname = params.get('nickname');
+        this.currentChatroomId = params.get('idChat');
         console.log(this.nickname);
       } catch (ex) { }
     });
 
-    this.contactos = await this.usuarioService.getContactosAsync(this.currentUser.idPersona);
-    console.log(this.contactos);
-    this.friends = this.getContactosPersona();
+    this.friends = await this.usuarioService.getAmigosAsync(this.currentUser.idPersona);
+    console.log(this.friends);
+    //this.friends = this.getContactosPersona();
+    if((!this.nickname || this.nickname == '') && (!this.currentChatroomId || this.currentChatroomId == '')) {
+      try{
+        this.chatService.obtenerMisChats().subscribe(res => {
+          console.log(res);
+          this.chatrooms = res;
+          console.log(this.chatrooms);
+        });
 
-    try{
-
-      this.chatService.obtenerMisChats().subscribe(res => {
-        console.log(res);
-        this.chatrooms = res;
-        console.log(this.chatrooms);
-      });
-      if (!this.nickname || this.nickname == '') {
         this.searchResult.next(this.friends);
+      } catch(ex) { console.log(ex); }
 
+    } else if (this.currentChatroomId != '') {
+      this.chatting = true;
+      this.searching = false;
+      this.messages = this.chatService.obtenerMensajes(this.currentChatroomId);
+    } else {
+      this.chatting = true;
+      if (this.friends.some(f => f.nickname === this.nickname)) {
+        this.currentFriend = this.friends.find(f => f.nickname === this.nickname);
       } else {
-        this.chatting = true;
-        if (this.friends.some(f => f.nickname === this.nickname)) {
-          this.currentFriend = this.friends.find(f => f.nickname === this.nickname);
-        } else {
-          this.currentChatroomId = this.nickname;
-        }
-
-        console.log(this.currentFriend);
-        if (this.currentFriend) {
-          if (this.chatrooms && this.chatrooms.some(c => c.uids == [this.currentUser.idPersona, this.currentFriend.idPersona])) {
-            this.messages = this.chatService.obtenerMensajes(this.chatrooms.find(c => c.uids == [this.currentUser.idPersona, this.currentFriend.idPersona]).idChat);
-          } else {
-            /*this.chatService.createChatroom([this.currentUser.uid, this.currentFriend.uid]).then(res => {
-              this.currentChatroomId = res.id;
-              console.log('Chatroom creado: ' ,res.id);
-            });*/
-            this.messages = new Observable((observer) => observer.next([]));
-          }
-        } else {
-          this.messages = this.chatService.obtenerMensajes(this.currentChatroomId);
-          let cchrom = this.chatrooms.find(c => c.idChat === this.currentChatroomId);
-          this.currentFriend = this.friends.find(f => f.idPersona === cchrom.uids.find(g => g != this.currentUser.idPersona));
-        }
+        this.currentChatroomId = this.nickname;
       }
-    } catch(ex) { console.log(ex); }
 
+      console.log(this.currentFriend);
+      if (this.currentFriend) {
+        if (this.chatrooms && this.chatrooms.some(c => c.uids == [this.currentUser.idPersona, this.currentFriend.idPersona])) {
+          this.messages = this.chatService.obtenerMensajes(this.chatrooms.find(c => c.uids == [this.currentUser.idPersona, this.currentFriend.idPersona]).idChat);
+        } else {
+          this.chatService.crearChat([this.currentUser.idPersona, this.currentFriend.idPersona], this.currentFriend.nombre + ' ' + this.currentFriend.apellido).then(res => {
+            this.currentChatroomId = res;
+            console.log('Chatroom creado: ' ,res);
+          });
+          this.messages = new Observable((observer) => observer.next([]));
+        }
+      } else {
+        this.messages = this.chatService.obtenerMensajes(this.currentChatroomId);
+        let cchrom = this.chatrooms.find(c => c.idChat === this.currentChatroomId);
+        this.currentFriend = this.friends.find(f => f.idPersona === cchrom.uids.find(g => g != this.currentUser.idPersona));
+      }
+    }
 
-
-/*
 
     this.searchBar.valueChanges
     .pipe(
       startWith(''),
       map(value => this._filter(value.toString()))
     ).subscribe(res => this.searchResult.next(res));
-*/
+
   }
 
   getContactosPersona(){
     let t= this;
     let lista: Usuario[] = [];
-    this.contactos.forEach(function(contacto){
-      let persona = t.usuarioService.getUsuario(contacto.idPersona);
-      lista.push(persona);
-    })
+    if(this.contactos) {
+      this.contactos.forEach(function(contacto){
+        let persona = t.usuarioService.getUsuario(contacto.idPersona);
+        lista.push(persona);
+      })
+    }
     return lista;
   }
 
@@ -173,19 +182,54 @@ export class ChatPage implements OnInit {
 
   goChatroom(chatroom: Chat) {
     console.log(chatroom);
-    this.router.navigateByUrl('/chat/' + chatroom.idChat);
+    this.router.navigateByUrl('/chat/' + chatroom['id']);
   }
 
   getFriendImage(chatroom: Chat) {
-      return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8WPcgKdDDPzz76xNKr9pKb_xmWJznpOjs1w&usqp=CAU';
+    if(chatroom.uids.length != 2) {
+      console.log('la cantidad de integrantes del chat es distinta de 2');
+      let str = this.getImageByIdChat(chatroom.idChat);
+      return str != '' ? str : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8WPcgKdDDPzz76xNKr9pKb_xmWJznpOjs1w&usqp=CAU';
+    } else {
+      try {
+        console.log('la cantidad de integrantes del chat es 2', this.friends);
+        console.log(this.friends.find(f => chatroom.uids.find(u => u != this.currentUser.idPersona) == f.idPersona));
+        return this.friends.find(f => chatroom.uids.find(u => u != this.currentUser.idPersona) == f.idPersona) ?
+          this.friends.find(f => chatroom.uids.find(u => u != this.currentUser.idPersona) == f.idPersona).imagenPerfil : '';
+      } catch(err) {
+        console.log(err);
+        return '../../assets/img/defaultProfileImage.png';
+      }
+    }
   }
 
   getChatroomName(chatroom: Chat) {
+    if(chatroom.uids.length == 2) {
+      try {
+        let pers = this.friends.find(f => f.idPersona == chatroom.uids.find(u => u != this.currentUser.idPersona));
+        let nombre = pers.nombre + ' ' + pers.apellido;
+        console.log(nombre);
+        return nombre;
+      } catch (ex) { console.log(ex); }
+    }else {
       return chatroom.nombre;
+    }
+  }
+
+  getImageByIdChat(idChat: string): string {
+    console.log(this.eventos);
+    if (this.eventos && this.eventos.length > 0) {
+      try {
+        return this.eventos.find(e => e.idChat == idChat).imagen;
+      } catch {
+        return '';
+      }
+    } else { return ''; }
   }
 
   enviarMessage() {
-    this.chatService.addChatMessage(this.newMsg, this.mediaUrl, this.currentChatroomId).then(() => {
+    console.log(this.newMsg, this.mediaUrl, this.currentChatroomId);
+    this.chatService.addChatMessage(this.newMsg, this.mediaUrl, this.currentChatroomId, this.currentUser.nombre + ' ' + this.currentUser.apellido).then(() => {
       this.newMsg = '';
       this.mediaUrl = '';
       this.content.scrollToBottom();
@@ -272,5 +316,51 @@ console.log('está subiendo el archivo');
         console.log(err);
       });
   }
+
+
+  eliminarAlert(chat: Chat) {
+    console.log(chat);
+    let message
+    let bttnText
+    message = '¿Estas seguro que deseas eliminar este evento?'
+    bttnText = 'Borrar'
+    this.alertController
+      .create({
+        header: '¿Estas seguro?',
+        message: message,
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel'
+          },
+          {
+            text: bttnText,
+            handler: () => {
+              this.eliminar(chat.idChat);
+            }
+          }
+        ]
+      })
+      .then(alertEl => {
+        alertEl.present();
+      });
+  }
+
+
+  async eliminar(idChat: string) {
+    console.log(idChat);
+    await this.chatService.eliminar(idChat).then(res => {
+      console.log(res);
+      console.log(this.chatrooms.findIndex(e => e.idChat == idChat));
+      console.log(this.chatrooms);
+      this.chatrooms.splice(this.chatrooms.findIndex(e => e.idChat == idChat),1);
+      console.log(this.chatrooms);
+      this.searchResult.next(this.chatrooms);
+      this.toolsService.presentToast('El chat se eliminó correctamente', Resultado.Ok);
+    }).catch(error => {
+      this.toolsService.presentToast('Surgió un error al eliminar el chat', Resultado.Error);
+    });
+  }
+
 
 }

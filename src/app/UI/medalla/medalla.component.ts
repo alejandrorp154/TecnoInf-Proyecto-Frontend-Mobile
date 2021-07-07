@@ -29,7 +29,7 @@ export class MedallaComponent implements OnInit {
             case 'ironWolf':
             {
               this.medallaUrl = "../../assets/img/Iron.png";
-              this.progreso = (this.medalla.value.cantidadPuntos * 100) / 75
+              this.progreso = ((this.medalla.value.cantidadPuntos * 100) / 75 )/ 100
               this.puntosTotales = 75;
               this.puntosActuales = this.medalla.value.cantidadPuntos;
               this.medallaName = "Iron Wolf";
@@ -38,7 +38,7 @@ export class MedallaComponent implements OnInit {
             case 'bronzeWolf':
             {
               this.medallaUrl = "../../assets/img/Bronce.png";
-              this.progreso = (this.medalla.value.cantidadPuntos * 100) / 150
+              this.progreso = ((this.medalla.value.cantidadPuntos * 100) / 150)/ 100
               this.puntosTotales = 150;
               this.puntosActuales = this.medalla.value.cantidadPuntos;
               this.medallaName = "Bronce Wolf";
@@ -47,7 +47,7 @@ export class MedallaComponent implements OnInit {
             case 'silverWolf':
             {
               this.medallaUrl = "../../assets/img/Silver.png";
-              this.progreso = (this.medalla.value.cantidadPuntos * 100) / 300
+              this.progreso = ((this.medalla.value.cantidadPuntos * 100) / 300)/ 100
               this.puntosTotales = 300;
               this.puntosActuales = this.medalla.value.cantidadPuntos;
               this.medallaName = "Silver Wolf";
@@ -56,7 +56,7 @@ export class MedallaComponent implements OnInit {
             case 'goldWolf':
             {
               this.medallaUrl = "../../assets/img/Gold.png";
-              this.progreso = (this.medalla.value.cantidadPuntos * 100) / 600
+              this.progreso = ((this.medalla.value.cantidadPuntos * 100) / 600)/ 100
               this.puntosTotales = 600;
               this.puntosActuales = this.medalla.value.cantidadPuntos;
               this.medallaName = "Gold Wolf";
@@ -65,7 +65,7 @@ export class MedallaComponent implements OnInit {
             case 'platinumWolf':
             {
               this.medallaUrl = "../../assets/img/Platinum.png";
-              this.progreso = (this.medalla.value.cantidadPuntos * 100) / 1200
+              this.progreso = ((this.medalla.value.cantidadPuntos * 100) / 1200)/ 100
               this.puntosTotales = 1200;
               this.puntosActuales = this.medalla.value.cantidadPuntos;
               this.medallaName = "Platinum Wolf";
@@ -74,7 +74,7 @@ export class MedallaComponent implements OnInit {
             case 'diamondWolf':
             {
               this.medallaUrl = "../../assets/img/Diamond.png";
-              this.progreso = (this.medalla.value.cantidadPuntos * 100) / 2400
+              this.progreso = ((this.medalla.value.cantidadPuntos * 100) / 2400)/ 100
               this.puntosTotales = 2400;
               this.puntosActuales = this.medalla.value.cantidadPuntos;
               this.medallaName = "Diamond Wolf";
@@ -83,7 +83,7 @@ export class MedallaComponent implements OnInit {
             case 'masterWolf':
             {
               this.medallaUrl = "../../assets/img/Master.png";
-              this.progreso = (this.medalla.value.cantidadPuntos * 100) / 4800
+              this.progreso = ((this.medalla.value.cantidadPuntos * 100) / 4800)/ 100
               this.puntosTotales = 4800;
               this.puntosActuales = this.medalla.value.cantidadPuntos;
               this.medallaName = "Master Wolf";
@@ -92,7 +92,7 @@ export class MedallaComponent implements OnInit {
             case 'alfaWolf':
             {
               this.medallaUrl = "../../assets/img/Alfa.png";
-              this.progreso = (this.medalla.value.cantidadPuntos * 100) / 10000
+              this.progreso = ((this.medalla.value.cantidadPuntos * 100) / 10000)/ 100
               this.puntosTotales = 10000;
               this.puntosActuales = this.medalla.value.cantidadPuntos;
               this.medallaName = "Alfa Wolf";
@@ -101,7 +101,7 @@ export class MedallaComponent implements OnInit {
             default:
             {
               this.medallaUrl = "../../assets/img/Null.png";
-              this.progreso = (this.medalla.value.cantidadPuntos * 100) / 1
+              this.progreso = ((this.medalla.value.cantidadPuntos * 100) / 1)/ 100
               this.puntosTotales = 1;
               this.puntosActuales = this.medalla.value.cantidadPuntos;
               this.medallaName = "New Wolf";
@@ -114,7 +114,6 @@ export class MedallaComponent implements OnInit {
           this.puntosActuales = 0;
           this.medallaName = "Noob Wolf";
         }
-
       }
     )
 

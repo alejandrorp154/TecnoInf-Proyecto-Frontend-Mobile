@@ -37,12 +37,21 @@
   .handle {
     padding-left: 4px;
     color: var(--ion-color-medium);
+    font-family: Gotham;
+    font-size: 18px;
+  }
+
+  .contenido-publicacion{
+    font-family: Georgia;
+    font-size: 16px;
+    color: #212221;
   }
   
   .wrapper {
     border-bottom: 1px solid var(--ion-color-light);
     background: white;
     margin-bottom: 15px;
+    border-radius: 10px;
   }
   
   .highlight {

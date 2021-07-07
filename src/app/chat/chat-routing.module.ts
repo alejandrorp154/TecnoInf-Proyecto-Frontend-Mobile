@@ -7,7 +7,15 @@ const routes: Routes = [
   {
     path: '',
     component: ChatPage
-  }
+  },
+  {
+    path: 'nickname/:nickname',
+    component: ChatPage
+  },
+  {
+    path: ':idChat',
+    component: ChatPage
+  },
 ];
 
 @NgModule({

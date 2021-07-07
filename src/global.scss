@@ -27,6 +27,11 @@
 
 @import "./app.scss";
 
+@font-face{
+   font-family: 'big_noodle_titling';
+   src: url('../src/assets/fonts/big_noodle_titling.ttf');
+}
+
 .transparent-modal
 {
    .modal-wrapper{

@@ -50,6 +50,9 @@
 
   .contenido-publicacion{
     margin: 10px;
+    font-family: Georgia;
+    font-size: 16px;
+    color: #212221;
   }
 
   .reacciones{
@@ -71,15 +74,19 @@
   
   .name {
     font-weight: 600;   
+    margin-left: 8px;
   }
   
   .handle {
     padding-left: 4px;
     color: var(--ion-color-medium);
+    font-family: Gotham;
+    font-size: 18px;
   }
   
   .wrapper {
-    //border-bottom: 1px solid var(--ion-color-light);    
+    //border-bottom: 1px solid var(--ion-color-light);    \
+    border-radius: 10px;
   }
   
   .highlight {

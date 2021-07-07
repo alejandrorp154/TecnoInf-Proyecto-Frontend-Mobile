@@ -13,6 +13,13 @@ ion-input::placeholder {
   font-style: italic;
 }
 
+.text-header{
+  font-family: 'big_noodle_titling';
+  font-size: 25px;
+  color:#212211;
+  margin-left: 8px;
+}
+
 ion-col.datepicker {
   padding-right: 0;
 
@@ -86,4 +93,8 @@ ion-item::part(native) {
   max-width: 60px;
   border-radius: 10%;
   margin-right: 1em;
+}
+
+.ml-2 {
+  margin-left: 10px;
 }
