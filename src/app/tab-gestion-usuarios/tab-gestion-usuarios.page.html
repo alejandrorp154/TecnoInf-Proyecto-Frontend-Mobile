@@ -23,11 +23,11 @@
                     <h5>{{usuario.nickname}}</h5>
                     <p>{{usuario.email}}</p>
                   </ion-label>
-                  <ion-button [hidden]="usuario.bloqueado" color="danger" (click)="onBloquearUsuario(usuario.idPersona)">
-                    <ion-icon name="lock-closed-sharp" slot="icon-only"></ion-icon>
-                  </ion-button>
-                  <ion-button [hidden]="!usuario.bloqueado" color="green" (click)="onDesbloquearUsuario(usuario.idPersona)">
+                  <ion-button [hidden]="usuario.estaBloqueado" color="success" (click)="onBloquearUsuario(usuario.idPersona)" title="Bloquear">
                     <ion-icon name="lock-open-sharp" slot="icon-only"></ion-icon>
+                  </ion-button>
+                  <ion-button [hidden]="!usuario.estaBloqueado" color="danger" (click)="onDesbloquearUsuario(usuario.idPersona)" title="Desbloquear">
+                    <ion-icon name="lock-closed-sharp" slot="icon-only"></ion-icon>
                   </ion-button>
                 </ion-item>
               </ion-list>
