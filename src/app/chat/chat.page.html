@@ -5,13 +5,13 @@
   <ion-grid *ngIf="chatting">
     <ion-row *ngFor="let message of messages | async">
       <ion-col size="9" class="message"
-        [offset]="message.myMsg ? 3 : 0"
-        [ngClass]="{ 'my-message': message.myMsg, 'other-message': !message.myMsg }">
-        <b>{{ message.fromName }}</b><br>
-        <span>{{ message.msg }}
+        [offset]="message.miMsj ? 3 : 0"
+        [ngClass]="{ 'my-message': message.miMsj, 'other-message': !message.miMsj }">
+        <b>{{ message.nombreDe }}</b><br>
+        <span>{{ message.contenido }}
         </span>
-        <ion-img *ngIf="message.mediaUrl != ''" src="{{message.mediaUrl}}"></ion-img>
-        <div class="time ion-text-right"><br>{{ message.createdAt?.toMillis() | date:'short' }}</div>
+        <ion-img *ngIf="message.path != ''" src="{{message.path}}"></ion-img>
+        <div class="time ion-text-right"><br>{{ message.fecha?.toMillis() | date:'short' }}</div>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -27,14 +27,18 @@
     </ion-item>
   </ion-list>
 
-  <ion-list *ngIf="!chatting && !searching">
-    <ion-item *ngFor="let chatroom of chatrooms" (click)="goChatroom(chatroom)" class="pointer">
-      <div class="circle chat-thumbnail">
+  <ion-list *ngIf="!chatting">
+    <ion-item>
+      <ion-searchbar [formControl]="searchBar"></ion-searchbar>
+    </ion-item>
+    <ion-item *ngFor="let chatroom of chatrooms" class="pointer">
+      <div class="circle chat-thumbnail" (click)="goChatroom(chatroom)">
         <img src="{{getFriendImage(chatroom)}}" />
       </div>
-      <div class="nombre-amigo">
+      <div class="nombre-amigo" (click)="goChatroom(chatroom)">
         <p>{{ getChatroomName(chatroom) }}</p>
       </div>
+      <ion-icon slot="end" name="trash-outline" (click)="eliminarAlert(chatroom)" size="small" class="pointer"></ion-icon>
     </ion-item>
     <ion-item *ngIf="chatrooms && chatrooms.length == 0">
       Nada por aquí, busca algún amigo para iniciar una conversación.
@@ -57,7 +61,7 @@
   <!-- File upload progress bar -->
   <div *ngIf="isFileUploading && percentageVal | async as percentage">
     <!-- Progreso: {{ percentage | number }}% -->
-    <ion-progress-bar value="{{ percentage / 100 }}"></ion-progress-bar>
+    <ion-progress-bar type="indeterminate" value="{{ percentage / 100 }}"></ion-progress-bar>
   </div>
 
   <div *ngIf="isFileUploading && trackSnapshot | async as snap">

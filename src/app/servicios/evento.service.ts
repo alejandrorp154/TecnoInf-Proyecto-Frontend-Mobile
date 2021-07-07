@@ -59,7 +59,19 @@ export class EventoService {
     return this.http.delete<boolean>(this.baseUrl + `evento/removerUsuario/${idEvento}/${idPersona}`).toPromise();
   }
 
+  responderSolicitud(idPersona: string, idEvento: number, respuesta: string) {
+    console.log({idEvento: idEvento, idPersona: idPersona, estadoContactos: respuesta});
+    return this.http.put<boolean>(this.baseUrl + 'evento/responderIvitacion', {"idEvento": idEvento, "idPersona": idPersona, "estadoContactos": respuesta}).toPromise();
+  }
+
   async crearEvento(evento: Evento): Promise<Evento> {
+    console.log(evento.invitados);
+    let invitados: string[] = evento.invitados.map(i => i.idPersona);
+    console.log(invitados);
+    evento.invitados = undefined;
+    console.log('********************************************');
+    console.log('quiere crear', evento);
+    console.log('********************************************');
     let loggedUser = await this.authService.getCurrentUserFire().toPromise();
     evento.idPersona = loggedUser.id;
     console.log(loggedUser, evento);
@@ -67,30 +79,23 @@ export class EventoService {
     console.log(idChat);
     console.log('Ingresó a crearEvento(evento)', evento);
     evento.idChat = idChat;
-    return this.http.post<any>(this.baseUrl + 'evento', evento).toPromise();
-/*
-    return new Promise(resolve => resolve(null));
-    return this.http.post<any>(this.baseUrl + 'evento', {
-      "ubicacion": {
-        "descripcion": evento.ubicacion.descripcion,
-        "longitud" : evento.ubicacion.longitud,
-        "latitud" : evento.ubicacion.latitud,
-        "fecha": evento.ubicacion.fecha
-      },
-      "descripcion" : evento.descripcion,
-      "fechaInicio" : evento.fechaInicio,
-      "fechaFin": evento.fechaFin,
-      "estado": evento.estado,
-      "idPersona": "1",
-      "idChat" : "1",
-      "nombre" : evento.nombre,
-      "extension" : evento.extension,
-      "imagen" : evento.imagen,
-      "nombreImagen" : evento.nombreImagen
-    }).toPromise();*/
+    await this.http.post<any>(this.baseUrl + 'evento', evento).toPromise().then(res => {
+      evento = res;
+      console.log(evento);
+      invitados.forEach(i => this.invitar(evento.idEvento, loggedUser.id, i));
+    }).catch(ex => console.log(ex));
+    return new Promise(resolve => resolve(evento));
   }
 
-  modificarEvento(evento: Evento): Promise<Evento> {
+  modificarEvento(evento: Evento, invitados: string[]): Promise<Evento> {
+    console.log(invitados, evento.invitados);
+    invitados.forEach(i => {
+      console.log(typeof(i), evento.invitados.map(i => i.idPersona), evento.invitados.some(u => u.idPersona == i));
+      if(!evento.invitados.some(u => u.idPersona == i)){
+        console.log(i);
+        this.invitar(evento.idEvento, evento.idPersona, i);
+      }
+    });
     return this.http.put<any>(this.baseUrl + 'evento', <Evento>{
       idEvento: evento.idEvento,
       nombre: evento.nombre,
@@ -106,6 +111,12 @@ export class EventoService {
       idChat: evento.idChat,
       owner: evento.owner
     }).toPromise();
+  }
+
+  invitar(idEvento: number, idOwner: string, idInvitado: string) {
+    console.log(this.baseUrl + `evento/invitar/${idEvento}/${idInvitado}/${idOwner}`);
+    this.http.post<boolean>(this.baseUrl + `evento/invitar/${idEvento}/${idInvitado}/${idOwner}`, null).toPromise().then(res =>
+      console.log(res));
   }
 
   async dejarEvento(idEvento:number)

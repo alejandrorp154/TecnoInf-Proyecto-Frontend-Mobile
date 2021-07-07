@@ -80,7 +80,7 @@ export class PopoverPublicacionesComponent implements OnInit {
               var prev = this.preview.title+'|*|'+this.preview.description+'|*|'+this.preview.image+'|*|'+this.preview.url;
               publicacion.contenido = prev;
             });
-            
+
            console.log(publicacion);
            this.pubService.modificarPublicacion(publicacion);
           }
@@ -134,7 +134,7 @@ export class PopoverPublicacionesComponent implements OnInit {
   async selectImageSource() {
 
     this.fileInput.nativeElement.click();
-    
+
   }
 
   uploadFile(event, publicacion: Publicacion) {

@@ -62,8 +62,45 @@
   .profile{
     background-size: auto;
   }
+  .edit-button{
+    text-align: end;
+    width: 100%;
+    margin-left: -30%;
+    position: absolute;
+  }
+
+  .mis-ubicaciones-button{
+    margin-top: 15%;
+  }
+
+  @media(max-width: 700px){
+    .publicaciones{
+      width: 100%;
+      margin-left: 0;
+    }
+
+    .card-profile{
+      width: 100%;
+      margin-left: 0;
+    }
 
   .avatar {
     margin-left: 0px;
     }
+
+    .mis-ubicaciones-button{
+      margin-top: 20%;
+      font-size: 20px;
+      margin-left: -25%;
+    }
+
+    .edit-button{
+      margin-top: 0%;
+      font-size: 20px;
+    }
+
+    .avatar {
+      margin-left: 0px;
+      }
+  }
 }

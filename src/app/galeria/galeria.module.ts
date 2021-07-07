@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { GaleriaPageRoutingModule } from './galeria-routing.module';
-
+import { NavbarModule } from '../UI/navbar/navbar.module';
 import { GaleriaPage } from './galeria.page';
 
 @NgModule({
@@ -13,7 +13,8 @@ import { GaleriaPage } from './galeria.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    GaleriaPageRoutingModule
+    GaleriaPageRoutingModule,
+    NavbarModule
   ],
   declarations: [GaleriaPage]
 })

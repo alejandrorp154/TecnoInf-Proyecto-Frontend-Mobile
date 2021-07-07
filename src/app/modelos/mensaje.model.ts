@@ -1,7 +1,7 @@
 import firebase from 'firebase/app';
 
 export class Mensaje {
-  idMensaje: string;
+  id: string;
   fecha: firebase.firestore.FieldValue;
   de: string;
   contenido: string;
@@ -12,7 +12,7 @@ export class Mensaje {
 
   constructor(idMensaje: string, fecha: firebase.firestore.FieldValue, de: string,
     contenido: string, path: string, idChat: string, nombreDe: string, miMsj: boolean) {
-      this.idMensaje = idMensaje;
+      this.id = idMensaje;
       this.fecha = fecha;
       this.de = de;
       this.contenido = contenido;

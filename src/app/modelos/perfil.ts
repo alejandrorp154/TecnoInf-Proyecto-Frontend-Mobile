@@ -44,7 +44,7 @@ export class PublicacionPerfilUsuario {
     contenido: string;
     fecha: Date;
     tipo: {
-        idPublicacion: Number;
+        idPublicacion: number;
         tipo: string;
     };
     extension: string;
