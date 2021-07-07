@@ -76,7 +76,7 @@ export class ComentariosPublicacionPage implements OnInit {
       return;
     }
     if(this.publicacionObs.value.tipo.tipo == "foto"){
-      this.boolEsEnlace = true;
+      this.boolEsFoto = true;
       return;
     }
     if(this.publicacionObs.value.tipo.tipo == "enlaceExterno"){
@@ -86,7 +86,7 @@ export class ComentariosPublicacionPage implements OnInit {
       this.preview.description = prev[1];
       this.preview.image = prev[2];
       this.preview.url = prev[3];
-      this.boolEsFoto = true;
+      this.boolEsEnlace = true;
       return;
     }
   }
