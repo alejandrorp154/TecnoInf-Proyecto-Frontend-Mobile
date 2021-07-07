@@ -49,6 +49,12 @@
     </ion-col>
   </ion-row>
 </div>
+<ion-card>
+  <ion-card-content style="background-color: white;" *ngIf="publicaciones?.length == 0">
+    <img style="height: 15rem; margin-left: auto;margin-right: auto; display: block;" src="../../assets/img/lobito.png">
+    <ion-label style="text-align: center; display: block;">Nada interesante por aqui</ion-label>
+  </ion-card-content>
+</ion-card>
 <ion-infinite-scroll threshold="15%" (ionInfinite)="loadData($event)">
   <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
   </ion-infinite-scroll-content>
