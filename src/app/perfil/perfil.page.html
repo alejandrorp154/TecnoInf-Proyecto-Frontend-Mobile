@@ -13,14 +13,19 @@
             </div>
           </ion-col>
           <ion-col class="user-info" sizeLg="3" sizeMd="6" sizeSm="6" size="6">
-            <ion-label>{{perfil?.usuario.nombre+' '+ perfil?.usuario.apellido}}</ion-label>
-            <br>
-            <ion-label style="color: var(--ion-color-medium);">@{{perfil?.usuario.nickname}}</ion-label>
-            <br>
-            <ion-label style="font: bold;">30 </ion-label>
-            <ion-label>Contactos</ion-label>
-            <br>
-            <ion-label>Pais: {{perfil?.usuario.pais}}</ion-label>
+            <ion-item lines="none" mode="ios">
+              <ion-label>{{perfil?.usuario.nombre+' '+ perfil?.usuario.apellido}}</ion-label>
+            </ion-item>
+            <ion-item lines="none" mode="ios">
+              <ion-label style="color: var(--ion-color-medium);">@{{perfil?.usuario.nickname}}</ion-label>
+            </ion-item>
+            <ion-item href="/listar-contactos" lines="none">
+              <ion-label>Contactos</ion-label>
+              <ion-badge slot="end">{{contactos}}</ion-badge>
+            </ion-item>
+            <ion-item lines="none" mode="ios">
+              <ion-label>Pais: {{perfil?.usuario.pais}}</ion-label>
+            </ion-item>
           </ion-col>
           <ion-col sizeLg="3" sizeMd="6" sizeSm="6" size="6">
             <app-medalla [medalla] = "medalla"></app-medalla>
