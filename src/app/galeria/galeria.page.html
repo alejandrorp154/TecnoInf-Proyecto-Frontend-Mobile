@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 <ion-content>
-  <ion-card style="background:white">
+  <ion-card *ngIf="!isLoading" style="background:white">
     <ion-card-header color=tertiary style="display: flex; align-content: center; align-items: center;background:#022833">
       <ion-buttons style="float: left; align-self: center;">
         <ion-back-button  class="pointer" text=""></ion-back-button>
