@@ -12,7 +12,7 @@
               <ion-input type="text" id="input-reason" [(ngModel)]="interes.interes" placeholder="Ej: Deportes al aire libre"></ion-input>
             </ion-item>
             <div  class="ion-margin-vertical ion-text-right">
-                <ion-button class="item-end" id="btn-confirm" [disabled]="interes.interes===''" (click)=onCreateInteres()>
+                <ion-button class="item-end" id="btn-confirm" [disabled]="enableCreate()" (click)=onCreateInteres()>
                   <ion-icon slot="start" name="add"></ion-icon>Añadir interés</ion-button>
             </div>
             <div >

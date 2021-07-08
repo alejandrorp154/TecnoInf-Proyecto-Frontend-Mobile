@@ -40,6 +40,10 @@
               <ion-icon slot="icon-only" name="earth-outline"></ion-icon>
               Ubicaciones
             </ion-button>
+            <ion-button class="deleteAccount-button" color="dark" size="small" fill="clear" (click)="deleteAccount()" *ngIf="esMiPerfil" >
+              <ion-icon slot="icon-only" name="person"></ion-icon>
+              Borrar mi cuenta
+            </ion-button>
           </ion-col>
         </ion-row>
       </ion-grid>

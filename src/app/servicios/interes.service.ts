@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Interes } from '../modelos/interes.model';
+import { InteresUsuario } from '../modelos/interesUsuario.model';
 
 
 @Injectable({
@@ -13,6 +14,12 @@ export class InteresService {
   public getAllInteresesAsync(): Promise<Interes[]> {
     const url = `${this.baseUrl}interes/0/5000`;
     return this.httpClient.get<Interes[]>(url).toPromise();
+  }
+
+  getInteresesByUser(userID:string): Promise<InteresUsuario[]>
+  {
+    const url = `${this.baseUrl}usuario/getInteresByUsuario/${userID}`;
+    return this.httpClient.get<InteresUsuario[]>(url).toPromise();
   }
 
   addInteres(interes: string): Promise<Interes> {
