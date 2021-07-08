@@ -1,3 +1,4 @@
+import { BehaviorSubject } from "rxjs";
 import { UsuarioService } from './../servicios/usuario.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Chart } from 'chart.js';
@@ -36,10 +37,10 @@ export class EstadisticasPage implements OnInit{
   doughnutChart: any;
   bars: any;
   colorArray: any;
-  CantidadUsuariosTotal: any[];
-  UsuariosPorMedalla: any[];
-  CantidadVisitasPorUsuario: any[];
-  CantidadusuariosPorPais: any[];
+  CantidadUsuariosTotal: BehaviorSubject<any[]> = new BehaviorSubject([]);
+  UsuariosPorMedalla: BehaviorSubject<any[]> = new BehaviorSubject([]);
+  CantidadVisitasPorUsuario: BehaviorSubject<any[]> = new BehaviorSubject([]);
+  CantidadusuariosPorPais: BehaviorSubject<any[]> = new BehaviorSubject([]);
   Usuarios: Usuario[];
   rangosM: rangos;
   coloR = [];
@@ -49,31 +50,30 @@ export class EstadisticasPage implements OnInit{
   }
 
   async ngOnInit(){
-    let PCantidadUsuariosTotal = this.estadisticaService.getTipoEstadisticaAsync('CantidadUsuariosTotal');
-    let PUsuariosPorMedalla = this.estadisticaService.getTipoEstadisticaAsync('UsuariosPorMedalla');
-    let PCantidadVisitasPorUsuario = this.estadisticaService.getTipoEstadisticaAsync('CantidadVisitasPorUsuario');
-    let PCantidadUsuariosPorPais = this.estadisticaService.getTipoEstadisticaAsync('CantidadUsuariosPorPais');
 
-    await Promise.all([PCantidadUsuariosPorPais, PCantidadUsuariosTotal, PUsuariosPorMedalla, PCantidadVisitasPorUsuario]).then((values) => {
-      this.CantidadusuariosPorPais = values[0];
-      this.CantidadUsuariosTotal = values[1];
-      this.UsuariosPorMedalla = values[2];
-      this.CantidadVisitasPorUsuario = values[3];
-    });
+    this.CantidadUsuariosTotal.next(await this.estadisticaService.getTipoEstadisticaAsync('CantidadUsuariosTotal'));
+    console.log(this.CantidadUsuariosTotal);
+    this.createBarChart();
+
+    this.UsuariosPorMedalla.next(await this.estadisticaService.getTipoEstadisticaAsync('UsuariosPorMedalla'));
+    this.BarCanvasMethod();
+
+    this.CantidadVisitasPorUsuario.next(await this.estadisticaService.getTipoEstadisticaAsync('CantidadVisitasPorUsuario'));
+    this.lineChartMethod()
+
+    this.CantidadusuariosPorPais.next(await this.estadisticaService.getTipoEstadisticaAsync('CantidadUsuariosPorPais'));
+    this.doughnutChartMethod();
+
     this.getRangos();
   }
+
+
   ionViewDidEnter() {
-    setTimeout(() => {
-      this.createBarChart();
-      this.doughnutChartMethod();
-      this.lineChartMethod();
-      this.BarCanvasMethod();
-    }, 300);
 
   }
 
   getPaises(){
-    return this.CantidadusuariosPorPais.filter(p => p.nombrePais != null);
+    return this.CantidadusuariosPorPais.value.filter(p => p.nombrePais != null);
   }
 
   getRangos(){
@@ -90,7 +90,7 @@ export class EstadisticasPage implements OnInit{
 
   getmedallasOcurrences(){
     let t = this;
-    this.UsuariosPorMedalla.forEach(function(lineaEstadistica) {
+    this.UsuariosPorMedalla.value.forEach(function(lineaEstadistica) {
       switch (lineaEstadistica.nombreMedalla){
         case 'ironWolf':
           t.countIronWolf ++;
@@ -128,8 +128,8 @@ export class EstadisticasPage implements OnInit{
       data: {
         labels: ['Usuarios registrados'],
         datasets: [{
-          label: 'Cantidad de Usuarios: ' + this.CantidadUsuariosTotal[0].cantidadUsuariosRegistrados,
-          data: [this.CantidadUsuariosTotal[0].cantidadUsuariosRegistrados],
+          label: 'Cantidad de Usuarios: ' + this.CantidadUsuariosTotal.value[0].cantidadUsuariosRegistrados,
+          data: [this.CantidadUsuariosTotal.value[0].cantidadUsuariosRegistrados],
           backgroundColor: 'rgb(38, 194, 129)', // array should have same number of elements as number of dataset
           borderColor: 'rgb(38, 194, 129)',// array should have same number of elements as number of dataset
           borderWidth: 1
@@ -153,7 +153,7 @@ export class EstadisticasPage implements OnInit{
     this.lineCanvas = new Chart(this.lineCanvas.nativeElement, {
       type: 'line',
       data: {
-        labels: this.CantidadVisitasPorUsuario.map(a => a.nombreUsuario).sort((one, two) => (one > two ? -1 : 1)).slice(0, 10),
+        labels: this.CantidadVisitasPorUsuario.value.map(a => a.nombreUsuario).sort((one, two) => (one > two ? -1 : 1)).slice(0, 10),
         datasets: [
           {
             label: 'Usuarios que visitaron mas paises',
@@ -174,7 +174,7 @@ export class EstadisticasPage implements OnInit{
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: this.CantidadVisitasPorUsuario.map(a => a.cantidadVisitas > 0).sort((one, two) => (one > two ? -1 : 1)).slice(0, 10),
+            data: this.CantidadVisitasPorUsuario.value.map(a => a.cantidadVisitas > 0).sort((one, two) => (one > two ? -1 : 1)).slice(0, 10),
             spanGaps: false,
           }
         ]

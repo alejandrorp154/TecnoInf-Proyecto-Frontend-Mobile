@@ -7,6 +7,7 @@ import { AuthService } from './auth.service';
 import { UserFire } from '../modelos/userFire.model';
 import { Usuario } from '../modelos/usuario.model';
 import { Contacto, EstadosContactos } from "../modelos/contacto.model";
+import { ɵclearResolutionOfComponentResourcesQueue } from "@angular/core";
 
 @Injectable({
   providedIn: 'any'
@@ -228,6 +229,15 @@ export class UsuarioService {
      }, error => {
       console.log(error);
     });
+  }
+
+  public tieneSolicitudPendiente(userLogueado: string, idPerfil: string) {
+    try {
+      const url = `${this.baseUrl}usuario/sonAmigos/${userLogueado}/${idPerfil}`;
+      return this.httpClient.get(url).toPromise();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
 }

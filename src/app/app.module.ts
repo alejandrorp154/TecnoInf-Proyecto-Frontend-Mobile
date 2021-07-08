@@ -22,9 +22,9 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 
 export function getBaseUrl() {
   if (environment.production) {
-    return 'http://18.222.198.110:8080/pryectoBack-web/rest/';
+    return 'http://18.118.25.216:8080/pryectoBack-web/rest/';
   } else {
-    return 'http://18.222.198.110:8080/pryectoBack-web/rest/';
+    return 'http://18.118.25.216:8080/pryectoBack-web/rest/';
   }
 
 }
