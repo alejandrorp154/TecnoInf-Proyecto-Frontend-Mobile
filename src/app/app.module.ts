@@ -21,6 +21,7 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 
 
 export function getBaseUrl() {
+
   //if (environment.production) {
    // return 'https://18.118.25.216:8443/pryectoBack-web/rest/';
  // } else {

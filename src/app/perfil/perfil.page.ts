@@ -33,6 +33,8 @@ export class PerfilPage implements OnInit {
 
   textoBoton = 'AGREGAR CONTACTO';
 
+  contactos: number;
+
   constructor(
     private perfilServ: PerfilService,
     private router: ActivatedRoute,
@@ -129,7 +131,8 @@ export class PerfilPage implements OnInit {
     this.publicaciones.next(this.perfil.publicaciones.reverse());
     this.usuario.next(this.perfil.usuario);
     this.medalla.next(this.perfil.usuario.medalla);
-    this.galleria.next(this.perfil.galerias)
+    this.galleria.next(this.perfil.galerias);
+    this.contactos = (await this.usuarioService.getAmigosAsync(id)).length;
   }
 
 }
