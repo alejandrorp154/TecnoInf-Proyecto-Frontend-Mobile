@@ -30,7 +30,13 @@
               </ion-button>
             </ion-item>
           </ion-list>
-        </ion-card-content>
+          <div *ngIf="solicitudes?.length == 0">
+            <ion-card-content style="background-color: white;" >
+              <img style="height: 15rem; margin-left: auto;margin-right: auto; display: block;" src="../../assets/img/lobito.png">
+              <ion-label style="text-align: center; display: block;">Aún no tienes solicitudes :(</ion-label>
+            </ion-card-content>          
+          </div>
+          </ion-card-content>
       </ion-card>
     </ion-col>
   </ion-row>

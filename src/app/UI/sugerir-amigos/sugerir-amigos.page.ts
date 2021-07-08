@@ -13,6 +13,7 @@ export class SugerirAmigosPage implements OnInit {
   amigos: Usuario[];
   amigosAux: Usuario[];
   userFire: UserFire;
+  isLoading :Boolean;
 
   constructor(private authService: AuthService, private sugerirAmigos: SugerirAmigosService) {
     this.amigos = []
@@ -25,6 +26,7 @@ export class SugerirAmigosPage implements OnInit {
 
   async getSugerirAmigos(event?)
   {
+    this.isLoading = true;
     this.userFire = await this.authService.getCurrentUserFire().toPromise()
     console.log(this.userFire.id)
     this.amigosAux = await this.sugerirAmigos.getUsuariosSugeridosAsync(this.userFire.id, 10, event);
@@ -32,6 +34,7 @@ export class SugerirAmigosPage implements OnInit {
       this.amigos.push(element)
 
     });
+    this.isLoading = false;
 
   }
 
