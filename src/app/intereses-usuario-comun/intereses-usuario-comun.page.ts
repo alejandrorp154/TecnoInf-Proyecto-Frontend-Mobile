@@ -7,6 +7,7 @@ import { Perfil } from '../modelos/perfil';
 import { PerfilService } from '../servicios/perfil.service';
 import { BehaviorSubject } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { InteresUsuario } from '../modelos/interesUsuario.model';
 
 @Component({
   selector: 'app-intereses-usuario-comun',
@@ -15,45 +16,34 @@ import { CommonModule } from '@angular/common';
 })
 export class InteresesUsuarioComunPage implements OnInit {
 
-  intereses: Interes[];
+  intereses: BehaviorSubject<InteresUsuario[]> = new BehaviorSubject([]);;
   currentUser: Usuario;
   perfilUser: Perfil;
   userIntereses: BehaviorSubject<Interes[]> = new BehaviorSubject([]);
   constructor(private interesesService: InteresService,
-  private authService: AuthService,
-  private perfilService: PerfilService) {
-    this.intereses = [];
+  private authService: AuthService) {
   }
 
   ngOnInit() {
-    this.getAllIntereses();
-    this.getLoguedUser()
+    this.getInteresesByUser();
   }
 
-  onSubscribirse(idInteres: number, interes: Interes)
+  onSubscribirse(idInteres: number, interes: InteresUsuario)
   {
     this.interesesService.subscribeInteres(idInteres, this.currentUser.idPersona)
-    this.userIntereses.value.push(interes)
-
+    let index = this.intereses.value.findIndex(x => x.idInteres == interes.idInteres)
+    this.intereses.value[index].estaSuscripto = true;
   }
-  onDesSubscribirse(idInteres: number, interes: Interes)
+  onDesSubscribirse(idInteres: number, interes: InteresUsuario)
   {
     this.interesesService.unSubscribeInteres(idInteres, this.currentUser.idPersona)
-    let index = this.userIntereses.value.findIndex(x => x.idInteres == interes.idInteres)
-    if (index > -1) {
-      this.userIntereses.value.splice(index, 1);
-    }
+    let index = this.intereses.value.findIndex(x => x.idInteres == interes.idInteres)
+    this.intereses.value[index].estaSuscripto = false;
   }
 
-  async getAllIntereses(){
-    this.intereses = await this.interesesService.getAllInteresesAsync();
-  }
-
-  async getLoguedUser()
-  {
+  async getInteresesByUser(){
     this.currentUser = await this.authService.getCurrentUser().toPromise();
-    this.perfilUser = await this.perfilService.obtenerPerfil(this.currentUser.idPersona)
-    this.userIntereses.next(this.perfilUser.intereses)
+    this.intereses.next(await this.interesesService.getInteresesByUser(this.currentUser.idPersona));
   }
 
   check(interes: Interes)
