@@ -155,19 +155,35 @@ export class TabPerfilAdminPage implements OnInit {
           {
             text: 'Eliminar',
             handler: async () => {
-              this.userFire = await this.authService.getCurrentUserFire().toPromise()
-                  console.log(this.userFire)
-                    let obs: Observable<any>;
-                    obs = this.authService.deleteAccount(this.userFire.token);
+              let response = this.usuarioService.deleteUsuarioAdmin(this.userFire.id)
 
-                    obs.subscribe(
-                      errorResponse => {
-                        //const code = errorResponse.error.error.message;
-                        console.log(errorResponse)
-                      }
-                    )
-                    this.usuarioService.deleteUsuarioAdmin(this.userFire.id)
-                    this.authService.logout();
+              if(response)
+              {
+                this.userFire = await this.authService.getCurrentUserFire().toPromise()
+                console.log(this.userFire)
+                  let obs: Observable<any>;
+                  obs = this.authService.deleteAccount(this.userFire.token);
+
+                  obs.subscribe(
+                    errorResponse => {
+                      //const code = errorResponse.error.error.message;
+                      console.log(errorResponse)
+                    }
+                  )
+                  this.authService.logout();
+              }
+              else
+              {
+                this.alertCtrl.dismiss()
+                this.alertCtrl.create({
+                  header: 'Requisito inapropiado',
+                  message: 'No se puede borrar su cuenta debido a que es el unico administrador en el sistema.',
+                  buttons:[{
+                    text:'Ok',
+                    role: 'cancel'
+                  }]
+                })
+              }
             },
             cssClass: 'alrtDanger'
           },
