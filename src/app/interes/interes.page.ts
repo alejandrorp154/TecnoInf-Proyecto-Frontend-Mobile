@@ -15,13 +15,19 @@ export class InteresPage implements OnInit {
   showError: boolean
   errorMessage: string
 
+
   constructor(private interesesService: InteresService, private alertCtrl: AlertController) {
     this.interes = new Interes();
+    this.interes.interes = "";
     this.showError = false;
   }
 
   ngOnInit() {
     this.getAllIntereses();
+  }
+
+  enableCreate(){
+    return this.interes.interes.trim() === "";
   }
 
   async getAllIntereses(){
@@ -100,14 +106,18 @@ export class InteresPage implements OnInit {
 
   async onCreateInteres() {
 
+
+    /*
+    var txt = document.getElementById('input-reason').textContent;
+    console.log('TXT',txt);
     console.log(this.interes.interes);
     if(this.interes.interes == "" || this.interes.interes == null || this.interes.interes == "undefined"){
       console.log('ESTA VACIO O NULL');
       console.log(this.interes.interes);
-      this.errorMessage = "Debe ingresar un nombre.";
+      this.errorMessage = "El interés ingresado ya existe.";
       this.showError = true;
       return;
-    };
+    };*/
 
     var interesExiste = this.intereses.find(inte => {
       return inte.interes === this.interes.interes

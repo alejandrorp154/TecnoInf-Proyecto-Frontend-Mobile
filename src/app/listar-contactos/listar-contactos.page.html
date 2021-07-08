@@ -12,7 +12,7 @@
             <ion-item-divider>
             </ion-item-divider>
                 <ion-content style="height: 500px;">
-                  <ion-list >
+                  <ion-list *ngIf="!isLoading" >
                     <ion-row>
                       <ion-col size-xs="12" size-lg="6" *ngFor="let contacto of searchResult | async">
                         <ion-item class="ion-no-padding">
@@ -23,7 +23,7 @@
                           </div>
                           <ion-label text-wrap>{{ contacto.nickname }} <br> {{ contacto.nombre }} {{ contacto.apellido }}<br> {{ contacto.email }} <br> {{ contacto.direccion }}</ion-label>
                           <div>
-                            <ion-button style="justify-self: end;" routerLink="/perfil/{{contacto.idPersona}}">
+                            <ion-button style="justify-self: end;--background:#3f83a8" routerLink="/perfil/{{contacto.idPersona}}">
                               <ion-icon name="person-outline" slot="icon-only" ></ion-icon>
                             </ion-button>
                           </div>
@@ -31,6 +31,7 @@
                       </ion-col>
                     </ion-row>
                   </ion-list>
+                  <ion-spinner color="tertiary" style="top: 50%;left: 50%;" *ngIf="isLoading" name="circles" ></ion-spinner>
                     <ion-infinite-scroll threshold="15%" (ionInfinite)="getContactos($event)">
                       <ion-infinite-scroll-content
                         id="null"

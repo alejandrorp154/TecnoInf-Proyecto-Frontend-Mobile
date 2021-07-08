@@ -64,6 +64,12 @@
     </ion-card>
   </ion-row>
 </div>
+<ion-card >
+  <ion-card-content style="background-color: white;" *ngIf="publicaciones.value.length == 0">
+    <img style="height: 15rem; margin-left: auto;margin-right: auto; display: block;" src="../../assets/img/lobito.png">
+    <ion-label style="text-align: center; display: block;">Aún no hay publicaciones :(</ion-label>
+  </ion-card-content>
+</ion-card>
 
 <!-- <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
   <ion-infinite-scroll-content></ion-infinite-scroll-content>

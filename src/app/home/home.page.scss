@@ -31,6 +31,12 @@
   margin: 0;
 }
 
+.avatar-sugerencia:hover{
+  transform: translateY(-6px);
+  opacity: 0.6;
+  transition: 0.3s;
+}
+
 .ion-textarea {
   border: black;
 }

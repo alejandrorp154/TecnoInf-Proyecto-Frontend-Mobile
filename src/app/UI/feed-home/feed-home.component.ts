@@ -3,6 +3,8 @@ import { IonInfiniteScroll } from '@ionic/angular';
 import { Publicacion, PublicacionPerfilUsuario } from 'src/app/modelos/perfil';
 import { PerfilService } from 'src/app/servicios/perfil.service';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
+import { LoadingController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-feed-home',
@@ -11,6 +13,8 @@ import { UsuarioService } from 'src/app/servicios/usuario.service';
 })
 export class FeedHomeComponent implements OnInit {
 
+  loading: HTMLIonLoadingElement;
+  isLoading: Boolean;
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
 
   user = {
@@ -25,11 +29,20 @@ export class FeedHomeComponent implements OnInit {
   size: number = 10;
   offsize: number = 0;
 
-  constructor(private pubService: PerfilService, private userService: UsuarioService) { }
+  constructor(private pubService: PerfilService, private userService: UsuarioService, private loadingCtrl: LoadingController) { }
 
   async ngOnInit() {
+    this.loadingCtrl.create({ keyboardClose: true, message: 'Cargando...' }).then(loadingEl =>{
+      loadingEl.present();
+      this.loading = loadingEl;
+      this.isLoading = true;
+    });
     this.user = JSON.parse(localStorage.getItem('_cap_authData'));
     this.publicaciones = await this.pubService.obtenerPublicaciones(this.user.userId,this.size);
+    if (this.loading != undefined) {
+      this.loading.dismiss();
+      this.isLoading = false;
+    }
   }
 
   async loadData(event?) {
