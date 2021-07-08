@@ -10,7 +10,7 @@ import { Perfil, Publicacion } from '../modelos/perfil';
 import { Usuario } from '../modelos/usuario.model';
 import { PerfilService } from '../servicios/perfil.service';
 import { Multimedia } from '../modelos/multimedia.model';
-import { AlertController } from "@ionic/angular";
+import { AlertController , LoadingController } from "@ionic/angular";
 
 @Component({
   selector: 'app-perfil',
@@ -28,7 +28,8 @@ export class PerfilPage implements OnInit {
 
   userFire: UserFire;
   idPerfil;
-
+  loading: HTMLIonLoadingElement;
+  isLoading: Boolean;
   esMiPerfil: boolean;
 
   textoBoton = 'AGREGAR CONTACTO';
@@ -40,18 +41,19 @@ export class PerfilPage implements OnInit {
     private router: ActivatedRoute,
     private authService: AuthService,
     private alertCtrl: AlertController,
+    private loadingCtrl: LoadingController,
     private usuarioService: UsuarioService
     ) {
   }
 
   async ngOnInit() {
     this.router.paramMap.subscribe(
-      params => {
+      params => {        
         const id = params.get('id');
         this.obtenerPerfil(id.toString());
         this.idPerfil = id;
       }
-      );
+      );      
         this.userFire = await this.authService.getCurrentUserFire().toPromise();
         this.esContacto(this.idPerfil);
         if(!this.EsMiPerfil && this.esContacto(this.idPerfil)){
@@ -124,9 +126,19 @@ export class PerfilPage implements OnInit {
 
   }
 
-  async obtenerPerfil(id: string){
+  async obtenerPerfil(id: string){   
     await this.EsMiPerfil();
+
+    this.loadingCtrl.create({ keyboardClose: true, message: 'Cargando...' }).then(loadingEl =>{
+      loadingEl.present();
+      this.loading = loadingEl;
+      this.isLoading = true;
+    });
     this.perfil = await this.perfilServ.obtenerPerfil(id); //Usuario por id
+    if (this.loading != undefined) {
+      this.loading.dismiss();
+      this.isLoading = false;
+    }
     this.perfilServ.usuarioDatos = this.perfil.usuario;
     this.publicaciones.next(this.perfil.publicaciones.reverse());
     this.usuario.next(this.perfil.usuario);

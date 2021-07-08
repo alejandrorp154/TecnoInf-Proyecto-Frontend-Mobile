@@ -2,7 +2,7 @@
 
 <ion-content>
   <div>
-    <ion-card class="card-profile">
+    <ion-card *ngIf="!isLoading" class="card-profile">
       <ion-grid>
         <ion-row>
           <ion-col sizeLg="3" sizeMd="6" size="6" style="padding-right: 2rem;">
@@ -48,7 +48,7 @@
         </ion-row>
       </ion-grid>
     </ion-card>
-    <div class="publicaciones">
+    <div  *ngIf="!isLoading" class="publicaciones">
       <ion-grid class="grid" fixed>
         <ion-row>
           <ion-col offset-md="0" sizeMd="12" sizeSm="12"><app-feed

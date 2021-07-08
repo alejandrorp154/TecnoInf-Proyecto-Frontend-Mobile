@@ -24,6 +24,20 @@ ion-buttons
   max-height: 56px;
 }
 
+.test{
+  transition: 0.5s;
+}
+
+.test:hover{
+  transform: rotate(360deg);
+}
+
+.avatar-class:hover{
+  transform: translateY(-6px);
+  opacity: 0.6;
+  transition: 0.3s;
+}
+
 @media screen and (min-width: 0px) and (max-width: 600px) {
   .extraInfo { display: none; }  /* show it on small screens */
 }
