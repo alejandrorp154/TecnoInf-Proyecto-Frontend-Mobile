@@ -60,7 +60,7 @@ export class AltaPublicacionComponent implements OnInit {
     userId: ''
   }
 
-  resultado: Resultado;
+  // resultado: Resultado;
 
   public usr: usuario;
   public idPer: idPersona;
@@ -90,7 +90,7 @@ export class AltaPublicacionComponent implements OnInit {
       console.log(this.publicacion);
       this.pubService.altaPublicacion(this.publicacion);
       this.texto.textoPub = '';
-      this.tools.presentToast('La publicacion fue creada con exito', this.resultado);
+      this.tools.presentToast('La publicacion fue creada con exito', Resultado.Ok);
     }
     else if(this.tipo=='enlaceExterno'){
       this.tipoPub.tipo = TipoPublicacionEnum.enlaceExterno;
@@ -99,7 +99,7 @@ export class AltaPublicacionComponent implements OnInit {
       this.publicacion = new Publicacion(this.tipoPub,prev,'','',this.usr);
       console.log(this.publicacion);
       this.pubService.altaPublicacion(this.publicacion);
-      this.tools.presentToast('La publicacion fue creada con exito', this.resultado);
+      this.tools.presentToast('La publicacion fue creada con exito', Resultado.Ok);
     }
     else if(this.tipo=='foto'){
       console.log(this.imagen);
@@ -108,7 +108,7 @@ export class AltaPublicacionComponent implements OnInit {
       console.log(this.publicacion);
       this.pubService.altaPublicacion(this.publicacion);
       this.userService.subirFoto(new Multimedia(this.imagen.base64, this.imagen.nombre, this.imagen.ext, this.idPer.idPersona))
-      this.tools.presentToast('La publicacion fue creada con exito', this.resultado);
+      this.tools.presentToast('La publicacion fue creada con exito', Resultado.Ok);
     }
     else{
       this.tipoPub.tipo = TipoPublicacionEnum.mapa;
@@ -128,7 +128,7 @@ export class AltaPublicacionComponent implements OnInit {
       console.log(this.ubicacion);
       this.ubiService.altaUbicacion(this.ubicacion);
       this.texto.textoPub = '';
-      this.tools.presentToast('La publicacion fue creada con exito', this.resultado);
+      this.tools.presentToast('La publicacion fue creada con exito', Resultado.Ok);
     }
     this.cancelar();//Vuelve a tipo texto
   }
