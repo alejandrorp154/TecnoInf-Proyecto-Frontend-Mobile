@@ -16,7 +16,7 @@
     <ion-card style="background:white">
       <ion-row>
         <ion-col size="4" size-md="2" size-xs="12">
-          <ion-label>Nombre</ion-label>
+          <ion-label class="text-header">Nombre</ion-label>
         </ion-col>
         <ion-col size="8" size-md="5" size-lg="3" size-xs="12">
           <ion-input type="text" [(ngModel)]="evento.nombre" placeholder="Ej: Recorrido por la ciudad"></ion-input>
@@ -24,7 +24,7 @@
       </ion-row>
       <ion-row>
         <ion-col size="4" size-md="2" size-xs="12">
-          <ion-label>Descripción</ion-label>
+          <ion-label class="text-header">Descripción</ion-label>
         </ion-col>
         <ion-col size="8" size-md="5" size-lg="3" size-xs="12">
           <ion-textarea rows="4" [(ngModel)]="evento.descripcion" placeholder="Descripción">
@@ -33,7 +33,7 @@
       </ion-row>
       <ion-row>
         <ion-col size="4" size-md="2" size-xs="12">
-          <ion-label>Imagen</ion-label>
+          <ion-label class="text-header" >Imagen</ion-label>
         </ion-col>
         <ion-col size="8" size-md="5" size-lg="3" size-xs="12">
           <label for="fileInput" class="label-input cursor"><ion-icon name="camera-outline" slot="icon-only"></ion-icon></label>
@@ -43,7 +43,7 @@
       </ion-row>
       <ion-row>
         <ion-col size="4" size-md="2" size-xs="12">
-          <ion-label>Ubicación</ion-label>
+          <ion-label class="text-header">Ubicación</ion-label>
         </ion-col>
         <ion-col id="mapa" size="8" size-md="5" size-lg="3" size-xs="12">
           <app-mapa [currentLocation]="true" [ubiCentral]="ubicacion" [marcarUbicacion]="true" [draggable]="true" [buscador]="true" (ubicacion)="marcarUbicacion($event)"></app-mapa>
@@ -51,7 +51,7 @@
       </ion-row>
       <ion-row>
         <ion-col size="4" size-md="2" size-xs="12">
-          <ion-label>Inicio</ion-label>
+          <ion-label class="text-header">Inicio</ion-label>
         </ion-col>
         <ion-col class="datepicker" size="7" size-md="3" size-lg="2" size-xs="10">
           <ion-datetime #pickerInicio [min]="inicio" [(ngModel)]="inicio" (ionChange)="setMinFin($event)">
@@ -63,7 +63,7 @@
       </ion-row>
       <ion-row>
         <ion-col size="4" size-md="2" size-xs="12">
-          <ion-label>Fin</ion-label>
+          <ion-label class="text-header">Fin</ion-label>
         </ion-col>
         <ion-col class="datepicker" size="7" size-md="3" size-lg="2" size-xs="10">
           <ion-datetime #pickerFin [min]="inicio" [(ngModel)]="fin">
