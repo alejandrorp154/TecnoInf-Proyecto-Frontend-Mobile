@@ -3,7 +3,10 @@
     <ion-grid fixed>
       <ion-row>
         <ion-col size-xs="12" size-md="10" offset-md="1">
-          <ion-card>
+          <ion-card style="background: white">
+            <ion-card-header color=tertiary style="background:#022833">
+              <ion-card-title  class="ion-text-center header">Mi Información</ion-card-title>
+            </ion-card-header>
             <div style="display: flex; justify-content: flex-end; flex-direction: row;">
               <ion-button style="max-width: 200px; flex-grow: 1; margin: 15px 15px 0 0;"  color="danger" fill="outline" (click)="onBorrarCuentaPropia()">
                 <ion-icon name="trash-outline" slot="start"></ion-icon>
@@ -11,9 +14,6 @@
               </ion-button>
             </div>
               <ion-card-content>
-                <div style="display: flex; justify-content: center;">
-                  <ion-card-title style="font-size: 25px;">Mi información</ion-card-title>
-                </div>
                 <ion-list class="form-input">
                   <ion-item>
                     <!-- <ion-input type="email" placeholder="Email" #txtEmail></ion-input> -->

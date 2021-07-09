@@ -18,10 +18,12 @@ export class TabGestionUsuariosPage implements OnInit {
   showError: boolean;
   errorMessage: string;
   userFire: UserFire;
+  isLoading: boolean;
 
   constructor(private usuarioService: UsuarioService, private alertCtrl: AlertController, private authService: AuthService) { }
 
   ngOnInit() {
+    this.isLoading = true;
     this.getAllUsuarios();
   }
 
@@ -30,6 +32,7 @@ export class TabGestionUsuariosPage implements OnInit {
 
   async getAllUsuarios(){
     this.usuarios = await this.usuarioService.getAllUsuariosRegistradosAsync();
+    this.isLoading = false;
   }
 
   onBloquearUsuario(idPersona: string){

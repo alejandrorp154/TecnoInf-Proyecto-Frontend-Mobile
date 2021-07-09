@@ -1,38 +1,61 @@
 <ion-content>
-  <ion-card class="welcome-card" >
-    <ion-card-header>
-      <ion-card-subtitle>Cantidad de usuarios en la app</ion-card-subtitle>
-      <ion-card-title>TravelPack</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <canvas #barChart></canvas>
-    </ion-card-content>
-  </ion-card>
+  <ion-grid>
+    <ion-card style="background: white">
+      <ion-card-header color=tertiary style="background:#022833">
+        <ion-card-title  class="ion-text-center header">Dashboard</ion-card-title>
+      </ion-card-header>
+      
+    <ion-row>
+      <ion-col sizeSm="12" sizeMd="6" >
+        <ion-card class="welcome-card" >
+          <ion-card-header>
+            <ion-card-subtitle>Cantidad de usuarios en la app</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <canvas #barChart></canvas>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
 
-  <ion-card class="welcome-card">
-    <ion-card-header>
-      Ranking Usuarios con mas visitas a paises
-    </ion-card-header>
-    <ion-card-content>
-      <canvas #lineCanvas style="position: relative; height:20vh; width:40vw"></canvas>
-    </ion-card-content>
-  </ion-card>
+      <ion-col sizeSm="12" sizeMd="6" >
+        <ion-card class="welcome-card">
+          <ion-card-header>
+            Cantidad de usuarios por Medalla
+          </ion-card-header>
+          <ion-card-content>
+            <canvas #barCanvas></canvas>
+          </ion-card-content>
+        </ion-card> 
+      </ion-col>
+        
+      
 
-  <ion-card class="welcome-card">
-    <ion-card-header>
-      Cantidad de usuarios por Medalla
-    </ion-card-header>
-    <ion-card-content>
-      <canvas #barCanvas></canvas>
-    </ion-card-content>
-  </ion-card>
+  </ion-row>
 
-  <ion-card class="welcome-card">
-    <ion-card-header>
-      Usuarios Por Paises
-    </ion-card-header>
-    <ion-card-content>
-      <canvas #doughnutCanvas style="position: relative; height:20vh; width:40vw"></canvas>
-    </ion-card-content>
-  </ion-card>
+  <ion-row>
+    
+    <ion-col sizeSm="12" sizeMd="6" >
+      <ion-card class="welcome-card">
+        <ion-card-header>
+          Ranking Usuarios con mas visitas a paises
+        </ion-card-header>
+        <ion-card-content>
+          <canvas #lineCanvas style="position: relative; height:20vh; width:40vw"></canvas>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+
+      <ion-col sizeSm="12" sizeMd="6" >
+        <ion-card class="welcome-card">
+          <ion-card-header>
+            Usuarios Por Paises
+          </ion-card-header>
+          <ion-card-content>
+            <canvas #doughnutCanvas style="position: relative; height:20vh; width:40vw"></canvas>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>  
+    </ion-row>
+    </ion-card>
+  </ion-grid>
 </ion-content>
