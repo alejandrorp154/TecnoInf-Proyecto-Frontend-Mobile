@@ -21,6 +21,7 @@ export class ListarContactosPage implements OnInit {
   contactosAux: Usuario[];
   searchBar = new FormControl;
   filterTerm: string;
+  isLoading: boolean;
   constructor(private userService: UsuarioService, private authService: AuthService)
   {
     this.contactos = []
@@ -29,7 +30,7 @@ export class ListarContactosPage implements OnInit {
   }
 
   ngOnInit() {
-
+    this.isLoading = true;
     this.searchBar.setValue('');
     this.searchBar.valueChanges
     .pipe(
@@ -78,6 +79,7 @@ export class ListarContactosPage implements OnInit {
       this.contactos.push(element)
 
     });
+    this.isLoading = false;
   }
 
   onViewProfile(userID: string)

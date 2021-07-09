@@ -10,7 +10,7 @@
             </ion-buttons>
             <ion-buttons  routerLink = "/home" class="logo">
               <ion-item lines="none">
-                <ion-avatar>
+                <ion-avatar class="test">
                   <img src="../../../assets/icon/Logo.png">
                 </ion-avatar>
               </ion-item>
@@ -25,7 +25,7 @@
         <ion-col size-xs="5" size-sm ="4" size-md="3" size-xl ="2" class="ion-no-padding">
           <ion-row style="display: flex;" class="ion-justify-content-around">
             <ion-buttons routerLink="/perfil/{{userID}}">
-              <ion-avatar class="center">
+              <ion-avatar class="center avatar-class">
                 <img style="height: 40px; width: 40px; margin:0px" [src]="userImage" class="iconosPublicacion">
               </ion-avatar>
             </ion-buttons>
@@ -51,7 +51,7 @@
             <img [src]="usuario.imagenPerfil">
           </ion-avatar>
         </div>
-        {{ usuario.nickname }}
+        {{ usuario.nombre }} 
       </ion-item>
     </ion-list>
   </ion-toolbar>

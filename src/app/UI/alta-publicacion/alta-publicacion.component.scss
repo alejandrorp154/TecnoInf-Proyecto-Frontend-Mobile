@@ -6,12 +6,29 @@ ion-avatar{
 }
 #mapa-mapbox{
     width: 100%;
-    height: 100%;
+    // height: 100%;
     //margin: 10px;
+    // max-width: 22rem;
+    // max-height: 15rem;
     overflow: hidden;
   }
 
 #foto{
     width: 50%;
     height: 50%;
+}
+
+.ubicacion-icon:hover{
+    background: #e6e2e2;
+    border-radius: 5px;
+}
+
+.enlace-icon:hover{
+    background: #e6e2e2;
+    border-radius: 5px;
+}
+
+.file-icon:hover{
+    background: #e6e2e2;
+    border-radius: 5px;
 }

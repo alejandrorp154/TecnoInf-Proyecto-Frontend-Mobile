@@ -13,6 +13,11 @@
   </ion-card>
 <!-- MAPA -->
 <div id="mapa-mapbox" *ngIf="tipo === 'mapa'"></div>
+<ion-item *ngIf="tipo === 'mapa'">
+  <ion-label position="floating">Descripcion de la ubicacion</ion-label>
+<ion-input [(ngModel)]="texto.textoPub" placeholder="Ingrese una descripcion"></ion-input>
+</ion-item>
+
 <!-- IMAGEN -->
 <ion-card *ngIf="tipo === 'foto'">
   <ion-icon (click)="cancelar()" name="close"></ion-icon>
@@ -23,20 +28,20 @@
 
 
 <ion-item class="iconos">
-  <ion-avatar (click)="presentAlertPrompt()">
+  <ion-avatar class="enlace-icon" (click)="presentAlertPrompt()">
     <!-- Link externo -->
     <img src="../../assets/icon/link-outline.svg" />
   </ion-avatar>
-  <ion-avatar (click)="modalUbicacion()">
+  <ion-avatar class="ubicacion-icon" (click)="modalUbicacion()">
     <!-- Ubicacion -->
     <img src="../../assets/icon/location-outline.svg" />
   </ion-avatar>
-  <ion-avatar>
+  <ion-avatar class="file-icon">
     <input type="file" #fileInput (change)="uploadFile($event)" hidden="true" accept="image/*"/>
     <!-- Imagen -->
     <img src="../../assets/icon/image-outline.svg" (click)="selectImageSource()"/>
   </ion-avatar>
-  <ion-button type="submit" slot="end" (click)="publicar()">
+  <ion-button style="--background:#3f83a8" type="submit" slot="end" (click)="publicar()">
     Publicar
   </ion-button>
 </ion-item>
