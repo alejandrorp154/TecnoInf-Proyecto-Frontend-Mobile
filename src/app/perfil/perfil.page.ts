@@ -56,7 +56,7 @@ export class PerfilPage implements OnInit {
     this.tieneSolicitudPendiente();
     this.listaContactos = await this.usuarioService.getContactos(this.userFire.id, 10, null);
     this.router.paramMap.subscribe(
-      params => {        
+      params => {
         const id = params.get('id');
         this.obtenerPerfil(id.toString());
         this.idPerfil = id;
@@ -72,7 +72,7 @@ export class PerfilPage implements OnInit {
       }
     );
     console.log('es mi perfil al final de ngonInit', this.esMiPerfil);
-
+  }
 
   deleteAccount(){
     this.alertCtrl
@@ -113,11 +113,11 @@ export class PerfilPage implements OnInit {
 
 
   esContacto(perfil: string){
-    console.log('me fijo si este perfil es mi contacto', perfil)
+    console.log('me fijo si este perfil es mi contacto', perfil);
     let lista = this.listaContactos;
     console.log(lista);
     var interesExiste = this.listaContactos.find(inte => {
-      return inte.idPersona === perfil
+      return inte.idPersona === perfil;
     });
 
     return interesExiste != null ? true : false;
@@ -149,7 +149,7 @@ export class PerfilPage implements OnInit {
   }
 
 
-  async obtenerPerfil(id: string){   
+  async obtenerPerfil(id: string){
     await this.EsMiPerfil();
 
     this.loadingCtrl.create({ keyboardClose: true, message: 'Cargando...' }).then(loadingEl =>{
