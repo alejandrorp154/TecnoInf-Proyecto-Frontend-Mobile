@@ -59,31 +59,24 @@
     margin-left: 0;
   }
 
-  .profile{
-    background-size: auto;
-  }
-  .edit-button{
+  .button-list{
+    position:absolute;
+    margin-left: -30%;
     text-align: end;
-    width: 100%;
-    margin-left: -30%;
-    position: absolute;
   }
-
-
-  .deleteAccount-button{
-    margin-top: 15%;
-    width: 100%;
-    margin-left: -30%;
-  }
+  
 
   .mis-ubicaciones-button{        
-    margin-top: 15%;
+    margin-top: 0;
   }
 
   @media(max-width: 700px){
     .publicaciones{
       width: 100%;
       margin-left: 0;
+    }
+    .button-list{
+      text-align: center;
     }
 
     .card-profile{
@@ -96,18 +89,20 @@
     }
 
     .mis-ubicaciones-button{
-      margin-top: 20%;
-      font-size: 20px;
-      margin-left: -25%;
+      font-size: 15px;
+    }
+
+    .deleteAccount-button{
+      font-size: 15px;
     }
 
     .edit-button{
-      margin-top: 0%;
-      font-size: 20px;
+      font-size: 15px;
     }
 
     .avatar {
-      margin-left: 0px;
+      margin-left: 25px; 
+      margin-top: 25px;
       }
   }
 }

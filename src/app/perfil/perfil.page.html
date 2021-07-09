@@ -19,12 +19,12 @@
             <ion-item lines="none" mode="ios">
               <ion-label style="color: var(--ion-color-medium);">@{{perfil?.usuario.nickname}}</ion-label>
             </ion-item>
-            <ion-item href="/listar-contactos" lines="none">
+            <ion-item style="margin-left: 4px;" href="/listar-contactos" lines="none">
               <ion-label>Contactos</ion-label>
               <ion-badge slot="end">{{contactos}}</ion-badge>
             </ion-item>
             <ion-item lines="none" mode="ios">
-              <ion-label>Pais: {{perfil?.usuario.pais}}</ion-label>
+              <ion-label>{{perfil?.usuario.pais}}</ion-label>
             </ion-item>
           </ion-col>
           <ion-col sizeLg="3" sizeMd="6" sizeSm="6" size="6">
@@ -32,18 +32,26 @@
           </ion-col>
           <ion-button *ngIf="!esMiPerfil" (click)="clickBoton()">{{textoBoton}}</ion-button>
           <ion-col sizeLg="3" sizeMd="2" sizeSm="6" size="6">
-            <ion-button class="edit-button" routerLink="/modificar-perfil" color="dark" size="small" fill="clear" *ngIf="esMiPerfil">
-              Editar
-              <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
-            </ion-button>
-            <ion-button class="mis-ubicaciones-button" color="dark" size="small" fill="clear" routerLink="/visualizar-ubicaciones/{{perfil?.usuario.idPersona}}">
-              <ion-icon slot="icon-only" name="earth-outline"></ion-icon>
-              Ubicaciones
-            </ion-button>
-            <ion-button class="deleteAccount-button" color="dark" size="small" fill="clear" (click)="deleteAccount()" *ngIf="esMiPerfil" >
-              <ion-icon slot="icon-only" name="person"></ion-icon>
-              Borrar mi cuenta
-            </ion-button>
+            <ion-list class="ion-text-end">
+              <ion-row>
+                <ion-button class="edit-button" routerLink="/modificar-perfil" color="dark" size="small" fill="clear" *ngIf="esMiPerfil">
+                  Editar
+                  <ion-icon style="padding-right: 5px;" slot="icon-only" name="settings-outline"></ion-icon>
+                </ion-button>
+              </ion-row>
+              <ion-row>
+                <ion-button class="mis-ubicaciones-button" color="dark" size="small" fill="clear" routerLink="/visualizar-ubicaciones/{{perfil?.usuario.idPersona}}">
+                  <ion-icon style="padding-right: 5px;" slot="icon-only" name="earth-outline"></ion-icon>
+                  Ubicaciones
+                </ion-button>
+              </ion-row>
+              <ion-row>
+                <ion-button class="deleteAccount-button" color="dark" size="small" fill="clear" (click)="deleteAccount()" *ngIf="esMiPerfil" >
+                  <ion-icon style="padding-right: 5px;" slot="icon-only" name="person"></ion-icon>
+                  Borrar cuenta
+                </ion-button>
+              </ion-row>
+            </ion-list>
           </ion-col>
         </ion-row>
       </ion-grid>
