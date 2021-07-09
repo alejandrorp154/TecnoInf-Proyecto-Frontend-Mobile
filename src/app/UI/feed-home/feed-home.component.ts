@@ -39,6 +39,8 @@ export class FeedHomeComponent implements OnInit {
     });
     this.user = JSON.parse(localStorage.getItem('_cap_authData'));
     this.publicaciones = await this.pubService.obtenerPublicaciones(this.user.userId,this.size);
+
+    console.log('*** ngOnInit(feed-home)  ***');
     if (this.loading != undefined) {
       this.loading.dismiss();
       this.isLoading = false;
@@ -72,6 +74,11 @@ export class FeedHomeComponent implements OnInit {
       cantidadLikes: ppu.cantidadLikes,
       cantidadDislikes: ppu.cantidadDislikes
     };
+  }
+
+  ngOnDestroy() {
+    this.pubService.destroyVariables();
+    console.log('*** ngOnDestroy(feed-home) ***');
   }
 
 }

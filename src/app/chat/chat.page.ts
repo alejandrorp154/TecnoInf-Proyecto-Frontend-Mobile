@@ -233,6 +233,7 @@ export class ChatPage implements OnInit {
       this.newMsg = '';
       this.mediaUrl = '';
       this.content.scrollToBottom();
+      this.isFileUploaded = false;
     });
   }
 

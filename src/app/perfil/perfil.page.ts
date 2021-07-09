@@ -32,7 +32,10 @@ export class PerfilPage implements OnInit {
   isLoading: Boolean;
   esMiPerfil: boolean;
 
-  textoBoton = 'AGREGAR CONTACTO';
+
+  textoBoton = '';
+
+  listaContactos = [];
 
   contactos: number;
 
@@ -43,22 +46,32 @@ export class PerfilPage implements OnInit {
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
     private usuarioService: UsuarioService
-    ) {
-  }
+    )
+    {
+    }
 
   async ngOnInit() {
+    console.log('es mi perfil al principio de ngonInit', this.esMiPerfil);
+    this.userFire = await this.authService.getCurrentUserFire().toPromise();
+    this.tieneSolicitudPendiente();
+    this.listaContactos = await this.usuarioService.getContactos(this.userFire.id, 10, null);
     this.router.paramMap.subscribe(
-      params => {        
+      params => {
         const id = params.get('id');
         this.obtenerPerfil(id.toString());
         this.idPerfil = id;
-      }
-      );      
-        this.userFire = await this.authService.getCurrentUserFire().toPromise();
-        this.esContacto(this.idPerfil);
-        if(!this.EsMiPerfil && this.esContacto(this.idPerfil)){
-          this.textoBoton = "ELIMINAR CONTACTO";
+        let contacto = this.esContacto(this.idPerfil);
+        let esperfil = this.EsMiPerfil();
+        console.log('es contacto', contacto);
+        if(esperfil && contacto){
+          this.textoBoton = 'ELIMINAR CONTACTO';
         }
+        else{
+          this.textoBoton = 'AGREGAR CONTACTO';
+        }
+      }
+    );
+    console.log('es mi perfil al final de ngonInit', this.esMiPerfil);
   }
 
   deleteAccount(){
@@ -98,35 +111,45 @@ export class PerfilPage implements OnInit {
     .then(alertEl => alertEl.present());
   }
 
-  async esContacto(perfil: string){
-    let t = this;
-    let lista = await this.usuarioService.getContactos(this.userFire.id, 10, null);
+
+  esContacto(perfil: string){
+    console.log('me fijo si este perfil es mi contacto', perfil);
+    let lista = this.listaContactos;
     console.log(lista);
-    lista.forEach(function (a) {
-      if(a.idPersona === perfil){
-        t.textoBoton = "ELIMINAR CONTACTO";
-        return true;
-      }
-    })
-    return false;
+    var interesExiste = this.listaContactos.find(inte => {
+      return inte.idPersona === perfil;
+    });
+
+    return interesExiste != null ? true : false;
   }
 
   async EsMiPerfil(){
     this.userFire = await this.authService.getCurrentUserFire().toPromise();
-    console.log(this.userFire.id);
+    console.log('este es el logueado>' + this.userFire.id + ' este es el perfil al que entre> ' +this.idPerfil);
+
     this.esMiPerfil = this.userFire.id === this.idPerfil;
-    console.log(this.esMiPerfil);
+    console.log('es mi perfil', this.esMiPerfil);
     return this.esMiPerfil;
   }
 
-  agregarContacto(){
+  clickBoton(){
 
-    this.usuarioService.agregarContacto(this.userFire.id, this.idPerfil)
-    this.textoBoton = 'PENDIENTE';
+    if(this.textoBoton === 'AGREGAR CONTACTO'){
+      this.usuarioService.agregarContacto(this.userFire.id, this.idPerfil);
+      this.textoBoton = 'PENDIENTE';
+    }
+    if(this.textoBoton === 'ELIMINAR CONTACTO'){
+      this.usuarioService.bajaContacto(this.userFire.id, this.idPerfil);
+      this.textoBoton = 'AGREGAR CONTACTO';
+    }
+    //if es pendiente que muestre un alert para cancelar la solicitud
+
+
 
   }
 
-  async obtenerPerfil(id: string){   
+
+  async obtenerPerfil(id: string){
     await this.EsMiPerfil();
 
     this.loadingCtrl.create({ keyboardClose: true, message: 'Cargando...' }).then(loadingEl =>{
@@ -145,6 +168,12 @@ export class PerfilPage implements OnInit {
     this.medalla.next(this.perfil.usuario.medalla);
     this.galleria.next(this.perfil.galerias);
     this.contactos = (await this.usuarioService.getAmigosAsync(id)).length;
+  }
+
+  async tieneSolicitudPendiente(){
+    let response = await this.usuarioService.tieneSolicitudPendiente(this.userFire.id, this.idPerfil);
+    console.log('sol pendiente',response);
+    return response;
   }
 
 }

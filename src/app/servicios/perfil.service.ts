@@ -55,5 +55,11 @@ export class PerfilService {
     }
     return response;
   }
-  
+
+  destroyVariables() {
+    this.usuarioDatos = null;
+    this.currentlyLoaded = 0;
+  }
+
+
 }

@@ -7,6 +7,7 @@ import { AuthService } from './auth.service';
 import { UserFire } from '../modelos/userFire.model';
 import { Usuario } from '../modelos/usuario.model';
 import { Contacto, EstadosContactos } from "../modelos/contacto.model";
+import { ɵclearResolutionOfComponentResourcesQueue } from "@angular/core";
 
 @Injectable({
   providedIn: 'any'
@@ -116,26 +117,19 @@ export class UsuarioService {
   deleteUsuarioAdmin(idUsuario:string)
   {
     const url = `${this.baseUrl}usuario/bajaAdmin/${idUsuario}`;
-    this.httpClient.delete(url);
+    return this.httpClient.delete(url);
   }
 
   async bloquearUsuario(idUsuario: string){
-    const url = `${this.baseUrl}usuario/bloquearUsuario/${idUsuario}`;
-    this.httpClient.put<Usuario>(url, null)
-    .subscribe(data => {
-      console.log(data['_body']);
-     }, error => {
-      console.log(error);
-    });
+    const url = `${this.baseUrl}usuario/${idUsuario}`;
+    let response = this.httpClient.put<Usuario>(url, null).toPromise().catch(error => console.log(error));
+    return response;
   }
   async desbloquearUsuario(idUsuario: string){
-    const url = `${this.baseUrl}usuario/desbloquearUsuario/${idUsuario}`;
-    this.httpClient.put<Usuario>(url, null)
-    .subscribe(data => {
-      console.log(data['_body']);
-     }, error => {
-      console.log(error);
-    });
+    const url = `${this.baseUrl}usuario/${idUsuario}`;
+    let response = this.httpClient.put<Usuario>(url, null).toPromise().catch(error => console.log(error));
+    console.log(response);
+    return response;
   }
 
   getContactos(idUsuario: string, size: number, event?): Promise<Usuario[]> {
@@ -235,6 +229,15 @@ export class UsuarioService {
      }, error => {
       console.log(error);
     });
+  }
+
+  public tieneSolicitudPendiente(userLogueado: string, idPerfil: string) {
+    try {
+      const url = `${this.baseUrl}usuario/sonAmigos/${userLogueado}/${idPerfil}`;
+      return this.httpClient.get(url).toPromise();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
 }
