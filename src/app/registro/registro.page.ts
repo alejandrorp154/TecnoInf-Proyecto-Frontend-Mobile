@@ -1,3 +1,4 @@
+import { ToolsService } from "./../servicios/tools.service";
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
@@ -12,11 +13,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { AuthResponseData } from '../modelos/AuthResponseData.interface';
 import { countries } from 'countries-list';
 import { IniciarSesionService } from '../servicios/iniciar-sesion.service';
-
-class Port {
-  public id: number;
-  public name: string;
-}
 
 
 @Component({
@@ -44,9 +40,7 @@ export class RegistroPage implements OnInit {
     ext: 'png'
   }
 
-  paises: string[] = [];
-  pais;
-
+  paises;
   constructor(
     @Inject('BASE_URL') private baseUrl: string,
     private authService: AuthService,
@@ -57,11 +51,17 @@ export class RegistroPage implements OnInit {
     private alertController: AlertController,
     private sanitizer: DomSanitizer,
     private plt: Platform,
-    private inicio: IniciarSesionService) {
-      Object.values(countries).forEach(c => this.paises.push(c.name));
+    private inicio: IniciarSesionService,
+    private toolsService: ToolsService) {
     }
 
-  ngOnInit() {}
+  async ngOnInit() {
+    await this.getPaises();
+  }
+
+  async getPaises(){
+    this.paises = await this.toolsService.getAllPaises()
+  }
 
   authenticate(email: string, password: string) {
     this.isLoading = true;
