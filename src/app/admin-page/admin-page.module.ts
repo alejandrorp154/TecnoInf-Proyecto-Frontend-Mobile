@@ -1,3 +1,4 @@
+import { AltaAdministradorPageModule } from "./../alta-administrador/alta-administrador.module";
 import { InteresPageModule } from "./../interes/interes.module";
 import { TabGestionUsuariosPageModule } from "./../tab-gestion-usuarios/tab-gestion-usuarios.module";
 import { TabMedallasPageModule } from "./../tab-medallas/tab-medallas.module";
@@ -22,7 +23,8 @@ import { NavbarComponent } from "../UI/navbar/navbar.component";
     EstadisticasPageModule,
     TabMedallasPageModule,
     TabGestionUsuariosPageModule,
-    InteresPageModule
+    InteresPageModule,
+    AltaAdministradorPageModule
   ],
   declarations: [AdminPagePage]
 })

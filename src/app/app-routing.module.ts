@@ -131,7 +131,15 @@ const routes: Routes = [
     path: 'galeria-modal',
     loadChildren: () => import('./galeria-modal/galeria-modal.module').then( m => m.GaleriaModalPageModule)
 
+  },  {
+    path: 'tab-email-notificacion',
+    loadChildren: () => import('./UI/tab-email-notificacion/tab-email-notificacion.module').then( m => m.TabEmailNotificacionPageModule)
+  },
+  {
+    path: 'tab-push-notificacion',
+    loadChildren: () => import('./UI/tab-push-notificacion/tab-push-notificacion.module').then( m => m.TabPushNotificacionPageModule)
   }
+
 
 
 

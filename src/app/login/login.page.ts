@@ -56,7 +56,7 @@ export class LoginPage implements OnInit {
                   if(this.user.administrador){
                     this.router.navigateByUrl('/admin-page');
                   }
-                  else if(!this.user.bloqueado){
+                  else if(!this.user.estaBloqueado){
                     this.router.navigateByUrl('/home');
                   }
                   else

@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "front-mobile",
+  "appId": "com.travelpack",
+  "appName": "TravelPack",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",

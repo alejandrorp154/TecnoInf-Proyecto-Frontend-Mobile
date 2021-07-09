@@ -1,60 +1,73 @@
-  
-  .section-title {
-    font-weight: bold;
-    font-size: large;
+
+.section-title {
+  font-weight: bold;
+  font-size: large;
+}
+
+.galeria {
+  height: 120px;
+  padding-right: 5px;
+}
+
+.avatar {
+  margin-left: 25%;
+  height: 150px;
+  width: 150px;
+  --border-radius: 80px;
+  border: 1px solid black;
   }
 
-  .galeria {
-    height: 120px;
-    padding-right: 5px;
-  }
+.card-profile{
+  width: 50%;
+  margin-left: 25%;
+  background-color: white;
+}
 
-  .avatar {
-    margin-left: 25%;
-    height: 150px;
-    width: 150px;
-    --border-radius: 80px;
-    border: 1px solid black;
-    }
+.user-info{
+  font-size: 20px;
+  margin-top: 25px;
+}
+
+.publicaciones{
+  width: 50%;
+  margin-left: 25%;
+}
+
+
+.grid{
+  margin-right: 0px;
+  margin-left: 0px;
+  width: 100%;
+}
+
+.edit-button{
+  margin-left: 15%;
+  text-align: end;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+
+@media(max-width: 500px){
+  .publicaciones{
+    width: 100%;
+    margin-left: 0;
+  }
 
   .card-profile{
-    width: 50%;
-    margin-left: 25%;
-    background-color: white;
+    width: 100%;
+    margin-left: 0;
   }
 
-  .user-info{
-    font-size: 20px;
-    margin-top: 25px;
-  }
-
-  .publicaciones{
-    width: 50%;
-    margin-left: 25%;
+  .button-list{
+    position:absolute;
+    margin-left: -30%;
+    text-align: end;
   }
   
 
-  .grid{
-    margin-right: 0px;
-    margin-left: 0px;
-    width: 100%;
-  }
-
-  .edit-button{
-    text-align: end;
-    width: 100%;
-    margin-left: -30%;
-    position: absolute;
-  }
-
-  .deleteAccount-button{
-    margin-top: 15%;
-    width: 100%;
-    margin-left: -30%;
-  }
-
   .mis-ubicaciones-button{        
-    margin-top: 15%;
+    margin-top: 0;
   }
 
   @media(max-width: 700px){
@@ -62,28 +75,34 @@
       width: 100%;
       margin-left: 0;
     }
+    .button-list{
+      text-align: center;
+    }
 
     .card-profile{
       width: 100%;
       margin-left: 0;
     }
 
-    .profile{
-      background-size: auto;
+  .avatar {
+    margin-left: 0px;
     }
 
     .mis-ubicaciones-button{
-      margin-top: 20%;
-      font-size: 20px;
-      margin-left: -25%;
+      font-size: 15px;
+    }
+
+    .deleteAccount-button{
+      font-size: 15px;
     }
 
     .edit-button{
-      margin-top: 0%;
-      font-size: 20px;
+      font-size: 15px;
     }
 
     .avatar {
-      margin-left: 0px; 
+      margin-left: 25px; 
+      margin-top: 25px;
       }
   }
+}

@@ -3,7 +3,9 @@ import { PopoverController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { Publicacion } from 'src/app/modelos/perfil';
 import { LikeDisLike, Reaccion } from 'src/app/modelos/publicacion.model';
+import { UserFire } from 'src/app/modelos/userFire.model';
 import { Usuario } from 'src/app/modelos/usuario.model';
+import { AuthService } from 'src/app/servicios/auth.service';
 import { PubicacionService } from 'src/app/servicios/pubicacion.service';
 import { PopoverPublicacionesComponent } from '../popover-publicaciones/popover-publicaciones.component';
 
@@ -19,13 +21,16 @@ export class FeedComponent implements OnInit {
 
   reaccion: Reaccion;
 
-  //count: number = 0;
+  userFire: UserFire;
 
-  constructor(private pubService: PubicacionService, public popoverController: PopoverController) {
-    //this.llenoFeed();
+  constructor(private pubService: PubicacionService, public popoverController: PopoverController,
+    private authService: AuthService) {
+    
    }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.userFire = await this.authService.getCurrentUserFire().toPromise();
+    
   }
 
   like(publicacion: Publicacion){
@@ -49,33 +54,29 @@ export class FeedComponent implements OnInit {
   async presentPopover(ev: any, publicacion: Publicacion) {
     const popover = await this.popoverController.create({
       component: PopoverPublicacionesComponent,
-      componentProps: {Publicacion:  publicacion},
+      componentProps: {Publicacion:  publicacion, Popover: this.popoverController},
       event: ev,
       translucent: false,
       mode: 'ios'
     });
     await popover.present();
 
-    const { role } = await popover.onDidDismiss();
-    console.log('onDidDismiss resolved with role', role);
+    // const { role } = await popover.onDidDismiss()
+    await popover.onDidDismiss()
+    .then((result) => {
+      console.log(result['data']);
+      if (result['data']=='eliminar') {
+        console.log('eliminar');
+        this.popoverController.dismiss();
+        this.publicaciones.value.splice(this.publicaciones.value.findIndex(p => {
+          return p.idPublicacion == publicacion.idPublicacion;
+        }), 1)
+      } else {
+        console.log('modificar');
+        this.popoverController.dismiss();     
+      }
+    });
+    
   }
-
-  // async llenoFeed(){
-  //   for (let i = 0; i < 5; i++) {  // here you can limit the items according to your needs.
-  //     this.publicaciones.value.push(this.publicaciones.value[this.count]);   // your JSON data which you want to display
-  //     this.count++ //i am using a count variable to keep track of inserted records to avoid inserting duplicate records on infinite scroll
-  //     console.log(this.count);
-  //   }
-  // }
-
-  // doInfinite(infiniteScroll) {
-  //   setTimeout(() => {
-  //     for (let i = 0; i < 5; i++) { 
-  //       this.publicaciones.value.push(this.publicaciones.value[this.count]); // this will start pushing next 5 items
-  //       this.count++
-  //     }
-  //     infiniteScroll.complete();
-  //   }, 500);
-  // }
 
 }

@@ -7,7 +7,10 @@ import { CompilerConfig } from "@angular/compiler";
 @Injectable({
   providedIn: 'root'
 })
+
+
 export class ConfiguracionesService {
+
 
   readonly httpOptions = {
     headers: new HttpHeaders({
@@ -19,6 +22,7 @@ export class ConfiguracionesService {
   constructor(private httpClient: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
 
   configuraciones: Configuracion;
+  configuracionesPush: Configuracion;
 
   async configurarNotificaciones(config: Configuracion){
     try{
@@ -37,6 +41,7 @@ export class ConfiguracionesService {
 	      "chatUsuario" : config.chatUsuario,
 	      "bajaEvento" : config.bajaEvento,
 	      "modificacionEvento" : config.modificacionEvento,
+        "isEmailNotification": true,
         "idPersona" : config.idPersona,
       }
       const url = `${this.baseUrl}configSistema`;
@@ -65,9 +70,10 @@ export class ConfiguracionesService {
 	      "chatUsuario" : config.chatUsuario,
 	      "bajaEvento" : config.bajaEvento,
 	      "modificacionEvento" : config.modificacionEvento,
+        "emailNotification": false,
         "idPersona" : config.idPersona,
       }
-      const url = `${this.baseUrl}configSistema`;
+      const url = `${this.baseUrl}configSistema/push`;
       console.log('CONFIG EN SERVICE', config);
       let response = this.httpClient.put<Configuracion>(url, postData);
       console.log('RESPONSE',response.toPromise());
@@ -81,7 +87,7 @@ export class ConfiguracionesService {
       const url = `${this.baseUrl}configSistema/${idPersona}`;
       let response = await this.httpClient.get(url).toPromise();
       this.configuraciones = response as Configuracion;
-      console.log(response);
+      configIdPersona = this.configuraciones.idConfiguracion;
       return this.configuraciones;
     }catch(error){
       console.log(error);
@@ -90,13 +96,16 @@ export class ConfiguracionesService {
 
   async getConfiguracionesPUSH(idPersona: string){
     try{
-      const url = `${this.baseUrl}configSistema/${idPersona}`;
+      const url = `${this.baseUrl}configSistema/push/${idPersona}`;
       let response = await this.httpClient.get(url).toPromise();
-      this.configuraciones = response as Configuracion;
-      console.log(response);
-      return this.configuraciones;
+      this.configuracionesPush = response as Configuracion;
+      configIdPersona = this.configuracionesPush.idConfiguracion;
+      return this.configuracionesPush;
     }catch(error){
       console.log(error);
     }
   }
 }
+
+
+export var configIdPersona: number;

@@ -18,10 +18,12 @@ export class TabGestionUsuariosPage implements OnInit {
   showError: boolean;
   errorMessage: string;
   userFire: UserFire;
+  isLoading: boolean;
 
   constructor(private usuarioService: UsuarioService, private alertCtrl: AlertController, private authService: AuthService) { }
 
   ngOnInit() {
+    this.isLoading = true;
     this.getAllUsuarios();
   }
 
@@ -30,9 +32,11 @@ export class TabGestionUsuariosPage implements OnInit {
 
   async getAllUsuarios(){
     this.usuarios = await this.usuarioService.getAllUsuariosRegistradosAsync();
+    this.isLoading = false;
   }
 
-  onBloquearUsuario(idPersona: string, slidingUser: IonItemSliding){
+  onBloquearUsuario(idPersona: string){
+    console.log('Bloquear',idPersona);
     try{
       this.alertCtrl
       .create({
@@ -63,7 +67,8 @@ export class TabGestionUsuariosPage implements OnInit {
 
   getContactosPersona
 
-  onDesbloquearUsuario(idPersona: string, slidingUser: IonItemSliding){
+  onDesbloquearUsuario(idPersona: string){
+    console.log('Desbloquear',idPersona);
     try{
       this.alertCtrl
       .create({
@@ -78,7 +83,6 @@ export class TabGestionUsuariosPage implements OnInit {
             text: 'Desbloquear',
             handler: async () => {
               await this.usuarioService.desbloquearUsuario(idPersona);
-              //await slidingUser.close();
               await this.getAllUsuarios();
               this.showError = false;
             }
