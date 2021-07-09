@@ -1,26 +1,31 @@
 import { UsuarioService } from "src/app/servicios/usuario.service";
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { Usuario } from '../modelos/usuario.model';
 import { UserFire } from '../modelos/userFire.model';
 import { AuthService } from '../servicios/auth.service';
 import { SugerirAmigosService } from '../servicios/sugerir-amigos.service';
+import { Subscription } from "rxjs";
+import { FeedHomeComponent } from "../UI/feed-home/feed-home.component";
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  styleUrls: ['home.page.scss']
 })
 export class HomePage implements OnInit {
+
   userFire: UserFire;
-  public amigos: Usuario[]
+  public amigos: Usuario[];
+  subscription: Subscription;
 
   constructor(private router: Router, private authService: AuthService, private sugerirAmigos: SugerirAmigosService, private userService: UsuarioService) {}
 
   async ngOnInit() {
+    console.log('ngOnInit(Home)');
+    this.authService.cerrarSesion.subscribe(res => { if(res > 0) this.ngOnDestroy() });
     setTimeout(() => this.delayCall(), 5);
   }
-
 
   async delayCall()
   {
@@ -41,5 +46,10 @@ export class HomePage implements OnInit {
 
   ionViewDidEnter(){
    this.userService.getSolicitudesPendientes(this.userFire.id);
+  }
+
+  ngOnDestroy() {
+    console.log('***** ngOnDestroy(Home) *****');
+    //this.authService.cerrarSesion.unsubscribe();
   }
 }

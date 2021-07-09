@@ -16,6 +16,7 @@ import { AuthResponseData } from '../modelos/AuthResponseData.interface';
 })
 export class AuthService {
   private _userFire = new BehaviorSubject<UserFire>(null);
+  cerrarSesion = new BehaviorSubject<number>(0);
 
   get userIsAuthenticated()
   {
@@ -122,6 +123,7 @@ export class AuthService {
     this._userFire.next(null);
     Plugins.Storage.remove({ key: 'authData' });
     Plugins.Storage.remove({ key: 'currentUser' });
+    this.cerrarSesion.next(this.cerrarSesion.value + 1);
     this.router.navigateByUrl('/login');
   }
 

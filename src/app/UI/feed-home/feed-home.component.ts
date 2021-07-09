@@ -30,6 +30,8 @@ export class FeedHomeComponent implements OnInit {
   async ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('_cap_authData'));
     this.publicaciones = await this.pubService.obtenerPublicaciones(this.user.userId,this.size);
+
+    console.log('*** ngOnInit(feed-home)  ***');
   }
 
   async loadData(event?) {
@@ -59,6 +61,11 @@ export class FeedHomeComponent implements OnInit {
       cantidadLikes: ppu.cantidadLikes,
       cantidadDislikes: ppu.cantidadDislikes
     };
+  }
+
+  ngOnDestroy() {
+    this.pubService.destroyVariables();
+    console.log('*** ngOnDestroy(feed-home) ***');
   }
 
 }

@@ -53,6 +53,7 @@ export class AltaEventoPage implements OnInit {
     ext: ''
   }
 
+
   constructor(private eventoService: EventoService, private usuarioService: UsuarioService, private toolsService: ToolsService,
     private authService: AuthService,
     private sanitizer: DomSanitizer, private _Activatedroute: ActivatedRoute, private location: Location) {
@@ -98,6 +99,7 @@ export class AltaEventoPage implements OnInit {
       }
 
     }
+
     if (this.creando || this.editando) {
 
       this.friends = await this.usuarioService.getAmigosAsync(this.currentUser.idPersona);
@@ -114,7 +116,9 @@ export class AltaEventoPage implements OnInit {
 
     this.today = new Date();
     console.log(this.today);
+
   }
+
 
   agregarInvitado(inv: Usuario) {
     this.invitados.push({
