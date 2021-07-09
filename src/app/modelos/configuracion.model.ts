@@ -16,7 +16,7 @@ export class Configuracion {
     public chatUsuario: boolean,
     public bajaEvento: boolean,
     public modificacionEvento: boolean,
-    public isEmailNotification: boolean
+    public emailNotification: boolean
 
   ){}
 
