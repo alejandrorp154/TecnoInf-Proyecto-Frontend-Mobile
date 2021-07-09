@@ -30,7 +30,7 @@
           <ion-col sizeLg="3" sizeMd="6" sizeSm="6" size="6">
             <app-medalla [medalla] = "medalla"></app-medalla>
           </ion-col>
-          <ion-button *ngIf="!esMiPerfil" (click)="agregarContacto()">{{textoBoton}}</ion-button>
+          <ion-button *ngIf="!esMiPerfil" (click)="clickBoton()">{{textoBoton}}</ion-button>
           <ion-col sizeLg="3" sizeMd="2" sizeSm="6" size="6">
             <ion-button class="edit-button" routerLink="/modificar-perfil" color="dark" size="small" fill="clear" *ngIf="esMiPerfil">
               Editar

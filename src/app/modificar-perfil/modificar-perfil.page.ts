@@ -44,7 +44,7 @@ export class ModificarPerfilPage implements OnInit {
     this.usuarioPerfil.direccion = form.value.direccion;
     this.usuarioPerfil.celular = form.value.celular;
     this.usuarioPerfil.pais = form.value.pais;
-    
+
     //this.usuario = form.value;
     if (this.imagen.base64 !='') {
       this.usuarioPerfil.imagenPerfil = this.imagen.base64;
@@ -56,7 +56,7 @@ export class ModificarPerfilPage implements OnInit {
       this.usuarioPerfil.nombreImagen = this.usuario.nombreImagen;
       this.usuarioPerfil.extensionImagen = this.usuario.extension;
     }
-    
+
     this.perfilServ.modificarPerfil(this.usuarioPerfil);
     this.tools.presentToast('El perfil fue modificado con exito', this.resultado).then(()=>this.router.navigate(['/home']))
   }
@@ -64,7 +64,7 @@ export class ModificarPerfilPage implements OnInit {
   async selectImageSource() {
 
     this.fileInput.nativeElement.click();
-    
+
   }
 
   uploadFile(event) {

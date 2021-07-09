@@ -15,7 +15,7 @@ export class Usuario {
     public extension: string,
     public administrador?: boolean,
     public medalla?: Medalla,
-    public bloqueado?: boolean
+    public estaBloqueado?: boolean
   ){ }
 }
 

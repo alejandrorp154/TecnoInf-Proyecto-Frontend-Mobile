@@ -32,7 +32,8 @@ export class TabGestionUsuariosPage implements OnInit {
     this.usuarios = await this.usuarioService.getAllUsuariosRegistradosAsync();
   }
 
-  onBloquearUsuario(idPersona: string, slidingUser: IonItemSliding){
+  onBloquearUsuario(idPersona: string){
+    console.log('Bloquear',idPersona);
     try{
       this.alertCtrl
       .create({
@@ -63,7 +64,8 @@ export class TabGestionUsuariosPage implements OnInit {
 
   getContactosPersona
 
-  onDesbloquearUsuario(idPersona: string, slidingUser: IonItemSliding){
+  onDesbloquearUsuario(idPersona: string){
+    console.log('Desbloquear',idPersona);
     try{
       this.alertCtrl
       .create({
@@ -78,7 +80,6 @@ export class TabGestionUsuariosPage implements OnInit {
             text: 'Desbloquear',
             handler: async () => {
               await this.usuarioService.desbloquearUsuario(idPersona);
-              //await slidingUser.close();
               await this.getAllUsuarios();
               this.showError = false;
             }
