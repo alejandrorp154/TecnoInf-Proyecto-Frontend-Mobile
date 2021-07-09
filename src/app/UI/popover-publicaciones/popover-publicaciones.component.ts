@@ -14,6 +14,7 @@ export class PopoverPublicacionesComponent implements OnInit {
 
   @Input() Publicacion: Publicacion;
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
+  @Input() Popover: any;
 
   imagen = {
     base64: '',
@@ -38,18 +39,27 @@ export class PopoverPublicacionesComponent implements OnInit {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
-            //console.log('Confirm Cancel: blah');
+            alert.dismiss(false);
+            return false;
           }
         }, {
           text: 'Eliminar',
           handler: () => {
+            alert.dismiss(true);
             this.pubService.eliminarPublicacion(idPublicacion);
+            return false;
           }
         }
       ]
     });
 
     await alert.present();
+    const { role } = await alert.onDidDismiss();
+    if (role) {
+    } else {
+      this.Popover.dismiss('eliminar');
+    }
+    
   }
 
   async modificarPublicacionURL(publicacion: Publicacion) {
@@ -89,6 +99,11 @@ export class PopoverPublicacionesComponent implements OnInit {
     });
 
     await alert.present();
+    const { role } = await alert.onDidDismiss();
+    if (role) {
+    } else {
+      this.Popover.dismiss('modificar');
+    }
   }
 
   async buscarPreview(url:string){
@@ -120,7 +135,6 @@ export class PopoverPublicacionesComponent implements OnInit {
         }, {
           text: 'Ok',
           handler: (alertData) => {
-            console.log(alertData.texto);
             publicacion.contenido = alertData.texto;
             this.pubService.modificarPublicacion(publicacion);
           }
@@ -129,6 +143,11 @@ export class PopoverPublicacionesComponent implements OnInit {
     });
 
     await alert.present();
+    const { role } = await alert.onDidDismiss();
+    if (role) {
+    } else {
+      this.Popover.dismiss('modificar');
+    }
   }
 
   async selectImageSource() {
@@ -185,6 +204,11 @@ export class PopoverPublicacionesComponent implements OnInit {
     });
 
     await alert.present();
+    const { role } = await alert.onDidDismiss();
+    if (role) {
+    } else {
+      this.Popover.dismiss('modificar');
+    }
   }
 
 }

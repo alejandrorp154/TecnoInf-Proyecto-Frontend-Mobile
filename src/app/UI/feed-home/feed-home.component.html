@@ -27,16 +27,16 @@
         </ion-col>
       </ion-row>
       <ion-row class="ion-justify-content-start">
-        <ion-col>
+        <!-- <ion-col>
           <ion-button fill="clear" size="small">
             <ion-icon name="thumbs-up-outline" slot="start"></ion-icon>
-            <!-- {{publicacion.cantidadLikes}} -->
+    
           </ion-button>
         </ion-col>
         <ion-col>
           <ion-button fill="clear" size="small">
             <ion-icon name="thumbs-down-outline" slot="start"></ion-icon>
-            <!-- {{publicacion.cantidadDislikes}} -->
+            
           </ion-button>
         </ion-col>
         <ion-col>
@@ -44,7 +44,11 @@
             <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
             {{publicacion.cantidadComentarios}}
           </ion-button>
-        </ion-col>
+        </ion-col> -->
+        <ion-button style="display: block;margin-left: auto;" href="/comentarios-publicacion/{{publicacion.idPublicacion}}" color="dark" fill="clear" shape="round">
+          Ver más 
+          <ion-icon name="arrow-redo-outline"></ion-icon>
+        </ion-button>
       </ion-row>
     </ion-col>
   </ion-row>
