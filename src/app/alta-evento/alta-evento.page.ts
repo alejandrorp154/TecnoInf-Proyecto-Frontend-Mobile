@@ -80,6 +80,9 @@ export class AltaEventoPage implements OnInit {
         });
 
         this.evento = await this.eventoService.obtenerEvento(idEvento);
+
+        this.evento.owner = this.evento.idPersona == this.currentUser.idPersona;
+
         this.evento.invitados.forEach(ii => this.invitados.push(Object.assign({}, ii)));
         //this.invitados = Object.assign(this.evento.invitados);
         this.participantes.next(this.evento.owner ? this.evento.invitados : this.evento.invitados.filter(i => i.estadoContactos == 'aceptada'));
@@ -101,7 +104,6 @@ export class AltaEventoPage implements OnInit {
     }
 
     if (this.creando || this.editando) {
-
       this.friends = await this.usuarioService.getAmigosAsync(this.currentUser.idPersona);
 
       this.searchBar.valueChanges
@@ -121,6 +123,8 @@ export class AltaEventoPage implements OnInit {
 
 
   agregarInvitado(inv: Usuario) {
+    console.log(inv);
+    console.log(this.evento.owner);
     this.invitados.push({
       idPersona: inv.idPersona,
       nickname: inv.nickname,
