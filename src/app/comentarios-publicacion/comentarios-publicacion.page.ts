@@ -21,6 +21,7 @@ import { PopoverComentarioComponent } from '../UI/popover-comentario/popover-com
 })
 export class ComentariosPublicacionPage implements OnInit {
 
+  publicacion: Publicacion;
   preview: Preview = new Preview;
   publicacionObs: BehaviorSubject<Publicacion> = new BehaviorSubject(new Publicacion());
   comentariosObs: BehaviorSubject<Comentario[]> = new BehaviorSubject(undefined);
@@ -44,6 +45,11 @@ export class ComentariosPublicacionPage implements OnInit {
     public popoverController: PopoverController) {}
 
   ngOnInit() {
+    this.publicacion = new Publicacion()
+
+    var retrievedObject = localStorage.getItem('publicacion');
+    this.publicacion = JSON.parse(retrievedObject);
+    localStorage.removeItem('publicacion');
     this.router.paramMap.subscribe(
       params => {
           const id = params.get('id');
@@ -54,7 +60,8 @@ export class ComentariosPublicacionPage implements OnInit {
 
 
   async getPublicacion(id){
-    this.publicacionObs.next(await this.publicacionService.obtenerPublicacionPorId(id));
+    // this.publicacionObs.next(await this.publicacionService.obtenerPublicacionPorId(id));
+    this.publicacionObs.next(this.publicacion);
     this.userId = this.publicacionObs.value.idPersona;
     this.tempComentarios = this.publicacionObs.value.comentarioReacciones;
     

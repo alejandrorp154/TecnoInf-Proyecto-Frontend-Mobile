@@ -116,7 +116,12 @@ export class AltaPublicacionComponent implements OnInit {
       this.pubService.altaPublicacion(this.publicacion);
       //Alta Ubicacion
       this.ubicacion = new Ubicacion;
-      this.ubicacion.descripcion = this.texto.textoPub;
+      if (this.texto.textoPub == '') {
+        this.ubicacion.descripcion = this.pais;
+      } else {
+        this.ubicacion.descripcion = this.texto.textoPub;
+      }
+      
       var fecha = new Date();
 
       //this.ubicacion.fecha = this.datePipe.transform(fecha,"yyyy-MM-dd") //String se comenta porque el modelo esta con Date
@@ -125,7 +130,7 @@ export class AltaPublicacionComponent implements OnInit {
       this.ubicacion.latitud = this.lat;
       this.ubicacion.longitud = this.long;
       this.ubicacion.pais = this.pais;
-      console.log(this.ubicacion);
+      //console.log(this.ubicacion);
       this.ubiService.altaUbicacion(this.ubicacion);
       this.texto.textoPub = '';
       this.tools.presentToast('La publicacion fue creada con exito', Resultado.Ok);

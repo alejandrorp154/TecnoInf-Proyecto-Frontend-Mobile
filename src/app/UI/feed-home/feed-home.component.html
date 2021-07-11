@@ -45,7 +45,7 @@
             {{publicacion.cantidadComentarios}}
           </ion-button>
         </ion-col> -->
-        <ion-button style="display: block;margin-left: auto;" href="/comentarios-publicacion/{{publicacion.idPublicacion}}" color="dark" fill="clear" shape="round">
+        <ion-button style="display: block;margin-left: auto;" href="/comentarios-publicacion/{{publicacion.idPublicacion}}" color="dark" fill="clear" shape="round" (click)="cargoPublicacion(publicacion)">
           Ver más 
           <ion-icon name="arrow-redo-outline"></ion-icon>
         </ion-button>

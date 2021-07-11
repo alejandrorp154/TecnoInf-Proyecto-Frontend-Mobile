@@ -76,6 +76,10 @@ export class FeedHomeComponent implements OnInit {
     };
   }
 
+  cargoPublicacion(publicacion: Publicacion){
+    localStorage.setItem('publicacion', JSON.stringify(publicacion));
+  }
+
   ngOnDestroy() {
     this.pubService.destroyVariables();
     console.log('*** ngOnDestroy(feed-home) ***');
