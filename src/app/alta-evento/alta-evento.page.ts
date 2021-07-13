@@ -136,7 +136,7 @@ export class AltaEventoPage implements OnInit {
       estadoContactos: 'pendiente',
       owner: this.currentUser.idPersona == inv.idPersona
     });
-    this.participantes.next(this.evento.owner ? this.invitados : this.invitados.filter(i => i.estadoContactos == 'aceptada'));
+    this.participantes.next(this.invitados);
     this.searchBar.setValue('');
 
   }
