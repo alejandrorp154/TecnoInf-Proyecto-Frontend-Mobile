@@ -92,7 +92,8 @@
                     [items]="paises"
                     itemValueField="name"
                     itemTextField="name"
-                    [canSearch]="true">
+                    [canSearch]="true"
+                    (onChange)="paisChange($event)">
                   </ionic-selectable>
                 </ion-item>
                 <ion-item>

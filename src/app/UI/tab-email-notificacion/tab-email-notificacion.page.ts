@@ -29,8 +29,7 @@ export class TabEmailNotificacionPage implements OnInit {
     if(this.user != null){
       await this.getConfiguraciones(this.user.id);
       console.log(this.configuracionAMostrar);
-
-    console.log('configIdPersona',configIdPersona);
+      console.log('configIdPersona',configIdPersona);
     }
   }
 
@@ -38,23 +37,20 @@ export class TabEmailNotificacionPage implements OnInit {
     this.configuraciones = await this.configuracionService.getConfiguraciones(idPersona);
     console.log('email', this.configuraciones);
     this.configuracionAMostrar = this.configuraciones;
+    delete this.configuracionAMostrar.idPersona;
+    delete this.configuracionAMostrar.idConfiguracion;
+    delete this.configuracionAMostrar.emailNotification;
 
   }
-
-  checkedChanged(configKeyP: any, configValueP: any){
-    console.log('email');
-    this.configuraciones[configKeyP] = !configValueP;
-  }
-
   onAplicar(){
     this.configuracionAMostrar.idPersona = this.user.id;
     this.configuracionAMostrar.emailNotification = false;
     this.configuracionAMostrar.idConfiguracion = configIdPersona;
 
-    console.log('PUSH', this.configuracionAMostrar);
+    console.log('EMAIL', this.configuracionAMostrar);
     this.alertCtrl.create({
-      header: 'Configurar Notificaciones',
-      message: '¿Estas seguro de que deseas aplicar esta configuracion?',
+      header: 'Configurar Notificaciones EMAIL',
+      message: '¿Estas seguro de que deseas aplicar esta configuracion para email?',
       buttons: [
         {
           text: 'Cancelar',
@@ -68,13 +64,16 @@ export class TabEmailNotificacionPage implements OnInit {
           handler: async () => {
             await this.configuracionService.configurarNotificaciones(this.configuracionAMostrar);
             await this.getConfiguraciones(this.user.id);
-
           }
         }
       ]
     }).then(alertElement => {
       alertElement.present();
     })
+  }
+
+  checkedChanged(event, configkey){
+    this.configuracionAMostrar[configkey] = event.target.checked;
   }
 
 }
