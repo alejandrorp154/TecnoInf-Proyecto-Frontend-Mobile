@@ -26,7 +26,7 @@ export class AppComponent implements OnInit, OnDestroy{
   constructor(private authService: AuthService, private router: Router, private firebase: FirebaseApp, private perfilService: PerfilService,
     private fcm: FCM, public plt: Platform) {
   this.userApp = new Usuario("","", "","", "","","","", "","", "");
-/*  this.plt.ready()
+  /*this.plt.ready()
       .then(() => {
         this.fcm.onNotification().subscribe(data => {
           if (data.wasTapped) {
