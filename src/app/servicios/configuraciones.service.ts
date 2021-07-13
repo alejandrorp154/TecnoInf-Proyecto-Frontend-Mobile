@@ -41,7 +41,7 @@ export class ConfiguracionesService {
 	      "chatUsuario" : config.chatUsuario,
 	      "bajaEvento" : config.bajaEvento,
 	      "modificacionEvento" : config.modificacionEvento,
-        "isEmailNotification": true,
+        "emailNotification": true,
         "idPersona" : config.idPersona,
       }
       const url = `${this.baseUrl}configSistema`;

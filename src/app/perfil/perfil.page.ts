@@ -11,6 +11,8 @@ import { Usuario } from '../modelos/usuario.model';
 import { PerfilService } from '../servicios/perfil.service';
 import { Multimedia } from '../modelos/multimedia.model';
 import { AlertController , LoadingController } from "@ionic/angular";
+import { estadosContactos } from "../modelos/estadosContactos.enum";
+import { EstadosContactos } from "../modelos/contacto.model";
 
 @Component({
   selector: 'app-perfil',
@@ -53,7 +55,6 @@ export class PerfilPage implements OnInit {
   async ngOnInit() {
     console.log('es mi perfil al principio de ngonInit', this.esMiPerfil);
     this.userFire = await this.authService.getCurrentUserFire().toPromise();
-    this.tieneSolicitudPendiente();
     this.listaContactos = await this.usuarioService.getContactos(this.userFire.id, 10, null);
     this.router.paramMap.subscribe(
       params => {
@@ -65,6 +66,9 @@ export class PerfilPage implements OnInit {
         console.log('es contacto', contacto);
         if(esperfil && contacto){
           this.textoBoton = 'ELIMINAR CONTACTO';
+        }
+        else if(this.tieneSolicitudPendiente()){
+          this.textoBoton = 'PENDIENTE';
         }
         else{
           this.textoBoton = 'AGREGAR CONTACTO';
@@ -142,6 +146,32 @@ export class PerfilPage implements OnInit {
       this.usuarioService.bajaContacto(this.userFire.id, this.idPerfil);
       this.textoBoton = 'AGREGAR CONTACTO';
     }
+    if(this.textoBoton === 'PENDIENTE'){
+      try{
+        this.alertCtrl
+        .create({
+          header: 'Cancelar Solicitud',
+          message: '¿Estas seguro que deseas cancelar la solicitud de contacto?',
+          buttons: [
+            {
+              text: 'Cancelar',
+              role: 'cancel'
+            },
+            {
+              text: 'Continuar',
+              handler: async () => {
+                this.usuarioService.respuestaContacto(this.userFire.id, this.idPerfil, EstadosContactos.cancelada);
+              }
+            }
+          ]
+        })
+        .then(alertEl => {
+          alertEl.present();
+        });
+      }catch(error){
+        console.log(error);
+      }
+    }
     //if es pendiente que muestre un alert para cancelar la solicitud
 
 
@@ -171,6 +201,7 @@ export class PerfilPage implements OnInit {
   }
 
   async tieneSolicitudPendiente(){
+    console.log(this.userFire.id, this.idPerfil);
     let response = await this.usuarioService.tieneSolicitudPendiente(this.userFire.id, this.idPerfil);
     console.log('sol pendiente',response);
     return response;
