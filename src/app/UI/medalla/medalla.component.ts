@@ -23,7 +23,7 @@ export class MedallaComponent implements OnInit {
 
     this.medalla.subscribe( med =>
       {
-        if (med) {
+        if (med && med.rango) {
           switch(med.rango.toString())
           {
             case 'ironWolf':
@@ -110,9 +110,9 @@ export class MedallaComponent implements OnInit {
         } else {
           this.medallaUrl = "../../assets/img/Null.png";
           this.progreso = 0;
-          this.puntosTotales = 75;
+          this.puntosTotales = 1;
           this.puntosActuales = 0;
-          this.medallaName = "Noob Wolf";
+          this.medallaName = "New Wolf";
         }
       }
     )
