@@ -33,18 +33,18 @@
           <ion-button *ngIf="!esMiPerfil" (click)="clickBoton()">{{textoBoton}}</ion-button>
           <ion-col sizeLg="3" sizeMd="2" sizeSm="6" size="6">
             <ion-list class="ion-text-end">
-              <ion-row>
-                <ion-button class="edit-button" routerLink="/modificar-perfil" color="dark" size="small" fill="clear" *ngIf="esMiPerfil">
-                  Editar
-                  <ion-icon style="padding-right: 5px;" slot="icon-only" name="settings-outline"></ion-icon>
-                </ion-button>
-              </ion-row>
-              <ion-row>
-                <ion-button class="mis-ubicaciones-button" color="dark" size="small" fill="clear" routerLink="/visualizar-ubicaciones/{{perfil?.usuario.idPersona}}">
-                  <ion-icon style="padding-right: 5px;" slot="icon-only" name="earth-outline"></ion-icon>
-                  Ubicaciones
-                </ion-button>
-              </ion-row>
+                <ion-item lines="none" *ngIf="esMiPerfil">
+                  <ion-button class="edit-button" routerLink="/modificar-perfil" color="dark" size="small" fill="clear" >
+                    Editar
+                    <ion-icon style="padding-right: 5px;" slot="icon-only" name="settings-outline"></ion-icon>
+                  </ion-button>
+                </ion-item>
+                <ion-item lines="none">
+                  <ion-button class="mis-ubicaciones-button" color="dark" size="small" fill="clear" routerLink="/visualizar-ubicaciones/{{perfil?.usuario.idPersona}}">
+                    <ion-icon style="padding-right: 5px;" slot="icon-only" name="earth-outline"></ion-icon>
+                    Ubicaciones
+                  </ion-button>
+                </ion-item>
             </ion-list>
           </ion-col>
         </ion-row>

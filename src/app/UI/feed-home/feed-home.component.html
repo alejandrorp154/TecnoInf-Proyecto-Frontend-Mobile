@@ -1,3 +1,11 @@
+<ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200" (ionRefresh)="doRefresh($event)">
+  <ion-refresher-content
+  pullingIcon="chevron-down-circle-outline"
+  pullingText="Desliza para recargar"
+  refreshingSpinner="circles"
+  refreshingText="Recargando...">
+  </ion-refresher-content>
+</ion-refresher>
 <div *ngFor="let publicacion of publicaciones">
   <ion-row class="wrapper" *ngIf="publicacion.tipo.tipo != 'mapa'">
     <ion-col size="2">

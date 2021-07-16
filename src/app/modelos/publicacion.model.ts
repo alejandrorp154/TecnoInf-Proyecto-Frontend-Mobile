@@ -39,3 +39,10 @@ export enum LikeDisLike {
   MeGusta = 'MeGusta',
   NoMeGusta = 'NoMeGusta',
 }
+
+export class CantidadReaccionComentario {
+  cantidadLikes: number
+  cantidadDislikes: number
+  cantidadComentarios: number
+  idPublicacion: number
+}

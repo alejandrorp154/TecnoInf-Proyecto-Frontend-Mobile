@@ -45,12 +45,12 @@
                 <ion-card class="card" *ngIf="boolEsTexto || boolEsFoto || boolEsEnlace">
                   <ion-button (click)="reaccionarAPublicacion('MeGusta')" fill="clear" size="small">
                     <ion-icon name="thumbs-up-outline" slot="start"></ion-icon>
-                    {{publicacionObs.value.cantidadLikes}}
+                    {{cantReacciones.cantidadLikes}}
                   </ion-button>
     
                   <ion-button (click)="reaccionarAPublicacion('NoMeGusta')" fill="clear" size="small">
                     <ion-icon name="thumbs-down-outline" slot="start"></ion-icon>
-                    {{publicacionObs.value.cantidadDislikes}}
+                    {{cantReacciones.cantidadDislikes}}
                   </ion-button>
                 </ion-card>
               </ion-col>
@@ -128,9 +128,15 @@
 
       </ion-col>
     </ion-row>
-
+    <ion-card>
+      <ion-card-content style="background-color: white;" *ngIf="cantReacciones?.cantidadComentarios == 0">
+        <img style="height: 15rem; margin-left: auto;margin-right: auto; display: block;" src="../../assets/img/lobito.png">
+        <ion-label style="text-align: center; display: block;">Aún no hay comentarios :(</ion-label>
+      </ion-card-content>
+    </ion-card>
   </ion-col>
 </ion-row>
   </ion-grid>
+  
 
 </ion-content>

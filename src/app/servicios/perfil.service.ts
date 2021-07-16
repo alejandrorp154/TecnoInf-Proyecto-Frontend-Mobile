@@ -10,7 +10,7 @@ import { Publicacion } from 'src/app/modelos/perfil';
 export class PerfilService {
 
   public usuarioDatos: Usuario = null;
-  currentlyLoaded: number = 0;
+  public currentlyLoaded: number = 0;
 
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
     //const idPersona = this.obtenerUsuarioLogeado();
