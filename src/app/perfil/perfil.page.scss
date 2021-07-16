@@ -40,13 +40,13 @@
   width: 100%;
 }
 
-.edit-button{
-  margin-left: 15%;
-  text-align: end;
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-}
+// .edit-button{
+//   margin-left: 15%;
+//   text-align: end;
+//   width: 100%;
+//   position: absolute;
+//   bottom: 0;
+// }
 
 @media(max-width: 500px){
   .publicaciones{
@@ -92,9 +92,6 @@
       font-size: 15px;
     }
 
-    .deleteAccount-button{
-      font-size: 15px;
-    }
 
     .edit-button{
       font-size: 15px;

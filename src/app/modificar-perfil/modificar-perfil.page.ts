@@ -2,10 +2,15 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
+import { Observable } from 'rxjs';
 import { UsuarioPerfil } from '../modelos/perfil';
+import { UserFire } from '../modelos/userFire.model';
 import { Usuario } from '../modelos/usuario.model';
+import { AuthService } from '../servicios/auth.service';
 import { PerfilService } from '../servicios/perfil.service';
 import { Resultado, ToolsService } from '../servicios/tools.service';
+import { UsuarioService } from '../servicios/usuario.service';
 
 @Component({
   selector: 'app-modificar-perfil',
@@ -25,13 +30,17 @@ export class ModificarPerfilPage implements OnInit {
     nombre: '',
     ext: ''
   }
+  userFire: UserFire;
 
-  constructor(private router: Router, private perfilServ: PerfilService, private sanitizer: DomSanitizer, private tools: ToolsService) {
+  constructor(private router: Router, private perfilServ: PerfilService, private sanitizer: DomSanitizer,
+     private tools: ToolsService, private alertCtrl: AlertController,private authService: AuthService,
+     private usuarioService: UsuarioService) {
     this.usuario = new Usuario(perfilServ.usuarioDatos.idPersona,perfilServ.usuarioDatos.nickname,perfilServ.usuarioDatos.nombre,perfilServ.usuarioDatos.apellido ,perfilServ.usuarioDatos.celular ,perfilServ.usuarioDatos.direccion,perfilServ.usuarioDatos.email,perfilServ.usuarioDatos.pais,perfilServ.usuarioDatos.imagenPerfil,perfilServ.usuarioDatos.nombreImagen,perfilServ.usuarioDatos.extension);
     this.imageSource = this.usuario.imagenPerfil;
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.userFire = await this.authService.getCurrentUserFire().toPromise();
   }
 
   onSubmit(form: NgForm) {
@@ -82,6 +91,43 @@ export class ModificarPerfilPage implements OnInit {
       base64 = img.split(',');
      this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(`${base64[0]}, ${base64[1]}`);
     };
+  }
+
+  deleteAccount(){
+    this.alertCtrl
+    .create({
+      header: 'Eliminar cuenta',
+      message: 'Esta a punto de borrar permanentemente su cuenta. ¿Seguro que desea continuar?',
+      buttons: [
+        {
+          text: 'Eliminar',
+          handler: async () => {
+            this.userFire = await this.authService.getCurrentUserFire().toPromise()
+
+                  let obs: Observable<any>;
+                  obs = this.authService.deleteAccount(this.userFire.token);
+
+                  obs.subscribe(
+                    errorResponse => {
+                      const code = errorResponse.error.error.message;
+                      console.log(code)
+                    }
+                  )
+                  this.usuarioService.deleteAcount(this.userFire.id)
+                  this.authService.logout();
+          },
+          cssClass: 'alrtDanger'
+        },
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancelar');
+          }
+        }
+      ]
+    })
+    .then(alertEl => alertEl.present());
   }
 
 

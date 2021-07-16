@@ -9,7 +9,7 @@ import { Comentario, comentarioReacciones } from '../modelos/comentario.model';
 import { ComentarioReaccion, PublicacionReaccion } from '../modelos/comentarioReaccion.model';
 import { Publicacion } from '../modelos/perfil';
 import { Preview } from '../modelos/preview';
-import { TipoPublicacion } from '../modelos/publicacion.model';
+import { CantidadReaccionComentario, TipoPublicacion } from '../modelos/publicacion.model';
 import { ComentariosService } from '../servicios/comentarios.service';
 import { PubicacionService } from '../servicios/pubicacion.service';
 import { PopoverComentarioComponent } from '../UI/popover-comentario/popover-comentario.component';
@@ -21,6 +21,7 @@ import { PopoverComentarioComponent } from '../UI/popover-comentario/popover-com
 })
 export class ComentariosPublicacionPage implements OnInit {
 
+  publicacion: Publicacion;
   preview: Preview = new Preview;
   publicacionObs: BehaviorSubject<Publicacion> = new BehaviorSubject(new Publicacion());
   comentariosObs: BehaviorSubject<Comentario[]> = new BehaviorSubject(undefined);
@@ -34,6 +35,7 @@ export class ComentariosPublicacionPage implements OnInit {
   boolVerComentariosHijo: boolean = false;
   boolVerComentarios: boolean = false;
   userId;
+  cantReacciones: CantidadReaccionComentario;
 
   public comentarioForm = new FormGroup({
     comentario: new FormControl()
@@ -44,6 +46,10 @@ export class ComentariosPublicacionPage implements OnInit {
     public popoverController: PopoverController) {}
 
   ngOnInit() {
+    this.publicacion = new Publicacion();
+    var retrievedObject = localStorage.getItem('publicacion');
+    this.publicacion = JSON.parse(retrievedObject);
+    localStorage.removeItem('publicacion');
     this.router.paramMap.subscribe(
       params => {
           const id = params.get('id');
@@ -54,7 +60,10 @@ export class ComentariosPublicacionPage implements OnInit {
 
 
   async getPublicacion(id){
-    this.publicacionObs.next(await this.publicacionService.obtenerPublicacionPorId(id));
+    // this.publicacionObs.next(await this.publicacionService.obtenerPublicacionPorId(id));
+    this.cantReacciones = new CantidadReaccionComentario();
+    this.cantReacciones = await this.publicacionService.obtenerReaccionesComentarios(this.publicacion.idPublicacion.toString())
+    this.publicacionObs.next(this.publicacion);
     this.userId = this.publicacionObs.value.idPersona;
     this.tempComentarios = this.publicacionObs.value.comentarioReacciones;
     
@@ -180,9 +189,9 @@ export class ComentariosPublicacionPage implements OnInit {
     newReaccion.reaccion = reaccion;
     await this.comentariosService.addPublicacionReaccion(newReaccion);
     if (newReaccion.reaccion == 'MeGusta') {
-      this.publicacionObs.value.cantidadLikes =+ 1;
+      this.cantReacciones.cantidadLikes =+ 1;
     } else {
-      this.publicacionObs.value.cantidadDislikes =+ 1;
+      this.cantReacciones.cantidadDislikes =+ 1;
     }
     
     //this.getPublicacion(this.publicacionObs.value.idPublicacion); 

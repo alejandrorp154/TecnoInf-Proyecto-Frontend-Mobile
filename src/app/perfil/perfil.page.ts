@@ -45,9 +45,9 @@ export class PerfilPage implements OnInit {
     private perfilServ: PerfilService,
     private router: ActivatedRoute,
     private authService: AuthService,
-    private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    public alertCtrl: AlertController
     )
     {
     }
@@ -78,42 +78,7 @@ export class PerfilPage implements OnInit {
     console.log('es mi perfil al final de ngonInit', this.esMiPerfil);
   }
 
-  deleteAccount(){
-    this.alertCtrl
-    .create({
-      header: 'Eliminar cuenta',
-      message: 'Esta a punto de borrar permanentemente su cuenta. ¿Seguro que desea continuar?',
-      buttons: [
-        {
-          text: 'Eliminar',
-          handler: async () => {
-            this.userFire = await this.authService.getCurrentUserFire().toPromise()
-
-                  let obs: Observable<any>;
-                  obs = this.authService.deleteAccount(this.userFire.token);
-
-                  obs.subscribe(
-                    errorResponse => {
-                      const code = errorResponse.error.error.message;
-                      console.log(code)
-                    }
-                  )
-                  this.usuarioService.deleteAcount(this.userFire.id)
-                  this.authService.logout();
-          },
-          cssClass: 'alrtDanger'
-        },
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancelar');
-          }
-        }
-      ]
-    })
-    .then(alertEl => alertEl.present());
-  }
+  
 
 
   esContacto(perfil: string){

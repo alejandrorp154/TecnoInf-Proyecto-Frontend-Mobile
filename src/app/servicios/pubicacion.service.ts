@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { ErrorHandler, Inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
-import { Publicacion as p } from '../modelos/perfil';
-import { Publicacion, Reaccion } from '../modelos/publicacion.model';
+import { Publicacion as p, PublicacionPerfilUsuario } from '../modelos/perfil';
+import { CantidadReaccionComentario, Publicacion, Reaccion } from '../modelos/publicacion.model';
 
 
 @Injectable({
@@ -15,11 +16,13 @@ export class PubicacionService {
   constructor(public httpClient: HttpClient, public handleError: ErrorHandler, @Inject('BASE_URL') private baseUrl: string) { }
 
   altaPublicacion(publicacion: Publicacion){
-    return this.httpClient.post(this.baseUrl+"publicacionComentario", publicacion).subscribe({
-      error: error => {
-          console.log(error);
-      }
-  });
+    
+    return this.httpClient.post(this.baseUrl+"publicacionComentario", publicacion).toPromise();
+  //   .subscribe({
+  //     // error: error => {
+  //     //     console.log(error);
+  //     // }
+  // });
   }
 
   modificarPublicacion(publicacion: Publicacion){
@@ -36,6 +39,10 @@ export class PubicacionService {
           console.log(error);
       }
   });
+  }
+
+  obtenerReaccionesComentarios(idPublicacion: string){
+    return this.httpClient.get<CantidadReaccionComentario>(this.baseUrl+"publicacionComentario/getCantidadReaccionComentario/"+idPublicacion).toPromise();
   }
 
 
