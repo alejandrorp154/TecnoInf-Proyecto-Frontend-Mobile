@@ -46,7 +46,8 @@ export class PerfilPage implements OnInit {
     private router: ActivatedRoute,
     private authService: AuthService,
     private loadingCtrl: LoadingController,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    public alertCtrl: AlertController
     )
     {
     }
