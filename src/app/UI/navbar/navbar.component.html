@@ -3,7 +3,7 @@
     <ion-toolbar style="max-height: 60px;">
       <ion-row style="max-height: 60px;">
 
-        <ion-col size-xs="1" class="ion-no-padding">
+        <ion-col size-xs="1" size-sm ="1" size-md="1" size-xl ="1" class="ion-no-padding">
           <ion-row style="display: flex;" class="ion-justify-content-around">
             <ion-buttons >
               <ion-back-button  class="pointer" text=""></ion-back-button>
@@ -28,11 +28,7 @@
               <ion-avatar class="center avatar-class">
                 <img style="height: 40px; width: 40px; margin:0px" [src]="userImage" class="iconosPublicacion">
               </ion-avatar>
-            </ion-buttons>
-            <ion-buttons  [routerLink]="['../interes']" class="extraInfo">
-              <ion-avatar class="center">
-                  <ion-icon name="notifications-outline" style="min-width: 30px; min-height: 30px;"></ion-icon>
-              </ion-avatar>
+              {{nickname}}
             </ion-buttons>
             <ion-buttons>
               <ion-menu-button></ion-menu-button>
@@ -45,13 +41,15 @@
   </ion-header>
   <ion-toolbar class="listaUsuarios scroll" *ngIf="searching">
     <ion-list >
-      <ion-item *ngFor="let usuario of searchResult | async" >
+      <ion-item *ngFor="let usuario of searchResult | async" style="min-width:100%">
         <div style="display: flex; justify-content: center;" routerLink="/perfil/{{usuario.idPersona}}">
           <ion-avatar>
             <img [src]="usuario.imagenPerfil">
           </ion-avatar>
-        </div>
-        {{ usuario.nombre }} 
+          <div style="margin-left:30px">
+            {{ usuario.nombre }} 
+          </div>
+        </div>        
       </ion-item>
     </ion-list>
   </ion-toolbar>

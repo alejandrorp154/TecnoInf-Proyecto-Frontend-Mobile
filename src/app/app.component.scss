@@ -10,3 +10,16 @@
   background-size: cover;
   padding-bottom: 1px;
 }
+.logo{
+  transition: 0.5s;
+  margin: 0 auto;
+}
+
+.logo:hover{
+  transform: rotate(360deg);
+}
+
+.header{
+  font-family: "big_noodle_titling";
+  font-size: 25px;
+}

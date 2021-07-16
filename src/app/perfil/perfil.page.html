@@ -19,9 +19,11 @@
             <ion-item lines="none" mode="ios">
               <ion-label style="color: var(--ion-color-medium);">@{{perfil?.usuario.nickname}}</ion-label>
             </ion-item>
-            <ion-item style="margin-left: 4px;" href="/listar-contactos" lines="none">
-              <ion-label>Contactos</ion-label>
-              <ion-badge slot="end">{{contactos}}</ion-badge>
+            <ion-item style="margin-left: -4px;" lines="none">
+              <ion-button class="mis-ubicaciones-button" color="dark" size="small" fill="clear" routerLink="/listar-contactos">
+                <ion-label>Contactos</ion-label>
+                <ion-badge style="margin-left:10px;--background: #3f83a8" slot="end">{{contactos}}</ion-badge>
+              </ion-button>                  
             </ion-item>
             <ion-item lines="none" mode="ios">
               <ion-label>{{perfil?.usuario.pais}}</ion-label>

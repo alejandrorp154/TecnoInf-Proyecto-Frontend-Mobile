@@ -9,8 +9,6 @@
           </ion-card-header>
           <ion-card-content>
             <ion-searchbar autocomplete="on" [formControl]="searchBar" placeholder="Buscar contactos" showCancelButton="never" cancelButtonText="Custom Cancel"></ion-searchbar>
-            <ion-item-divider>
-            </ion-item-divider>
                 <ion-content style="height: 500px;">
                   <ion-list *ngIf="!isLoading" >
                     <ion-row>

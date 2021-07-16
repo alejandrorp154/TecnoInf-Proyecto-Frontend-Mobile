@@ -8,6 +8,15 @@
       <ion-icon slot="end" name="add-outline" class="pointer" [routerLink]="['/evento/alta']"></ion-icon>
     </ion-item>
 
+    <ion-spinner color="tertiary" style="top: 50%;left: 50%;" *ngIf="isLoading" name="circles" ></ion-spinner>
+    <div *ngIf="!bsEventos">
+      <ion-card>
+        <ion-card-content style="background-color: white;">
+          <img style="height: 15rem; margin-left: auto;margin-right: auto; display: block;" src="../../assets/img/lobito.png">
+          <ion-label style="text-align: center; display: block;">Aún no hay eventos :(</ion-label>
+        </ion-card-content>
+      </ion-card>
+    </div>
     <ion-list #listaEventos>
       <ion-item *ngFor="let evento of bsEventos.value">
         <img [src]="evento.imagen" class="thumbnail" *ngIf="evento.imagen" (click)="ver(evento)">

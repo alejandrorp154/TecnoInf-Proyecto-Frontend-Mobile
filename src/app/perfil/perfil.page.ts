@@ -31,7 +31,7 @@ export class PerfilPage implements OnInit {
   userFire: UserFire;
   idPerfil;
   loading: HTMLIonLoadingElement;
-  isLoading: Boolean;
+  isLoading: Boolean = true;
   esMiPerfil: boolean;
 
 
@@ -150,7 +150,6 @@ export class PerfilPage implements OnInit {
     this.loadingCtrl.create({ keyboardClose: true, message: 'Cargando...' }).then(loadingEl =>{
       loadingEl.present();
       this.loading = loadingEl;
-      this.isLoading = true;
     });
     this.perfil = await this.perfilServ.obtenerPerfil(id); //Usuario por id
     if (this.loading != undefined) {
