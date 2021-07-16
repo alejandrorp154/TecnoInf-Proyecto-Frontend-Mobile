@@ -22,7 +22,7 @@
               </ion-item>
             </ion-list>
             <ion-spinner color="tertiary" style="top: 50%;left: 50%;" *ngIf="isLoading" name="circles" ></ion-spinner>
-            
+
             <ion-infinite-scroll threshold="15%" (ionInfinite)="getSugerirAmigos($event)">
               <ion-infinite-scroll-content
                 id="null"

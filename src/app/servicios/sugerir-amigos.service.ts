@@ -18,9 +18,10 @@ export class SugerirAmigosService {
       try {
         const url = `${this.baseUrl}visualizacion/sugerirAmigo/${userID}/${this.loadedUsers}/${size}`;
         let response = this.httpClient.get<Usuario[]>(url).toPromise();
-
+        if(this.loadedUsers === 0){ this.loadedUsers += size}
         if(event)
         {
+          console.log(this.loadedUsers)
           event.target.complete();
           this.loadedUsers += size;
           response.then( data => {
