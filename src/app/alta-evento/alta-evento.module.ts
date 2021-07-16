@@ -9,6 +9,7 @@ import { AltaEventoPageRoutingModule } from './alta-evento-routing.module';
 import { AltaEventoPage } from './alta-evento.page';
 import { NavbarModule } from '../UI/navbar/navbar.module';
 import { MapaModule } from '../UI/mapa/mapa.module';
+import { AltaPublicacionComponent } from '../UI/alta-publicacion/alta-publicacion.component';
 
 @NgModule({
   imports: [ReactiveFormsModule,
@@ -19,6 +20,6 @@ import { MapaModule } from '../UI/mapa/mapa.module';
     NavbarModule,
     MapaModule
   ],
-  declarations: [AltaEventoPage]
+  declarations: [AltaEventoPage,AltaPublicacionComponent]
 })
 export class AltaEventoPageModule {}
