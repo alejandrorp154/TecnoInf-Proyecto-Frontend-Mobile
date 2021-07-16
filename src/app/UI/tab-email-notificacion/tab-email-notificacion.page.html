@@ -8,9 +8,9 @@
             </ion-card-header>
             <ion-card-content>
               <ion-list *ngFor="let config of configuracionAMostrar | keyvalue">
-                <ion-item >
+                <ion-item>
                   <ion-label> {{ config.key }} </ion-label>
-                  <ion-checkbox place-right checked={{config.value}} (ionChange)="checkedChanged(config.key, config.value)"></ion-checkbox>
+                  <ion-checkbox place-right checked={{config.value}} (ionChange)="checkedChanged($event, config.key)"></ion-checkbox>
                 </ion-item>
               </ion-list>
               <ion-item>

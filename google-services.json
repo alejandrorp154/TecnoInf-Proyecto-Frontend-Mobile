@@ -8,6 +8,35 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:217144319364:android:063d1b846ace793f7351d1",
+        "android_client_info": {
+          "package_name": "com.travelpack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "217144319364-9jvge8g4cv03oj9be65caki5qav2obd6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDm2FnMhyDXogepCB6WuIBrEzv8_qNNSTA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "217144319364-9jvge8g4cv03oj9be65caki5qav2obd6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:217144319364:android:dd28d9ad5fa2f9027351d1",
         "android_client_info": {
           "package_name": "io.ionic.starter"

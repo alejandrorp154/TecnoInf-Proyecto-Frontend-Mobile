@@ -15,10 +15,12 @@ import { Usuario } from '../modelos/usuario.model';
   providedIn: 'root'
 })
 export class ChatService {
-  currentUser: UserFire = null;
+  currentUserFire: UserFire = null;
+  currentUser: Usuario;
 
   constructor(private authService: AuthService, private usuarioService: UsuarioService, private afs: AngularFirestore) {
-    this.authService.getCurrentUserFire().subscribe(res => this.currentUser = res);
+    this.authService.getCurrentUserFire().subscribe(res => this.currentUserFire = res);
+    this.authService.getCurrentUser().subscribe(res => this.currentUser = res);
   }
 
   // Chat functionality
@@ -27,7 +29,7 @@ export class ChatService {
     return this.afs.collection('mensajes').add({
       contenido: msj,
       path: path,
-      de: this.currentUser.id,
+      de: this.currentUserFire.id,
       nombreDe: nombreDe,
       idChat: idChat,
       fecha: firebase.firestore.FieldValue.serverTimestamp()
@@ -54,6 +56,7 @@ export class ChatService {
     console.log(idChat);
     let res: boolean;
     await this.afs.collection('chats').doc(idChat).delete().then(function(docRef) {
+      console.log(docRef);
       console.log("Se eliminó el chat: " + idChat);
       res = true;
     }).catch(function(error) {
@@ -80,7 +83,7 @@ export class ChatService {
         // Get the real name for each user
         for (let m of mensajes) {
           m.nombreDe = this.getUserForMsg(m.de, users);
-          m.miMsj = this.currentUser.id === m.de;
+          m.miMsj = this.currentUserFire.id === m.de;
         }
         console.log(mensajes);
         return mensajes
@@ -89,7 +92,7 @@ export class ChatService {
   }
 
   private getUsers() {
-    this.usuarioService.getAllUsuariosObs().subscribe(res => console.log(res));
+    //this.usuarioService.getAllUsuariosObs().subscribe(res => console.log(res));
     return this.usuarioService.getAllUsuariosObs() as Observable<Usuario[]>;
   }
 
@@ -97,10 +100,12 @@ export class ChatService {
     return this.usuarioService.getUsuario(uid);
   }
 
-  private getUserForMsg(msgFromId, users: UserFire[]): string {console.log(msgFromId);
-    for (let usr of users) {console.log(usr, usr['idPersona']);
+  private getUserForMsg(msgFromId, users: UserFire[]): string {//console.log(msgFromId);
+    if(this.currentUser && this.currentUser.idPersona == msgFromId) {
+      return this.currentUser.nombre + ' ' + this.currentUser.apellido;}
+    for (let usr of users) {//console.log(usr, usr['idPersona']);
       if (usr['idPersona'] == msgFromId) {
-        console.log('entró');
+        //console.log('entró');
         return usr['nombre'] + ' ' + usr['apellido'];
       }
     }
@@ -113,11 +118,21 @@ export class ChatService {
       {uids: ["WnVrwbfSYjYULq1uCQ0pUOZhBH13", "sSVDvYmnSKSuzn3MwyNRYsZ1Mef1"], fecha: firebase.firestore.FieldValue.serverTimestamp(), id: "5wZ2HnMWdZ6WPYHKyYKD"},
       {updatedAt: firebase.firestore.FieldValue.serverTimestamp(), uids: ["WnVrwbfSYjYULq1uCQ0pUOZhBH13", "bFOJqayOcKQRVCb4WdPOQdF8oRy2"], id: "NkHrH5aVQrfS3i2Fm4Fs"}]));
   }*/
+
+  obtenerChat(idChat: string) {
+    try {
+      return this.afs.collection('chats').doc(idChat).get() as Observable<any>;
+    } catch (ex) {
+      console.log(ex);
+      return new Observable((observer) => observer.next(null));
+    }
+  }
+
   obtenerMisChats() {
-    console.log(this.currentUser);
-    if (this.currentUser){
-      console.log('entró a buscar los chats', this.currentUser.id);
-      return this.afs.collection('chats', ref => ref.where('uids', 'array-contains', this.currentUser.id).orderBy('fecha', 'desc')).valueChanges({ idField: 'id' }) as Observable<any>;
+    console.log(this.currentUserFire);
+    if (this.currentUserFire){
+      console.log('entró a buscar los chats', this.currentUserFire.id);
+      return this.afs.collection('chats', ref => ref.where('uids', 'array-contains', this.currentUserFire.id).orderBy('fecha', 'desc')).valueChanges({ idField: 'id' }) as Observable<any>;
     } else {
       return new Observable((observer) => observer.next([]));
     }

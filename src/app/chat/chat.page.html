@@ -1,10 +1,11 @@
 <app-navbar></app-navbar>
 
 <ion-content class="ion-padding">
-  
+
   <ion-card class="chat-card">
     <ion-card-header color=tertiary style="background:#022833">
-      <ion-card-title  class="ion-text-center header">Mis Chats</ion-card-title>
+      <ion-card-title  class="ion-text-center header" *ngIf="!chatting">Mis Chats</ion-card-title>
+      <ion-card-title  class="ion-text-center header" *ngIf="chatting && currentChatroom">{{ getChatroomName(currentChatroom) }}</ion-card-title>
     </ion-card-header>
       <ion-grid *ngIf="chatting">
         <ion-row *ngFor="let message of messages | async">
@@ -19,11 +20,22 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    
+
+
+    <ion-list *ngIf="!chatting">
+      <ion-item *ngIf="!chatgrupal">
+        <ion-searchbar [formControl]="searchBar"></ion-searchbar>
+      </ion-item>
+      <ion-item *ngIf="chatgrupal && uidsChatGrupal.length > 0">
+        <ion-input #nombreChat placeholder="Nombre para el chat"></ion-input>
+        <ion-button (click)="crearChatGrupal(nombreChat.value)">Crear Chat</ion-button>
+      </ion-item>
+    </ion-list>
+
     <ion-list #listItems *ngIf="!chatting && searching">
       <ion-item *ngFor="let friend of searchResult | async" (click)="chatWith(friend)" class="pointer">
         <div class="circle">
-          <img src="{{friend.imgurl}}"/>
+          <img src="{{ getSearchFriendImage(friend) }}"/>
         </div>
         <div class="nombre-amigo">
           <p>{{friend.nombre}} {{friend.apellido}}</p>
@@ -32,12 +44,18 @@
     </ion-list>
 
 
-
-    
-    <ion-list *ngIf="!chatting">
-      <ion-item>
-        <ion-searchbar [formControl]="searchBar"></ion-searchbar>
+    <ion-list *ngIf="!chatting && !searching">
+      <ion-item class="item-chat-grupal" (click)="chatearGrupal()">
+        <div class="chat-grupal">
+          <div class="circle circle-chat-grupal">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8WPcgKdDDPzz76xNKr9pKb_xmWJznpOjs1w&usqp=CAU" />
+          </div>
+          <div class="nombre-amigo nombre-amigo-grupal">
+            <p>Crear chat grupal</p>
+          </div>
+        </div>
       </ion-item>
+
       <ion-item *ngFor="let chatroom of chatrooms" class="pointer">
         <div class="circle chat-thumbnail" (click)="goChatroom(chatroom)">
           <img src="{{getFriendImage(chatroom)}}" />
@@ -52,7 +70,7 @@
         Nada por aquí, busca algún amigo para iniciar una conversación.
       </ion-item>
     </ion-list>
-  
+
   </ion-card>
 </ion-content>
 
@@ -87,10 +105,10 @@
         <ion-col size="2">
           <ion-button expand="block" fill="clear" color="secondary"
           class="msg-btn">
-          
+
           <label for="fileInput" class="label-input cursor"><ion-icon name="camera-outline" slot="icon-only"></ion-icon></label>
           <input type="file" id="fileInput" (change)="uploadImage($event.target.files)" class="ion-hide"/>
-          
+
         </ion-button>
       </ion-col>
       <ion-col size="8">

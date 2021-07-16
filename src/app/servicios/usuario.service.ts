@@ -46,7 +46,7 @@ export class UsuarioService {
 
   public getAllUsuariosObs(): Observable<Usuario[]> {
     try {
-      const url = `${this.baseUrl}visualizacion/obtenerUsuarios/0/10`;
+      const url = `${this.baseUrl}visualizacion/obtenerUsuarios/0/5000`;
       return this.httpClient.get<Usuario[]>(url);
     } catch (error) {
       console.log(error);
@@ -126,7 +126,7 @@ export class UsuarioService {
     return response;
   }
   async desbloquearUsuario(idUsuario: string){
-    const url = `${this.baseUrl}usuario/${idUsuario}`;
+    const url = `${this.baseUrl}usuario/desbloquearUsuario/${idUsuario}`;
     let response = this.httpClient.put<Usuario>(url, null).toPromise().catch(error => console.log(error));
     console.log(response);
     return response;
@@ -189,12 +189,9 @@ export class UsuarioService {
 
   async agregarContacto(idPersona1: string, idPersona2: string){
     const url = `${this.baseUrl}usuario/agregarContacto/${idPersona1}/${idPersona2}`;
-    this.httpClient.post<Usuario>(url, null)
-    .subscribe(data => {
-      console.log(data['_body']);
-     }, error => {
-      console.log(error);
-    });
+    let response = this.httpClient.post<Usuario>(url, null).toPromise().catch(error => console.log(error));
+    console.log(response);
+    return response;
   }
 
   async respuestaContacto(idPersona: string, idPersonaContacto: string, estado: EstadosContactos){
@@ -223,12 +220,9 @@ export class UsuarioService {
 
   async bajaContacto(idPersona1: string, idPersona2: string){
     const url = `${this.baseUrl}usuario/bajaContacto/${idPersona1}/${idPersona2}`;
-    this.httpClient.delete<Usuario>(url)
-    .subscribe(data => {
-      console.log(data['_body']);
-     }, error => {
-      console.log(error);
-    });
+    let response = this.httpClient.delete<Usuario>(url).toPromise().catch(error => console.log(error));
+    console.log(response);
+    return response;
   }
 
   public tieneSolicitudPendiente(userLogueado: string, idPerfil: string) {

@@ -75,7 +75,7 @@ export class EventoService {
     let loggedUser = await this.authService.getCurrentUserFire().toPromise();
     evento.idPersona = loggedUser.id;
     console.log(loggedUser, evento);
-    let idChat = await this.chatService.crearChat([evento.idPersona], evento.nombre);
+    let idChat = await this.chatService.crearChat(invitados, evento.nombre);
     console.log(idChat);
     console.log('Ingresó a crearEvento(evento)', evento);
     evento.idChat = idChat;

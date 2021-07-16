@@ -139,7 +139,7 @@ export class EstadisticasPage implements OnInit{
         scales: {
           yAxes: [{
               ticks: {
-                suggestedMax: 500,
+                suggestedMax: 50,
                 beginAtZero: true
             }
           }]
