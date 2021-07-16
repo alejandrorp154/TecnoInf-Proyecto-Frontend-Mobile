@@ -1,5 +1,4 @@
-import { NavbarComponent } from '../UI/navbar/navbar.component';
-import { NgModule } from '@angular/core';
+import { NgModule } from "@angular/core";
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -16,6 +15,6 @@ import { EstadisticasPage } from './estadisticas.page';
     IonicModule,
     EstadisticasPageRoutingModule
   ],
-  declarations: [EstadisticasPage]
+  declarations: [EstadisticasPage],
 })
 export class EstadisticasPageModule {}
