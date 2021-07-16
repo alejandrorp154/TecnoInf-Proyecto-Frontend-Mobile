@@ -81,9 +81,4 @@ export class ListarContactosPage implements OnInit {
     });
     this.isLoading = false;
   }
-
-  onViewProfile(userID: string)
-  {
-
-  }
 }
