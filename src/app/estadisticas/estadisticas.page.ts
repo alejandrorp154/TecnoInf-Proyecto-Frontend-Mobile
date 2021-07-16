@@ -37,7 +37,7 @@ export class EstadisticasPage implements OnInit{
   doughnutChart: any;
   bars: any;
   colorArray: any;
-  CantidadUsuariosTotal: BehaviorSubject<any[]> = new BehaviorSubject([]);
+  totales: BehaviorSubject<any[]> = new BehaviorSubject([]);
   UsuariosPorMedalla: BehaviorSubject<any[]> = new BehaviorSubject([]);
   CantidadVisitasPorUsuario: BehaviorSubject<any[]> = new BehaviorSubject([]);
   CantidadusuariosPorPais: BehaviorSubject<any[]> = new BehaviorSubject([]);
@@ -45,14 +45,22 @@ export class EstadisticasPage implements OnInit{
   rangosM: rangos;
   coloR = [];
 
+  cantidadUsuariosTotal: number;
+  cantidadPublicaciones: number;
+  cantidadUbicaciones: number;
+  cantidadEventos: number;
+
+  single: any[] = []
+
   constructor(private usuarioService: UsuarioService, private estadisticaService: EstadisticasService, private medallaService: MedallaService) {
 
   }
 
   async ngOnInit(){
 
-    this.CantidadUsuariosTotal.next(await this.estadisticaService.getTipoEstadisticaAsync('CantidadUsuariosTotal'));
-    console.log(this.CantidadUsuariosTotal);
+    this.totales.next(await this.estadisticaService.getTipoEstadisticaAsync('CantidadUsuariosTotal'));
+    console.log(this.totales);
+    this.estadisticasVarias();
     this.createBarChart();
 
     this.UsuariosPorMedalla.next(await this.estadisticaService.getTipoEstadisticaAsync('UsuariosPorMedalla'));
@@ -124,25 +132,29 @@ export class EstadisticasPage implements OnInit{
 
   createBarChart() {
     this.bars = new Chart(this.barChart.nativeElement, {
-      type: 'bar',
+      type: 'horizontalBar',
       data: {
-        labels: ['Usuarios registrados'],
+        labels: ['Usuarios', 'Eventos','Publicaciones Hechas','Ubicaciones registradas' ],
         datasets: [{
-          label: 'Cantidad de Usuarios: ' + this.CantidadUsuariosTotal.value[0].cantidadUsuariosRegistrados,
-          data: [this.CantidadUsuariosTotal.value[0].cantidadUsuariosRegistrados],
-          backgroundColor: 'rgb(38, 194, 129)', // array should have same number of elements as number of dataset
-          borderColor: 'rgb(38, 194, 129)',// array should have same number of elements as number of dataset
-          borderWidth: 1
+          label: '',
+          data: this.single,
+          backgroundColor: ['rgb(38, 194, 129)','rgb(226, 28, 28)', 'rgb(28, 28, 226)', 'rgb(242, 255, 46)'], // array should have same number of elements as number of dataset
+          borderColor: ['rgb(38, 194, 129)','rgb(226, 28, 28)', 'rgb(28, 28, 226)', 'rgb(242, 255, 46)'],// array should have same number of elements as number of dataset
+          borderWidth: 1,
+
         }]
       },
       options: {
         scales: {
-          yAxes: [{
+          xAxes: [{
               ticks: {
-                suggestedMax: 50,
+                suggestedMax: 300,
                 beginAtZero: true
             }
           }]
+        },
+        legend: {
+          display: false
         }
       }
     });
@@ -232,7 +244,7 @@ export class EstadisticasPage implements OnInit{
           yAxes: [
             {
               ticks: {
-                suggestedMax: 10,
+                suggestedMax: 30,
                 beginAtZero: true
               }
             }
@@ -276,4 +288,13 @@ export class EstadisticasPage implements OnInit{
     });
   }
 
+  estadisticasVarias() {
+    this.cantidadUsuariosTotal =  this.totales.value[0].cantidadUsuariosRegistrados;
+    this.cantidadPublicaciones = this.totales.value[0].cantidadPublicaciones;
+    this.cantidadEventos = this.totales.value[0].cantidadEventos;
+    this.cantidadUbicaciones = this.totales.value[0].cantidadUbicaciones;
+    var stats = [this.cantidadUsuariosTotal,this.cantidadEventos, this.cantidadPublicaciones,this.cantidadUbicaciones];
+
+    this.single.push(...stats);
+  }
 }
