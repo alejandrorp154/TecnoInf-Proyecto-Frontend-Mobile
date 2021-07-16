@@ -21,6 +21,11 @@
   width: 50%;
   margin: 0 auto;
 }
+@media (max-width: 600px){
+  .mobile-style{
+    display:none;
+  }
+}
 
 .message {
   padding: 10px !important;

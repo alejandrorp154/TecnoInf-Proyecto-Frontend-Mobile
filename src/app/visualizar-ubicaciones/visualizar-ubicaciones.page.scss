@@ -8,3 +8,9 @@
 }
 
 .contact-popover .popover-content{ width: 800px; }
+
+@media (max-width: 600px){
+    .mobile-style{
+      display:none;
+    }
+  }

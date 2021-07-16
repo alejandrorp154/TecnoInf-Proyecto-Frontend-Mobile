@@ -8,3 +8,8 @@ ion-footer{
 ion-slides{
   height: 100%;
 }
+@media (max-width: 600px){
+   .mobile-style{
+     display:none;
+   }
+ }
