@@ -1,5 +1,5 @@
 <ion-app>
-  <ion-menu side="end" contentId="mainMenu">
+  <ion-menu disabled="userApp.nickname != ''" side="end" contentId="mainMenu">
     <ion-header>
       <ion-toolbar>
         <ion-title class="ion-text-center header" routerLink="./home">
@@ -12,17 +12,17 @@
     </ion-header>
 
     <ion-content>
-      <ion-list>
+      <ion-list >
         <ion-menu-toggle>
           <ion-item lines="none" routerLink="./listar-contactos">
             <ion-icon name="people-outline" slot="start"></ion-icon>
-            <ion-label>Mis contactos</ion-label>
+            <ion-label>Mis Contactos</ion-label>
           </ion-item>
         </ion-menu-toggle>
         <ion-menu-toggle>
           <ion-item lines="none" routerLink="./intereses-usuario-comun">
             <ion-icon name="earth-outline" slot="start"></ion-icon>
-            <ion-label>Mis intereses</ion-label>
+            <ion-label>Mis Intereses</ion-label>
           </ion-item>
         </ion-menu-toggle>
         <ion-menu-toggle>
@@ -34,7 +34,7 @@
         <ion-menu-toggle>
           <ion-item lines="none" button (click)="goToGallery()">
             <ion-icon name="images-outline" slot="start"></ion-icon>
-            <ion-label>Mi galeria</ion-label>
+            <ion-label>Mi Galeria</ion-label>
           </ion-item>
         </ion-menu-toggle>
         <ion-menu-toggle>
