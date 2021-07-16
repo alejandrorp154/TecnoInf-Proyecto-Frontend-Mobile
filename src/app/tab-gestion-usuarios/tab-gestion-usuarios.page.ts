@@ -1,10 +1,10 @@
 import { Usuario } from "src/app/modelos/usuario.model";
 import { UsuarioService } from "./../servicios/usuario.service";
 import { Component, OnInit } from '@angular/core';
-import { AlertController, IonItemSliding, IonList } from "@ionic/angular";
+import { AlertController, IonItemSliding, IonList, LoadingController } from "@ionic/angular";
 import { AuthService } from "../servicios/auth.service";
 import { UserFire } from '../modelos/userFire.model';
-import { Observable } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 
 @Component({
   selector: 'app-tab-gestion-usuarios',
@@ -19,15 +19,12 @@ export class TabGestionUsuariosPage implements OnInit {
   errorMessage: string;
   userFire: UserFire;
   isLoading: boolean;
+  loading: HTMLIonLoadingElement;
 
-  constructor(private usuarioService: UsuarioService, private alertCtrl: AlertController, private authService: AuthService) { }
+  constructor(private usuarioService: UsuarioService, private alertCtrl: AlertController, private authService: AuthService, private loadingCtrl: LoadingController) { }
 
   ngOnInit() {
-    this.isLoading = true;
     this.getAllUsuarios();
-  }
-
-  ionViewDidEnter(){
   }
 
   async getAllUsuarios(){
@@ -64,8 +61,6 @@ export class TabGestionUsuariosPage implements OnInit {
       console.log(error);
     }
   }
-
-  getContactosPersona
 
   onDesbloquearUsuario(idPersona: string){
     console.log('Desbloquear',idPersona);

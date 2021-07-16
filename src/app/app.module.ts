@@ -28,6 +28,7 @@ export function getBaseUrl() {
  //} else {
     return 'http://travelpack.publicvm.com:8080/pryectoBack-web/rest/';
   //}
+
   //console.log(document.getElementsByTagName('base')[0].href);
 
 

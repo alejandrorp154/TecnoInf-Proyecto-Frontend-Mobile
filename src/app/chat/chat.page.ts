@@ -34,12 +34,15 @@ export class ChatPage implements OnInit {
 
   chatting = false;
   searching = false;
+  chatgrupal = false;
+  uidsChatGrupal: string[];
   friends: Usuario[];
   eventos: Evento[];
   contactos: Contacto[];
   currentFriend: Usuario;
   chatrooms: Chat[];
   currentChatroomId: string;
+  currentChatroom: Chat;
   searchBar = new FormControl;
 
   nickname = '';
@@ -83,10 +86,11 @@ export class ChatPage implements OnInit {
       this.files = this.filesCollection.valueChanges();
       this.contactos = [];
       this.eventos = [];
+      this.uidsChatGrupal = [];
    }
 
   async ngOnInit() {
-    //this.searchBar.setValue('');
+    this.searchBar.setValue('');
     let userFire = await this.authService.getCurrentUserFire().toPromise();
     console.log(userFire);
     this.eventoService.obtenerEventosXPersona(userFire.id).then(res => this.eventos = res);
@@ -101,9 +105,13 @@ export class ChatPage implements OnInit {
         console.log(this.nickname);
       } catch (ex) { }
     });
-
-    this.friends = await this.usuarioService.getAmigosAsync(this.currentUser.idPersona);
-    console.log(this.friends);
+console.log(this.currentChatroomId)
+    if(!this.currentChatroomId) {
+      this.friends = await this.usuarioService.getAmigosAsync(this.currentUser.idPersona);
+      console.log(this.friends);
+    } else {
+      this.usuarioService.getAmigosAsync(this.currentUser.idPersona).then(res => this.friends = res);
+    }
     //this.friends = this.getContactosPersona();
     if((!this.nickname || this.nickname == '') && (!this.currentChatroomId || this.currentChatroomId == '')) {
       try{
@@ -120,6 +128,10 @@ export class ChatPage implements OnInit {
       this.chatting = true;
       this.searching = false;
       this.messages = this.chatService.obtenerMensajes(this.currentChatroomId);
+      this.chatService.obtenerChat(this.currentChatroomId).subscribe(res => {
+        console.log(res.data());
+        this.currentChatroom = res.data();
+      });
     } else {
       this.chatting = true;
       if (this.friends.some(f => f.nickname === this.nickname)) {
@@ -169,15 +181,44 @@ export class ChatPage implements OnInit {
 
   chatWith(amigo: Usuario) {
     console.log(amigo);
-    if (this.chatrooms && this.chatrooms.some(c => c.uids == [this.currentUser.idPersona, amigo.idPersona])) {
-      this.router.navigateByUrl('/chat/' + this.chatrooms.find(c => c.uids == [this.currentUser.idPersona, amigo.idPersona]));
+    if (this.chatgrupal) {
+      console.log('entró al chat grupal');
+      if (this.uidsChatGrupal.some(uid => uid == amigo.idPersona)) {
+        this.uidsChatGrupal.splice(this.uidsChatGrupal.findIndex(uid => uid == amigo.idPersona), 1)
+        console.log('lo agregó al uidschatgrupal');
+      } else {
+        this.uidsChatGrupal.push(amigo.idPersona);
+      }
     } else {
-      this.chatService.crearChat([this.currentUser.idPersona, amigo.idPersona], amigo.nombre + ' ' + amigo.apellido).then(res => {
-        this.currentChatroomId = res;
-        console.log('Chatroom creado: ' ,res);
-        this.router.navigateByUrl('/chat/' + res);
-      });
+      this.searchBar.setValue('');
+      if (this.chatrooms && this.chatrooms.some(c => c.uids == [this.currentUser.idPersona, amigo.idPersona])) {
+        this.router.navigateByUrl('/chat/' + this.chatrooms.find(c => c.uids == [this.currentUser.idPersona, amigo.idPersona]));
+      } else {
+        this.chatService.crearChat([this.currentUser.idPersona, amigo.idPersona], amigo.nombre + ' ' + amigo.apellido).then(res => {
+          this.currentChatroomId = res;
+          console.log('Chatroom creado: ' ,res);
+          this.router.navigateByUrl('/chat/' + res);
+        });
+      }
     }
+  }
+
+  crearChatGrupal(nombreChat: string) {
+    this.uidsChatGrupal.push(this.currentUser.idPersona);
+    console.log(nombreChat);
+    this.chatService.crearChat(this.uidsChatGrupal, nombreChat).then(res => {
+      this.currentChatroomId = res;
+      console.log('Chatroom grupal creado: ', res);
+      this.chatgrupal = false;
+      this.searching = false;
+      this.router.navigateByUrl('/chat/' + res);
+    })
+  }
+
+  chatearGrupal() {
+    this.searching = true;
+    this.chatgrupal = true;
+    this.searchResult.next(this.friends);
   }
 
   goChatroom(chatroom: Chat) {
@@ -187,15 +228,15 @@ export class ChatPage implements OnInit {
 
   getFriendImage(chatroom: Chat) {
     if(chatroom.uids.length != 2) {
-      console.log('la cantidad de integrantes del chat es distinta de 2');
+      //console.log('la cantidad de integrantes del chat es distinta de 2');
       let str = this.getImageByIdChat(chatroom.idChat);
       return str != '' ? str : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8WPcgKdDDPzz76xNKr9pKb_xmWJznpOjs1w&usqp=CAU';
     } else {
       try {
-        console.log('la cantidad de integrantes del chat es 2', this.friends);
-        console.log(this.friends.find(f => chatroom.uids.find(u => u != this.currentUser.idPersona) == f.idPersona));
+        //console.log('la cantidad de integrantes del chat es 2', this.friends);
+        //console.log(this.friends.find(f => chatroom.uids.find(u => u != this.currentUser.idPersona) == f.idPersona));
         return this.friends.find(f => chatroom.uids.find(u => u != this.currentUser.idPersona) == f.idPersona) ?
-          this.friends.find(f => chatroom.uids.find(u => u != this.currentUser.idPersona) == f.idPersona).imagenPerfil : '';
+          this.friends.find(f => chatroom.uids.find(u => u != this.currentUser.idPersona) == f.idPersona).imagenPerfil : '../../assets/img/defaultProfileImage.png';
       } catch(err) {
         console.log(err);
         return '../../assets/img/defaultProfileImage.png';
@@ -203,21 +244,31 @@ export class ChatPage implements OnInit {
     }
   }
 
+  getSearchFriendImage(amigo: Usuario) {
+    if(this.chatgrupal && this.uidsChatGrupal.some(uid => uid == amigo.idPersona)) {
+      return '../../assets/img/Null.png';
+    } else {
+      return amigo.imagenPerfil;
+    }
+  }
+
   getChatroomName(chatroom: Chat) {
     if(chatroom.uids.length == 2) {
       try {
         let pers = this.friends.find(f => f.idPersona == chatroom.uids.find(u => u != this.currentUser.idPersona));
-        let nombre = pers.nombre + ' ' + pers.apellido;
-        console.log(nombre);
+        let nombre = '';
+        if (pers) { nombre = pers.nombre + ' ' + pers.apellido; }
+        //console.log(nombre);
         return nombre;
-      } catch (ex) { console.log(ex); }
+      } catch (ex) { /*console.log(ex);*/ }
     }else {
       return chatroom.nombre;
     }
   }
 
+
   getImageByIdChat(idChat: string): string {
-    console.log(this.eventos);
+    //console.log(this.eventos);
     if (this.eventos && this.eventos.length > 0) {
       try {
         return this.eventos.find(e => e.idChat == idChat).imagen;
@@ -323,7 +374,7 @@ console.log('está subiendo el archivo');
     console.log(chat);
     let message
     let bttnText
-    message = '¿Estas seguro que deseas eliminar este evento?'
+    message = '¿Estas seguro que deseas eliminar este chat?'
     bttnText = 'Borrar'
     this.alertController
       .create({
@@ -337,7 +388,7 @@ console.log('está subiendo el archivo');
           {
             text: bttnText,
             handler: () => {
-              this.eliminar(chat.idChat);
+              this.eliminar(chat['id']);
             }
           }
         ]
@@ -354,9 +405,9 @@ console.log('está subiendo el archivo');
       console.log(res);
       console.log(this.chatrooms.findIndex(e => e.idChat == idChat));
       console.log(this.chatrooms);
-      this.chatrooms.splice(this.chatrooms.findIndex(e => e.idChat == idChat),1);
+      //this.chatrooms.splice(this.chatrooms.findIndex(e => e.idChat == idChat),1);
       console.log(this.chatrooms);
-      this.searchResult.next(this.chatrooms);
+      //this.searchResult.next(this.chatrooms);
       this.toolsService.presentToast('El chat se eliminó correctamente', Resultado.Ok);
     }).catch(error => {
       this.toolsService.presentToast('Surgió un error al eliminar el chat', Resultado.Error);

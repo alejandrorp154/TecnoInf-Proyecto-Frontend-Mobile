@@ -1,3 +1,4 @@
+import { IonicSelectableComponent, IonicSelectableModule } from "ionic-selectable";
 import { ToolsService } from "./../servicios/tools.service";
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
@@ -30,6 +31,7 @@ export class RegistroPage implements OnInit {
   isLoading = false;
   isLogin = false;
   private user: Usuario;
+  paisSeleccionado;
 
   imageResponse: any;
 
@@ -100,14 +102,20 @@ export class RegistroPage implements OnInit {
       });
   }
 
+  paisChange(event: {
+    component: IonicSelectableComponent,
+    value: any
+  }){
+    this.paisSeleccionado = event.value.name;
+  }
 
   onSubmit(form: NgForm) {
     if (!form.valid) {
       return;
     }
-    const pais = String(this.theSelectObject.value);
 
-
+    console.log('Selected country',this.paisSeleccionado);
+    const pais = this.paisSeleccionado;
 
     this.user = new Usuario("", form.value.nickname, form.value.nombre, form.value.apellido, form.value.celular, form.value.direccion,
     form.value.email, pais ,this.imagen.base64,this.imagen.nombre,this.imagen.ext);

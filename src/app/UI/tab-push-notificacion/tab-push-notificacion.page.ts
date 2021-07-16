@@ -30,21 +30,23 @@ export class TabPushNotificacionPage implements OnInit {
     if(this.user != null){
       await this.getConfiguraciones(this.user.id);
       console.log(this.configuracionAMostrarPush);
-
-    console.log('configIdPersona',configIdPersona);
+      console.log('configIdPersona',configIdPersona);
     }
+
   }
 
   async getConfiguraciones(idPersona: string){
     this.configuracionesPush = await this.configuracionService.getConfiguracionesPUSH(idPersona);
     console.log('push', this.configuracionesPush);
     this.configuracionAMostrarPush = this.configuracionesPush;
+    delete this.configuracionAMostrarPush.idPersona;
+    delete this.configuracionAMostrarPush.idConfiguracion;
+    delete this.configuracionAMostrarPush.emailNotification;
 
   }
 
-  checkedChangedPUSH(configKeyP: any, configValueP: any){
-    console.log('PUSH');
-    this.configuracionesPush[configKeyP] = !configValueP;
+  checkedChanged(event, configkey){
+    this.configuracionAMostrarPush[configkey] = event.target.checked;
   }
 
   onAplicar(){
@@ -55,7 +57,7 @@ export class TabPushNotificacionPage implements OnInit {
     console.log('PUSH', this.configuracionAMostrarPush);
     this.alertCtrl.create({
       header: 'Configurar Notificaciones',
-      message: '¿Estas seguro de que deseas aplicar esta configuracion?',
+      message: '¿Estas seguro de que deseas aplicar esta configuracion para push?',
       buttons: [
         {
           text: 'Cancelar',

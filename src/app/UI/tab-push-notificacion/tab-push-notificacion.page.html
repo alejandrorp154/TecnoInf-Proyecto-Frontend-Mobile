@@ -10,7 +10,7 @@
               <ion-list *ngFor="let config of configuracionAMostrarPush | keyvalue">
                 <ion-item >
                   <ion-label> {{ config.key }} </ion-label>
-                  <ion-checkbox place-right checked={{config.value}} (ionChange)="checkedChangedPUSH(config.key, config.value)"></ion-checkbox>
+                  <ion-checkbox place-right checked={{config.value}} (ionChange)="checkedChanged($event, config.key)"></ion-checkbox>
                 </ion-item>
               </ion-list>
               <ion-item>

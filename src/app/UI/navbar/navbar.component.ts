@@ -1,5 +1,5 @@
 import { Router } from "@angular/router";
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnDestroy, OnInit, Output } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from 'src/app/servicios/auth.service';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -14,7 +14,7 @@ import { UsuarioService } from 'src/app/servicios/usuario.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy{
 
   dontShow: boolean = true;
   usuarios: Usuario[];
@@ -130,4 +130,9 @@ export class NavbarComponent implements OnInit {
     this.clickedUser = id;
     this.router.navigateByUrl('perfil/'+id);
   }
+
+  ngOnDestroy(){
+    this.userID = "";
+  }
+
 }
