@@ -24,7 +24,11 @@
     font-size: 16px;
     color: #212221;
   }
-
+  @media (max-width: 600px){
+    .mobile-style{
+      display:none;
+    }
+  }
   .reacciones{
     margin-top:0;
   }

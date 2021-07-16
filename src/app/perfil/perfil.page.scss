@@ -33,7 +33,11 @@
   margin-left: 25%;
 }
 
-
+@media (max-width: 600px){
+  .mobile-style{
+    display:none;
+  }
+}
 .grid{
   margin-right: 0px;
   margin-left: 0px;

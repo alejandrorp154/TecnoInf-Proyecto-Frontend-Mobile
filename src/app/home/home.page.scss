@@ -22,6 +22,12 @@
   border: 1px solid #022833;
    border-radius: 4px;
 }
+@media (max-width: 600px){
+  .mobile-style{
+    display:none;
+  }
+}
+
 
 #container p {
   font-size: 16px;
