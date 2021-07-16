@@ -100,6 +100,12 @@ ion-item::part(native) {
   }
 }
 
+.header{
+  font-family: 'big_noodle_titling' !important;  
+  color:#212211;
+}
+
+
 .thumbnail {
   max-width: 60px;
   border-radius: 10%;

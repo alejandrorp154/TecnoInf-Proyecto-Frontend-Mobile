@@ -23,6 +23,8 @@ export class EventosPage implements OnInit {
   eventos: Evento[];
   bsEventos: BehaviorSubject<Evento[]> = new BehaviorSubject([]);
   subscription: Subscription;
+  isLoading: boolean = true;
+
 
   constructor(private eventoService: EventoService, private usuarioService: UsuarioService, private authService: AuthService, private chatService: ChatService,
     private toolsService: ToolsService, private alertController: AlertController, private router: Router, private location: Location) {
@@ -41,16 +43,15 @@ export class EventosPage implements OnInit {
   }
 
   async ngOnInit() {
-    console.log('entró');
     let userFire = await this.authService.getCurrentUserFire().toPromise();
-    console.log(userFire);
     this.loggedUser = await this.authService.getCurrentUser().toPromise();
-    this.eventos = await this.eventoService.obtenerEventosXPersona(userFire.id);
+    await this.eventoService.obtenerEventosXPersona(userFire.id).then((data) => {
+      this.eventos = data;
+      this.isLoading = false;
+    });
     this.eventos.forEach(e => {e.fechaInicio = new Date(e.fechaInicio); e.fechaFin = new Date(e.fechaFin)});
-    console.log(this.eventos);
     this.eventos.sort((a,b) => a.fechaInicio.getTime() - b.fechaInicio.getTime());
     this.bsEventos.next(this.eventos.filter(e => e['estadoSolicitud'] != 'cancelada'));
-    console.log(this.eventos);
   }
 
 

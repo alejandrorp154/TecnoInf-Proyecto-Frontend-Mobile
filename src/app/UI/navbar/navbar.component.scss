@@ -19,17 +19,27 @@
   justify-content: center;
   align-items: center;
 }
+ion-toolbar.listaUsuarios{
+  max-width: 70%;
+  position: absolute;
+  margin-left: 9%;
+}
+
 ion-buttons
 {
   max-height: 56px;
 }
 
-.test{
+.logo{
   transition: 0.5s;
 }
 
-.test:hover{
+.logo:hover{
   transform: rotate(360deg);
+}
+
+.input-wrapper{
+  text-align: center;
 }
 
 .avatar-class:hover{

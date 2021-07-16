@@ -5,7 +5,7 @@
     <ion-row>
       <ion-col size="3"></ion-col>
       <ion-col class="publicacion-wrap" style="background-color: white;" sizeSm="6" size="12" >
-        <app-alta-publicacion [evento] = "false"></app-alta-publicacion>
+        <app-alta-publicacion [evento] = "false" (myEvent)="nuevaPub($event)"></app-alta-publicacion>
       </ion-col>
       <ion-col sizeSm="3" size="12" >
         <ion-card style="background:white">
@@ -30,8 +30,13 @@
   <ion-grid fixed>
     <ion-row>
       <ion-col style="min-width: 50%;" offset-md="3" sizeMd="5" sizeSm="12">
-        <app-feed-home></app-feed-home>
+        <app-feed-home [nuevaPubli]="nuevaPubli"></app-feed-home>
       </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>TravelPack © 2021</ion-title>
+  </ion-toolbar>
+</ion-footer>

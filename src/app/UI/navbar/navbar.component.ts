@@ -24,6 +24,7 @@ export class NavbarComponent implements OnInit, OnDestroy{
   currentUser: Usuario;
   userFire: UserFire;
   userID: string;
+  nickname: string;
   @Output() userImage: string;
 
   clickedUser;
@@ -55,6 +56,7 @@ export class NavbarComponent implements OnInit, OnDestroy{
     this.currentUser = await this.authService.getCurrentUser().toPromise();
     this.userImage = this.currentUser.imagenPerfil;
     this.userID = this.currentUser.idPersona;
+    this.nickname = this.currentUser.nickname;
   }
 
   private _filter(value: string): Usuario[] {

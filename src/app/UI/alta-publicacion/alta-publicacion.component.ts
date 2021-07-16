@@ -1,5 +1,5 @@
 import { UsuarioService } from "src/app/servicios/usuario.service";
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Input, Output, ViewChild } from '@angular/core';
 import { ActionSheetController, AlertController, ModalController, Platform } from '@ionic/angular';
 import { Preview } from 'src/app/modelos/preview';
 import { LinkPrevService } from 'src/app/servicios/link-prev.service';
@@ -17,6 +17,9 @@ import { Ubicacion } from 'src/app/modelos/ubicacion.model';
 import { Multimedia } from "src/app/modelos/multimedia.model";
 import { Resultado, ToolsService } from "src/app/servicios/tools.service";
 import { ActivatedRoute } from "@angular/router";
+import { EventEmitter } from "@angular/core";
+import { PublicacionPerfilUsuario } from "src/app/modelos/perfil";
+
 
 @Component({
   selector: 'app-alta-publicacion',
@@ -27,6 +30,7 @@ export class AltaPublicacionComponent implements OnInit {
 
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
   @Input() evento: boolean;
+  @Output() myEvent = new EventEmitter();
 
   constructor(private alertController: AlertController, private linkPrevService: LinkPrevService,
      public modalController: ModalController, private pubService: PubicacionService,
@@ -79,7 +83,11 @@ export class AltaPublicacionComponent implements OnInit {
     this.datoUsuario = JSON.parse(localStorage.getItem('_cap_authData'));
   }
 
-  publicar(){
+  nuevaPub(publicacion: PublicacionPerfilUsuario){
+    this.myEvent.emit(publicacion);
+  }
+
+  async publicar(){
     this.usr = new usuario();
     this.idPer = new idPersona();
     this.tipoPub = new TipoPublicacion();
@@ -100,7 +108,12 @@ export class AltaPublicacionComponent implements OnInit {
       console.log(this.publicacion);
       this.pubService.altaPublicacion(this.publicacion);
       this.texto.textoPub = '';
+      var pub: any;
+      pub = await this.pubService.altaPublicacion(this.publicacion);
       this.tools.presentToast('La publicacion fue creada con exito', Resultado.Ok);
+      // console.log(pub);
+      this.cancelar();
+      this.nuevaPub(pub);
     }
     else if(this.tipo=='enlaceExterno'){
       this.tipoPub.tipo = TipoPublicacionEnum.enlaceExterno;
@@ -114,12 +127,15 @@ export class AltaPublicacionComponent implements OnInit {
       } else {
         this.publicacion = new Publicacion(this.tipoPub,prev,'','',this.usr);
       }
-      console.log(this.publicacion);
-      this.pubService.altaPublicacion(this.publicacion);
+      // console.log(this.publicacion);
+      this.cancelar();
+      var pub: any;
+      pub = await this.pubService.altaPublicacion(this.publicacion);
       this.tools.presentToast('La publicacion fue creada con exito', Resultado.Ok);
+      this.nuevaPub(pub);
     }
     else if(this.tipo=='foto'){
-      console.log(this.imagen);
+      // console.log(this.imagen);
       this.tipoPub.tipo = TipoPublicacionEnum.foto;
       if (this.evento) {
         this._Activatedroute.paramMap.subscribe(params => {
@@ -129,10 +145,13 @@ export class AltaPublicacionComponent implements OnInit {
       } else {
         this.publicacion = new Publicacion(this.tipoPub,this.imagen.base64,this.imagen.nombre,this.imagen.ext,this.usr);
       }
-      console.log(this.publicacion);
-      this.pubService.altaPublicacion(this.publicacion);
+      // console.log(this.publicacion);
+      this.cancelar();
+      var pub: any;
+      pub = await this.pubService.altaPublicacion(this.publicacion);
       this.userService.subirFoto(new Multimedia(this.imagen.base64, this.imagen.nombre, this.imagen.ext, this.idPer.idPersona))
       this.tools.presentToast('La publicacion fue creada con exito', Resultado.Ok);
+      this.nuevaPub(pub);
     }
     else{
       this.tipoPub.tipo = TipoPublicacionEnum.mapa;
@@ -140,7 +159,12 @@ export class AltaPublicacionComponent implements OnInit {
       this.pubService.altaPublicacion(this.publicacion);
       //Alta Ubicacion
       this.ubicacion = new Ubicacion;
-      this.ubicacion.descripcion = this.texto.textoPub;
+      if (this.texto.textoPub == '') {
+        this.ubicacion.descripcion = this.pais;
+      } else {
+        this.ubicacion.descripcion = this.texto.textoPub;
+      }
+      
       var fecha = new Date();
 
       //this.ubicacion.fecha = this.datePipe.transform(fecha,"yyyy-MM-dd") //String se comenta porque el modelo esta con Date
@@ -149,29 +173,31 @@ export class AltaPublicacionComponent implements OnInit {
       this.ubicacion.latitud = this.lat;
       this.ubicacion.longitud = this.long;
       this.ubicacion.pais = this.pais;
-      console.log(this.ubicacion);
+      //console.log(this.ubicacion);
       this.ubiService.altaUbicacion(this.ubicacion);
       this.texto.textoPub = '';
       this.tools.presentToast('La publicacion fue creada con exito', Resultado.Ok);
+      this.cancelar();
     }
-    this.cancelar();//Vuelve a tipo texto
+    // this.cancelar();//Vuelve a tipo texto
+    
   }
 
   obtenerTipo(){
     if(this.tipo=='texto'){
-      console.log(this.tipo);
+      // console.log(this.tipo);
       return this.tipoPub.tipo = TipoPublicacionEnum.texto;
     }
     else if(this.tipo=='enlaceExterno'){
-      console.log(this.tipo);
+      // console.log(this.tipo);
       return this.tipoPub.tipo = TipoPublicacionEnum.enlaceExterno;
     }
     else if(this.tipo=='mapa'){
-      console.log(this.tipo);
+      // console.log(this.tipo);
       return this.tipoPub.tipo = TipoPublicacionEnum.mapa;
     }
     else{
-      console.log(this.tipo);
+      // console.log(this.tipo);
       return this.tipoPub.tipo = TipoPublicacionEnum.foto;
     }
   }

@@ -6,95 +6,144 @@
       <ion-card-header color=tertiary style="background:#022833">
         <ion-card-title  class="ion-text-center header"> {{ editando ? 'Editar' : 'Alta' }} evento</ion-card-title>
       </ion-card-header>
+      <div style="margin-left: 10px;">
+        <ion-row>
+          <ion-col size="4" size-md="2" size-xs="12">
+            <ion-label class="text-header">Nombre</ion-label>
+          </ion-col>
+          <ion-col size="8" size-md="7" size-lg="5" size-xs="12">
+            <ion-input type="text" [(ngModel)]="evento.nombre" placeholder="Ej: Recorrido por la ciudad"></ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="4" size-md="2" size-xs="12">
+            <ion-label class="text-header">Descripción</ion-label>
+          </ion-col>
+          <ion-col size="8" size-md="7" size-lg="5" size-xs="12">
+            <ion-textarea rows="4" [(ngModel)]="evento.descripcion" placeholder="Descripción">
+            </ion-textarea>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="4" size-md="2" size-xs="12">
+            <ion-label class="text-header" >Imagen</ion-label>
+          </ion-col>
+          <ion-col size="8" size-md="7" size-lg="5" size-xs="12">
+            <label for="fileInput" class="label-input cursor"><ion-icon name="camera-outline" slot="icon-only"></ion-icon></label>
+            <img [src]="imageSource" style="width: 100%; min-height: 100px;" *ngIf="evento.imagen">
+              <input type="file" id="fileInput" (change)="uploadFile($event)" class="ion-hide" accept="image/*"/>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="4" size-md="2" size-xs="12">
+            <ion-label class="text-header">Ubicación</ion-label>
+          </ion-col>
+          <ion-col id="mapa" size="8" size-md="7" size-lg="5" size-xs="12">
+            <app-mapa [currentLocation]="true" [ubiCentral]="ubicacion" [marcarUbicacion]="true" [draggable]="true" [buscador]="true" (ubicacion)="marcarUbicacion($event)"></app-mapa>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="4" size-md="2" size-xs="12">
+            <ion-label class="text-header">Inicio</ion-label>
+          </ion-col>
+          <ion-col class="datepicker" size="7" size-md="5" size-lg="4" size-xs="10">
+            <ion-datetime #pickerInicio [min]="inicio" [(ngModel)]="inicio" (ionChange)="setMinFin($event)">
+            </ion-datetime>
+          </ion-col>
+          <ion-col class="datepicker-icon" size="1" size-md="1" size-lg="1" size-xs="2">
+            <ion-icon name="calendar-outline" size="large" (click)="pickerInicio.open()"></ion-icon>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="4" size-md="2" size-xs="12">
+            <ion-label class="text-header">Fin</ion-label>
+          </ion-col>
+          <ion-col class="datepicker" size="7" size-md="5" size-lg="4" size-xs="10">
+            <ion-datetime #pickerFin [min]="inicio" [(ngModel)]="fin">
+            </ion-datetime>
+          </ion-col>
+          <ion-col class="datepicker-icon" size="1" size-md="1" size-lg="1" size-xs="2">
+            <ion-icon name="calendar-outline" size="large" (click)="pickerFin.open()"></ion-icon>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="4" size-md="2" size-xs="12">
+            <ion-label class="text-header">Invitados</ion-label>
+          </ion-col>
+          <ion-col size="8" size-md="6" size-lg="5" size-xs="12">
+            <ion-searchbar [formControl]="searchBar"></ion-searchbar>
+          </ion-col>
+          <ion-list #listItems *ngIf="searching">
+            <ion-item *ngFor="let friend of searchResult | async" (click)="agregarInvitado(friend)" class="pointer">
+              <div class="circle">
+                <img src="{{friend.imgurl}}"/>
+              </div>
+              <div class="nombre-amigo">
+                <p>{{friend.nombre}} {{friend.apellido}}</p>
+              </div>
+            </ion-item>
+          </ion-list>
+        </ion-row>
+        <ion-row>
+          <ion-col *ngIf="participantes.value && participantes.value.length > 0">
+            <ion-item class="lstParticipantes pointer" *ngFor="let invitado of participantes.value" >
+              <img [src]="invitado.imagenPerfil" class="thumbnail ml-2" /> {{ invitado.nombre }} {{ invitado.apellido }}
+              <ion-icon name="person-remove-outline" *ngIf="!invitado.owner" button (click)="removerInvitado(invitado)"></ion-icon>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="2"></ion-col>
+          <ion-col size="8" size-md="5" size-lg="3" size-xs="12">
+            <ion-button expand="block" style="--background:#3f83a8" [disabled]="!isValid()" (click)="submit()">Aceptar</ion-button>
+          </ion-col>
+        </ion-row>
+      </div>
+    </ion-card>
+  </ion-grid>
+</ion-content>
+
+<ion-content *ngIf="!creando && !editando">
+  <ion-card class="card-evento">
+    <ion-card-header color=tertiary style="background:#022833">
+      <ion-card-title  class="ion-text-center header">Visualización de Evento</ion-card-title>
+    </ion-card-header>
+    <ion-grid class="unpaddingX unpaddingX-cols">
       <ion-row>
-        <ion-col size="4" size-md="2" size-xs="12">
-          <ion-label class="text-header">Nombre</ion-label>
-        </ion-col>
-        <ion-col size="8" size-md="7" size-lg="5" size-xs="12">
-          <ion-input type="text" [(ngModel)]="evento.nombre" placeholder="Ej: Recorrido por la ciudad"></ion-input>
+        <ion-col size="12">
+          <img [src]="evento.imagen" *ngIf="evento.imagen" class="full-width main-image"/>
         </ion-col>
       </ion-row>
-      <ion-row>
-        <ion-col size="4" size-md="2" size-xs="12">
-          <ion-label class="text-header">Descripción</ion-label>
-        </ion-col>
-        <ion-col size="8" size-md="7" size-lg="5" size-xs="12">
-          <ion-textarea rows="4" [(ngModel)]="evento.descripcion" placeholder="Descripción">
-          </ion-textarea>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="4" size-md="2" size-xs="12">
-          <ion-label class="text-header" >Imagen</ion-label>
-        </ion-col>
-        <ion-col size="8" size-md="7" size-lg="5" size-xs="12">
-          <label for="fileInput" class="label-input cursor"><ion-icon name="camera-outline" slot="icon-only"></ion-icon></label>
-          <img [src]="imageSource" style="width: 100%; min-height: 100px;" *ngIf="evento.imagen">
-            <input type="file" id="fileInput" (change)="uploadFile($event)" class="ion-hide" accept="image/*"/>
+      <ion-item>
+          <ion-title>{{ evento.nombre }}</ion-title>
+      </ion-item>
+      <ion-item class="fechas-item">
+            <p class="fechas">Del {{ evento.fechaInicio | date: 'dd-MM-yyyy'}} al {{ evento.fechaFin | date: 'dd-MM-yyyy' }}.</p>
+      </ion-item>
+      <ion-row style="margin: 10px;">
+        <ion-col>
+          <p>{{ evento.descripcion }}</p>
         </ion-col>
       </ion-row>
-      <ion-row>
-        <ion-col size="4" size-md="2" size-xs="12">
-          <ion-label class="text-header">Ubicación</ion-label>
+      <ion-item class="custom-tabs">
+        <!-- <ion-col size="4" (click)="toggleTab('publicaciones')"><ion-icon name="happy-outline" size="medium" color="blue"></ion-icon><br><ion-label>Publicaciones</ion-label></ion-col> -->
+        <ion-col size="6" (click)="toggleTab('participantes')"><ion-icon name="people-outline" size="medium"></ion-icon><br><ion-label>Participantes</ion-label></ion-col>
+        <ion-col size="6" (click)="toggleTab('mapa')"><ion-icon name="map-outline" size="medium"></ion-icon><br><ion-label>Mapa</ion-label></ion-col>
+      </ion-item>
+      <ion-row *ngIf="activeTab=='participantes'">
+        <ion-col *ngIf="!participantes.value || participantes.value.length == 0">
+          <span>No hay participantes en el evento</span>
         </ion-col>
-        <ion-col id="mapa" size="8" size-md="7" size-lg="5" size-xs="12">
-          <app-mapa [currentLocation]="true" [ubiCentral]="ubicacion" [marcarUbicacion]="true" [draggable]="true" [buscador]="true" (ubicacion)="marcarUbicacion($event)"></app-mapa>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="4" size-md="2" size-xs="12">
-          <ion-label class="text-header">Inicio</ion-label>
-        </ion-col>
-        <ion-col class="datepicker" size="7" size-md="5" size-lg="4" size-xs="10">
-          <ion-datetime #pickerInicio [min]="inicio" [(ngModel)]="inicio" (ionChange)="setMinFin($event)">
-          </ion-datetime>
-        </ion-col>
-        <ion-col class="datepicker-icon" size="1" size-md="1" size-lg="1" size-xs="2">
-          <ion-icon name="calendar-outline" size="large" (click)="pickerInicio.open()"></ion-icon>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="4" size-md="2" size-xs="12">
-          <ion-label class="text-header">Fin</ion-label>
-        </ion-col>
-        <ion-col class="datepicker" size="7" size-md="5" size-lg="4" size-xs="10">
-          <ion-datetime #pickerFin [min]="inicio" [(ngModel)]="fin">
-          </ion-datetime>
-        </ion-col>
-        <ion-col class="datepicker-icon" size="1" size-md="1" size-lg="1" size-xs="2">
-          <ion-icon name="calendar-outline" size="large" (click)="pickerFin.open()"></ion-icon>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="4" size-md="2" size-xs="12">
-          <ion-label class="text-header">Invitados</ion-label>
-        </ion-col>
-        <ion-col size="8" size-md="6" size-lg="5" size-xs="12">
-          <ion-searchbar [formControl]="searchBar"></ion-searchbar>
-        </ion-col>
-        <ion-list #listItems *ngIf="searching">
-          <ion-item *ngFor="let friend of searchResult | async" (click)="agregarInvitado(friend)" class="pointer">
-            <div class="circle">
-              <img src="{{friend.imgurl}}"/>
-            </div>
-            <div class="nombre-amigo">
-              <p>{{friend.nombre}} {{friend.apellido}}</p>
-            </div>
-          </ion-item>
-        </ion-list>
-      </ion-row>
-      <ion-row>
         <ion-col *ngIf="participantes.value && participantes.value.length > 0">
           <ion-item class="lstParticipantes pointer" *ngFor="let invitado of participantes.value" >
             <img [src]="invitado.imagenPerfil" class="thumbnail ml-2" /> {{ invitado.nombre }} {{ invitado.apellido }}
-            <ion-icon name="person-remove-outline" *ngIf="!invitado.owner" button (click)="removerInvitado(invitado)"></ion-icon>
+            <ion-icon name="person-remove-outline" *ngIf="editando || creando" button (click)="removerIntegrante(invitado)"></ion-icon>
           </ion-item>
         </ion-col>
       </ion-row>
-      <ion-row>
-        <ion-col size="2"></ion-col>
-        <ion-col size="8" size-md="5" size-lg="3" size-xs="12">
-          <ion-button expand="block" style="--background:#3f83a8" [disabled]="!isValid()" (click)="submit()">Aceptar</ion-button>
+      <ion-row *ngIf="activeTab=='mapa'">
+        <ion-col id="mapa">
+          <app-mapa [currentLocation]="true" [ubiCentral]="ubicacion" [marcarUbicacion]="true" [draggable]="false" [buscador]="false" (ubicacion)="marcarUbicacion($event)"></app-mapa>
         </ion-col>
       </ion-row>
     </ion-card>
@@ -193,3 +242,8 @@
     </ion-row>
   </ion-grid>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>TravelPack © 2021</ion-title>
+  </ion-toolbar>
+</ion-footer>

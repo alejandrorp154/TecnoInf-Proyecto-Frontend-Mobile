@@ -16,11 +16,13 @@ import { environment } from 'src/environments/environment';
 export class PerfilService {
 
   public usuarioDatos: Usuario = null;
-  currentlyLoaded: number = 0;
-  userFire: UserFire
+
+  public currentlyLoaded: number = 0;
+  userFire: UserFire;
   private header:string;
   private message: string;
   private callBack: boolean;
+
 
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string, private authService:AuthService, private loadingCtrl: LoadingController, private alertCtrl: AlertController) {
     //const idPersona = this.obtenerUsuarioLogeado();

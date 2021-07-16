@@ -13,8 +13,9 @@ h1 {
 }
 
 .header{
-  font-family: 'big_noodle_titling';  
+  font-family: 'big_noodle_titling' !important;  
   color:#212211;
+  font-size: 25px;
 }
 
 ion-item::part(native) {

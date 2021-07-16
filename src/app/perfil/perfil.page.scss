@@ -40,37 +40,32 @@
   width: 100%;
 }
 
-.edit-button{
-  margin-left: 15%;
-  text-align: end;
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-}
-
-@media(max-width: 500px){
-  .publicaciones{
-    width: 100%;
-    margin-left: 0;
-  }
-
-  .card-profile{
-    width: 100%;
-    margin-left: 0;
-  }
-
-  .button-list{
-    position:absolute;
-    margin-left: -30%;
-    text-align: end;
-  }
+// .edit-button{
+//   margin-left: 15%;
+//   text-align: end;
+//   width: 100%;
+//   position: absolute;
+//   bottom: 0;
+// }
   
 
-  .mis-ubicaciones-button{        
-    margin-top: 0;
-  }
-
   @media(max-width: 700px){
+  
+    .card-profile{
+      width: 100%;
+      margin-left: 0;
+    }
+  
+    .button-list{
+      position:absolute;
+      margin-left: -30%;
+      text-align: end;
+    }    
+  
+    .mis-ubicaciones-button{        
+      margin-top: 0;
+    }
+
     .publicaciones{
       width: 100%;
       margin-left: 0;
@@ -84,17 +79,14 @@
       margin-left: 0;
     }
 
-  .avatar {
-    margin-left: 0px;
+    .avatar {
+      margin-left: 0px;
     }
 
     .mis-ubicaciones-button{
       font-size: 15px;
     }
 
-    .deleteAccount-button{
-      font-size: 15px;
-    }
 
     .edit-button{
       font-size: 15px;
@@ -105,4 +97,12 @@
       margin-top: 25px;
       }
   }
-}
+
+  @media (min-width: 701px) and (max-width: 1350px) {
+    .avatar{
+      margin-top: 30px;
+      height:120px !important;
+      width:120px !important;
+    }
+  }
+

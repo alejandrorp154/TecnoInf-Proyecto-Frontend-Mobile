@@ -6,39 +6,59 @@
 
   <ion-grid fixed>
     <ion-row>
-      <ion-col size="12">
-        <ion-card class="card" *ngIf="boolEsTexto">
-          <ion-label>{{ publicacionObs.value.contenido }}</ion-label>
-        </ion-card>
-
-        <ion-card class="card" *ngIf="boolEsFoto">
-          <img style="max-height: 12rem; margin: auto;" id="foto" src="{{publicacionObs.value.contenido}}">
-        </ion-card>
-
-        <ion-card class="card" *ngIf="boolEsEnlace">
-          <ion-card-header>
-            <ion-card-title style="font-weight: bold;" [innerHtml]="preview.title"></ion-card-title>
-            <img style="max-height: 10rem;" [src]="preview.image">
-          </ion-card-header>
-          <ion-card-content [innerHtml]="preview.description"></ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="12">
-        <ion-card class="card" *ngIf="boolEsTexto || boolEsFoto || boolEsEnlace">
-          <ion-button (click)="reaccionarAPublicacion('MeGusta')" fill="clear" size="small">
-            <ion-icon name="thumbs-up-outline" slot="start"></ion-icon>
-            {{publicacionObs.value.cantidadLikes}}
-          </ion-button>
-
-          <ion-button (click)="reaccionarAPublicacion('NoMeGusta')" fill="clear" size="small">
-            <ion-icon name="thumbs-down-outline" slot="start"></ion-icon>
-            {{publicacionObs.value.cantidadDislikes}}
-          </ion-button>
-        </ion-card>
-      </ion-col>
-    </ion-row>
+      <ion-col style="min-width: 50%;" offset-md="3" sizeMd="5" sizeSm="12">
+        <ion-row class="wrapper">
+          <ion-col size="2">
+            <ion-avatar>
+              <ion-img routerLink="/perfil/{{publicacion.idPersona}}" [src]=publicacion.imagenPerfil></ion-img>
+            </ion-avatar>
+          </ion-col>
+          <ion-col size="10">
+            <ion-row class="tweet-info">
+              <ion-col size="10">
+                <!-- <span class="name">{{usuarios[i]?.nombre}} {{usuarios[i]?.apellido}}</span> -->
+                <br>
+                <span class="handle">@{{publicacion.nickname}}</span>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="12">
+                <div class="contenido-publicacion" *ngIf="boolEsTexto">
+                  <ion-label>{{ publicacion.contenido }}</ion-label>
+                </div>
+                <div *ngIf="boolEsFoto">
+                  <img id="foto" src="{{publicacion.contenido}}">
+                </div>
+                <div *ngIf="boolEsEnlace">
+                  <ion-card class="card">
+                    <ion-card-header>
+                      <ion-card-title style="font-weight: bold;" [innerHtml]="preview.title"></ion-card-title>
+                      <img style="max-height: 10rem;" [src]="preview.image">
+                    </ion-card-header>
+                    <ion-card-content [innerHtml]="preview.description"></ion-card-content>
+                  </ion-card>
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row class="ion-justify-content-start">
+              <ion-col size="12">
+                <ion-card class="card" *ngIf="boolEsTexto || boolEsFoto || boolEsEnlace">
+                  <ion-button (click)="reaccionarAPublicacion('MeGusta')" fill="clear" size="small">
+                    <ion-icon name="thumbs-up-outline" slot="start"></ion-icon>
+                    {{cantReacciones.cantidadLikes}}
+                  </ion-button>
+    
+                  <ion-button (click)="reaccionarAPublicacion('NoMeGusta')" fill="clear" size="small">
+                    <ion-icon name="thumbs-down-outline" slot="start"></ion-icon>
+                    {{cantReacciones.cantidadDislikes}}
+                  </ion-button>
+                </ion-card>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      
+    
     <ion-row>
       <ion-col size="12">
 
@@ -79,15 +99,6 @@
                   <ion-col size="2">
                     <ion-icon class="edit-publicacion-icon" (click)="presentPopover( $event, comentario )"
                       name="ellipsis-horizontal-circle-outline"></ion-icon>
-                    <!-- <ion-button (click)="modificarComentario(comentario)" *ngIf="comentario.idPersona === userId" fill="clear"
-                color="medium" size="small">
-                <ion-icon name="create" slot="start"></ion-icon>
-              </ion-button>
-
-              <ion-button (click)="eliminarComentario(comentario.idComentario)" *ngIf="comentario.idPersona === userId"
-                fill="clear" color="medium" size="small">
-                <ion-icon name="trash" slot="start"></ion-icon>
-              </ion-button> -->
                   </ion-col>
 
                 </ion-row>
@@ -117,6 +128,20 @@
 
       </ion-col>
     </ion-row>
+    <ion-card>
+      <ion-card-content style="background-color: white;" *ngIf="cantReacciones?.cantidadComentarios == 0">
+        <img style="height: 15rem; margin-left: auto;margin-right: auto; display: block;" src="../../assets/img/lobito.png">
+        <ion-label style="text-align: center; display: block;">Aún no hay comentarios :(</ion-label>
+      </ion-card-content>
+    </ion-card>
+  </ion-col>
+</ion-row>
   </ion-grid>
+  
 
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>TravelPack © 2021</ion-title>
+  </ion-toolbar>
+</ion-footer>

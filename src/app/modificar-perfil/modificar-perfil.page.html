@@ -14,7 +14,7 @@
                       <img id="foto" [src]="imageSource">
                     </div>
                   </ion-col>
-                <ion-avatar id="imageAdd">
+                <ion-avatar style="display: flex;" id="imageAdd">
                   <input type="file" #fileInput (change)="uploadFile($event)" hidden="true" accept="image/*"/>
                   <!-- Imagen -->
                   <ion-button fill="outline" (click)="selectImageSource()">Añadir foto
@@ -22,7 +22,12 @@
                   </ion-button>
                 </ion-avatar>
                 </ion-col>
-
+                <ion-col size-xs="12" size-md="6">
+                  <ion-button class="deleteAccount-button" color="danger" size="small" fill="clear" (click)="deleteAccount()" >
+                    <ion-icon style="padding-right: 5px;" slot="icon-only" name="person-remove"></ion-icon>
+                    Borrar cuenta
+                  </ion-button>
+                </ion-col>
               </ion-row>
               <ion-list class="form-input">
                 <ion-item>
@@ -75,3 +80,8 @@
     </ion-grid>
   </form>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>TravelPack © 2021</ion-title>
+  </ion-toolbar>
+</ion-footer>

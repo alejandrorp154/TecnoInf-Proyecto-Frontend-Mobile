@@ -9,8 +9,6 @@
           </ion-card-header>
           <ion-card-content>
             <ion-searchbar autocomplete="on" [formControl]="searchBar" placeholder="Buscar contactos" showCancelButton="never" cancelButtonText="Custom Cancel"></ion-searchbar>
-            <ion-item-divider>
-            </ion-item-divider>
                 <ion-content style="height: 500px;">
                   <ion-list *ngIf="!isLoading" >
                     <ion-row>
@@ -46,4 +44,8 @@
     </ion-row>
   </ion-grid>
 </ion-content>
-
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>TravelPack © 2021</ion-title>
+  </ion-toolbar>
+</ion-footer>
