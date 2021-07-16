@@ -9,3 +9,8 @@
 .tabsClass {
   background-color: #FFF;
 }
+@media (max-width: 600px){
+  .mobile-style{
+    display:none;
+  }
+}

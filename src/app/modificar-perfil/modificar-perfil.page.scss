@@ -35,3 +35,8 @@ ion-card-title{
   font-size: 15px;
   float: right;
 }
+@media (max-width: 600px){
+  .mobile-style{
+    display:none;
+  }
+}

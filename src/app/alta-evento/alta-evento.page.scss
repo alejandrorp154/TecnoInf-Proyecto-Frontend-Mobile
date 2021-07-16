@@ -19,6 +19,12 @@ ion-input::placeholder {
   margin: 0 auto;
 }
 
+@media (max-width: 600px){
+  .mobile-style{
+    display:none;
+  }
+}
+
 ion-row{
   display: flex;
   justify-content: center;
