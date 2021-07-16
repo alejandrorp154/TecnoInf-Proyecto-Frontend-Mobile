@@ -6,7 +6,6 @@ import { EstadisticasService } from 'src/app/servicios/estadisticas.service';
 import { Usuario } from '../modelos/usuario.model';
 import { rangos } from '../modelos/medalla.model';
 import { MedallaService } from '../servicios/medalla.service';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @Component({
   selector: 'app-estadisticas',
