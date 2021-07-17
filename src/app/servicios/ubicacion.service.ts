@@ -24,6 +24,7 @@ export class UbicacionService {
   }
 
   modificarUbicacion(ubicacionNueva: Ubicacion): Promise<Ubicacion>{
+    console.log("trae:", ubicacionNueva );
     const url = `${this.baseUrl}ubicacion`;
     return this.httpClient.put<Ubicacion>(url, ubicacionNueva).toPromise();
   }

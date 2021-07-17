@@ -19,6 +19,7 @@ export class VisualizarUbicacionesPage implements OnInit {
 
   public ubicaciones:BehaviorSubject<Ubicacion[]> = new BehaviorSubject<Ubicacion[]>([]);
   public id: string;
+  public tempUbi: Ubicacion;
 
   //@Input() id;
   //@Input() nickname;
@@ -106,7 +107,7 @@ export class VisualizarUbicacionesPage implements OnInit {
       }
 
       if(data.clicked === "Modificar"){
-        this.ubicacion = data.value;
+        this.tempUbi = data.value;
         this.editando = true;
         return;
       }
@@ -116,11 +117,10 @@ export class VisualizarUbicacionesPage implements OnInit {
   }
 
   marcarUbicacion(ubicacion: Ubicacion) {
-  const nuevaUbicacion = this.ubicacion;
-  nuevaUbicacion.latitud = ubicacion.latitud;
-  nuevaUbicacion.longitud = ubicacion.longitud;
+  this.tempUbi.latitud = ubicacion.latitud;
+  this.tempUbi.longitud = ubicacion.longitud;
 
-    this.alertModificarUbicacion(nuevaUbicacion).then((result) => {
+    this.alertModificarUbicacion(this.tempUbi).then((result) => {
       this.editando = false;
     });
   }
