@@ -45,8 +45,6 @@ export class FeedHomeComponent implements OnInit {
       });
       this.user = JSON.parse(localStorage.getItem('_cap_authData'));
       this.publicaciones = await this.pubService.obtenerPublicaciones(this.user.userId, this.size);
-
-      console.log('*** ngOnInit(feed-home)  ***');
       if (this.loading != undefined) {
         this.loading.dismiss();
         this.isLoading = false;
@@ -63,6 +61,12 @@ export class FeedHomeComponent implements OnInit {
       this.publicaciones.unshift(changes.nuevaPubli.currentValue);
     }
     
+  }
+
+  obtenerUbicacion(publicacion: Publicacion) : String{
+    var coord;
+    coord = publicacion.contenido.split(',');
+    return "https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-s-l+000(" + coord[0] + ',' + coord[1] + ")/" + coord[0] + ',' + coord[1] +",7)/500x300?access_token=pk.eyJ1IjoidHJhdmVscGFjazIwMjEiLCJhIjoiY2tuNDR0cjl4MWUwbDJwbzgwcWY2NTRieSJ9.Fju2qmaYyp6zHcXCClCifg";
   }
 
   async doRefresh(event) {
