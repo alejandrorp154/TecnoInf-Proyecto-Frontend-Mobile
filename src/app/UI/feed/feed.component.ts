@@ -50,6 +50,12 @@ export class FeedComponent implements OnInit {
     this.reaccion.reaccion = LikeDisLike.NoMeGusta;
     this.pubService.reaccionar(this.reaccion);
   }
+
+  obtenerUbicacion(publicacion: Publicacion) : String{
+    var coord;
+    coord = publicacion.contenido.split(',');
+    return "https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-s-l+000(" + coord[0] + ',' + coord[1] + ")/" + coord[0] + ',' + coord[1] +",7)/500x300?access_token=pk.eyJ1IjoidHJhdmVscGFjazIwMjEiLCJhIjoiY2tuNDR0cjl4MWUwbDJwbzgwcWY2NTRieSJ9.Fju2qmaYyp6zHcXCClCifg";
+  }
   
   async presentPopover(ev: any, publicacion: Publicacion) {
     const popover = await this.popoverController.create({

@@ -7,7 +7,7 @@
   </ion-refresher-content>
 </ion-refresher>
 <div *ngFor="let publicacion of publicaciones">
-  <ion-row class="wrapper" *ngIf="publicacion.tipo.tipo != 'mapa'">
+  <ion-row class="wrapper">
     <ion-col size="2">
       <ion-avatar>
         <ion-img routerLink="/perfil/{{publicacion.idPersona}}" [src]=publicacion.imagenPerfil></ion-img>
@@ -31,6 +31,9 @@
           </div>
           <div *ngIf="publicacion.tipo.tipo === 'enlaceExterno'">
             <app-pub-ee [publicacion]="publicacion"></app-pub-ee>
+          </div>
+          <div *ngIf="publicacion.tipo.tipo === 'mapa'">
+            <img [src]="obtenerUbicacion(publicacion)" alt="Mapa"/>
           </div>
         </ion-col>
       </ion-row>
