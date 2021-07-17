@@ -85,4 +85,9 @@ export class FeedComponent implements OnInit {
     
   }
 
+  cargoPublicacion(publicacion: any){
+    localStorage.setItem('publicacion', JSON.stringify(publicacion));
+    localStorage.setItem('perfil', JSON.stringify(this.usuario.value));
+  }
+
 }
