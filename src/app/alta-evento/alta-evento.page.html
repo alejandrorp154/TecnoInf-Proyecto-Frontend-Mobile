@@ -126,9 +126,9 @@
         </ion-col>
       </ion-row>
       <ion-item class="custom-tabs">
-        <!-- <ion-col size="4" (click)="toggleTab('publicaciones')"><ion-icon name="happy-outline" size="medium" color="blue"></ion-icon><br><ion-label>Publicaciones</ion-label></ion-col> -->
-        <ion-col size="6" (click)="toggleTab('participantes')"><ion-icon name="people-outline" size="medium"></ion-icon><br><ion-label>Participantes</ion-label></ion-col>
-        <ion-col size="6" (click)="toggleTab('mapa')"><ion-icon name="map-outline" size="medium"></ion-icon><br><ion-label>Mapa</ion-label></ion-col>
+        <ion-col size="4" (click)="toggleTab('publicaciones')"><ion-icon name="happy-outline" size="medium" color="blue"></ion-icon><br><ion-label>Publicaciones</ion-label></ion-col>
+        <ion-col size="4" (click)="toggleTab('participantes')"><ion-icon name="people-outline" size="medium"></ion-icon><br><ion-label>Participantes</ion-label></ion-col>
+        <ion-col size="4" (click)="toggleTab('mapa')"><ion-icon name="map-outline" size="medium"></ion-icon><br><ion-label>Mapa</ion-label></ion-col>
       </ion-item>
       <ion-row *ngIf="activeTab=='participantes'">
         <ion-col *ngIf="!participantes.value || participantes.value.length == 0">
@@ -146,21 +146,70 @@
           <app-mapa [currentLocation]="true" [ubiCentral]="ubicacion" [marcarUbicacion]="true" [draggable]="false" [buscador]="false" (ubicacion)="marcarUbicacion($event)"></app-mapa>
         </ion-col>
       </ion-row>
-
-      
-      <!-- <ion-row *ngIf="activeTab=='publicaciones'">
-        <ion-col *ngIf="!evento.publicaciones || evento.publicaciones.length == 0" style="text-align:center">
+      <ion-row *ngIf="activeTab=='publicaciones'">
+        <app-alta-publicacion style="min-width: 100%;" *ngIf="activeTab=='publicaciones'" [evento] = "true"></app-alta-publicacion>
+          <ion-col style="min-width: 60%;" offset-md="3" sizeMd="5" sizeSm="12">
+          <div *ngFor="let publicacion of publicaciones">
+            <ion-row class="wrapper" *ngIf="publicacion.tipo.tipo != 'mapa'">
+              <ion-col size="2">
+                <ion-avatar>
+                  <ion-img routerLink="/perfil/{{publicacion.idPersona}}" [src]=publicacion.imagenPerfil></ion-img>
+                </ion-avatar>
+              </ion-col>
+              <ion-col size="10">
+                <ion-row class="tweet-info">
+                  <ion-col size="10">
+                    <br>
+                    <span class="handle">@{{publicacion.nickname}}</span>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="12">
+                    <div class="contenido-publicacion" *ngIf="publicacion.tipo.tipo === 'texto'">
+                      <ion-label>{{ publicacion.contenido }}</ion-label>
+                    </div>
+                    <div *ngIf="publicacion.tipo.tipo === 'foto'">
+                      <img id="foto" src="{{publicacion.contenido}}">
+                    </div>
+                    <div *ngIf="publicacion.tipo.tipo === 'enlaceExterno'">
+                      <app-pub-ee [publicacion]="publicacion"></app-pub-ee>
+                    </div>
+                  </ion-col>
+                </ion-row>
+                <ion-row class="ion-justify-content-start">
+                  <ion-button style="display: block;margin-left: auto;" href="/comentarios-publicacion/{{publicacion.idPublicacion}}" color="dark" fill="clear" shape="round">
+                    Ver más 
+                    <ion-icon name="arrow-redo-outline"></ion-icon>
+                  </ion-button>
+                </ion-row>
+              </ion-col>
+            </ion-row>
+          </div>
+          <ion-card>
+            <ion-card-content style="background-color: white;" *ngIf="publicaciones?.length == 0">
+              <img style="height: 15rem; margin-left: auto;margin-right: auto; display: block;" src="../../assets/img/lobito.png">
+              <ion-label style="text-align: center; display: block;">Aún no hay publicaciones :(</ion-label>
+            </ion-card-content>
+          </ion-card>
+          <ion-infinite-scroll threshold="15%" (ionInfinite)="loadData($event)">
+            <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+            </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+        </ion-col>
+        <!-- <ion-col *ngIf="!evento.publicaciones || evento.publicaciones.length == 0" style="text-align:center">
           <span style="margin: 10px;">No hay publicaciones en el evento</span>
         </ion-col>
         <ion-col *ngIf="evento.publicaciones && evento.publicaciones.length > 0">
-          <ion-item class="lstParticipantes pointer" *ngFor="let publicacion of evento.publicaciones" > -->
-            <!-- <img [src]="publicacion.imagen" class="thumbnail" /> {{ publicacion.nombre }} {{ publicacion.contenido }} -->
-          <!-- </ion-item>
-        </ion-col>
-      </ion-row> -->
+          <ion-item class="lstParticipantes pointer" *ngFor="let publicacion of evento.publicaciones" >
+            <img [src]="publicacion.imagen" class="thumbnail" /> {{ publicacion.nombre }} {{ publicacion.contenido }}
+          </ion-item>
+        </ion-col> -->
+      </ion-row>
     </ion-grid>
-  </ion-card>
+    </ion-card>
 </ion-content>
+
+
 <ion-footer class="mobile-style">
   <ion-toolbar>
     <ion-title>TravelPack © 2021</ion-title>

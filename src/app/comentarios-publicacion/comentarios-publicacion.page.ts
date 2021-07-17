@@ -24,7 +24,7 @@ export class ComentariosPublicacionPage implements OnInit {
   publicacion: Publicacion;
   preview: Preview = new Preview;
   publicacionObs: BehaviorSubject<Publicacion> = new BehaviorSubject(new Publicacion());
-  comentariosObs: BehaviorSubject<Comentario[]> = new BehaviorSubject(undefined);
+  comentariosObs: BehaviorSubject<comentarioReacciones[]> = new BehaviorSubject(undefined);
   comentariosReaccionesObs: BehaviorSubject<comentarioReacciones[]> = new BehaviorSubject(undefined);
   tempComentarios: comentarioReacciones[] = [];
   tempComentariosActual: comentarioReacciones[] = [];
@@ -66,7 +66,7 @@ export class ComentariosPublicacionPage implements OnInit {
     this.publicacionObs.next(this.publicacion);
     this.userId = this.publicacionObs.value.idPersona;
     this.tempComentarios = this.publicacionObs.value.comentarioReacciones;
-    
+    this.tempComentarios = await this.comentariosService.getComentariosPublicacion(this.publicacion.idPublicacion);
     this.tempComentariosActual = [];
     
     this.tempComentarios.forEach(comentario => {

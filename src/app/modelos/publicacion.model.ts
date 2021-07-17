@@ -6,7 +6,8 @@ export class Publicacion {
     public contenido: string,
     public nombre: string,//SOLO SE CARGA SI ES FOTO
     public extension: string, //IDEM NOMBRE
-    public perfil: usuario
+    public perfil: usuario,
+    public evento?: Evento
   ){}
 }
 
@@ -38,6 +39,10 @@ export class Reaccion {
 export enum LikeDisLike {
   MeGusta = 'MeGusta',
   NoMeGusta = 'NoMeGusta',
+}
+
+export class Evento {
+  idEvento: number;
 }
 
 export class CantidadReaccionComentario {

@@ -5,6 +5,7 @@ import { Evento } from '../modelos/evento.model';
 import { AuthService } from './auth.service';
 import { ChatService } from './chat.service';
 import { idPersona } from '../modelos/publicacion.model';
+import { PublicacionPerfilUsuario } from '../modelos/perfil';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,8 @@ import { idPersona } from '../modelos/publicacion.model';
 export class EventoService {
 
   public eventoActual: Evento;
+
+  currentlyLoaded: number = 0;
 
   constructor(private authService: AuthService, private chatService: ChatService, public http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
   }
@@ -129,6 +132,22 @@ export class EventoService {
     let userFire = await this.authService.getCurrentUserFire().toPromise();
     console.log('Ingresó a eliminarEvento(idEvento)', idEvento);
     return this.http.delete<boolean>(this.baseUrl + 'evento/' + idEvento + '/' + userFire.id).toPromise();
+  }
+
+  obtenerPublicaciones(idEvento: string, size: number, event?): Promise<PublicacionPerfilUsuario[]>{
+    let response = this.http.get<PublicacionPerfilUsuario[]>(this.baseUrl + 'publicacionComentario/publicacionEvento/' + idEvento+'/' + this.currentlyLoaded+'/'+size).toPromise();
+    if(this.currentlyLoaded === 0){ this.currentlyLoaded += size}
+    if(event)
+    {
+      event.target.complete();
+      this.currentlyLoaded += size;
+      response.then( data => {
+        if (data.length == 0) {
+          event.target.disabled = true;
+        }
+      })
+    }
+    return response;
   }
 
 }

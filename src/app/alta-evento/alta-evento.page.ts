@@ -13,6 +13,7 @@ import { FormControl } from '@angular/forms';
 import { UsuarioService } from '../servicios/usuario.service';
 import { map, startWith } from 'rxjs/operators';
 import { AuthService } from '../servicios/auth.service';
+import { PublicacionPerfilUsuario } from '../modelos/perfil';
 
 @Component({
   selector: 'app-alta-evento',
@@ -35,7 +36,6 @@ export class AltaEventoPage implements OnInit {
   editando: boolean;
   creando: boolean;
   currentUser: Usuario;
-
   tipo: string = 'texto';
   preview: Preview = new Preview();
 
@@ -53,6 +53,9 @@ export class AltaEventoPage implements OnInit {
     ext: ''
   }
 
+  publicacionesAux: PublicacionPerfilUsuario[];
+  publicaciones: PublicacionPerfilUsuario[];
+  size: number = 10;
 
   constructor(private eventoService: EventoService, private usuarioService: UsuarioService, private toolsService: ToolsService,
     private authService: AuthService,
@@ -78,9 +81,9 @@ export class AltaEventoPage implements OnInit {
         this._Activatedroute.paramMap.subscribe(params => {
           idEvento = parseInt(params.get('idEvento'));
         });
-
+      
         this.evento = await this.eventoService.obtenerEvento(idEvento);
-
+        this.publicaciones = await this.eventoService.obtenerPublicaciones(this.evento.idEvento.toString(),this.size);
         this.evento.owner = this.evento.idPersona == this.currentUser.idPersona;
 
         this.evento.invitados.forEach(ii => this.invitados.push(Object.assign({}, ii)));
@@ -255,6 +258,15 @@ export class AltaEventoPage implements OnInit {
     if (index > -1) {
       this.participantes.value.splice(index, 1);
     }
+  }
+
+  async loadData(event?) {
+
+    this.publicacionesAux = await this.eventoService.obtenerPublicaciones(this.evento.idEvento.toString(), this.size, event);
+    this.publicacionesAux.forEach(element => {
+      this.publicaciones.push(element)
+    });
+
   }
 
 }

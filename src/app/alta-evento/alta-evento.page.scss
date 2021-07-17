@@ -126,3 +126,21 @@ ion-item::part(native) {
     width: 100%;
   }
 }
+
+.wrapper {
+  border-bottom: 1px solid var(--ion-color-light);
+  background: white;
+  margin-bottom: 15px;
+  border-radius: 10px;
+}
+
+.tweet-info {
+  font-size: 0.9em;
+}
+
+.handle {
+  padding-left: 4px;
+  color: var(--ion-color-medium);
+  font-family: Gotham;
+  font-size: 18px;
+}
