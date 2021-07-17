@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "https://travelpack.publicvm.com:8443",
+    "secure": true
+  },
+  "changeOrigin": true,
+  "logLevel": "debug"
+}
