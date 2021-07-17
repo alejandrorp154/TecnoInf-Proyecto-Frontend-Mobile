@@ -35,10 +35,10 @@ export class ComentariosService {
     return this.httpClient.post<PublicacionReaccion>(url, comentarioReaccion).toPromise();
   }
 
-  getComentariosPublicacion(idPub): Promise<Comentario[]>{
+  getComentariosPublicacion(idPub): Promise<comentarioReacciones[]>{
     console.log("servicio: ", idPub);
     const url = `${this.baseUrl}publicacionComentario/comentarios/${idPub}`;
-    return this.httpClient.get<Comentario[]>(url).toPromise();
+    return this.httpClient.get<comentarioReacciones[]>(url).toPromise();
   }
 
 }
