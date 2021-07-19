@@ -7,9 +7,10 @@ import { BehaviorSubject } from 'rxjs';
 import { count } from 'rxjs/operators';
 import { Comentario, comentarioReacciones } from '../modelos/comentario.model';
 import { ComentarioReaccion, PublicacionReaccion } from '../modelos/comentarioReaccion.model';
-import { Publicacion } from '../modelos/perfil';
+import { Publicacion, PublicacionPerfilUsuario } from '../modelos/perfil';
 import { Preview } from '../modelos/preview';
 import { CantidadReaccionComentario, TipoPublicacion } from '../modelos/publicacion.model';
+import { Usuario } from '../modelos/usuario.model';
 import { ComentariosService } from '../servicios/comentarios.service';
 import { PubicacionService } from '../servicios/pubicacion.service';
 import { PopoverComentarioComponent } from '../UI/popover-comentario/popover-comentario.component';
@@ -21,7 +22,8 @@ import { PopoverComentarioComponent } from '../UI/popover-comentario/popover-com
 })
 export class ComentariosPublicacionPage implements OnInit {
 
-  publicacion: Publicacion;
+  publicacion: PublicacionPerfilUsuario;
+  perfil: Usuario;
   preview: Preview = new Preview;
   publicacionObs: BehaviorSubject<Publicacion> = new BehaviorSubject(new Publicacion());
   comentariosObs: BehaviorSubject<comentarioReacciones[]> = new BehaviorSubject(undefined);
@@ -32,6 +34,7 @@ export class ComentariosPublicacionPage implements OnInit {
   boolEsFoto: boolean = false;
   boolEsTexto: boolean = false;
   boolEsEnlace: boolean = false;
+  boolEsMapa: boolean = false;
   boolVerComentariosHijo: boolean = false;
   boolVerComentarios: boolean = false;
   userId;
@@ -46,9 +49,17 @@ export class ComentariosPublicacionPage implements OnInit {
     public popoverController: PopoverController) {}
 
   ngOnInit() {
-    this.publicacion = new Publicacion();
+    this.publicacion = new PublicacionPerfilUsuario();
     var retrievedObject = localStorage.getItem('publicacion');
+    var retrievedObject2 = localStorage.getItem('perfil');
     this.publicacion = JSON.parse(retrievedObject);
+    if (retrievedObject2) {
+      this.perfil = JSON.parse(retrievedObject2);
+      this.publicacion.nickname = this.perfil.nickname;
+      this.publicacion.imagenPerfil = this.perfil.imagenPerfil;
+      this.publicacion.idPersona = this.perfil.idPersona;
+      localStorage.removeItem('perfil');
+    }
     localStorage.removeItem('publicacion');
     this.router.paramMap.subscribe(
       params => {
@@ -98,6 +109,16 @@ export class ComentariosPublicacionPage implements OnInit {
       this.boolEsEnlace = true;
       return;
     }
+    if(this.publicacionObs.value.tipo.tipo == "mapa"){
+      this.boolEsMapa = true;
+      return;
+    }
+  }
+
+  obtenerUbicacion(publicacion: Publicacion) : String{
+    var coord;
+    coord = publicacion.contenido.split(',');
+    return "https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-s-l+000(" + coord[0] + ',' + coord[1] + ")/" + coord[0] + ',' + coord[1] +",7)/500x300?access_token=pk.eyJ1IjoidHJhdmVscGFjazIwMjEiLCJhIjoiY2tuNDR0cjl4MWUwbDJwbzgwcWY2NTRieSJ9.Fju2qmaYyp6zHcXCClCifg";
   }
 
   aniadirComentarioAComentario(comentario: comentarioReacciones){
