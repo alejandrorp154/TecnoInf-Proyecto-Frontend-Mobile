@@ -8,7 +8,7 @@
     </ion-card-header>
     <ion-row id="mapa">
         <app-mapa id="mapa" *ngIf="!editando" [ubicacionViajar]="ubicacionClickeada" [currentLocation]="true" [ubicaciones]="ubicaciones" [marcarUbicacion]="false"></app-mapa>
-        <app-mapa id="mapa" *ngIf="editando" [currentLocation]="true" [marcarUbicacion]="true" [ubiCentral]="ubicacion" (ubicacion)="marcarUbicacion($event)" ></app-mapa>
+        <app-mapa id="mapa" *ngIf="editando" [draggable]="true" [currentLocation]="true" [marcarUbicacion]="true" [ubiCentral]="ubicacionClickeada" (ubicacion)="marcarUbicacion($event)" ></app-mapa>
       </ion-row>
 </ion-grid>
 
