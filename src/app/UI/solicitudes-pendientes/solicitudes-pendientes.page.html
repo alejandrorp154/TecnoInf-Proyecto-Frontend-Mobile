@@ -19,7 +19,7 @@
           <ion-list>
             <ion-item *ngFor="let sol of solicitudes" >
               <ion-avatar>
-                <ion-img src="{{sol.imagenPerfil}}"></ion-img>
+                <ion-img src="{{sol.imagenPerfil}}" routerLink="/perfil/{{sol.idPersona}}"></ion-img>
               </ion-avatar>
               <ion-label> {{ sol.nombre }}  {{sol.apellido}}</ion-label>
               <ion-button (click)="onAceptar(sol.idPersona)">
@@ -34,7 +34,7 @@
             <ion-card-content style="background-color: white;" >
               <img style="height: 15rem; margin-left: auto;margin-right: auto; display: block;" src="../../assets/img/lobito.png">
               <ion-label style="text-align: center; display: block;">Aún no tienes solicitudes :(</ion-label>
-            </ion-card-content>          
+            </ion-card-content>
           </div>
           </ion-card-content>
       </ion-card>
