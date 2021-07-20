@@ -118,7 +118,7 @@ export class EventosPage implements OnInit {
   }
 
   responderSolicitud(evento: Evento, respuesta: string) {
-    this.eventoService.responderSolicitud(this.loggedUser.idPersona, evento.idEvento, respuesta)
+    this.eventoService.responderSolicitud(this.loggedUser.idPersona, evento.idEvento, evento.idChat, respuesta)
       .then(res => {
         evento['estadoSolicitud'] = respuesta;
         this.toolsService.presentToast('Se guardaron los cambios correctamente', Resultado.Ok);

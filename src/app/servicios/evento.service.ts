@@ -57,13 +57,15 @@ export class EventoService {
     return this.http.get<Evento[]>(this.baseUrl + 'evento/obtenerEventos/' + idPersona + '/0/10').toPromise();
   }
 
-  removerParticipante(idPersona: string, idEvento:number)
+  removerParticipante(idPersona: string, idEvento:number, idChat: string)
   {
+    this.chatService.removerUsuarioDeChat(idChat, idPersona);
     return this.http.delete<boolean>(this.baseUrl + `evento/removerUsuario/${idEvento}/${idPersona}`).toPromise();
   }
 
-  responderSolicitud(idPersona: string, idEvento: number, respuesta: string) {
+  responderSolicitud(idPersona: string, idEvento: number, idChat: string, respuesta: string) {
     console.log({idEvento: idEvento, idPersona: idPersona, estadoContactos: respuesta});
+    if(respuesta == 'aceptada') { this.chatService.agregarUsuarioAChat(idChat, idPersona) }
     return this.http.put<boolean>(this.baseUrl + 'evento/responderIvitacion', {"idEvento": idEvento, "idPersona": idPersona, "estadoContactos": respuesta}).toPromise();
   }
 
@@ -78,7 +80,7 @@ export class EventoService {
     let loggedUser = await this.authService.getCurrentUserFire().toPromise();
     evento.idPersona = loggedUser.id;
     console.log(loggedUser, evento);
-    let idChat = await this.chatService.crearChat(invitados, evento.nombre);
+    let idChat = await this.chatService.crearChat([loggedUser.id], evento.nombre);
     console.log(idChat);
     console.log('Ingresó a crearEvento(evento)', evento);
     evento.idChat = idChat;

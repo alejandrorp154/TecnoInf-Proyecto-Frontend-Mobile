@@ -19,7 +19,7 @@ export class LoginGuard implements CanLoad {
   ): Observable<boolean> | Promise<boolean> | boolean {
     return this.authService.userIsAuthenticated.pipe(
       take(1),
-      switchMap(isAuthenticated => {
+      switchMap(isAuthenticated => { // console.log('******************************************************** loginguard ******************************************');
         if (!isAuthenticated) {
           return this.authService.autoLogin();
         } else {

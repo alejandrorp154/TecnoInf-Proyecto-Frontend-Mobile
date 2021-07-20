@@ -18,17 +18,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LogInterceptorService } from './servicios/log-intercepetor.service';
 import {DatePipe} from '@angular/common';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
-import {FCM} from '@ionic-native/fcm/ngx';
 
 
 export function getBaseUrl() {
 
 
-  if (environment.production) {
+/*  if (environment.production) {
    return 'https://travelpack.publicvm.com:8443/pryectoBack-web/rest/';
- } else {
+ } else {*/
     return 'http://travelpack.publicvm.com:8080/pryectoBack-web/rest/';
-  }
+//  }
   //console.log(document.getElementsByTagName('base')[0].href);
 }
 
@@ -44,7 +43,7 @@ export function getBaseUrl() {
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] },
     { provide: HTTP_INTERCEPTORS, useClass: LogInterceptorService, multi: true },
-    FCM, DatePipe, PhotoViewer
+    DatePipe, PhotoViewer
   ],
   bootstrap: [AppComponent],
 })
