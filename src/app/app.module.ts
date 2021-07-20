@@ -23,11 +23,11 @@ import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 export function getBaseUrl() {
 
 
-  if (environment.production) {
+/*  if (environment.production) {
    return 'https://travelpack.publicvm.com:8443/pryectoBack-web/rest/';
- } else {
+ } else {*/
     return 'http://travelpack.publicvm.com:8080/pryectoBack-web/rest/';
-  }
+//  }
   //console.log(document.getElementsByTagName('base')[0].href);
 }
 

@@ -13,6 +13,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 })
 export class TabGestionUsuariosPage implements OnInit {
 
+  bsUsuarios: BehaviorSubject<Usuario[]> = new BehaviorSubject<Usuario[]>([]);
   usuarios: Usuario[];
   user: Usuario;
   showError: boolean;
@@ -29,6 +30,7 @@ export class TabGestionUsuariosPage implements OnInit {
 
   async getAllUsuarios(){
     this.usuarios = await this.usuarioService.getAllUsuariosRegistradosAsync();
+    this.bsUsuarios.next(this.usuarios);
     this.isLoading = false;
   }
 
@@ -47,8 +49,11 @@ export class TabGestionUsuariosPage implements OnInit {
           {
             text: 'Bloquear',
             handler: async () => {
-              await this.usuarioService.bloquearUsuario(idPersona);
-              await this.getAllUsuarios();
+              this.usuarioService.bloquearUsuario(idPersona).then(res => {
+                console.log(res);
+                this.usuarios.find(u => u.idPersona == idPersona).estaBloqueado = true;
+                this.bsUsuarios.next(this.usuarios);
+              });
               this.showError = false;
             }
           }
@@ -76,9 +81,12 @@ export class TabGestionUsuariosPage implements OnInit {
           },
           {
             text: 'Desbloquear',
-            handler: async () => {
-              await this.usuarioService.desbloquearUsuario(idPersona);
-              await this.getAllUsuarios();
+            handler: () => {
+              this.usuarioService.desbloquearUsuario(idPersona).then(res => {
+                console.log(res);
+                this.usuarios.find(u => u.idPersona == idPersona).estaBloqueado = false;
+                this.bsUsuarios.next(this.usuarios);
+              });
               this.showError = false;
             }
           }
