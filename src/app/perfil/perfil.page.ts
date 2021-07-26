@@ -32,14 +32,16 @@ export class PerfilPage implements OnInit {
   idPerfil;
   loading: HTMLIonLoadingElement;
   isLoading: Boolean = true;
-  esMiPerfil: boolean;
 
+  esMiPerfil: boolean;
 
   textoBoton = '';
 
   listaContactos = [];
 
   contactos: number;
+
+  tieneSolPendiente: boolean;
 
   constructor(
     private perfilServ: PerfilService,
@@ -53,36 +55,44 @@ export class PerfilPage implements OnInit {
     }
 
   async ngOnInit() {
-    console.log('es mi perfil al principio de ngonInit', this.esMiPerfil);
     this.userFire = await this.authService.getCurrentUserFire().toPromise();
     this.listaContactos = await this.usuarioService.getContactos(this.userFire.id, 10, null);
+
     this.router.paramMap.subscribe(
       params => {
         const id = params.get('id');
         this.obtenerPerfil(id.toString());
         this.idPerfil = id;
+        this.tieneSolicitudPendiente();
         let contacto = this.esContacto(this.idPerfil);
         let esperfil = this.EsMiPerfil();
-        console.log('es contacto', contacto);
-        if(esperfil && contacto){
-          this.textoBoton = 'ELIMINAR CONTACTO';
-        }
-        else if(this.tieneSolicitudPendiente()){
+        this.esMiPerfil = esperfil;
+        let solicitudPendiente = this.tieneSolicitudPendiente();
+        if(solicitudPendiente){
+          console.log('tengo solicitudo pendiente de este contacto');
           this.textoBoton = 'PENDIENTE';
         }
-        else{
+        if(!esperfil && contacto){
+          console.log('No es mi perfil pero si contacto');
+          this.textoBoton = 'ELIMINAR CONTACTO';
+        }
+        if(!esperfil && !contacto && !solicitudPendiente){
           this.textoBoton = 'AGREGAR CONTACTO';
         }
+
+
+
+
+
+
       }
     );
-    console.log('es mi perfil al final de ngonInit', this.esMiPerfil);
   }
 
-  
+
 
 
   esContacto(perfil: string){
-    console.log('me fijo si este perfil es mi contacto', perfil);
     let lista = this.listaContactos;
     console.log(lista);
     var interesExiste = this.listaContactos.find(inte => {
@@ -92,14 +102,20 @@ export class PerfilPage implements OnInit {
     return interesExiste != null ? true : false;
   }
 
-  async EsMiPerfil(){
-    this.userFire = await this.authService.getCurrentUserFire().toPromise();
+  EsMiPerfil(){
+    let esMiPerfil: boolean;
     console.log('este es el logueado>' + this.userFire.id + ' este es el perfil al que entre> ' +this.idPerfil);
 
-    this.esMiPerfil = this.userFire.id === this.idPerfil;
-    console.log('es mi perfil', this.esMiPerfil);
-    return this.esMiPerfil;
+    if(this.userFire.id === this.idPerfil){
+      esMiPerfil = true;
+    }
+    else{
+      esMiPerfil = false;
+    }
+    console.log('es mi perfil', esMiPerfil);
+    return esMiPerfil;
   }
+
 
   clickBoton(){
 
@@ -126,6 +142,7 @@ export class PerfilPage implements OnInit {
               text: 'Continuar',
               handler: async () => {
                 this.usuarioService.respuestaContacto(this.userFire.id, this.idPerfil, EstadosContactos.cancelada);
+                this.textoBoton = 'AGREGAR CONTACTO';
               }
             }
           ]
@@ -164,11 +181,27 @@ export class PerfilPage implements OnInit {
     this.contactos = (await this.usuarioService.getAmigosAsync(id)).length;
   }
 
-  async tieneSolicitudPendiente(){
+  tieneSolicitudPendiente(){
+    let solPendiente = this.solPendiente();
     console.log(this.userFire.id, this.idPerfil);
-    let response = await this.usuarioService.tieneSolicitudPendiente(this.userFire.id, this.idPerfil);
-    console.log('sol pendiente',response);
-    return response;
+
+    return solPendiente;
+  }
+
+  solPendiente(){
+    let sol: boolean;
+    let response;
+    response = this.usuarioService.tieneSolicitudPendiente(this.userFire.id, this.idPerfil);
+    console.log(response);
+    if(response){
+      sol = true;
+    }
+    else{
+      sol = false;
+    }
+    this.tieneSolPendiente = sol;
+    return sol;
+
   }
 
 }
