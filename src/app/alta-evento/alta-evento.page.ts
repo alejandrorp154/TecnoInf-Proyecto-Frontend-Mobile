@@ -81,7 +81,7 @@ export class AltaEventoPage implements OnInit {
         this._Activatedroute.paramMap.subscribe(params => {
           idEvento = parseInt(params.get('idEvento'));
         });
-      
+
         this.evento = await this.eventoService.obtenerEvento(idEvento);
         this.publicaciones = await this.eventoService.obtenerPublicaciones(this.evento.idEvento.toString(),this.size);
         this.evento.owner = this.evento.idPersona == this.currentUser.idPersona;
@@ -253,7 +253,7 @@ export class AltaEventoPage implements OnInit {
 
   removerIntegrante(participante: Invitado)
   {
-    this.eventoService.removerParticipante(participante.idPersona, this.evento.idEvento)
+    this.eventoService.removerParticipante(participante.idPersona, this.evento.idEvento, this.evento.idChat)
     let index = this.participantes.value.findIndex(x => x.idPersona == participante.idPersona)
     if (index > -1) {
       this.participantes.value.splice(index, 1);

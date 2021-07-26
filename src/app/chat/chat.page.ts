@@ -90,6 +90,8 @@ export class ChatPage implements OnInit {
    }
 
   async ngOnInit() {
+    this.chatService.inicializarVariables();
+    this.authService.cerrarSesion.subscribe(res => { if(res > 0) { this.ngOnDestroy() } });
     this.searchBar.setValue('');
     let userFire = await this.authService.getCurrentUserFire().toPromise();
     console.log(userFire);
@@ -165,6 +167,22 @@ console.log(this.currentChatroomId)
       map(value => this._filter(value.toString()))
     ).subscribe(res => this.searchResult.next(res));
 
+  }
+
+  ngOnDestroy() {
+    console.log('****** ngOnDestroy Chat ******');
+    this.isFileUploading = false;
+    this.isFileUploaded = false;
+    this.searchResult.next([]);
+
+    this.files = this.filesCollection.valueChanges();
+    this.contactos = [];
+    this.eventos = [];
+    this.uidsChatGrupal = [];
+    this.chatrooms = [];
+    this.currentUser = null;
+    this.friends = [];
+    this.chatService.restablecerVariables();
   }
 
   getContactosPersona(){
@@ -401,17 +419,22 @@ console.log('está subiendo el archivo');
 
   async eliminar(idChat: string) {
     console.log(idChat);
-    await this.chatService.eliminar(idChat).then(res => {
-      console.log(res);
-      console.log(this.chatrooms.findIndex(e => e.idChat == idChat));
-      console.log(this.chatrooms);
-      //this.chatrooms.splice(this.chatrooms.findIndex(e => e.idChat == idChat),1);
-      console.log(this.chatrooms);
-      //this.searchResult.next(this.chatrooms);
-      this.toolsService.presentToast('El chat se eliminó correctamente', Resultado.Ok);
-    }).catch(error => {
-      this.toolsService.presentToast('Surgió un error al eliminar el chat', Resultado.Error);
-    });
+    if(this.chatrooms.some(c => c.idChat == idChat) && this.chatrooms.find(c => c.idChat == idChat).uids.length == 1){
+      await this.chatService.eliminar(idChat).then(res => {
+        console.log(res);
+        console.log(this.chatrooms.findIndex(e => e.idChat == idChat));
+        console.log(this.chatrooms);
+        //this.chatrooms.splice(this.chatrooms.findIndex(e => e.idChat == idChat),1);
+        console.log(this.chatrooms);
+        //this.searchResult.next(this.chatrooms);
+        this.toolsService.presentToast('El chat se eliminó correctamente', Resultado.Ok);
+      }).catch(error => {
+        this.toolsService.presentToast('Surgió un error al eliminar el chat', Resultado.Error);
+      });
+    } else {
+      this.chatService.removerUsuarioDeChat(idChat, this.currentUser.idPersona);
+    }
+
   }
 
 

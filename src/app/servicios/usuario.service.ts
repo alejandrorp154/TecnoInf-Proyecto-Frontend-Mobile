@@ -53,14 +53,19 @@ export class UsuarioService {
     }
   }
 
-  public getAllUsuariosRegistradosAsync(): Promise<Usuario[]> {
-    try {
-      const url = `${this.baseUrl}visualizacion/obtenerUsuarios/0/5000`;
-      return this.httpClient.get<Usuario[]>(url).toPromise();
+  public async getAllUsuariosRegistradosAsync(): Promise<Usuario[]> {
+    if(!this.authService.usuariosRegistrados || this.authService.usuariosRegistrados.length == 0){
 
-    } catch (error) {
-      console.log(error);
+      try {
+        const url = `${this.baseUrl}visualizacion/obtenerUsuarios/0/5000`;
+        this.authService.usuariosRegistrados = await this.httpClient.get<Usuario[]>(url).toPromise();
+        console.log(this.authService.usuariosRegistrados.length);
+      } catch (error) {
+        console.log(error);
+      }
     }
+
+    return new Promise(resolve => resolve(this.authService.usuariosRegistrados));
   }
 
   getAllUsuarios(){

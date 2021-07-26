@@ -17,10 +17,19 @@ import { Usuario } from '../modelos/usuario.model';
 export class ChatService {
   currentUserFire: UserFire = null;
   currentUser: Usuario;
+  usuarios: Usuario[];
 
   constructor(private authService: AuthService, private usuarioService: UsuarioService, private afs: AngularFirestore) {
-    this.authService.getCurrentUserFire().subscribe(res => this.currentUserFire = res);
-    this.authService.getCurrentUser().subscribe(res => this.currentUser = res);
+    this.inicializarVariables();
+  }
+
+  inicializarVariables() {
+    if(!this.currentUserFire)
+      this.authService.getCurrentUserFire().subscribe(res => this.currentUserFire = res);
+    if(!this.currentUser)
+      this.authService.getCurrentUser().subscribe(res => this.currentUser = res);
+    if(!this.usuarios || this.usuarios.length == 0)
+      this.usuarioService.getAllUsuariosRegistradosAsync().then(res => this.usuarios = res);
   }
 
   // Chat functionality
@@ -50,6 +59,18 @@ export class ChatService {
         console.error("Error creando el chat en Firebase: ", error);
     });
     return new Promise(resolve => resolve(idChat));
+  }
+
+  agregarUsuarioAChat(idChat: string, uid: string): void {
+    this.afs.collection('chats').doc(idChat).update({
+      uids: firebase.firestore.FieldValue.arrayUnion(uid)
+    }).then(docRef => console.log(docRef)).catch(error => console.log(error));
+  }
+
+  removerUsuarioDeChat(idChat: string, uid: string): void {
+    this.afs.collection('chats').doc(idChat).update({
+      uids: firebase.firestore.FieldValue.arrayRemove(uid)
+    }).then(docRef => console.log(docRef)).catch(error => console.log(error));
   }
 
   async eliminar(idChat: string): Promise<boolean> {
@@ -91,25 +112,29 @@ export class ChatService {
     )
   }
 
-  private getUsers() {
+  private getUsers(): Observable<Usuario[]> {
     //this.usuarioService.getAllUsuariosObs().subscribe(res => console.log(res));
-    return this.usuarioService.getAllUsuariosObs() as Observable<Usuario[]>;
+    if (this.usuarios.length == 0) {
+      return this.usuarioService.getAllUsuariosObs();
+    }
+    return new Observable((observer) => observer.next(this.usuarios));
   }
 
   private getUser(uid: string) {
     return this.usuarioService.getUsuario(uid);
   }
 
-  private getUserForMsg(msgFromId, users: UserFire[]): string {//console.log(msgFromId);
+  private getUserForMsg(msgFromId, users: UserFire[]): string {
     if(this.currentUser && this.currentUser.idPersona == msgFromId) {
-      return this.currentUser.nombre + ' ' + this.currentUser.apellido;}
+      return this.currentUser.nombre + ' ' + this.currentUser.apellido;
+    }
     for (let usr of users) {//console.log(usr, usr['idPersona']);
       if (usr['idPersona'] == msgFromId) {
         //console.log('entró');
         return usr['nombre'] + ' ' + usr['apellido'];
       }
     }
-    return 'Deleted';
+    return '';
   }
 /*
   getMyChatrooms(): Observable<Chat[]> {
@@ -140,6 +165,12 @@ export class ChatService {
 
   private getChatroom(uids: []) {
     return this.afs.collection('chatrooms', ref => ref.where('uids', '==', uids)).valueChanges({ idField: 'id'}) as Observable<any>;
+  }
+
+  restablecerVariables() {
+    this.currentUser = undefined;
+    this.currentUserFire = undefined;
+    this.usuarios = [];
   }
 
 }

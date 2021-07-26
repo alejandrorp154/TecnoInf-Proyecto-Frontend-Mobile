@@ -18,6 +18,8 @@ export class AuthService {
   private _userFire = new BehaviorSubject<UserFire>(null);
   cerrarSesion = new BehaviorSubject<number>(0);
 
+  public usuariosRegistrados: Usuario[] = [];
+
   get userIsAuthenticated()
   {
     return this._userFire.asObservable().pipe(
@@ -65,6 +67,7 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) { }
 
   autoLogin() {
+    this.cerrarSesion.next(0);
     return from(Plugins.Storage.get({ key: 'authData' })).pipe(
       map(storedData => {
         if (!storedData || !storedData.value) {
@@ -109,6 +112,7 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
+    this.cerrarSesion.next(0);
     return this.http
       .post<AuthResponseData>(
         `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${
@@ -123,7 +127,9 @@ export class AuthService {
     this._userFire.next(null);
     Plugins.Storage.remove({ key: 'authData' });
     Plugins.Storage.remove({ key: 'currentUser' });
+    console.log('LOGOUT: ' + this.cerrarSesion.value);
     this.cerrarSesion.next(this.cerrarSesion.value + 1);
+    console.log('LOGOUT: ' + this.cerrarSesion.value);
     this.router.navigateByUrl('/login');
   }
 
