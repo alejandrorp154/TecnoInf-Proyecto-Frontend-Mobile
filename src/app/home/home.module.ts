@@ -11,6 +11,7 @@ import { AltaPublicacionComponent } from '../UI/alta-publicacion/alta-publicacio
 import { BuscarMapaComponent } from '../UI/buscar-mapa/buscar-mapa.component';
 import { FeedHomeComponent } from '../UI/feed-home/feed-home.component';
 import { PubEeComponent } from '../UI/feed-home/pub-ee/pub-ee.component';
+import { MapaModule } from '../UI/mapa/mapa.module';
 
 
 
@@ -21,7 +22,8 @@ import { PubEeComponent } from '../UI/feed-home/pub-ee/pub-ee.component';
     IonicModule,
     HomePageRoutingModule,
     ReactiveFormsModule,
-    NavbarModule
+    NavbarModule,
+    MapaModule
   ],
   declarations: [HomePage, AltaPublicacionComponent, BuscarMapaComponent, FeedHomeComponent, PubEeComponent]
 })

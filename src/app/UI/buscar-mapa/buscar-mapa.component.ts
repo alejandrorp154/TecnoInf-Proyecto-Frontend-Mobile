@@ -32,7 +32,7 @@ export class BuscarMapaComponent implements OnInit {
       } else {
         this.addresses = [];
         this.features = [];
-      }    
+      }
   }
 
   onSelect(address: string){
@@ -58,7 +58,7 @@ export class BuscarMapaComponent implements OnInit {
   }
 
   ngOnInit() {
-    setTimeout(() => this.buildMap(), 5);  
+    setTimeout(() => this.buildMap(), 5);
   }
 
   onMapLoaded(event) {
@@ -82,7 +82,7 @@ export class BuscarMapaComponent implements OnInit {
       .setLngLat([lng, lat])
       .addTo(this.mapa);
       //this.center(lng, lat);
-      
+
       this.dismiss(lng,lat,pais);
   }
 
@@ -94,7 +94,6 @@ export class BuscarMapaComponent implements OnInit {
   }
 
   dismiss(lng: number, lat: number, pais: string) {
-  
     this.modalController.dismiss(lng+','+lat+','+pais);
   }
 
