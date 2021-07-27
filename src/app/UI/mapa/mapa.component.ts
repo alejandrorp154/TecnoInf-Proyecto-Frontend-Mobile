@@ -8,6 +8,7 @@ import { Geolocation as Geo } from '@ionic-native/geolocation/ngx';
 import { take } from 'rxjs/operators';
 import { AuthService } from '../../servicios/auth.service';
 import { UserFire } from '../../modelos/userFire.model';
+import { ModalController } from '@ionic/angular';
 
 declare var require: any;
 
@@ -26,6 +27,7 @@ export class MapaComponent implements OnInit {
   @Input() ubiCentral: BehaviorSubject<Ubicacion>;
   @Input() ubicaciones: BehaviorSubject<Ubicacion[]> = new BehaviorSubject([]);
   @Input() ubicacionViajar:BehaviorSubject<Ubicacion>;
+  @Input() modal: boolean;
   currentLat: number;
   currentLng: number;
   lat: BehaviorSubject<number> = new BehaviorSubject(-34.8833);
@@ -40,7 +42,7 @@ export class MapaComponent implements OnInit {
 
   @Output() ubicacion = new EventEmitter();
 
-  constructor(private authService: AuthService, private mapboxService: MapboxService, private geolocation: Geo) {
+  constructor(private authService: AuthService, private mapboxService: MapboxService, private geolocation: Geo, public modalController: ModalController) {
     this.currentLat = -34.8833;
     this.currentLng = -56.1667;
     this.marcadores = []
@@ -59,8 +61,11 @@ export class MapaComponent implements OnInit {
       container: 'mapa-container',
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [this.lng.value, this.lat.value],
-      zoom: 10
+      zoom: 10,
+      attributionControl: false
     });
+
+    this.map.addControl(new this.mapboxgl.FullscreenControl({container: document.querySelector('app-mapa')}), 'bottom-right');
 
     if (this.ubicaciones && this.ubicaciones.value){
       this.ubicaciones.subscribe( res => {
@@ -122,10 +127,18 @@ export class MapaComponent implements OnInit {
         .addTo(this.map);
       console.log(this.marcador2);
 
-      this.marcador2.on('dragend', () => {
+
+      this.marcador2.on('dragend', (data) => {
+        console.log(data);
         // console.log(this.marcador2.getLngLat());
-        this.ubiCentral.next({ idUbicacion: 0, latitud: this.marcador2.getLngLat().lat , longitud: this.marcador2.getLngLat().lng, fecha: new Date(), descripcion: '', idPersona: '', pais: ''});
-        this.ubicacion.emit({latitud: this.ubiCentral.value.latitud, longitud: this.ubiCentral.value.longitud});
+        if(this.modal) {
+         // const country = this.mapboxService.getCountry(this.marcador2.getLngLat().lat, this.marcador2.getLngLat().lng);
+         // console.log(country);
+          this.modalController.dismiss(this.marcador2.getLngLat().lng + ',' + this.marcador2.getLngLat().lat + ',Sin descripción');
+        }else {
+          this.ubiCentral.next({ idUbicacion: 0, latitud: this.marcador2.getLngLat().lat , longitud: this.marcador2.getLngLat().lng, fecha: new Date(), descripcion: '', idPersona: '', pais: ''});
+          this.ubicacion.emit({latitud: this.ubiCentral.value.latitud, longitud: this.ubiCentral.value.longitud});
+        }
       });
 
       console.log('se suscribirá al ubiCentral');
@@ -151,6 +164,12 @@ export class MapaComponent implements OnInit {
           console.log(e.result.center);
           geocoder.clear();
           $this.marcador2.setLngLat(e.result.center);
+          if(this.modal) {
+            $this.modalController.dismiss($this.marcador2.getLngLat().lng + ',' + $this.marcador2.getLngLat().lat);
+          }else {
+            $this.ubiCentral.next({ idUbicacion: 0, latitud: $this.marcador2.getLngLat().lat , longitud: $this.marcador2.getLngLat().lng, fecha: new Date(), descripcion: '', idPersona: '', pais: ''});
+            $this.ubicacion.emit({latitud: $this.ubiCentral.value.latitud, longitud: $this.ubiCentral.value.longitud});
+          }
         });
 
         // Add the control to the map.

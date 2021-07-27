@@ -137,7 +137,10 @@ ion-item {
     }
   }
 }
-
+.header{
+  font-family: "big_noodle_titling";
+  font-size: 25px;
+}
 @media(max-width: 745px){
   .chat-card{
     width:100%;

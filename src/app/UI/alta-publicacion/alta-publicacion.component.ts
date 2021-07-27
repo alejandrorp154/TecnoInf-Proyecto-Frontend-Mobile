@@ -19,6 +19,8 @@ import { Resultado, ToolsService } from "src/app/servicios/tools.service";
 import { ActivatedRoute } from "@angular/router";
 import { EventEmitter } from "@angular/core";
 import { PublicacionPerfilUsuario } from "src/app/modelos/perfil";
+import { MapaComponent } from "../mapa/mapa.component";
+import { BehaviorSubject } from "rxjs";
 
 
 @Component({
@@ -164,7 +166,7 @@ export class AltaPublicacionComponent implements OnInit {
       } else {
         this.ubicacion.descripcion = this.texto.textoPub;
       }
-      
+
       var fecha = new Date();
 
       //this.ubicacion.fecha = this.datePipe.transform(fecha,"yyyy-MM-dd") //String se comenta porque el modelo esta con Date
@@ -180,7 +182,7 @@ export class AltaPublicacionComponent implements OnInit {
       this.cancelar();
     }
     // this.cancelar();//Vuelve a tipo texto
-    
+
   }
 
   obtenerTipo(){
@@ -269,6 +271,39 @@ export class AltaPublicacionComponent implements OnInit {
 
     modal.onDidDismiss()
       .then(data=>{
+        if(!data.role){
+          var cord: string[];
+          this.cord = data.data;
+          cord = data.data.split(',');
+          this.long = parseFloat(cord[0]);
+          this.lat = parseFloat(cord[1]);
+          this.pais = cord[2];
+          setTimeout(() => this.buildMap(parseFloat(cord[0]),parseFloat(cord[1])), 10);
+          this.tipo = 'mapa';
+        }
+    });
+
+    return await modal.present();
+  }
+
+
+
+  async modalMapaComponent() {
+    const modal = await this.modalController.create({
+      component: MapaComponent,
+      componentProps: {
+        currentLocation: true,
+        marcarUbicacion: true,
+        ubiCentral: new BehaviorSubject<Ubicacion>(new Ubicacion()),
+        draggable: true,
+        buscador: true,
+        modal: true
+      }
+    });
+
+    modal.onDidDismiss()
+      .then(data=>{
+        console.log(data);
         if(!data.role){
           var cord: string[];
           this.cord = data.data;

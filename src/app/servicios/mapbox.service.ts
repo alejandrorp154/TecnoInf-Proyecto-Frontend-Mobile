@@ -36,6 +36,14 @@ export class MapboxService {
     }));
   }
 /*
+  getCountry(lat: number, lng: number) {
+    const url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/';
+    return this.http.get(url + lng + ',' + lat + '.json?types=place&access_token=' + environment.mapboxKey)
+    .pipe(map(res => {
+      console.log(res, res['country']);
+    }))
+  }*/
+/*
   obtenerUbicacionActual(): Promise<Geoposition> {
     return this.geolocation.getCurrentPosition();
     /*(pos: { coords: { latitude: number; longitude: number; }; }) => {
