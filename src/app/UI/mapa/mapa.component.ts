@@ -132,7 +132,9 @@ export class MapaComponent implements OnInit {
         console.log(data);
         // console.log(this.marcador2.getLngLat());
         if(this.modal) {
-          this.modalController.dismiss(this.marcador2.getLngLat().lng + ',' + this.marcador2.getLngLat().lat);
+         // const country = this.mapboxService.getCountry(this.marcador2.getLngLat().lat, this.marcador2.getLngLat().lng);
+         // console.log(country);
+          this.modalController.dismiss(this.marcador2.getLngLat().lng + ',' + this.marcador2.getLngLat().lat + ',Sin descripción');
         }else {
           this.ubiCentral.next({ idUbicacion: 0, latitud: this.marcador2.getLngLat().lat , longitud: this.marcador2.getLngLat().lng, fecha: new Date(), descripcion: '', idPersona: '', pais: ''});
           this.ubicacion.emit({latitud: this.ubiCentral.value.latitud, longitud: this.ubiCentral.value.longitud});
