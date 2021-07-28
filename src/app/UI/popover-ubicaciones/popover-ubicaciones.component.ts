@@ -13,6 +13,8 @@ export class PopoverUbicacionesComponent implements OnInit {
 
   items: Ubicacion[];
   @Input() ubicaciones;
+  @Input() id;
+  @Input() viewingUserId;
   noItems: boolean;
 
   constructor(private popoverCtrl: PopoverController) {
