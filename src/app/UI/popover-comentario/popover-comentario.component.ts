@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, PopoverController } from '@ionic/angular';
 import { comentarioReacciones } from 'src/app/modelos/comentario.model';
 import { ComentariosService } from 'src/app/servicios/comentarios.service';
 
@@ -12,7 +12,7 @@ export class PopoverComentarioComponent implements OnInit {
 
   @Input() Comentario: comentarioReacciones;
 
-  constructor(private alertCtrl: AlertController, private comentariosService: ComentariosService) { }
+  constructor(private alertCtrl: AlertController, private comentariosService: ComentariosService, private popoverCtrl: PopoverController) { }
 
   ngOnInit() { }
 
@@ -29,7 +29,10 @@ export class PopoverComentarioComponent implements OnInit {
           {
             text: 'Borrar',
             handler: async () => {
-              await this.comentariosService.deleteComentario(idComentario);    
+              await this.comentariosService.deleteComentario(idComentario);   
+              this.popoverCtrl.dismiss({
+                clicked: "Eliminar"
+              })
             }
           }
         ]
@@ -39,7 +42,7 @@ export class PopoverComentarioComponent implements OnInit {
       });
   }
 
-  modificarComentario(comentario: comentarioReacciones){
+  modificarComentario(comentario: comentarioReacciones, clickeado: string){
     this.alertCtrl.create({
       header: 'Modificar comentario',
       inputs: [
@@ -54,6 +57,9 @@ export class PopoverComentarioComponent implements OnInit {
           role: 'cancel',
           handler: data => {
             console.log('Cancel clicked');
+            this.popoverCtrl.dismiss({
+              clicked: "Cancelar"
+            })
           }
         },
         {
@@ -62,6 +68,9 @@ export class PopoverComentarioComponent implements OnInit {
             if (data.comentarioNuevo !== '') {
               comentario.contenido = data.comentarioNuevo;
               await this.comentariosService.modificarComentario(comentario);  
+              this.popoverCtrl.dismiss({
+                clicked: "Modificar"
+              })
             } else {
               return;
             }

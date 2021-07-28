@@ -69,18 +69,15 @@
 
         <ion-card style="background-color: white;">
           <ion-card-content>
-            <form [formGroup]="comentarioForm" (ngSubmit)="aniadirComentarioAPublicacion()">
               <ion-item>
-                <ion-textarea placeholder="Comenta algo" required formControlName="comentario" type="text">
-                </ion-textarea>
+                <ion-input type="text" id="input-reason" [(ngModel)]="comentarioDeForm" placeholder="Comenta algo"></ion-input>
               </ion-item>
-              <ion-button style="float: right;" block color="primary" type="submit" [disabled]="comentarioForm.invalid">
+              <ion-button style="float: right;" block color="primary" type="submit" (click)="aniadirComentarioAPublicacion()" [disabled]="enableCreate()" >
                 Comentar
               </ion-button>
-            </form>
           </ion-card-content>
         </ion-card>
-
+        
       </ion-col>
     </ion-row>
     <ion-row>
@@ -107,12 +104,22 @@
                 </ion-row>
                 <ion-row>
                   <ion-col size="12">
-                    <ion-button (click)="reaccionarComentario(comentario, 'MeGusta')" fill="clear" size="small">
+                    <ion-button *ngIf="comentario.idComentarioPadre === null" (click)="reaccionarComentario(comentario, 'MeGusta')" fill="clear" size="small">
                       <ion-icon name="thumbs-up-outline" slot="start"></ion-icon>
                       {{comentario.cantidadLikes}}
                     </ion-button>
 
-                    <ion-button (click)="reaccionarComentario(comentario, 'NoMeGusta')" fill="clear" size="small">
+                    <ion-button  *ngIf="comentario.idComentarioPadre === null" (click)="reaccionarComentario(comentario, 'NoMeGusta')" fill="clear" size="small">
+                      <ion-icon name="thumbs-down-outline" slot="start"></ion-icon>
+                      {{comentario.cantidadDislikes}}
+                    </ion-button>
+
+                    <ion-button style="padding-left: 7%;" *ngIf="comentario.idComentarioPadre !== null" (click)="reaccionarComentario(comentario, 'MeGusta')" fill="clear" size="small">
+                      <ion-icon name="thumbs-up-outline" slot="start"></ion-icon>
+                      {{comentario.cantidadLikes}}
+                    </ion-button>
+
+                    <ion-button style="padding-left: 7%;" *ngIf="comentario.idComentarioPadre !== null" (click)="reaccionarComentario(comentario, 'NoMeGusta')" fill="clear" size="small">
                       <ion-icon name="thumbs-down-outline" slot="start"></ion-icon>
                       {{comentario.cantidadDislikes}}
                     </ion-button>
@@ -131,7 +138,7 @@
 
       </ion-col>
     </ion-row>
-    <ion-card>
+    <ion-card *ngIf="!boolVerComentarios">
       <ion-card-content style="background-color: white;" *ngIf="cantReacciones?.cantidadComentarios == 0">
         <img style="height: 15rem; margin-left: auto;margin-right: auto; display: block;" src="../../assets/img/lobito.png">
         <ion-label style="text-align: center; display: block;">Aún no hay comentarios :(</ion-label>
