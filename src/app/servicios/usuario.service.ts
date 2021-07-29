@@ -231,19 +231,9 @@ export class UsuarioService {
   }
 
   async tieneSolicitudPendiente(userLogueado: string, idPerfil: string) {
-    let response;
-    try {
-      const url = `${this.baseUrl}usuario/sonAmigos/${userLogueado}/${idPerfil}`;
-      await this.httpClient.get<boolean>(url).subscribe(res => {
-        console.log('res', res);
-        response = eval(res+'');
-      });
-      console.log(response);
-      return response;
 
-    } catch (error) {
-      console.log(error);
-    }
+      const url = `${this.baseUrl}usuario/sonAmigos/${userLogueado}/${idPerfil}`;
+      return this.httpClient.get<boolean>(url).toPromise();
   }
 
 }
