@@ -178,7 +178,7 @@ export class PerfilPage implements OnInit {
       this.isLoading = false;
     }
     this.perfilServ.usuarioDatos = this.perfil.usuario;
-    this.publicaciones.next(this.perfil.publicaciones.reverse());
+    this.publicaciones.next(this.perfil.publicaciones);
     this.usuario.next(this.perfil.usuario);
     this.medalla.next(this.perfil.usuario.medalla);
     this.galleria.next(this.perfil.galerias);
