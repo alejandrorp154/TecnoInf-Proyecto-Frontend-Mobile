@@ -106,9 +106,7 @@ export class AltaPublicacionComponent implements OnInit {
         this.publicacion = new Publicacion(this.tipoPub,this.texto.textoPub,'','',this.usr,this.eventoId);
       } else {
         this.publicacion = new Publicacion(this.tipoPub,this.texto.textoPub,'','',this.usr);
-      }
-      console.log(this.publicacion);
-      this.pubService.altaPublicacion(this.publicacion);
+      }      
       this.texto.textoPub = '';
       var pub: any;
       pub = await this.pubService.altaPublicacion(this.publicacion);
