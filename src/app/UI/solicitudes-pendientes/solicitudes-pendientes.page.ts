@@ -1,3 +1,5 @@
+import { AlertController } from "@ionic/angular";
+import { Router } from "@angular/router";
 import { Usuario } from "src/app/modelos/usuario.model";
 import { UserFire } from "./../../modelos/userFire.model";
 import { AuthService } from "src/app/servicios/auth.service";
@@ -16,8 +18,9 @@ export class SolicitudesPendientesPage implements OnInit {
   solicitudes: Usuario[];
   showError: boolean;
   errorMessage: string;
+  aceptada: boolean;
 
-  constructor(private userService: UsuarioService, private authService: AuthService)
+  constructor(private userService: UsuarioService, private authService: AuthService, private alertCtrl: AlertController)
   {
     this.showError = false;
   }
@@ -34,19 +37,49 @@ export class SolicitudesPendientesPage implements OnInit {
   }
 
   onAceptar(idPersona: string){
-    this.userService.respuestaContacto(this.userFire.idPersona, idPersona, EstadosContactos.aceptada);
-    async () => {
-      await this.getSolicitudesPendientes(this.userFire.idPersona);
-    }
+    this.alertCtrl.create({
+      header: 'usuario agregado exitosamente.',
+      message: 'Ahora tienes un amigo nuevo.',
+      buttons: [
+        {
+          text: 'Okay',
+          handler: async () => {
+            await this.userService.respuestaContacto(this.userFire.idPersona, idPersona, EstadosContactos.aceptada);
+              await this.getSolicitudesPendientes(this.userFire.idPersona);
+              //this.aceptada = true;
+              this.showError = false;
+          }
+        }
+      ]
+    }).then(alertElement => {
+      alertElement.present();
+    })
   }
 
   onRechazar(idPersona: string){
-    this.userService.respuestaContacto(this.userFire.idPersona, idPersona, EstadosContactos.cancelada);
-    async () => {
-      await this.getSolicitudesPendientes(this.userFire.idPersona);
-    }
+    this.alertCtrl
+      .create({
+        header: '¿Estas seguro?',
+        message: '¿Estas seguro que desea rechazar esta solicitud de contacto?',
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel'
+          },
+          {
+            text: 'Borrar',
+            handler: async () => {
+              await this.userService.respuestaContacto(this.userFire.idPersona, idPersona, EstadosContactos.cancelada);
+              await this.getSolicitudesPendientes(this.userFire.idPersona);
+              //this.aceptada = true;
+              this.showError = false;
+            }
+          }
+        ]
+      })
+      .then(alertEl => {
+        alertEl.present();
+      });
   }
-
-
 
 }

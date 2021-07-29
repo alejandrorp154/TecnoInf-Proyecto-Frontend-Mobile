@@ -43,6 +43,8 @@ export class PerfilPage implements OnInit {
 
   tieneSolPendiente: boolean;
 
+  somosAmigos: boolean = false;
+
   constructor(
     private perfilServ: PerfilService,
     private router: ActivatedRoute,
@@ -59,16 +61,17 @@ export class PerfilPage implements OnInit {
     this.listaContactos = await this.usuarioService.getContactos(this.userFire.id, 10, null);
 
     this.router.paramMap.subscribe(
-      params => {
+      async params => {
         const id = params.get('id');
         this.obtenerPerfil(id.toString());
         this.idPerfil = id;
-        this.tieneSolicitudPendiente();
+        //this.tieneSolicitudPendiente();
+        await this.solPendiente();
         let contacto = this.esContacto(this.idPerfil);
         let esperfil = this.EsMiPerfil();
         this.esMiPerfil = esperfil;
-        let solicitudPendiente = this.tieneSolicitudPendiente();
-        if(solicitudPendiente){
+        //let solicitudPendiente = this.tieneSolicitudPendiente();
+        if(this.somosAmigos){
           console.log('tengo solicitudo pendiente de este contacto');
           this.textoBoton = 'PENDIENTE';
         }
@@ -76,7 +79,7 @@ export class PerfilPage implements OnInit {
           console.log('No es mi perfil pero si contacto');
           this.textoBoton = 'ELIMINAR CONTACTO';
         }
-        if(!esperfil && !contacto && !solicitudPendiente){
+        if(!esperfil && !contacto && !this.somosAmigos){
           this.textoBoton = 'AGREGAR CONTACTO';
         }
 
@@ -118,16 +121,17 @@ export class PerfilPage implements OnInit {
 
 
   clickBoton(){
-
+    let agrego: boolean = false;
     if(this.textoBoton === 'AGREGAR CONTACTO'){
       this.usuarioService.agregarContacto(this.userFire.id, this.idPerfil);
       this.textoBoton = 'PENDIENTE';
+      agrego = true;
     }
     if(this.textoBoton === 'ELIMINAR CONTACTO'){
       this.usuarioService.bajaContacto(this.userFire.id, this.idPerfil);
       this.textoBoton = 'AGREGAR CONTACTO';
     }
-    if(this.textoBoton === 'PENDIENTE'){
+    if(!agrego && this.textoBoton === 'PENDIENTE'){
       try{
         this.alertCtrl
         .create({
@@ -181,26 +185,25 @@ export class PerfilPage implements OnInit {
     this.contactos = (await this.usuarioService.getAmigosAsync(id)).length;
   }
 
-  tieneSolicitudPendiente(){
+  /*tieneSolicitudPendiente(){
     let solPendiente = this.solPendiente();
     console.log(this.userFire.id, this.idPerfil);
 
     return solPendiente;
   }
-
-  solPendiente(){
+*/
+  async solPendiente(){
     let sol: boolean;
-    let response;
-    response = this.usuarioService.tieneSolicitudPendiente(this.userFire.id, this.idPerfil);
-    console.log(response);
-    if(response){
+    this.somosAmigos = await this.usuarioService.tieneSolicitudPendiente(this.userFire.id, this.idPerfil)
+    console.log(this.somosAmigos);
+    /*if(response){
       sol = true;
     }
     else{
       sol = false;
-    }
-    this.tieneSolPendiente = sol;
-    return sol;
+    }*/
+    //this.tieneSolPendiente = this.somosAmigos;
+    return this.somosAmigos;
 
   }
 

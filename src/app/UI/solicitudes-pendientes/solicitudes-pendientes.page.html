@@ -16,8 +16,8 @@
               </ion-button>
             </ion-item>
           </div>
-          <ion-list>
-            <ion-item *ngFor="let sol of solicitudes" >
+          <ion-list *ngFor="let sol of solicitudes">
+            <ion-item *ngIf="!aceptada">
               <ion-avatar>
                 <ion-img src="{{sol.imagenPerfil}}" routerLink="/perfil/{{sol.idPersona}}"></ion-img>
               </ion-avatar>
