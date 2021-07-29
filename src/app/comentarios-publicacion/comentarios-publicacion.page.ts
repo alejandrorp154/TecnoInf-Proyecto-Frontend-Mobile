@@ -1,8 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { AlertController, PopoverController } from '@ionic/angular';
+import { AlertController, LoadingController, PopoverController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { count } from 'rxjs/operators';
 import { Comentario, comentarioReacciones } from '../modelos/comentario.model';
@@ -22,6 +21,8 @@ import { PopoverComentarioComponent } from '../UI/popover-comentario/popover-com
 })
 export class ComentariosPublicacionPage implements OnInit {
 
+  loading: HTMLIonLoadingElement;
+  isLoading: Boolean;
   publicacion: PublicacionPerfilUsuario;
   perfil: Usuario;
   preview: Preview = new Preview;
@@ -40,11 +41,9 @@ export class ComentariosPublicacionPage implements OnInit {
   userId;
   cantReacciones: CantidadReaccionComentario;
 
-  public comentarioForm = new FormGroup({
-    comentario: new FormControl()
-  });
+  comentarioDeForm: string = "";
 
-  constructor(private alertCtrl: AlertController, private comentariosService: ComentariosService, 
+  constructor(private alertCtrl: AlertController, private loadingCtrl: LoadingController, private comentariosService: ComentariosService, 
     private publicacionService: PubicacionService, private router: ActivatedRoute,
     public popoverController: PopoverController) {}
 
@@ -62,13 +61,18 @@ export class ComentariosPublicacionPage implements OnInit {
     }
     localStorage.removeItem('publicacion');
     this.router.paramMap.subscribe(
-      params => {
-        
+       async params => {
           const id = params.get('id');
-          this.getPublicacion(id.toString());
-          console.log(id);
+          await this.getPublicacion(id.toString());
       }
     );
+    //tuve que añadir este if extra porque tiraba error de undefined en this.publicacionObs.value.tipo
+    if(this.publicacionObs.value.tipo){
+      if(this.publicacionObs.value.tipo.tipo == "mapa"){
+        this.boolEsMapa = true;
+        return;
+      }
+    }
   }
 
 
@@ -92,7 +96,7 @@ export class ComentariosPublicacionPage implements OnInit {
     });
     this.comentariosReaccionesObs.next(this.tempComentariosActual);
 
-    this.boolVerComentarios = true;
+    this.boolVerComentarios = this.tempComentariosActual.length != 0;
     if(this.publicacionObs.value.tipo.tipo == "texto"){
       this.boolEsTexto = true;
       return;
@@ -144,6 +148,11 @@ export class ComentariosPublicacionPage implements OnInit {
           text: 'Añadir',
           handler: async data => {
             if (data.comentarioNuevo !== '') {
+              this.loadingCtrl.create({ keyboardClose: true, message: 'Cargando...' }).then(loadingEl => {
+                loadingEl.present();
+                this.loading = loadingEl;
+                this.isLoading = true;
+              });
               const newComentario = new Comentario;
               newComentario.contenido = data.comentarioNuevo;
               newComentario.fecha = new Date();
@@ -151,7 +160,11 @@ export class ComentariosPublicacionPage implements OnInit {
               newComentario.idPersona = this.userId;
               newComentario.idComentarioPadre = comentario.idComentario;
               await this.comentariosService.addComentario(newComentario);
-              this.getPublicacion(this.publicacionObs.value.idPublicacion);       
+              await this.getPublicacion(this.publicacionObs.value.idPublicacion);      
+              if (this.loading != undefined) {
+                this.loading.dismiss();
+                this.isLoading = false;
+              } 
             } else {
               return;
             }
@@ -161,19 +174,56 @@ export class ComentariosPublicacionPage implements OnInit {
     }).then(alertElement => {
       alertElement.present();
     });
+
+    
+
   }
 
-  aniadirComentarioAPublicacion(){
-    console.log(this.comentarioForm.value.comentario);
+  enableCreate(){
+    return this.comentarioDeForm.trim() === "";
+  }
+
+  async aniadirComentarioAPublicacion(){
+    this.loadingCtrl.create({ keyboardClose: true, message: 'Cargando...' }).then(loadingEl => {
+      loadingEl.present();
+      this.loading = loadingEl;
+      this.isLoading = true;
+    });
+    
+    const tempCom = this.comentarioDeForm;
+    this.comentarioDeForm = "";
+
     const newComentario = new Comentario;
-    newComentario.contenido = this.comentarioForm.value.comentario;
+    newComentario.contenido = tempCom;
     newComentario.fecha = new Date();
     newComentario.idPublicacion = this.publicacionObs.value.idPublicacion;
     newComentario.idPersona = this.userId;
     newComentario.idComentarioPadre = null;
-    console.log(newComentario);
-    this.comentariosService.addComentario(newComentario);
-    //this.getPublicacion(this.publicacionObs.value.idPublicacion);
+
+    const newComentarioRespuesta = await this.comentariosService.addComentario(newComentario);
+    
+    const newComentarioReaccion = new comentarioReacciones;
+    newComentarioReaccion.idComentario = newComentarioRespuesta.idComentario;
+    newComentarioReaccion.contenido = tempCom;
+    newComentarioReaccion.fecha = new Date();
+    newComentarioReaccion.idPublicacion = this.publicacionObs.value.idPublicacion;
+    newComentarioReaccion.idComentarioPadre = null;
+    newComentarioReaccion.idPersona = this.userId;
+    newComentarioReaccion.idPersona = this.userId;
+    newComentarioReaccion.idPersona = this.userId;
+    newComentarioReaccion.cantidadLikes = 0;
+    newComentarioReaccion.cantidadDislikes = 0;
+    newComentarioReaccion.comentariosHijos = [];
+    newComentarioReaccion.document = null;
+
+    this.tempComentariosActual.push(newComentarioReaccion);
+    this.comentariosReaccionesObs.next(this.tempComentariosActual);
+    this.boolVerComentarios = true;
+
+    if (this.loading != undefined) {
+      this.loading.dismiss();
+      this.isLoading = false;
+    } 
   }  
 
   async presentPopover(ev: any, comentario: comentarioReacciones) {
@@ -186,8 +236,25 @@ export class ComentariosPublicacionPage implements OnInit {
     });
     await popover.present();
 
-    const { role } = await popover.onDidDismiss();
-    console.log('onDidDismiss resolved with role', role);
+    const { data } = await popover.onWillDismiss();
+    try {
+      if(data.clicked === "Eliminar"){
+        let comeReac = new comentarioReacciones;
+        this.tempComentariosActual.forEach(com => {
+          if(com.idComentario = comentario.idComentario){
+            comeReac = com;
+          }
+        });
+
+        const index = this.tempComentariosActual.indexOf(comeReac);
+        if (index > -1) {
+          this.tempComentariosActual.splice(index, 1);
+        }
+        this.boolVerComentarios = this.tempComentariosActual.length != 0;
+        this.comentariosReaccionesObs.next(this.tempComentariosActual);
+
+      }
+    }catch (error){}
   }
 
 
