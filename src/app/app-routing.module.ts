@@ -134,8 +134,8 @@ const routes: Routes = [
     canLoad: [LoginGuard]
   },
   {
-    path: 'configuracion-notificaciones',
-    loadChildren: () => import('./UI/configuracion-notificaciones/configuracion-notificaciones.module').then(c => c.ConfiguracionNotificacionesPageModule),
+    path: 'tab-email-notificacion',
+    loadChildren: () => import('./UI/tab-email-notificacion/tab-email-notificacion.module').then(c => c.TabEmailNotificacionPageModule),
     canLoad: [LoginGuard]
   },
   {
@@ -164,9 +164,6 @@ const routes: Routes = [
     loadChildren: () => import('./UI/tab-push-notificacion/tab-push-notificacion.module').then( m => m.TabPushNotificacionPageModule),
     canLoad: [LoginGuard]
   }
-
-
-
 
 ];
 

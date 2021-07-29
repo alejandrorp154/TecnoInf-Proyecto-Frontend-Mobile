@@ -2,8 +2,18 @@
     font-family: "big_noodle_titling";
     font-size: 25px;
 }
+.intereses-card {
+  background-color:white; 
+  width: 55em;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
 @media (max-width: 600px){
     .mobile-style{
       display:none;
+    }
+    .intereses-card {
+      width: 100%;
     }
   }

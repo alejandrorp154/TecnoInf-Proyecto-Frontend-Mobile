@@ -31,8 +31,10 @@ ion-item::part(native) {
 }
 .card-eventos{
   background:white;
-  width: 50%;
+  // width: 50%;
+  width: 55em;
   margin: 0 auto;
+  margin-top: 20px;
 }
 
 @media(max-width: 745px){

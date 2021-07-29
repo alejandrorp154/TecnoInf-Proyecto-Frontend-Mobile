@@ -5,7 +5,7 @@ import { NavbarModule } from "./../navbar/navbar.module";
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { TabEmailNotificacionPage } from '../tab-email-notificacion/tab-email-notificacion.page';
 import { IonicModule } from '@ionic/angular';
 
 import { ConfiguracionNotificacionesPageRoutingModule } from './configuracion-notificaciones-routing.module';
@@ -19,8 +19,7 @@ import { ConfiguracionNotificacionesPage } from './configuracion-notificaciones.
     IonicModule,
     ConfiguracionNotificacionesPageRoutingModule,
     NavbarModule,
-    TabEmailNotificacionPageModule,
-    TabPushNotificacionPageModule
+    TabEmailNotificacionPageModule
   ],
   declarations: [ConfiguracionNotificacionesPage]
 })
