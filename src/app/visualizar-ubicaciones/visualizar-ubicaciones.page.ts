@@ -20,6 +20,7 @@ export class VisualizarUbicacionesPage implements OnInit {
   public ubicaciones:BehaviorSubject<Ubicacion[]> = new BehaviorSubject<Ubicacion[]>([]);
   public id: string;
   public tempUbi: Ubicacion;
+  private userFireTemp: UserFire;
 
   //@Input() id;
   //@Input() nickname;
@@ -35,6 +36,7 @@ export class VisualizarUbicacionesPage implements OnInit {
   }
 
   async ngOnInit() {
+    this.userFireTemp = await this.authService.getCurrentUserFire().toPromise();
     this.router.paramMap.subscribe(
       params => {
           const idPar = params.get('id');
@@ -88,7 +90,7 @@ export class VisualizarUbicacionesPage implements OnInit {
       cssClass: 'visualizar-ubicaciones.page.scss',
       event: ev,
       translucent: true,
-      componentProps: {ubicaciones: this.ubicaciones},
+      componentProps: {ubicaciones: this.ubicaciones, id: this.id, viewingUserId: this.userFireTemp.id},
     });
     await popover.present();
 

@@ -1,13 +1,13 @@
 <ion-list>
   <ion-item *ngIf="noItems">Actualmente no tienes ninguna ubicación.</ion-item>
   <ion-item  *ngFor="let item of items"  detail>
-    <ion-button (click)="onClick(item, 'Modificar')">
+    <ion-button *ngIf="id===viewingUserId" (click)="onClick(item, 'Modificar')">
       <ion-icon name="create" slot="icon-only" ></ion-icon>
     </ion-button>
-    <ion-button (click)="onClick(item, 'Borrar')">
+    <ion-button *ngIf="id===viewingUserId" (click)="onClick(item, 'Borrar')">
       <ion-icon name="trash" slot="icon-only" ></ion-icon>
     </ion-button>
-    <ion-item button lines="none" (click)="onClick(item, 'Ver')">
+    <ion-item button lines="none"  (click)="onClick(item, 'Ver')">
       <ion-label text-wrap  style="padding-left: 15px" >
         {{item.descripcion}}
         </ion-label>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { TabEmailNotificacionPage } from '../tab-email-notificacion/tab-email-notificacion.page';
+
 
 @Component({
   selector: 'app-configuracion-notificaciones',

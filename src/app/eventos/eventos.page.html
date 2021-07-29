@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<ion-content>
+<ion-content class="ion-padding">
   <ion-card class="card-eventos">
     <ion-card-header color=tertiary style="background:#022833">
       <ion-card-title  class="ion-text-center header">Mis Eventos</ion-card-title>
@@ -28,10 +28,16 @@
         <ion-icon slot="end" *ngIf="!evento.owner && evento.estadoSolicitud == 'aceptada'" name="exit-outline" (click)="eliminarAlert(evento, false)" class="pointer"></ion-icon>
       </ion-item>
     </ion-list>
+    <ion-card>
+      <ion-card-content style="background-color: white;" *ngIf="bsEventos.value.length == 0">
+        <img style="height: 15rem; margin-left: auto;margin-right: auto; display: block;" src="../../assets/img/lobito.png">
+        <ion-label style="text-align: center; display: block;">Aún no tienes eventos :(</ion-label>
+      </ion-card-content>
+    </ion-card>
   </ion-card>
 </ion-content>
-<ion-footer class="mobile-style">
+<ion-footer style="height: 28px;" class="mobile-style">
   <ion-toolbar>
-    <ion-title>TravelPack © 2021</ion-title>
+    <ion-title style="padding-bottom: 22px; font-size: 16px;">TravelPack © 2021</ion-title>
   </ion-toolbar>
 </ion-footer>

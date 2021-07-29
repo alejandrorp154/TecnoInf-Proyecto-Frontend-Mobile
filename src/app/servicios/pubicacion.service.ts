@@ -16,7 +16,7 @@ export class PubicacionService {
   constructor(public httpClient: HttpClient, public handleError: ErrorHandler, @Inject('BASE_URL') private baseUrl: string) { }
 
   altaPublicacion(publicacion: Publicacion){
-    
+    console.log(publicacion);
     return this.httpClient.post(this.baseUrl+"publicacionComentario", publicacion).toPromise();
   //   .subscribe({
   //     // error: error => {

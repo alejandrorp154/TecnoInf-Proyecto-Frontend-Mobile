@@ -1,0 +1,21 @@
+.header{
+    font-family: 'big_noodle_titling';  
+    color:#212211;
+    font-size: 25px;
+  }
+
+  .notificaciones-card {
+    background-color:white; 
+    width: 50em;
+    margin: 0 auto;
+    margin-top: 20px;
+  }
+
+  @media (max-width: 600px){
+    .mobile-style{
+      display:none;
+    }
+    .notificaciones-card{
+      width: 100%;
+    }
+  }

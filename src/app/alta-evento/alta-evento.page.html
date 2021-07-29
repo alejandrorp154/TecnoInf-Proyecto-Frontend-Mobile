@@ -147,7 +147,7 @@
         </ion-col>
       </ion-row>
       <ion-row *ngIf="activeTab=='publicaciones'">
-        <app-alta-publicacion style="min-width: 100%;" *ngIf="activeTab=='publicaciones'" [evento] = "true"></app-alta-publicacion>
+        <app-alta-publicacion style="min-width: 100%;" *ngIf="activeTab=='publicaciones'" [evento] = "true" (myEvent)="nuevaPub($event)"></app-alta-publicacion>
           <ion-col style="min-width: 60%;" offset-md="3" sizeMd="5" sizeSm="12">
           <div *ngFor="let publicacion of publicaciones">
             <ion-row class="wrapper" *ngIf="publicacion.tipo.tipo != 'mapa'">
@@ -177,7 +177,7 @@
                   </ion-col>
                 </ion-row>
                 <ion-row class="ion-justify-content-start">
-                  <ion-button style="display: block;margin-left: auto;" href="/comentarios-publicacion/{{publicacion.idPublicacion}}" color="dark" fill="clear" shape="round">
+                  <ion-button style="display: block;margin-left: auto;" href="/comentarios-publicacion/{{publicacion.idPublicacion}}" color="dark" fill="clear" shape="round" (click)="cargoPublicacion(publicacion)">
                     Ver más 
                     <ion-icon name="arrow-redo-outline"></ion-icon>
                   </ion-button>
@@ -196,22 +196,14 @@
             </ion-infinite-scroll-content>
           </ion-infinite-scroll>
         </ion-col>
-        <!-- <ion-col *ngIf="!evento.publicaciones || evento.publicaciones.length == 0" style="text-align:center">
-          <span style="margin: 10px;">No hay publicaciones en el evento</span>
-        </ion-col>
-        <ion-col *ngIf="evento.publicaciones && evento.publicaciones.length > 0">
-          <ion-item class="lstParticipantes pointer" *ngFor="let publicacion of evento.publicaciones" >
-            <img [src]="publicacion.imagen" class="thumbnail" /> {{ publicacion.nombre }} {{ publicacion.contenido }}
-          </ion-item>
-        </ion-col> -->
       </ion-row>
     </ion-grid>
     </ion-card>
 </ion-content>
 
 
-<ion-footer class="mobile-style">
+<ion-footer style="height: 28px;" class="mobile-style">
   <ion-toolbar>
-    <ion-title>TravelPack © 2021</ion-title>
+    <ion-title style="padding-bottom: 22px; font-size: 16px;">TravelPack © 2021</ion-title>
   </ion-toolbar>
 </ion-footer>

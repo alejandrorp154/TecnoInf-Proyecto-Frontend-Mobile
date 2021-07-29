@@ -35,7 +35,6 @@ export class TabEmailNotificacionPage implements OnInit {
 
   async getConfiguraciones(idPersona: string){
     this.configuraciones = await this.configuracionService.getConfiguraciones(idPersona);
-    console.log('email', this.configuraciones);
     this.configuracionAMostrar = this.configuraciones;
     delete this.configuracionAMostrar.idPersona;
     delete this.configuracionAMostrar.idConfiguracion;
