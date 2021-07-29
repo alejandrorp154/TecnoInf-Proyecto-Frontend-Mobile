@@ -74,7 +74,7 @@ export class ListarContactosPage implements OnInit {
 
   async getContactos(evento?)
   {
-    this.contactosAux = await this.userService.getContactos(this.currentUser.idPersona, 4, evento)
+    this.contactosAux = await this.userService.getContactos(this.currentUser.idPersona, 10, evento)
     this.contactosAux.forEach(element => {
       this.contactos.push(element)
 
