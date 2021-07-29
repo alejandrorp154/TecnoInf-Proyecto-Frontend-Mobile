@@ -63,8 +63,10 @@ export class ComentariosPublicacionPage implements OnInit {
     localStorage.removeItem('publicacion');
     this.router.paramMap.subscribe(
       params => {
+        
           const id = params.get('id');
           this.getPublicacion(id.toString());
+          console.log(id);
       }
     );
   }
