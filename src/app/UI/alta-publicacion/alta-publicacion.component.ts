@@ -177,6 +177,7 @@ export class AltaPublicacionComponent implements OnInit {
       this.ubiService.altaUbicacion(this.ubicacion);
       this.texto.textoPub = '';
       this.tools.presentToast('La publicacion fue creada con exito', Resultado.Ok);
+      this.nuevaPub(pub);
       this.cancelar();
     }
     // this.cancelar();//Vuelve a tipo texto
