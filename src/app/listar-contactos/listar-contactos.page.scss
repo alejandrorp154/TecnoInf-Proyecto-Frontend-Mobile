@@ -6,9 +6,19 @@
   font-family: "big_noodle_titling";
   font-size: 25px;
 }
+.contactos-card{
+  background-color:white; 
+  width: 50em; 
+  margin: 0 auto;
+  margin-top: 20px;
+}
 
 @media (max-width: 600px){
   .mobile-style{
     display:none;
+  }
+
+  .contactos-card {
+    width: 100%;
   }
 }
