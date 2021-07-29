@@ -156,7 +156,8 @@ export class AltaPublicacionComponent implements OnInit {
     else{
       this.tipoPub.tipo = TipoPublicacionEnum.mapa;
       this.publicacion = new Publicacion(this.tipoPub,this.cord,'','',this.usr);
-      this.pubService.altaPublicacion(this.publicacion);
+      var pub: any;
+      pub = await this.pubService.altaPublicacion(this.publicacion);
       //Alta Ubicacion
       this.ubicacion = new Ubicacion;
       if (this.texto.textoPub == '') {
