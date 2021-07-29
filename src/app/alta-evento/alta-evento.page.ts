@@ -13,7 +13,7 @@ import { FormControl } from '@angular/forms';
 import { UsuarioService } from '../servicios/usuario.service';
 import { map, startWith } from 'rxjs/operators';
 import { AuthService } from '../servicios/auth.service';
-import { PublicacionPerfilUsuario } from '../modelos/perfil';
+import { Publicacion, PublicacionPerfilUsuario } from '../modelos/perfil';
 
 @Component({
   selector: 'app-alta-evento',
@@ -56,6 +56,7 @@ export class AltaEventoPage implements OnInit {
   publicacionesAux: PublicacionPerfilUsuario[];
   publicaciones: PublicacionPerfilUsuario[];
   size: number = 10;
+  nuevaPubli: PublicacionPerfilUsuario;
 
   constructor(private eventoService: EventoService, private usuarioService: UsuarioService, private toolsService: ToolsService,
     private authService: AuthService,
@@ -71,10 +72,10 @@ export class AltaEventoPage implements OnInit {
 
   async ngOnInit() {
     this.currentUser = await this.authService.getCurrentUser().toPromise();
-    console.log(this._Activatedroute.snapshot['_routerState'].url);
+    
     this.editando = this._Activatedroute.snapshot['_routerState'].url.toString().includes('/evento/editar');
     this.creando = this._Activatedroute.snapshot['_routerState'].url == '/evento/alta';
-    console.log(this.editando);
+    
     if(!this.creando) {
       let idEvento: number;
       try {
@@ -89,7 +90,7 @@ export class AltaEventoPage implements OnInit {
         this.evento.invitados.forEach(ii => this.invitados.push(Object.assign({}, ii)));
         //this.invitados = Object.assign(this.evento.invitados);
         this.participantes.next(this.evento.owner ? this.evento.invitados : this.evento.invitados.filter(i => i.estadoContactos == 'aceptada'));
-        console.log(this.evento);
+        
         this.latitud = this.evento.ubicacion.latitud;
         this.longitud = this.evento.ubicacion.longitud;
         this.ubicacion.next(this.evento.ubicacion);
@@ -117,17 +118,17 @@ export class AltaEventoPage implements OnInit {
 
     }
 
-    console.log(this.evento);
-
     this.today = new Date();
-    console.log(this.today);
 
   }
 
+  nuevaPub(pub: PublicacionPerfilUsuario){
+    this.nuevaPubli = pub;
+    this.publicaciones.unshift(this.nuevaPubli);
+  }
 
   agregarInvitado(inv: Usuario) {
-    console.log(inv);
-    console.log(this.evento.owner);
+  
     this.invitados.push({
       idPersona: inv.idPersona,
       nickname: inv.nickname,
@@ -150,8 +151,6 @@ export class AltaEventoPage implements OnInit {
   }
 
   marcarUbicacion(ubicacion: Ubicacion) {
-    console.log(ubicacion, ' (altaEvento)');
-    console.log(new Date(this.inicio.toString()) > new Date(this.fin.toString()));
 
     this.evento.ubicacion = ubicacion;
     this.evento.ubicacion.descripcion = '';
@@ -159,18 +158,13 @@ export class AltaEventoPage implements OnInit {
     this.evento.ubicacion.pais = '';
     this.evento.ubicacion.idPersona = '';
     //this.evento.ubicacion.idUbicacion = 0;
-    console.log(this.isValid(), this.evento);
   }
 
   setMinFin(event) {
     this.fin = event.detail.value;
-    console.log(event.detail);
   }
 
   async submit() {
-
-    console.log('Submit!');
-    console.log(this.latitud, this.longitud);
 
     //evento.idEvento = 0;
 
@@ -190,8 +184,7 @@ export class AltaEventoPage implements OnInit {
         this.toolsService.presentToast('Surgió un error al crear el evento', Resultado.Error);
       });
     } else {
-      console.log(this.evento);
-      console.log(this.invitados.map(i => i.idPersona));
+      
       await this.eventoService.modificarEvento(this.evento, this.invitados.map(i => i.idPersona)).then(res => {
         this.toolsService.presentToast('El evento se modificó correctamente', Resultado.Ok);
       }).catch(error => {
@@ -202,7 +195,6 @@ export class AltaEventoPage implements OnInit {
   }
 
   private _filter(value: string): Usuario[] {
-    console.log(this.friends);
     if(value) {
       this.searching = true;
       const filterValue = value.toLocaleLowerCase();
@@ -223,7 +215,7 @@ export class AltaEventoPage implements OnInit {
     const eventObj: MSInputMethodContext = event as MSInputMethodContext;
     const target: HTMLInputElement = eventObj.target as HTMLInputElement;
     const file: File = target.files[0];
-    console.log(file);
+    
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
@@ -235,7 +227,7 @@ export class AltaEventoPage implements OnInit {
       let base64 = [];
       base64 = img.split(',');
      this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(`${base64[0]}, ${base64[1]}`);
-     console.log(this.imageSource);
+     
     };
   }
 
@@ -267,6 +259,10 @@ export class AltaEventoPage implements OnInit {
       this.publicaciones.push(element)
     });
 
+  }
+
+  cargoPublicacion(publicacion: Publicacion){
+    localStorage.setItem('publicacion', JSON.stringify(publicacion));
   }
 
 }
