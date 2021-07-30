@@ -126,6 +126,9 @@ ion-item::part(native) {
     width: 100%;
   }
 }
+.user-avatar{
+  border-radius: 30px;
+}
 
 .wrapper {
   border-bottom: 1px solid var(--ion-color-light);
