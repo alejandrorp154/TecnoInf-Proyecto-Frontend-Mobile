@@ -80,6 +80,7 @@ export class AltaPublicacionComponent implements OnInit {
   lat: number;
   long: number;
   pais: string;
+  visible: boolean = false;
 
   ngOnInit() {
     this.datoUsuario = JSON.parse(localStorage.getItem('_cap_authData'));
@@ -87,9 +88,11 @@ export class AltaPublicacionComponent implements OnInit {
 
   nuevaPub(publicacion: PublicacionPerfilUsuario){
     this.myEvent.emit(publicacion);
+    this.visible = false;
   }
 
   async publicar(){
+    this.visible = true;
     this.usr = new usuario();
     this.idPer = new idPersona();
     this.tipoPub = new TipoPublicacion();

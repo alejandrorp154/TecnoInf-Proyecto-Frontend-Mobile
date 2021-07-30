@@ -1,3 +1,5 @@
+<ion-backdrop *ngIf="visible === true" style="opacity: 0.3"></ion-backdrop>
+<ion-spinner *ngIf="visible === true" color="tertiary" style="top: 50%;left: 50%;" name="circles" ></ion-spinner>
 <!-- TEXTO -->
 <ion-item lines="none" *ngIf="tipo === 'texto'">
   <ion-textarea [(ngModel)]="texto.textoPub" placeholder="En que estas pensando?" position="floating"></ion-textarea>
