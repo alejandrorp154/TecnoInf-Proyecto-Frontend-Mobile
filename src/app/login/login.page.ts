@@ -75,9 +75,9 @@ export class LoginPage implements OnInit {
             const code = errRes.error.error.message;
             let message = 'Hubo un error inesperado, intentelo nuevamente.';
             if (code === 'EMAIL_NOT_FOUND') {
-              message = 'No se encontro el correo ingresado';
+              message = 'Los datos son incorrectos.';
             } else if (code === 'INVALID_PASSWORD') {
-              message = 'La contraseña es incorrecta.';
+              message = 'Los datos son incorrectos.';
             }
             this.showAlert(message);
           }
