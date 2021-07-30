@@ -12,6 +12,8 @@ import { CantidadReaccionComentario, TipoPublicacion } from '../modelos/publicac
 import { Usuario } from '../modelos/usuario.model';
 import { ComentariosService } from '../servicios/comentarios.service';
 import { PubicacionService } from '../servicios/pubicacion.service';
+import { AuthService } from 'src/app/servicios/auth.service';
+import { UsuarioService } from '../servicios/usuario.service';
 import { PopoverComentarioComponent } from '../UI/popover-comentario/popover-comentario.component';
 
 @Component({
@@ -39,19 +41,23 @@ export class ComentariosPublicacionPage implements OnInit {
   boolVerComentariosHijo: boolean = false;
   boolVerComentarios: boolean = false;
   userId;
+  nickname: string;
   cantReacciones: CantidadReaccionComentario;
+  user: Promise<Usuario>; 
 
   comentarioDeForm: string = "";
 
   constructor(private alertCtrl: AlertController, private loadingCtrl: LoadingController, private comentariosService: ComentariosService, 
-    private publicacionService: PubicacionService, private router: ActivatedRoute,
+    private publicacionService: PubicacionService, private router: ActivatedRoute, private userService: UsuarioService, private authService: AuthService,
     public popoverController: PopoverController) {}
 
   ngOnInit() {
     this.publicacion = new PublicacionPerfilUsuario();
     var retrievedObject = localStorage.getItem('publicacion');
     var retrievedObject2 = localStorage.getItem('perfil');
-    this.publicacion = JSON.parse(retrievedObject);
+    this.publicacion = JSON.parse(retrievedObject);    
+    this.getCurrentUser();
+
     if (retrievedObject2) {
       this.perfil = JSON.parse(retrievedObject2);
       this.publicacion.nickname = this.perfil.nickname;
@@ -121,6 +127,11 @@ export class ComentariosPublicacionPage implements OnInit {
     }
   }
 
+  async getCurrentUser(){
+    var currentUser = await this.authService.getCurrentUser().toPromise();
+    this.nickname = currentUser.nickname;
+  }
+
   obtenerUbicacion(publicacion: Publicacion) : String{
     var coord;
     coord = publicacion.contenido.split(',');
@@ -159,6 +170,7 @@ export class ComentariosPublicacionPage implements OnInit {
               newComentario.idPublicacion = this.publicacionObs.value.idPublicacion;
               newComentario.idPersona = this.userId;
               newComentario.idComentarioPadre = comentario.idComentario;
+              newComentario.nickname = this.nickname;
               await this.comentariosService.addComentario(newComentario);
               await this.getPublicacion(this.publicacionObs.value.idPublicacion);      
               if (this.loading != undefined) {
@@ -199,6 +211,7 @@ export class ComentariosPublicacionPage implements OnInit {
     newComentario.idPublicacion = this.publicacionObs.value.idPublicacion;
     newComentario.idPersona = this.userId;
     newComentario.idComentarioPadre = null;
+    newComentario.nickname = this.nickname;
 
     const newComentarioRespuesta = await this.comentariosService.addComentario(newComentario);
     

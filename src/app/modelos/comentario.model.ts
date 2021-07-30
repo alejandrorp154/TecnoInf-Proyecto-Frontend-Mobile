@@ -5,6 +5,7 @@ export class Comentario {
   idPublicacion: number;
   idPersona: string;
   idComentarioPadre: string;
+  nickname: string;
 }
 
 export class comentarioReacciones {
@@ -18,6 +19,7 @@ export class comentarioReacciones {
   cantidadLikes: number;
   cantidadDislikes: number;
   document: document;
+  nickname: string;
 }
 
 export class document{
