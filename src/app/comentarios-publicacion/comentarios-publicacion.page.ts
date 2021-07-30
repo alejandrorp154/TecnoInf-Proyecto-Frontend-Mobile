@@ -82,6 +82,14 @@ export class ComentariosPublicacionPage implements OnInit {
   }
 
 
+  getClase(comentario){
+    if (comentario.idComentarioPadre != null) {
+      return 'child';
+    }
+    return "padre";
+  }
+
+
   async getPublicacion(id){
     // this.publicacionObs.next(await this.publicacionService.obtenerPublicacionPorId(id));
     this.cantReacciones = new CantidadReaccionComentario();
@@ -228,6 +236,7 @@ export class ComentariosPublicacionPage implements OnInit {
     newComentarioReaccion.cantidadDislikes = 0;
     newComentarioReaccion.comentariosHijos = [];
     newComentarioReaccion.document = null;
+    newComentarioReaccion.nickname = this.nickname;
 
     this.tempComentariosActual.push(newComentarioReaccion);
     this.comentariosReaccionesObs.next(this.tempComentariosActual);

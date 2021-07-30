@@ -26,7 +26,7 @@
             <div class="contenido-publicacion" *ngIf="publicacion.tipo.tipo === 'texto'">
               <ion-label>{{ publicacion.contenido }}</ion-label>
             </div>
-            <div *ngIf="publicacion.tipo.tipo === 'foto'">
+            <div *ngIf="publicacion.tipo.tipo === 'foto'" style="text-align: center">
               <img id="foto" src="{{publicacion.contenido}}">
             </div>
             <div style="text-align:center" *ngIf="publicacion.tipo.tipo === 'mapa'">
