@@ -36,4 +36,9 @@ export class SugerirAmigosService {
         console.log(error);
       }
     }
+
+    resetLoadedUsers()
+    {
+      this.loadedUsers = 0;
+    }
 }

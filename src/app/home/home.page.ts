@@ -51,6 +51,10 @@ export class HomePage implements OnInit {
 
   }
 
+  resetSuggested(){
+    this.sugerirAmigos.resetLoadedUsers();
+  }
+
   ionViewDidEnter(){
    this.userService.getSolicitudesPendientes(this.userFire.id);
   }
