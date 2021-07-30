@@ -15,7 +15,7 @@
               <ion-label class="sugerencias-header">Sugerencias</ion-label>
             </ion-col>
             <ion-col style="margin-top: 6px;">
-              <ion-label class="underline" [routerLink]="['/sugerir-amigos']">Ver todas</ion-label>
+              <ion-label class="underline" [routerLink]="['/sugerir-amigos']" (click)="resetSuggested()">Ver todas</ion-label>
             </ion-col>
           </ion-row>
           <ion-item lines ="none" style="float:left; padding: 5px;" *ngFor="let amigo of amigos">
@@ -34,7 +34,7 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  
+
 </ion-content>
 <ion-footer style="height: 28px;" class="mobile-style">
   <ion-toolbar>
